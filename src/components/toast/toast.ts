@@ -23,6 +23,9 @@ type Message<Value> = ReactNode | ((value: Value) => ReactNode);
 // Otwarte toasty według treści: ten sam komunikat podbija licznik zamiast
 // dokładać kartę. Wpis znika, gdy toast zaczyna się zamykać.
 const open = new Map<string, { id: string; count: number }>();
+// Kolejność otwartych toastów, ostatni jest z przodu stosu.
+const order: string[] = [];
+let nextId = 0;
 
 const plain = (node: ReactNode) =>
     node == null || typeof node === "string" || typeof node === "number";
@@ -48,9 +51,8 @@ function show(
             : groupKey(type, title, options.description);
     const existing = key ? open.get(key) : undefined;
 
-    if (key && existing) {
+    if (key && existing && order.at(-1) === existing.id) {
         existing.count += 1;
-        // Podany timeout restartuje timer w Base UI.
         toastManager.update(existing.id, {
             timeout: options.timeout,
             data: { count: existing.count },
@@ -58,16 +60,24 @@ function show(
         return existing.id;
     }
 
-    const id = toastManager.add({
+    const count = existing ? existing.count + 1 : 1;
+    if (existing) toastManager.close(existing.id);
+
+    const id = options.id ?? `zse-toast-${nextId++}`;
+    toastManager.add({
         ...options,
+        id,
         title,
         type,
-        data,
+        data: { ...data, count },
         onClose: () => {
-            if (key) open.delete(key);
+            const index = order.indexOf(id);
+            if (index !== -1) order.splice(index, 1);
+            if (key && open.get(key)?.id === id) open.delete(key);
         },
     });
-    if (key) open.set(key, { id, count: 1 });
+    order.push(id);
+    if (key) open.set(key, { id, count });
     return id;
 }
 

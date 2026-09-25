@@ -51,9 +51,17 @@
             )
         )
         scale(var(--scale));
-    transition-property: transform, opacity, height;
-    transition-duration: 400ms, 400ms, 200ms;
-    transition-timing-function: ease, ease, var(--ease-out);
+    /* Pozycja i wysokość z tym samym czasem i krzywą, inaczej przy
+       zwijaniu i rozwijaniu stosu kończą w innym momencie. */
+    transition-property: transform, translate, opacity, height;
+    transition-duration: 500ms, 400ms, 400ms, 500ms;
+    transition-timing-function: var(--ease-toast);
+}
+
+/* Zwinięty stos: na kursor reaguje tylko przedni. Tylne zjeżdżają przy
+   zwijaniu pod kursor i rozwijały stos z powrotem w pętli. */
+.zse-toast:not([data-expanded]):has(> [data-behind]) {
+    pointer-events: none;
 }
 
 .zse-toast[data-expanded] {
@@ -71,8 +79,15 @@
     opacity: 0;
 }
 
+/* Zamykany toast zostaje na swoim miejscu w stosie i lekko się zsuwa,
+   zamiast przejeżdżać przez przednie. translate składa się z transform. */
 .zse-toast[data-ending-style] {
     opacity: 0;
+    translate: 0 8px;
+}
+
+.zse-toast[data-ending-style][data-swipe-direction="down"] {
+    translate: none;
     transform: translateY(calc(var(--toast-swipe-movement-y) + 100%));
 }
 
@@ -264,9 +279,12 @@
         transition-property: opacity, height;
     }
 
-    .zse-toast[data-starting-style],
-    .zse-toast[data-ending-style] {
+    .zse-toast[data-starting-style] {
         transform: none;
+    }
+
+    .zse-toast[data-ending-style] {
+        translate: none;
     }
 
     .zse-toast-icon-layer {
