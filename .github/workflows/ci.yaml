@@ -1,0 +1,63 @@
+name: CI
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+
+permissions:
+    contents: read
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    quality:
+        name: Quality checks
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        steps:
+            - uses: actions/checkout@v7
+              with:
+                  persist-credentials: false
+
+            - name: Setup Bun
+              uses: oven-sh/setup-bun@v2
+              with:
+                  bun-version: latest
+
+            - name: Install dependencies
+              run: bun install --frozen-lockfile
+
+            - name: Typecheck
+              run: bun run typecheck
+
+            - name: Lint
+              run: bun run lint
+
+            - name: Format check
+              run: bun run format:check
+
+            - name: Build playground
+              run: bun --filter playground build
+
+    react-doctor:
+        name: React Doctor
+        if: github.event_name == 'pull_request'
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        steps:
+            - uses: actions/checkout@v7
+              with:
+                  fetch-depth: 0
+                  persist-credentials: false
+
+            - uses: millionco/react-doctor@v2
+              with:
+                  directory: .
+                  scope: changed
+                  blocking: error
+                  comment: false
+                  review-comments: false
+                  commit-status: false
