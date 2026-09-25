@@ -1,10 +1,15 @@
 import { ArrowRight02Icon, Search01Icon } from "@hugeicons/core-free-icons";
-import { Button, Input } from "@zse-gdansk/ui";
+import { Button, Input, Select } from "@zse-gdansk/ui";
 import { useState } from "react";
 
 const RAMPS = ["gray", "blue", "green", "orange", "red", "violet"] as const;
 const STEPS = Array.from({ length: 12 }, (_, i) => i + 1);
 const VARIANTS = ["primary", "ghost", "outline", "danger"] as const;
+const CLASSES = [
+    { value: "1a", label: "1A" },
+    { value: "2b", label: "2B" },
+    { value: "3c", label: "3C" },
+] as const;
 const SIZES = ["sm", "md", "lg"] as const;
 
 export function App() {
@@ -121,6 +126,37 @@ export function App() {
                     defaultValue="1K"
                     disabled
                     hint="Pole zablokowane"
+                />
+                <Select
+                    label="Klasa"
+                    placeholder="Wybierz klasę"
+                    options={CLASSES}
+                    hint="Lista oddziałów"
+                />
+                <Select
+                    label="Przedmiot"
+                    defaultValue="inf"
+                    options={[
+                        { value: "inf", label: "Informatyka" },
+                        { value: "mat", label: "Matematyka" },
+                        { value: "fiz", label: "Fizyka", disabled: true },
+                    ]}
+                />
+                <Select
+                    label="Ocena"
+                    placeholder="Wybierz"
+                    options={[
+                        { value: "1", label: "1" },
+                        { value: "2", label: "2" },
+                        { value: "3", label: "3" },
+                    ]}
+                    error="Wybierz ocenę"
+                />
+                <Select
+                    label="Rok"
+                    defaultValue="2026"
+                    options={[{ value: "2026", label: "2026/2027" }]}
+                    disabled
                 />
             </section>
         </main>
