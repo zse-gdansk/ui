@@ -1,5 +1,5 @@
 import { ArrowRight02Icon, Search01Icon } from "@hugeicons/core-free-icons";
-import { Button, Input, Select } from "@zse-gdansk/ui";
+import { Button, Checkbox, Input, Select } from "@zse-gdansk/ui";
 import { useState } from "react";
 
 const RAMPS = ["gray", "blue", "green", "orange", "red", "violet"] as const;
@@ -158,6 +158,12 @@ export function App() {
                     options={[{ value: "2026", label: "2026/2027" }]}
                     disabled
                 />
+            </section>
+
+            <section className="checks">
+                <Checkbox label="Obecny" defaultChecked />
+                <Checkbox label="Usprawiedliwiony" />
+                <Checkbox label="Zablokowany" disabled defaultChecked />
             </section>
         </main>
     );

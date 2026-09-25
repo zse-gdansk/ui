@@ -88,3 +88,9 @@ body {
     flex: 1;
     min-width: 0;
 }
+
+.checks {
+    display: grid;
+    gap: 10px;
+    justify-items: start;
+}
