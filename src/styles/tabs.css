@@ -1,0 +1,112 @@
+.zse-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+}
+
+.zse-tabs-list {
+    position: relative;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    box-shadow: inset 0 -1px 0 var(--color-border);
+    scrollbar-width: none;
+}
+
+.zse-tabs-list::-webkit-scrollbar {
+    display: none;
+}
+
+.zse-tabs-tab {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    padding: 10px 12px;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    user-select: none;
+    outline: 1.5px solid transparent;
+    outline-offset: -1.5px;
+    border-radius: var(--radius-sm);
+    -webkit-tap-highlight-color: transparent;
+    transition: color var(--duration-fast) var(--ease-out);
+}
+
+.zse-tabs-tab svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.zse-tabs-tab[data-active] {
+    color: var(--color-text);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .zse-tabs-tab:not([data-disabled]):hover {
+        color: var(--color-text);
+    }
+}
+
+.zse-tabs-tab:focus-visible {
+    outline-color: var(--color-focus-ring);
+}
+
+.zse-tabs-tab[data-disabled] {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.zse-tabs-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: var(--active-tab-width);
+    translate: var(--active-tab-left) 0;
+    background: var(--color-accent-solid);
+    transition-property: translate, width;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out);
+}
+
+.zse-tabs-panels {
+    display: grid;
+}
+
+.zse-tabs-panel {
+    grid-area: 1 / 1;
+    min-width: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text);
+    transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.zse-tabs-panel:focus-visible {
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+}
+
+.zse-tabs-panel[data-starting-style],
+.zse-tabs-panel[data-ending-style] {
+    opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-tabs-indicator {
+        transition: none;
+    }
+}

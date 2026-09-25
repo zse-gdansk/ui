@@ -94,3 +94,7 @@ body {
     gap: 10px;
     justify-items: start;
 }
+
+.tabs {
+    max-width: 480px;
+}

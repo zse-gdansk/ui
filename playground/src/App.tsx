@@ -1,4 +1,10 @@
-import { ArrowRight02Icon, Search01Icon } from "@hugeicons/core-free-icons";
+import {
+    ArrowRight02Icon,
+    BookOpen01Icon,
+    Calendar03Icon,
+    Note01Icon,
+    Search01Icon,
+} from "@hugeicons/core-free-icons";
 import {
     Button,
     Checkbox,
@@ -7,6 +13,7 @@ import {
     RadioGroup,
     Select,
     Switch,
+    Tabs,
 } from "@zse-gdansk/ui";
 import { useState } from "react";
 
@@ -190,6 +197,39 @@ export function App() {
                     <Radio value="jan" label="Jan Nowak" />
                     <Radio value="ewa" label="Ewa Wiśniewska" disabled />
                 </RadioGroup>
+            </section>
+
+            <section className="tabs">
+                <Tabs
+                    defaultValue="oceny"
+                    items={[
+                        {
+                            value: "oceny",
+                            label: "Oceny",
+                            icon: BookOpen01Icon,
+                            content:
+                                "Średnia 4,6. Ostatnia ocena: 5 z matematyki.",
+                        },
+                        {
+                            value: "frekwencja",
+                            label: "Frekwencja",
+                            icon: Calendar03Icon,
+                            content: "Obecność w tym miesiącu: 96%.",
+                        },
+                        {
+                            value: "plan",
+                            label: "Plan",
+                            content: "Jutro pierwsza lekcja: fizyka, sala 12.",
+                        },
+                        {
+                            value: "uwagi",
+                            label: "Uwagi",
+                            icon: Note01Icon,
+                            disabled: true,
+                            content: "Brak uwag.",
+                        },
+                    ]}
+                />
             </section>
         </main>
     );
