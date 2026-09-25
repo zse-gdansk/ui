@@ -17,5 +17,8 @@
         "oxfmt": "^0.70.0",
         "oxlint": "^1.85.0",
         "typescript": "^7.0.2"
+    },
+    "dependencies": {
+        "@base-ui/react": "^1.8.0"
     }
 }
