@@ -56,6 +56,7 @@
 
 .zse-radio-root[data-checked] {
     border-color: var(--color-accent-solid);
+    background: var(--color-accent-solid);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -65,10 +66,6 @@
 
     .zse-radio-root[data-checked]:not([data-disabled]):hover {
         border-color: var(--color-accent-solid-hover);
-    }
-
-    .zse-radio-root[data-checked]:not([data-disabled]):hover
-        .zse-radio-indicator {
         background: var(--color-accent-solid-hover);
     }
 }
@@ -94,15 +91,13 @@
 }
 
 .zse-radio-indicator {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     border-radius: var(--radius-full);
-    background: var(--color-accent-solid);
-    transition-property: opacity, filter, scale, background-color;
-    transition-duration: 300ms, 300ms, 300ms, var(--duration-fast);
-    transition-timing-function:
-        var(--ease-standard), var(--ease-standard), var(--ease-standard),
-        var(--ease-out);
+    background: var(--color-text-on-accent);
+    transition-property: opacity, filter, scale;
+    transition-duration: 300ms;
+    transition-timing-function: var(--ease-standard);
 }
 
 .zse-radio-indicator[data-unchecked],
@@ -119,7 +114,7 @@
     }
 
     .zse-radio-indicator {
-        transition-property: opacity, background-color;
+        transition-property: opacity;
     }
 
     .zse-radio-indicator[data-unchecked],
