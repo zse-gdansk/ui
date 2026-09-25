@@ -35,6 +35,9 @@
     --color-danger-solid-hover: var(--red-10);
     --color-danger-text: var(--red-11);
     --color-text-on-danger: var(--red-contrast);
+
+    --color-success-text: var(--green-11);
+    --color-warning-text: var(--orange-11);
 }
 
 /* Menu i popovery: w ciemnym motywie jaśniejsze od tła, bo cień tam

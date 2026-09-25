@@ -17,6 +17,8 @@ import {
     Select,
     Switch,
     Tabs,
+    toast,
+    Toaster,
     Tooltip,
     TooltipProvider,
     Icon,
@@ -263,6 +265,51 @@ export function App() {
                         </button>
                     </Tooltip>
                 </TooltipProvider>
+            </section>
+
+            <section className="button-row">
+                <Button
+                    variant="outline"
+                    onClick={() => toast.success("Zapisano wyniki sprawdzianu")}
+                >
+                    Sukces
+                </Button>
+                <Button
+                    variant="outline"
+                    onClick={() =>
+                        toast.error("Nie udało się oddać głosu", {
+                            description: "Głosowanie zakończyło się o 15:00.",
+                        })
+                    }
+                >
+                    Błąd
+                </Button>
+                <Button
+                    variant="outline"
+                    onClick={() =>
+                        toast.undo("Usunięto ocenę z matematyki", {
+                            onUndo: () => toast.info("Przywrócono ocenę"),
+                        })
+                    }
+                >
+                    Cofnij
+                </Button>
+                <Button
+                    variant="outline"
+                    onClick={() =>
+                        void toast.promise(
+                            new Promise((done) => setTimeout(done, 1800)),
+                            {
+                                loading: "Wysyłanie ocen do dziennika…",
+                                success: "Wysłano 28 ocen",
+                                error: "Błąd wysyłania",
+                            },
+                        )
+                    }
+                >
+                    Promise
+                </Button>
+                <Toaster />
             </section>
         </main>
     );

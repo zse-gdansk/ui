@@ -1,0 +1,288 @@
+.zse-toaster {
+    position: fixed;
+    z-index: 100;
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    left: 16px;
+    outline: none;
+}
+
+@media (min-width: 600px) {
+    .zse-toaster {
+        right: 24px;
+        bottom: 24px;
+        left: auto;
+        width: 356px;
+    }
+}
+
+/* Zwinięty stos: tylne toasty mniejsze, wystają o --peek i mają wysokość
+   pierwszego. Rozwinięty (hover, fokus): każdy na swoim miejscu. */
+.zse-toast {
+    --gap: 12px;
+    --peek: 12px;
+    --scale: calc(1 - var(--toast-index) * 0.05);
+    --height: var(--toast-frontmost-height, var(--toast-height));
+    --offset-y: calc(
+        var(--toast-offset-y) * -1 - var(--toast-index) * var(--gap) +
+            var(--toast-swipe-movement-y)
+    );
+
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: calc(1000 - var(--toast-index));
+    box-sizing: border-box;
+    width: 100%;
+    height: var(--height);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-raised);
+    box-shadow: var(--shadow-popover);
+    color: var(--color-text);
+    cursor: default;
+    user-select: none;
+    transform-origin: bottom center;
+    transform: translateX(var(--toast-swipe-movement-x))
+        translateY(
+            calc(
+                var(--toast-swipe-movement-y) - var(--toast-index) *
+                    var(--peek) - (1 - var(--scale)) * var(--height)
+            )
+        )
+        scale(var(--scale));
+    transition-property: transform, opacity, height;
+    transition-duration: 400ms, 400ms, 200ms;
+    transition-timing-function: ease, ease, var(--ease-out);
+}
+
+.zse-toast[data-expanded] {
+    height: var(--toast-height);
+    transform: translateX(var(--toast-swipe-movement-x))
+        translateY(var(--offset-y));
+}
+
+.zse-toast[data-starting-style] {
+    opacity: 0;
+    transform: translateY(100%);
+}
+
+.zse-toast[data-limited] {
+    opacity: 0;
+}
+
+.zse-toast[data-ending-style] {
+    opacity: 0;
+    transform: translateY(calc(var(--toast-swipe-movement-y) + 100%));
+}
+
+.zse-toast[data-ending-style][data-swipe-direction="right"] {
+    transform: translateX(calc(var(--toast-swipe-movement-x) + 100%))
+        translateY(var(--offset-y));
+}
+
+/* Palec prowadzi toast 1:1, animacja wraca dopiero po puszczeniu. */
+.zse-toast[data-swiping] {
+    transition-duration: 0ms;
+}
+
+/* Wypełnia odstęp między rozwiniętymi toastami, żeby hover nie gasł. */
+.zse-toast::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: calc(var(--gap) + 1px);
+}
+
+.zse-toast:focus-visible {
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: 2px;
+}
+
+.zse-toast-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    box-sizing: border-box;
+    height: 100%;
+    padding: 12px 12px 12px 14px;
+    overflow: hidden;
+    transition: opacity 250ms var(--ease-out);
+}
+
+.zse-toast-content[data-behind] {
+    opacity: 0;
+}
+
+.zse-toast-content[data-expanded] {
+    opacity: 1;
+}
+
+.zse-toast-icon {
+    display: grid;
+    flex-shrink: 0;
+    height: 20px;
+    place-items: center;
+}
+
+.zse-toast-icon[data-type="success"] {
+    color: var(--color-success-text);
+}
+
+.zse-toast-icon[data-type="error"] {
+    color: var(--color-danger-text);
+}
+
+.zse-toast-icon[data-type="warning"] {
+    color: var(--color-warning-text);
+}
+
+.zse-toast-icon[data-type="info"],
+.zse-toast-icon[data-type="loading"] {
+    color: var(--color-text-secondary);
+}
+
+.zse-toast-icon-layer {
+    grid-area: 1 / 1;
+    display: grid;
+    transition-property: opacity, filter, scale;
+    transition-duration: 300ms;
+    transition-timing-function: var(--ease-standard);
+}
+
+.zse-toast-icon-layer[data-hidden] {
+    opacity: 0;
+    filter: blur(4px);
+    scale: 0.25;
+}
+
+.zse-toast-icon-layer[data-name="loading"] svg {
+    animation: zse-toast-spin 700ms linear infinite;
+}
+
+.zse-toast-text {
+    display: grid;
+    flex: 1;
+    gap: 2px;
+    min-width: 0;
+}
+
+.zse-toast-title {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.25rem;
+    letter-spacing: -0.01em;
+}
+
+.zse-toast-description {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
+}
+
+.zse-toast-count {
+    display: inline-block;
+    margin-left: 6px;
+    color: var(--color-text-secondary);
+    font-variant-numeric: tabular-nums;
+    animation: zse-toast-count 200ms var(--ease-out);
+}
+
+.zse-toast-button {
+    display: grid;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    margin-top: -2px;
+    padding: 0;
+    place-items: center;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition-property: background-color, color, opacity, scale;
+    transition-duration:
+        var(--duration-fast), var(--duration-fast), var(--duration-fast), 200ms;
+    transition-timing-function: ease, ease, ease, var(--ease-out);
+}
+
+.zse-toast-button + .zse-toast-button {
+    margin-left: -8px;
+}
+
+.zse-toast-button:last-child {
+    margin-right: -4px;
+}
+
+@media (hover: hover) {
+    .zse-toast-button:hover {
+        background: var(--color-bg-muted);
+        color: var(--color-text);
+    }
+
+    .zse-toast-button:only-of-type {
+        opacity: 0;
+    }
+
+    .zse-toast:hover .zse-toast-button,
+    .zse-toast:focus-within .zse-toast-button {
+        opacity: 1;
+    }
+}
+
+.zse-toast-button:active {
+    scale: 0.96;
+}
+
+.zse-toast-button:focus-visible {
+    opacity: 1;
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: 2px;
+}
+
+@keyframes zse-toast-count {
+    from {
+        opacity: 0;
+        filter: blur(2px);
+        scale: 0.6;
+    }
+}
+
+@keyframes zse-toast-spin {
+    to {
+        rotate: 360deg;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-toast {
+        transition-property: opacity, height;
+    }
+
+    .zse-toast[data-starting-style],
+    .zse-toast[data-ending-style] {
+        transform: none;
+    }
+
+    .zse-toast-icon-layer {
+        transition-property: opacity;
+    }
+
+    .zse-toast-icon-layer[data-hidden] {
+        filter: none;
+        scale: 1;
+    }
+
+    .zse-toast-button:active {
+        scale: 1;
+    }
+
+    .zse-toast-count {
+        animation: none;
+    }
+}
