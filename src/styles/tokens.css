@@ -43,11 +43,17 @@
 [data-theme="light"] {
     --color-bg-raised: var(--gray-1);
     --color-bg-overlay: oklch(0% 0 0 / 40%);
+    --shadow-popover:
+        0 10px 24px oklch(0% 0 0 / 9%), 0 2px 8px oklch(0% 0 0 / 6%),
+        0 0 0 1px oklch(0% 0 0 / 4%);
 }
 
 [data-theme="dark"] {
     --color-bg-raised: var(--gray-3);
     --color-bg-overlay: oklch(0% 0 0 / 60%);
+    --shadow-popover:
+        0 4px 8px oklch(0% 0 0 / 30%), 0 8px 24px oklch(0% 0 0 / 30%),
+        0 0 0 1px oklch(100% 0 0 / 5%);
 }
 
 :root {

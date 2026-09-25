@@ -98,3 +98,12 @@ body {
 .tabs {
     max-width: 480px;
 }
+
+.info {
+    display: inline-flex;
+    padding: 4px;
+    border: 0;
+    background: none;
+    color: var(--color-text-secondary);
+    cursor: help;
+}

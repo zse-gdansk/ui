@@ -15,3 +15,8 @@ export {
     type RadioProps,
 } from "./components/radio/Radio";
 export { Tabs, type TabsItem, type TabsProps } from "./components/tabs/Tabs";
+export {
+    Tooltip,
+    TooltipProvider,
+    type TooltipProps,
+} from "./components/tooltip/Tooltip";

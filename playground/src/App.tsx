@@ -2,6 +2,9 @@ import {
     ArrowRight02Icon,
     BookOpen01Icon,
     Calendar03Icon,
+    Copy01Icon,
+    Delete02Icon,
+    InformationCircleIcon,
     Note01Icon,
     Search01Icon,
 } from "@hugeicons/core-free-icons";
@@ -14,6 +17,9 @@ import {
     Select,
     Switch,
     Tabs,
+    Tooltip,
+    TooltipProvider,
+    Icon,
 } from "@zse-gdansk/ui";
 import { useState } from "react";
 
@@ -230,6 +236,33 @@ export function App() {
                         },
                     ]}
                 />
+            </section>
+
+            <section className="button-row">
+                <TooltipProvider>
+                    <Tooltip content="Skopiuj link do sprawdzianu">
+                        <Button variant="outline" icon={Copy01Icon}>
+                            Kopiuj
+                        </Button>
+                    </Tooltip>
+                    <Tooltip content="Usuwa sprawdzian i wszystkie oceny z niego">
+                        <Button variant="outline" icon={Delete02Icon}>
+                            Usuń
+                        </Button>
+                    </Tooltip>
+                    <Tooltip
+                        side="bottom"
+                        content="Średnia ważona z ocen z tego semestru, bez ocen poprawionych."
+                    >
+                        <button
+                            type="button"
+                            className="info"
+                            aria-label="Jak liczona jest średnia"
+                        >
+                            <Icon icon={InformationCircleIcon} />
+                        </button>
+                    </Tooltip>
+                </TooltipProvider>
             </section>
         </main>
     );
