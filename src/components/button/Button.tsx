@@ -2,15 +2,15 @@
 
 import { Button as BaseButton } from "@base-ui/react/button";
 import { LoaderCircleIcon } from "@hugeicons/core-free-icons";
-import type { ComponentProps, ReactNode } from "react";
+import type { ComponentProps } from "react";
 
-import { Icon } from "../icon/Icon";
+import { Icon, type IconGlyph } from "../icon/Icon";
 
 export interface ButtonProps extends ComponentProps<typeof BaseButton> {
     variant?: "primary" | "ghost" | "outline" | "danger";
     size?: "sm" | "md" | "lg";
     loading?: boolean;
-    icon?: ReactNode;
+    icon?: IconGlyph;
     iconPosition?: "left" | "right";
     // Wyłącza zmniejszenie przy naciśnięciu.
     static?: boolean;
@@ -40,7 +40,7 @@ export function Button({
                         className="zse-button-icon-layer"
                         data-hidden={loading || undefined}
                     >
-                        {icon}
+                        <Icon icon={icon} />
                     </span>
                 )}
                 <span

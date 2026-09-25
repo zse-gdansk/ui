@@ -1,5 +1,5 @@
-import { ArrowRight02Icon } from "@hugeicons/core-free-icons";
-import { Button, Icon } from "@zse-gdansk/ui";
+import { ArrowRight02Icon, Search01Icon } from "@hugeicons/core-free-icons";
+import { Button, Input } from "@zse-gdansk/ui";
 import { useState } from "react";
 
 const RAMPS = ["gray", "blue", "green", "orange", "red", "violet"] as const;
@@ -71,7 +71,7 @@ export function App() {
                 ))}
                 <div className="button-row">
                     <Button
-                        icon={<Icon icon={ArrowRight02Icon} />}
+                        icon={ArrowRight02Icon}
                         iconPosition="right"
                         loading={loading}
                     >
@@ -79,12 +79,49 @@ export function App() {
                     </Button>
                     <Button
                         variant="outline"
-                        icon={<Icon icon={ArrowRight02Icon} />}
+                        icon={ArrowRight02Icon}
                         loading={loading}
                     >
                         Z ikoną
                     </Button>
                 </div>
+            </section>
+
+            <section className="fields">
+                {SIZES.map((size) => (
+                    <div key={size} className="field-row">
+                        <div className="field-grow">
+                            <Input
+                                size={size}
+                                label={`Imię (${size})`}
+                                placeholder="Jan Kowalski"
+                            />
+                        </div>
+                        <Button size={size}>Zapisz</Button>
+                    </div>
+                ))}
+                <Input
+                    label="Hasło"
+                    type="password"
+                    placeholder="Hasło"
+                    hint="Co najmniej 8 znaków"
+                />
+                <Input
+                    label="Szukaj ucznia"
+                    placeholder="Nazwisko"
+                    leftIcon={Search01Icon}
+                />
+                <Input
+                    label="Ocena"
+                    defaultValue="0"
+                    error="Ocena musi być od 1 do 6"
+                />
+                <Input
+                    label="Klasa"
+                    defaultValue="1K"
+                    disabled
+                    hint="Pole zablokowane"
+                />
             </section>
         </main>
     );

@@ -2,6 +2,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import type { ComponentProps } from "react";
 
 export type IconProps = ComponentProps<typeof HugeiconsIcon>;
+export type IconGlyph = IconProps["icon"];
 
 export function Icon({
     size = 16,

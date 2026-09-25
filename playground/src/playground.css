@@ -71,3 +71,20 @@ body {
     align-items: center;
     gap: 8px;
 }
+
+.fields {
+    display: grid;
+    gap: 16px;
+    max-width: 420px;
+}
+
+.field-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.field-grow {
+    flex: 1;
+    min-width: 0;
+}
