@@ -1,0 +1,50 @@
+/* Komponenty używają tylko tych tokenów, nigdy --gray-*, --blue-* itd.
+   Deklarowane też na [data-accent], żeby var(--accent-*) liczył się
+   w elemencie, który zmienia accent. data-theme tylko na <html>. */
+:root,
+[data-accent] {
+    --color-bg: var(--gray-1);
+    --color-bg-subtle: var(--gray-2);
+    --color-bg-muted: var(--gray-3);
+    --color-bg-hover: var(--gray-4);
+    --color-bg-active: var(--gray-5);
+
+    --color-text: var(--gray-12);
+    --color-text-secondary: var(--gray-11);
+    --color-text-disabled: var(--gray-8);
+    --color-text-inverse: var(--gray-1);
+    --color-text-on-accent: var(--accent-contrast);
+
+    --color-border-subtle: var(--gray-6);
+    --color-border: var(--gray-7);
+    --color-border-strong: var(--gray-8);
+    --color-separator: var(--gray-6);
+    --color-focus-ring: var(--accent-8);
+
+    --color-accent-bg: var(--accent-3);
+    --color-accent-bg-hover: var(--accent-4);
+    --color-accent-border: var(--accent-7);
+    --color-accent-solid: var(--accent-9);
+    --color-accent-solid-hover: var(--accent-10);
+    --color-accent-text: var(--accent-11);
+
+    --color-danger-bg: var(--red-3);
+    --color-danger-border: var(--red-7);
+    --color-danger-solid: var(--red-9);
+    --color-danger-solid-hover: var(--red-10);
+    --color-danger-text: var(--red-11);
+    --color-text-on-danger: var(--red-contrast);
+}
+
+/* Menu i popovery: w ciemnym motywie jaśniejsze od tła, bo cień tam
+   prawie nie widać. */
+:root,
+[data-theme="light"] {
+    --color-bg-raised: var(--gray-1);
+    --color-bg-overlay: oklch(0% 0 0 / 40%);
+}
+
+[data-theme="dark"] {
+    --color-bg-raised: var(--gray-3);
+    --color-bg-overlay: oklch(0% 0 0 / 60%);
+}
