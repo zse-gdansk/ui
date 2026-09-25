@@ -7,3 +7,4 @@ export {
     type SelectOption,
     type SelectProps,
 } from "./components/select/Select";
+export { Switch, type SwitchProps } from "./components/switch/Switch";
