@@ -1,0 +1,15 @@
+pre-commit:
+    jobs:
+        - name: format
+          run: bun oxfmt --no-error-on-unmatched-pattern {staged_files}
+          glob: "*.{ts,tsx,js,jsx,mjs,cjs,json,jsonc,css,md,yaml}"
+          stage_fixed: true
+
+        - name: lint
+          run: bun oxlint --fix {staged_files}
+          glob: "*.{ts,tsx,js,jsx,mjs,cjs}"
+          stage_fixed: true
+
+        - name: typecheck
+          run: bun run typecheck
+          glob: "*.{ts,tsx}"

@@ -1,0 +1,21 @@
+{
+    "name": "@zse-gdansk/ui",
+    "version": "0.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "typecheck": "tsc --noEmit",
+        "lint": "oxlint",
+        "lint:fix": "oxlint --fix",
+        "format": "oxfmt",
+        "format:check": "oxfmt --check",
+        "check": "bun run typecheck && bun run lint && bun run format:check",
+        "prepare": "lefthook install"
+    },
+    "devDependencies": {
+        "lefthook": "^2.1.14",
+        "oxfmt": "^0.70.0",
+        "oxlint": "^1.85.0",
+        "typescript": "^7.0.2"
+    }
+}
