@@ -1,5 +1,13 @@
 import { ArrowRight02Icon, Search01Icon } from "@hugeicons/core-free-icons";
-import { Button, Checkbox, Input, Select, Switch } from "@zse-gdansk/ui";
+import {
+    Button,
+    Checkbox,
+    Input,
+    Radio,
+    RadioGroup,
+    Select,
+    Switch,
+} from "@zse-gdansk/ui";
 import { useState } from "react";
 
 const RAMPS = ["gray", "blue", "green", "orange", "red", "violet"] as const;
@@ -170,6 +178,18 @@ export function App() {
                 <Switch label="Powiadomienia" defaultChecked />
                 <Switch label="Tryb cichy" />
                 <Switch label="Zablokowany" disabled defaultChecked />
+            </section>
+
+            <section className="checks">
+                <RadioGroup
+                    label="Kandydat"
+                    name="kandydat"
+                    defaultValue="anna"
+                >
+                    <Radio value="anna" label="Anna Kowalska" />
+                    <Radio value="jan" label="Jan Nowak" />
+                    <Radio value="ewa" label="Ewa Wiśniewska" disabled />
+                </RadioGroup>
             </section>
         </main>
     );
