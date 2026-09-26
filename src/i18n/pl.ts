@@ -177,6 +177,14 @@ export const pl: Messages = {
         delete: "Del",
         escape: "Esc",
     },
+    appShell: {
+        skip: "Przejdź do treści",
+        sidebar: "Panel boczny",
+        navigation: "Nawigacja",
+        collapse: "Zwiń panel",
+        expand: "Rozwiń panel",
+        openMenu: "Otwórz menu",
+    },
     localeSwitcher: { label: "Język" },
     table: {
         search: "Szukaj…",

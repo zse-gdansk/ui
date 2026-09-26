@@ -2,6 +2,60 @@
 
 Spis tego, co jest i co już potrafi. Zanim dodasz komponent albo prop, sprawdź, czy tego tu nie ma. Po dodaniu komponentu dopisz go tutaj.
 
+## Układ
+
+| Komponent                                                                                                                  | Base UI                    | Najważniejsze                                                                                                                                                                                                                                                                                                                                                              |
+| -------------------------------------------------------------------------------------------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `AppShell`, `AppShellTrigger`, `useAppShell`                                                                               | Drawer                     | panel po lewej i pasek nad treścią, szkielet na wysokość ekranu i przewija się tylko `main` (jak w Linearze, bez gumowego odbicia całego layoutu); zwinięcie do 56px animowane szerokością (⌘B / Ctrl+B bez animacji), poniżej 768px ta sama treść w wysuwanym panelu, `AppShellTrigger` tylko na telefonie; `cookie` zapisuje zwinięcie dla SSR; link „Przejdź do treści” |
+| `Sidebar`, `SidebarHeader`, `SidebarContent`, `SidebarGroup`, `SidebarItem`, `SidebarSub`, `SidebarFooter`, `isActivePath` | Collapsible, Menu, Tooltip | ikony w stałej kolumnie i etykiety ucinane krawędzią, więc zwijanie nic nie przesuwa; po zwinięciu najechanie zamienia znak w przycisk rozwijania, tooltipy (kolejne od razu), licznik jako kropka, grupy z kreską w tym samym wierszu; `SidebarSub` rozwija się w miejscu, a po zwinięciu otwiera menu obok ikony; `render` dla linków routera                            |
+
+Zwinięcie bez mignięcia w Next.js: serwer czyta cookie i podaje stan startowy, szkielet sam zapisuje zmiany.
+
+```tsx
+// app/(app)/layout.tsx
+import { cookies } from "next/headers";
+import { AppShell } from "@zse-gdansk/ui";
+
+export default async function Layout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
+    const collapsed = (await cookies()).get("zse-sidebar")?.value === "1";
+    return (
+        <AppShell
+            cookie="zse-sidebar"
+            defaultCollapsed={collapsed}
+            sidebar={<Nav />}
+            header={<Header />}
+        >
+            {children}
+        </AppShell>
+    );
+}
+```
+
+Panel to części `Sidebar` w propie `sidebar`:
+
+```tsx
+<Sidebar>
+    <SidebarHeader logo={<img src="/znak.svg" alt="" />} title="Dziennik ZSE" />
+    <SidebarContent>
+        <SidebarGroup label="Dziennik">
+            <SidebarItem
+                icon={UserGroupIcon}
+                render={<Link href="/uczniowie" />}
+                active={isActivePath(pathname, "/uczniowie")}
+            >
+                Uczniowie
+            </SidebarItem>
+        </SidebarGroup>
+    </SidebarContent>
+</Sidebar>
+```
+
+Części panelu czytają `useAppShell()`: `collapsed` i `inDrawer` (w wysuwanym panelu treść jest zawsze w pełnej wersji).
+
 ## Akcje
 
 | Komponent               | Base UI             | Najważniejsze                                                                                                                                 |

@@ -137,6 +137,10 @@ function matches(event: KeyboardEvent, parsed: Parsed) {
     return event.key.toLowerCase() === key;
 }
 
+// Czy zdarzenie to dany skrót, np. "mod+b" (⌘B na Macu, Ctrl+B gdzie indziej).
+export const matchesShortcut = (event: KeyboardEvent, shortcut: Shortcut) =>
+    matches(event, parse(shortcut, isApple()));
+
 export function useShortcut(
     shortcut: Shortcut | undefined,
     ref: RefObject<HTMLElement | null>,

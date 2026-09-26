@@ -1,0 +1,177 @@
+html:has(.zse-shell) {
+    overscroll-behavior: none;
+}
+
+.zse-shell {
+    --shell-sidebar-width: 240px;
+    --shell-sidebar-collapsed: 56px;
+    --shell-header-height: 52px;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    height: 100dvh;
+    overflow: hidden;
+    background: var(--color-bg);
+    color: var(--color-text);
+}
+
+.zse-shell-sidebar {
+    display: none;
+}
+
+.zse-shell-body {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+}
+
+@media (min-width: 768px) {
+    .zse-shell[data-sidebar] {
+        grid-template-columns: var(--shell-sidebar-width) minmax(0, 1fr);
+        transition: grid-template-columns 220ms var(--ease-drawer);
+    }
+
+    .zse-shell[data-sidebar][data-collapsed] {
+        grid-template-columns: var(--shell-sidebar-collapsed) minmax(0, 1fr);
+    }
+
+    .zse-shell-sidebar {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        min-width: 0;
+        overflow: hidden;
+        border-inline-end: 1px solid var(--color-border-subtle);
+        background: var(--color-bg-subtle);
+    }
+}
+
+.zse-shell[data-instant],
+.zse-shell[data-instant] * {
+    transition: none !important;
+}
+
+.zse-shell-header {
+    position: relative;
+    z-index: 20;
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+    min-height: var(--shell-header-height);
+    padding: 0 16px;
+    border-bottom: 1px solid transparent;
+    background: var(--color-bg);
+    transition: border-color var(--duration-fast) ease;
+}
+
+.zse-shell-header[data-scrolled] {
+    border-bottom-color: var(--color-border-subtle);
+}
+
+.zse-shell-main {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+    outline: none;
+}
+
+.zse-shell-skip {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    z-index: 100;
+    padding: 8px 12px;
+    border-radius: var(--radius-md);
+    background: var(--color-bg-elevated);
+    box-shadow: var(--shadow-popover);
+    color: var(--color-text);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    translate: 0 calc(-100% - 16px);
+    transition: translate 200ms var(--ease-out);
+}
+
+.zse-shell-skip:focus-visible {
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: 2px;
+    translate: 0 0;
+}
+
+.zse-shell-trigger {
+    display: grid;
+    flex: none;
+    width: 32px;
+    height: 32px;
+    margin-inline-start: -6px;
+    padding: 0;
+    place-items: center;
+    border: 0;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition-property: background-color, color, scale;
+    transition-duration: var(--duration-fast), var(--duration-fast), 160ms;
+    transition-timing-function: ease, ease, var(--ease-out);
+}
+
+@media (hover: hover) {
+    .zse-shell-trigger:hover {
+        background: var(--color-bg-tint);
+        color: var(--color-text);
+    }
+}
+
+.zse-shell-trigger:active {
+    scale: 0.96;
+}
+
+.zse-shell-trigger:focus-visible {
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: 2px;
+}
+
+@media (min-width: 768px) {
+    .zse-shell-trigger {
+        display: none;
+    }
+}
+
+.zse-shell-kbd {
+    margin-inline-start: 8px;
+    color: var(--color-text-secondary);
+    font-family: inherit;
+    font-size: 0.75rem;
+}
+
+.zse-shell-drawer {
+    height: 100%;
+    overflow: hidden;
+    background: var(--color-bg-subtle);
+}
+
+.zse-shell-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-shell[data-sidebar],
+    .zse-shell-skip {
+        transition: none;
+    }
+
+    .zse-shell-trigger:active {
+        scale: 1;
+    }
+}

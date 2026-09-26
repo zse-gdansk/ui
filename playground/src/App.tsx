@@ -93,6 +93,7 @@ export function App() {
     return (
         <main className="page">
             <header className="toolbar">
+                <a href="/layout.html">Szkielet aplikacji</a>
                 <button type="button" onClick={toggleTheme}>
                     Motyw: {theme}
                 </button>

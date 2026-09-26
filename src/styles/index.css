@@ -39,6 +39,8 @@
 @import "./calendar.css";
 @import "./container.css";
 @import "./modal.css";
+@import "./app-shell.css";
+@import "./sidebar.css";
 @import "./sheet.css";
 @import "./table.css";
 @import "./menu.css";

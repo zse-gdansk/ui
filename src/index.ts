@@ -297,3 +297,27 @@ export {
     type TimePickerProps,
     type TimeSlot,
 } from "./components/time-picker/TimePicker";
+export {
+    AppShell,
+    AppShellTrigger,
+    useAppShell,
+    type AppShellProps,
+    type AppShellState,
+    type AppShellTriggerProps,
+} from "./components/app-shell/AppShell";
+export {
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarGroup,
+    SidebarHeader,
+    SidebarItem,
+    SidebarSub,
+    isActivePath,
+    type SidebarContentProps,
+    type SidebarGroupProps,
+    type SidebarHeaderProps,
+    type SidebarItemProps,
+    type SidebarProps,
+    type SidebarSubProps,
+} from "./components/sidebar/Sidebar";

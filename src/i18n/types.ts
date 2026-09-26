@@ -145,6 +145,14 @@ export interface Messages {
     accordion: { showDetails: string };
     kbd: { space: string; backspace: string; delete: string; escape: string };
     localeSwitcher: { label: string };
+    appShell: {
+        skip: string;
+        sidebar: string;
+        navigation: string;
+        collapse: string;
+        expand: string;
+        openMenu: string;
+    };
     table: {
         search: string;
         clearFilters: string;
