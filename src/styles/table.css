@@ -1,0 +1,190 @@
+.zse-table-scroller {
+    --table-row-bg: var(--color-bg-surface);
+    --table-hover-bg: color-mix(
+        in oklch,
+        var(--color-bg-surface),
+        var(--color-text) 4%
+    );
+    --table-selected-bg: color-mix(
+        in oklch,
+        var(--color-bg-surface),
+        var(--color-accent-solid) 10%
+    );
+
+    position: relative;
+    overflow: auto;
+    overscroll-behavior-x: contain;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-surface);
+    outline: none;
+}
+
+.zse-table-scroller:focus-visible {
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: 2px;
+}
+
+.zse-table {
+    --table-cell-height: 40px;
+    --table-cell-padding: 12px;
+
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: var(--color-text);
+    font-size: 0.875rem;
+}
+
+.zse-table-head,
+.zse-table-cell {
+    box-sizing: border-box;
+    height: var(--table-cell-height);
+    padding: 0 var(--table-cell-padding);
+    border-bottom: 1px solid var(--color-border-subtle);
+    background: var(--table-row-bg);
+    text-align: start;
+    white-space: nowrap;
+    transition-property: border-color, box-shadow;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: ease;
+}
+
+.zse-table[data-size="sm"] {
+    --table-cell-height: 32px;
+    --table-cell-padding: 10px;
+}
+
+.zse-table-head {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    font-weight: 500;
+    transition-property: border-color;
+}
+
+.zse-table-head[data-column-hover] {
+    background: var(--table-hover-bg);
+    color: var(--color-text);
+}
+
+.zse-table-scroller[data-scroll-top] .zse-table-head {
+    border-bottom-color: var(--color-border);
+}
+
+@media (hover: hover) {
+    .zse-table-body .zse-table-row:hover {
+        --table-row-bg: var(--table-hover-bg);
+    }
+}
+
+.zse-table-row[data-selected] {
+    --table-row-bg: var(--table-selected-bg);
+}
+
+.zse-table-body .zse-table-row:last-child > .zse-table-cell {
+    border-bottom: 0;
+}
+
+[data-numeric] {
+    font-variant-numeric: tabular-nums;
+    text-align: end;
+}
+
+[data-sticky] {
+    position: sticky;
+    z-index: 1;
+    transition-property: border-color, box-shadow;
+}
+
+[data-sticky="left"] {
+    inset-inline-start: 0;
+    box-shadow: inset -1px 0 0 var(--color-border-subtle);
+}
+
+[data-sticky="right"] {
+    inset-inline-end: 0;
+    box-shadow: inset 1px 0 0 var(--color-border-subtle);
+}
+
+.zse-table-head[data-sticky],
+.zse-table-footer [data-sticky] {
+    z-index: 3;
+}
+
+.zse-table-scroller[data-scroll-left] [data-sticky="left"] {
+    box-shadow: inset -1px 0 0 var(--color-border);
+}
+
+.zse-table-scroller[data-scroll-right] [data-sticky="right"] {
+    box-shadow: inset 1px 0 0 var(--color-border);
+}
+
+.zse-table-footer .zse-table-cell {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    border-top: 1px solid var(--color-border-subtle);
+    border-bottom: 0;
+    font-weight: 500;
+    transition-property: border-color, box-shadow;
+}
+
+.zse-table-scroller[data-scroll-bottom] .zse-table-footer .zse-table-cell {
+    border-top-color: var(--color-border);
+}
+
+.zse-table-head[data-sortable] {
+    padding: 0;
+}
+
+.zse-table-sort {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    box-sizing: border-box;
+    width: 100%;
+    height: calc(var(--table-cell-height) - 1px);
+    padding: 0 var(--table-cell-padding);
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    cursor: pointer;
+}
+
+[data-numeric] > .zse-table-sort {
+    justify-content: flex-end;
+}
+
+@media (hover: hover) {
+    .zse-table-sort:hover {
+        background: var(--color-bg-tint);
+        color: var(--color-text);
+    }
+}
+
+.zse-table-sort:focus-visible {
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: -2px;
+}
+
+.zse-table-sort-icon {
+    opacity: 0.45;
+    transition: opacity var(--duration-fast) ease;
+}
+
+.zse-table-sort-icon[data-active],
+.zse-table-sort:hover .zse-table-sort-icon {
+    opacity: 1;
+}
+
+.zse-table-empty {
+    padding: 40px 16px;
+    background: var(--color-bg-surface);
+    color: var(--color-text-secondary);
+    text-align: center;
+}

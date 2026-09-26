@@ -33,6 +33,8 @@ import {
 } from "@zse-gdansk/ui";
 import { useState } from "react";
 
+import { GradesDemo } from "./GradesDemo";
+
 const RAMPS = ["gray", "blue", "green", "orange", "red", "violet"] as const;
 const STEPS = Array.from({ length: 12 }, (_, i) => i + 1);
 const VARIANTS = ["primary", "ghost", "outline", "danger"] as const;
@@ -386,6 +388,8 @@ export function App() {
                     }
                 />
             </section>
+
+            <GradesDemo />
         </main>
     );
 }

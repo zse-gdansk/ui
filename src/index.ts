@@ -40,3 +40,17 @@ export {
     type ContainerProps,
 } from "./components/container/Container";
 export { Modal, ModalClose, type ModalProps } from "./components/modal/Modal";
+export {
+    Table,
+    TableBody,
+    TableCell,
+    TableEmpty,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow,
+    type TableCellProps,
+    type TableHeadProps,
+    type TableProps,
+    type TableRowProps,
+} from "./components/table/Table";
