@@ -77,6 +77,12 @@
     font-weight: 400;
 }
 
+/* Kopia do pomiaru w grubości tego, co widać: placeholder jest cieńszy niż
+   wpisany tekst, a szersza kopia zostawiała lukę przed przyrostkiem. */
+.zse-input-group-mirror[data-placeholder] {
+    font-weight: 400;
+}
+
 .zse-input-group-input::placeholder {
     color: var(--color-text-secondary);
     opacity: 1;

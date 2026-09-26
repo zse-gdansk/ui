@@ -172,6 +172,7 @@ export function InputGroup({
                     <span
                         ref={mirrorRef}
                         className="zse-input-group-mirror"
+                        data-placeholder={!shown || undefined}
                         aria-hidden
                     >
                         {shown || placeholder || " "}
