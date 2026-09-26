@@ -29,13 +29,7 @@ function buildReadmeBadgeLine(score: number): string {
 function readScoreFromCli(): number {
     const result = spawnSync(
         "react-doctor",
-        [
-            "--yes",
-            "--score",
-            "--no-color",
-            "--project",
-            "@zse-gdansk/ui",
-        ],
+        ["--yes", "--score", "--no-color", "--project", "@zse-gdansk/ui"],
         {
             encoding: "utf8",
             cwd: join(dirname(fileURLToPath(import.meta.url)), ".."),
