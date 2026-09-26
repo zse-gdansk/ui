@@ -5,6 +5,7 @@ import { Select as BaseSelect } from "@base-ui/react/select";
 import { ArrowDown01Icon, Tick02Icon } from "@hugeicons/core-free-icons";
 import type { ComponentProps, ReactNode } from "react";
 
+import { markPress } from "../../utils/press-focus";
 import { FieldFooter } from "../field/FieldFooter";
 import { Icon } from "../icon/Icon";
 import { ScrollArea } from "../scroll-area/ScrollArea";
@@ -83,6 +84,7 @@ export function Select({
             >
                 <div className="zse-input-control">
                     <BaseSelect.Trigger
+                        onPointerDown={markPress}
                         {...(ariaLabel !== undefined && {
                             "aria-label": ariaLabel,
                         })}

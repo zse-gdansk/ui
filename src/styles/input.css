@@ -80,11 +80,12 @@
     opacity: 1;
 }
 
-/* Przy otwartej liście (Select, DatePicker, TimePicker) pole jest zwykłe:
-   kliknięcie daje mu fokus na chwilę przed przejściem do listy, a bez
-   :not([data-popup-open]) poświata mignęłaby. Po zamknięciu fokus wraca
-   na pole i wtedy świeci. */
-.zse-input-field:focus:not([data-popup-open]) {
+/* Przy otwartej liście (Select, DatePicker, TimePicker) pole jest zwykłe.
+   Kliknięcie daje mu fokus, zanim lista się otworzy: Select oznacza otwarcie
+   klatkę później, a Popover dopiero po puszczeniu przycisku. data-pressing
+   (markPress) gasi poświatę na ten czas i znika, gdy fokus przejdzie do listy.
+   Po zamknięciu znacznika już nie ma, fokus wraca i pole świeci. */
+.zse-input-field:focus:not([data-popup-open], [data-pressing]) {
     border-color: var(--color-focus-ring);
     box-shadow: var(--field-halo);
     outline: none;
@@ -94,7 +95,8 @@
     border-color: var(--color-danger-solid);
 }
 
-.zse-input[data-invalid] .zse-input-field:focus:not([data-popup-open]) {
+.zse-input[data-invalid]
+    .zse-input-field:focus:not([data-popup-open], [data-pressing]) {
     border-color: var(--color-danger-solid);
     box-shadow: var(--field-halo-danger);
 }

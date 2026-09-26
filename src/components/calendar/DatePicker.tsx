@@ -6,6 +6,7 @@ import { Calendar03Icon } from "@hugeicons/core-free-icons";
 import { useState, type ReactNode } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { markPress } from "../../utils/press-focus";
 import { Button } from "../button/Button";
 import { FieldFooter } from "../field/FieldFooter";
 import { useFormValue } from "../form/context";
@@ -147,6 +148,7 @@ export function DatePicker(props: DatePickerProps) {
 
             <Popover.Root open={open} onOpenChange={(next) => setOpen(next)}>
                 <Popover.Trigger
+                    onPointerDown={markPress}
                     className="zse-input-field zse-datepicker-trigger"
                     disabled={disabled}
                     data-placeholder={text ? undefined : ""}

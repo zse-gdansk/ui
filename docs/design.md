@@ -335,12 +335,12 @@ Akcent to „interaktywne albo wybrane”, zielony sukces, pomarańczowy ostrze�
 
 ### `field-focus` Aktywne pole: ramka i poświata
 
-Pole formularza na fokusie dostaje ramkę w kolorze fokusu i miękką poświatę 3px dookoła (`--field-halo`), bez szczeliny i bez zmiany tła. Pole z listą (Select, DatePicker, TimePicker) przy otwartej liście jest zwykłe, bo fokus jest w liście; po zamknięciu fokus wraca na pole i wtedy pojawia się poświata. Przy błędzie ramka i poświata są czerwone (`--field-halo-danger`). `Button` i `CopyButton` mają tę samą poświatę, ale tylko z klawiatury (`:focus-visible`); obrysowany przycisk przejmuje też kolor ramki, a niebezpieczny ma poświatę czerwoną.
+Pole formularza na fokusie dostaje ramkę w kolorze fokusu i miękką poświatę 3px dookoła (`--field-halo`), bez szczeliny i bez zmiany tła. Pole z listą (Select, DatePicker, TimePicker) przy otwartej liście jest zwykłe, bo fokus jest w liście; po zamknięciu fokus wraca na pole i wtedy pojawia się poświata. Kliknięcie daje polu fokus wcześniej, niż lista się otworzy (Select oznacza otwarcie klatkę po fokusie, kalendarz i godzina otwierają się dopiero po puszczeniu przycisku), więc na czas wciśnięcia pole ma `data-pressing` i poświata nie miga. Przy błędzie ramka i poświata są czerwone (`--field-halo-danger`). `Button` i `CopyButton` mają tę samą poświatę, ale tylko z klawiatury (`:focus-visible`); obrysowany przycisk przejmuje też kolor ramki, a niebezpieczny ma poświatę czerwoną.
 
 **Tak**
 
 ```css
-.zse-input-field:focus:not([data-popup-open]) {
+.zse-input-field:focus:not([data-popup-open], [data-pressing]) {
     border-color: var(--color-focus-ring);
     box-shadow: var(--field-halo);
 }
