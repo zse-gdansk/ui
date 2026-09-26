@@ -43,6 +43,7 @@ import { CalendarDemo } from "./CalendarDemo";
 import { CodeDemo } from "./CodeDemo";
 import { CodeBlockDemo } from "./CodeDemo2";
 import { ComboboxDemo } from "./ComboboxDemo";
+import { CopyDemo } from "./CopyDemo";
 import { EmptyDemo } from "./EmptyDemo";
 import { FormDemo } from "./FormDemo";
 import { GradesDemo } from "./GradesDemo";
@@ -450,6 +451,8 @@ export function App() {
             <ProgressDemo />
 
             <SkeletonDemo />
+
+            <CopyDemo />
 
             <InputGroupDemo />
 

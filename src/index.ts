@@ -227,3 +227,14 @@ export {
     InputGroup,
     type InputGroupProps,
 } from "./components/input-group/InputGroup";
+export {
+    CopyButton,
+    type CopyButtonProps,
+} from "./components/copy-button/CopyButton";
+export {
+    PasswordStrength,
+    defaultRules,
+    passwordScore,
+    type PasswordRule,
+    type PasswordStrengthProps,
+} from "./components/password-strength/PasswordStrength";

@@ -307,3 +307,12 @@ body {
 .crumbs-tiny {
     max-width: 240px;
 }
+
+.copy-code {
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-muted);
+    font-family: var(--font-mono);
+    font-size: 0.9375rem;
+    letter-spacing: 0.05em;
+}

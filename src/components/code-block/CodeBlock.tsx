@@ -6,8 +6,9 @@ import {
     Copy01Icon,
     Tick02Icon,
 } from "@hugeicons/core-free-icons";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 
+import { useCopy } from "../../utils/use-copy";
 import { Icon } from "../icon/Icon";
 import {
     decorations,
@@ -128,11 +129,8 @@ export function CodeBlock({
         marks.errors,
     ]);
     const [colored, setColored] = useState<string | null>(null);
-    const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">(
-        "idle",
-    );
+    const [copyState, copyText] = useCopy();
     const [expanded, setExpanded] = useState(false);
-    const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
     const lineCount = source.split("\n").length;
     const collapsible = maxLines !== false && lineCount > maxLines + 2;
@@ -162,26 +160,14 @@ export function CodeBlock({
         };
     }, [source, language, html, marksKey]);
 
-    useEffect(() => () => clearTimeout(timer.current), []);
-
-    async function copy() {
-        const text = source
-            .split("\n")
-            .filter((_, i) => !marks.removed.has(i + 1))
-            .join("\n");
-        // Clipboard API działa tylko w bezpiecznym kontekście (https,
-        // localhost). Na zwykłym http, np. telefon po adresie IP w sieci
-        // szkolnej, go nie ma: wtedy przycisk pokazuje błąd zamiast udawać.
-        let next: "copied" | "failed" = "copied";
-        try {
-            await navigator.clipboard.writeText(text);
-        } catch {
-            next = "failed";
-        }
-        setCopyState(next);
-        clearTimeout(timer.current);
-        timer.current = setTimeout(() => setCopyState("idle"), 2000);
-    }
+    // Kopiuje stan „po”: bez usuniętych linii diffu.
+    const copy = () =>
+        copyText(
+            source
+                .split("\n")
+                .filter((_, i) => !marks.removed.has(i + 1))
+                .join("\n"),
+        );
 
     const button = (
         <button
