@@ -60,7 +60,7 @@ const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const readmePath = join(repoRoot, "README.md");
 const readme = readFileSync(readmePath, "utf8");
 
-const badgeBlock = `${BADGE_START} ${buildReadmeBadgeLine(score)} ${BADGE_END}`;
+const badgeBlock = `${BADGE_START}\n${buildReadmeBadgeLine(score)}\n${BADGE_END}`;
 
 if (!readme.includes(BADGE_START) || !readme.includes(BADGE_END)) {
     throw new Error(
