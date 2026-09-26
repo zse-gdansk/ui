@@ -1,0 +1,23 @@
+@font-face {
+    font-family: "Ioskeley Mono";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../fonts/IoskeleyMono-Regular.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Ioskeley Mono";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url("../fonts/IoskeleyMono-Bold.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Ioskeley Mono";
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../fonts/IoskeleyMono-Italic.woff2") format("woff2");
+}

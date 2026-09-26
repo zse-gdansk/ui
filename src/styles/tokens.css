@@ -88,6 +88,10 @@
     --radius-xl: 16px;
     --radius-full: 999px;
 
+    --font-mono:
+        "Ioskeley Mono", ui-monospace, "SF Mono", SFMono-Regular, Menlo,
+        monospace;
+
     --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
     --ease-standard: cubic-bezier(0.2, 0, 0, 1);
     --ease-toast: cubic-bezier(0.22, 1, 0.36, 1);

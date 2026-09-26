@@ -1,0 +1,326 @@
+.zse-code-block {
+    --code-line: 1.65;
+    --code-pad: 16px;
+
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-subtle);
+    box-shadow: inset 0 0 0 1px var(--color-border-subtle);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: var(--code-line);
+    interpolate-size: allow-keywords;
+}
+
+.zse-code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    height: 40px;
+    padding: 0 8px 0 var(--code-pad);
+    box-shadow: inset 0 -1px 0 var(--color-border-subtle);
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+}
+
+.zse-code-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+/* Ikona języka w kolorze marki: odcień i nasycenie z languages.ts,
+   jasność pod motyw, żeby w obu była czytelna. */
+.zse-code-lang {
+    --lang-l: 56%;
+
+    display: flex;
+    flex: none;
+    color: oklch(var(--lang-l) var(--lang-chroma) var(--lang-hue));
+}
+
+.zse-code-lang[data-bright] {
+    --lang-l: 68%;
+}
+
+[data-theme="dark"] .zse-code-lang {
+    --lang-l: 76%;
+}
+
+[data-theme="dark"] .zse-code-lang[data-bright] {
+    --lang-l: 84%;
+}
+
+.zse-code-filename {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.zse-code-floating {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 1;
+}
+
+.zse-code-block[data-single] .zse-code-floating {
+    top: 50%;
+    translate: 0 -50%;
+}
+
+.zse-code-body {
+    height: auto;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+    transition: height 300ms var(--ease-out);
+}
+
+.zse-code-block[data-collapsed] .zse-code-body {
+    height: calc(
+        var(--code-max-lines) * var(--code-line) * 1em + var(--code-pad)
+    );
+    overflow-y: hidden;
+}
+
+.zse-code-body pre {
+    min-width: max-content;
+    margin: 0;
+    padding: var(--code-pad) 0;
+    background: none;
+    font: inherit;
+    tab-size: 4;
+}
+
+.zse-code-body code {
+    display: block;
+    font: inherit;
+    counter-reset: code-line;
+}
+
+.zse-code-body .line {
+    display: inline-block;
+    box-sizing: border-box;
+    min-width: 100%;
+    vertical-align: top;
+    min-height: calc(var(--code-line) * 1em);
+    padding-inline: var(--code-pad) calc(var(--code-pad) + 32px);
+}
+
+.zse-code-block[data-line-numbers] .line {
+    padding-inline-start: 0;
+}
+
+.zse-code-block[data-line-numbers] .line::before {
+    content: counter(code-line);
+    counter-increment: code-line;
+    display: inline-block;
+    width: 2.5em;
+    margin-inline-end: 1.25em;
+    color: var(--color-text-disabled);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    user-select: none;
+}
+
+.zse-code-body .line.highlighted {
+    background: color-mix(in oklab, var(--color-accent-solid) 10%, transparent);
+    box-shadow: inset 2px 0 0 var(--color-accent-solid);
+}
+
+.zse-code-body .line.diff {
+    position: relative;
+}
+
+.zse-code-body .line.diff::after {
+    position: absolute;
+    top: 0;
+    left: 5px;
+    font-weight: 700;
+    user-select: none;
+}
+
+.zse-code-body .line.add {
+    background: color-mix(
+        in oklab,
+        var(--color-success-solid) 12%,
+        transparent
+    );
+}
+
+.zse-code-body .line.add::after {
+    content: "+";
+    color: var(--color-success-text);
+}
+
+.zse-code-body .line.remove {
+    background: color-mix(in oklab, var(--color-danger-solid) 10%, transparent);
+}
+
+.zse-code-body .line.remove::after {
+    content: "−";
+    color: var(--color-danger-text);
+}
+
+/* Usunięty kod przygaszony, żeby wzrok szedł do nowego. */
+.zse-code-body .line.remove > span {
+    opacity: 0.6;
+}
+
+.zse-code-block[data-line-numbers] .line.diff::after {
+    left: calc(2.5em + 0.35em);
+}
+
+/* Zaznaczone słowo: tło i cienki obrys w kolorze akcentu, tekst zostaje
+   w kolorze składni. */
+.zse-code-body .zse-code-word {
+    margin: -1px -2px;
+    padding: 1px 2px;
+    border-radius: 4px;
+    background: color-mix(in oklab, var(--color-accent-solid) 14%, transparent);
+    box-shadow: inset 0 0 0 1px
+        color-mix(in oklab, var(--color-accent-solid) 35%, transparent);
+}
+
+/* Kolory z Shiki: obie palety w zmiennych, motyw wybiera jedną. */
+.zse-code-body .shiki span {
+    color: var(--shiki-light);
+    font-style: var(--shiki-light-font-style);
+    font-weight: var(--shiki-light-font-weight);
+}
+
+[data-theme="dark"] .zse-code-body .shiki span {
+    color: var(--shiki-dark);
+    font-style: var(--shiki-dark-font-style);
+    font-weight: var(--shiki-dark-font-weight);
+}
+
+.zse-code-copy {
+    display: grid;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    place-items: center;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: scale 160ms var(--ease-out);
+}
+
+.zse-code-floating .zse-code-copy {
+    background: var(--color-bg-subtle);
+}
+
+@media (hover: hover) {
+    .zse-code-copy:hover {
+        background: var(--color-bg-hover);
+        color: var(--color-text);
+    }
+}
+
+.zse-code-copy:active {
+    scale: 0.96;
+}
+
+.zse-code-copy:focus-visible,
+.zse-code-more-button:focus-visible {
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: -1.5px;
+}
+
+/* Kopiuj → znacznik: podmiana skalą, blurem i opacity. */
+.zse-code-copy-layer {
+    display: flex;
+    grid-area: 1 / 1;
+    transition-property: opacity, scale, filter;
+    transition-duration: 300ms;
+    transition-timing-function: var(--ease-standard);
+}
+
+.zse-code-copy-layer[data-tone="success"] {
+    color: var(--color-success-text);
+}
+
+.zse-code-copy-layer[data-tone="danger"] {
+    color: var(--color-danger-text);
+}
+
+.zse-code-copy-layer[data-hidden] {
+    opacity: 0;
+    scale: 0.25;
+    filter: blur(4px);
+}
+
+.zse-code-more {
+    position: absolute;
+    inset: auto 0 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 10px;
+    height: 96px;
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        var(--color-bg-subtle) 70%
+    );
+    pointer-events: none;
+}
+
+.zse-code-more-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 28px;
+    padding: 0 10px;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-text-secondary);
+    font: inherit;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: scale 160ms var(--ease-out);
+}
+
+@media (hover: hover) {
+    .zse-code-more-button:hover {
+        background: var(--color-bg-hover);
+        color: var(--color-text);
+    }
+}
+
+.zse-code-more-button:active {
+    scale: 0.96;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-code-body {
+        transition: none;
+    }
+
+    .zse-code-copy-layer {
+        transition-property: opacity;
+    }
+
+    .zse-code-copy-layer[data-hidden] {
+        scale: 1;
+        filter: none;
+    }
+
+    .zse-code-copy:active,
+    .zse-code-more-button:active {
+        scale: 1;
+    }
+}

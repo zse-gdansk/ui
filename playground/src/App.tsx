@@ -39,6 +39,7 @@ import { AvatarDemo } from "./AvatarDemo";
 import { BadgeDemo } from "./BadgeDemo";
 import { CalendarDemo } from "./CalendarDemo";
 import { CodeDemo } from "./CodeDemo";
+import { CodeBlockDemo } from "./CodeDemo2";
 import { ComboboxDemo } from "./ComboboxDemo";
 import { EmptyDemo } from "./EmptyDemo";
 import { GradesDemo } from "./GradesDemo";
@@ -424,6 +425,8 @@ export function App() {
             </section>
 
             <SheetDemo />
+
+            <CodeBlockDemo />
 
             <LinkDemo />
 

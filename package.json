@@ -6,6 +6,11 @@
         "playground"
     ],
     "type": "module",
+    "exports": {
+        ".": "./src/index.ts",
+        "./code-block": "./src/code-block.ts",
+        "./styles.css": "./src/styles/index.css"
+    },
     "scripts": {
         "typecheck": "tsc --noEmit && tsc --noEmit -p playground && tsc --noEmit -p scripts",
         "lint": "oxlint",
@@ -31,10 +36,17 @@
         "lefthook": "^2.1.14",
         "oxfmt": "^0.70.0",
         "oxlint": "^1.85.0",
+        "shiki": "^4.4.3",
         "typescript": "^7.0.2"
     },
     "peerDependencies": {
         "react": "^19.3.0",
-        "react-dom": "^19.3.0"
+        "react-dom": "^19.3.0",
+        "shiki": "^4.4.3"
+    },
+    "peerDependenciesMeta": {
+        "shiki": {
+            "optional": true
+        }
     }
 }
