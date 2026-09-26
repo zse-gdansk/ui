@@ -1,0 +1,42 @@
+# @zse-gdansk/ui
+
+Biblioteka komponentów React dla aplikacji szkolnych ZSE w Gdańsku. Base UI, zwykły CSS z tokenami, bez Tailwinda.
+
+Zanim cokolwiek zmienisz, przeczytaj plik z `docs/` dotyczący tej zmiany. Mapa jest w `AGENTS.md`. Szczegóły, wartości i uzasadnienia są w dokumentach, nie w tej regule.
+
+## Zasady
+
+1. Base UI najpierw. Własna implementacja tylko wtedy, gdy prymitywu nie ma (kalendarz, upload, stepper).
+2. Tylko tokeny semantyczne z `tokens.css`. Żadnych `--gray-*`, `--blue-*` ani surowych kolorów. Mieszanie kolorów: `color-mix(in oklab, …)`, nigdy `in oklch`.
+3. Ikony tylko z Hugeicons przez komponent `Icon`. Przed użyciem sprawdź, czy ikona istnieje w `@hugeicons/core-free-icons`. Żadnego ręcznie pisanego SVG.
+4. Ruch według `docs/motion.md`: konkretne wartości. Hover tylko w `@media (hover: hover)`, tła hovera bez przejścia, `prefers-reduced-motion` w każdym komponencie z ruchem.
+5. Teksty widoczne i `aria-label` z `useMessages()` (`src/i18n/`). Nowy tekst to klucz w `types.ts` i wartość w `pl.ts`. Liczby, daty i odmiana przez `Intl` z `t.locale`. Komentarze po polsku i oszczędnie.
+6. Dostępność: klawiatura, focus ring, nazwy dla czytników, role.
+7. `bun run check` weryfikuje typy, lint i format. Nie twierdź, że sprawdziłeś wygląd albo animację w przeglądarce, jeśli tego nie zrobiłeś.
+
+## Nazwy commitów
+
+Conventional Commits, po polsku, bezosobowo, w czasie przeszłym, bez kropki na końcu:
+
+```
+typ(zakres): czasownik i co się zmieniło
+```
+
+- `feat`: nowa możliwość. Czasownik: `dodano`.
+- `fix`: błąd albo złe zachowanie. Czasownik: `poprawiono`.
+- `refactor`: ta sama funkcja, inny kod.
+- `style`: wygląd bez zmiany logiki.
+- `docs`: dokumentacja.
+- `chore`: narzędzia, konfiguracja, zależności.
+
+Zakres to nazwa komponentu w kebab-case (`stat`, `file-upload`, `locale-switcher`). Pomiń zakres, gdy zmiana nie dotyczy jednego komponentu (`docs:`, `chore:`).
+
+Opis małą literą, konkretnie, z perspektywy zachowania, nie listy plików.
+
+```
+feat(stepper): dodano linię postępu wypełnianą z pól kroku
+fix(file-upload): poprawiono skok układu przy usuwaniu pliku
+fix(locale-switcher): poprawiono lokalizację nazw języków w przełączniku języka
+docs: dodano dokumentację dla agentów
+style(icon): zmniejszono grubość kreski ikon
+```
