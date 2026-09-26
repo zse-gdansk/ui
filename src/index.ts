@@ -276,8 +276,10 @@ export {
     type StatProps,
 } from "./components/stat/Stat";
 export {
+    LocaleSubmenu,
     LocaleSwitcher,
     type FlagComponent,
+    type LocaleSubmenuProps,
     type LocaleSwitcherProps,
 } from "./components/locale-switcher/LocaleSwitcher";
 export {
@@ -332,3 +334,4 @@ export {
     PageHeader,
     type PageHeaderProps,
 } from "./components/page-header/PageHeader";
+export { UserMenu, type UserMenuProps } from "./components/user-menu/UserMenu";

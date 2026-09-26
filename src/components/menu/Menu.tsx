@@ -115,7 +115,10 @@ export interface MenuItemProps {
     shortcut?: Shortcut;
     onClick?: () => void;
     disabled?: boolean;
-    variant?: "default" | "danger";
+    // danger: stale czerwone, dla akcji nieodwracalnych (Usuń).
+    // danger-hover: czerwone dopiero przy najechaniu, dla akcji, które nic
+    // nie niszczą, ale kończą coś ważnego (Wyloguj).
+    variant?: "default" | "danger" | "danger-hover";
     // Link zamiast akcji, zamyka menu po kliknięciu.
     href?: string;
     // Link z routera zamiast <a>, np. <NextLink href="/oceny" />, żeby
@@ -300,6 +303,8 @@ export interface MenuSubProps {
     icon?: IconGlyph;
     children: ReactNode;
     disabled?: boolean;
+    // Bieżąca wartość przed strzałką, np. „Polski” przy „Język”.
+    suffix?: ReactNode;
 }
 
 export function MenuSub({
@@ -307,6 +312,7 @@ export function MenuSub({
     icon,
     children,
     disabled = false,
+    suffix,
 }: MenuSubProps) {
     return (
         <BaseMenu.SubmenuRoot>
@@ -317,6 +323,9 @@ export function MenuSub({
                 <ItemContent icon={icon && <Icon icon={icon} />}>
                     {label}
                 </ItemContent>
+                {suffix != null && (
+                    <span className="zse-menu-sub-suffix">{suffix}</span>
+                )}
                 <Icon
                     icon={ArrowRight01Icon}
                     size={14}

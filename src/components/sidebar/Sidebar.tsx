@@ -37,6 +37,13 @@ function useRail() {
     };
 }
 
+const InSidebarContext = createContext(false);
+
+export function useSidebarPlacement() {
+    const { rail } = useRail();
+    return { inSidebar: useContext(InSidebarContext), rail };
+}
+
 // Pozycje w bocznym menu zwiniętego podmenu renderują się jako MenuItem.
 const InMenuContext = createContext(false);
 
@@ -73,7 +80,7 @@ export function Sidebar({ children, className }: SidebarProps) {
                     event.currentTarget.removeAttribute("data-hold")
                 }
             >
-                {children}
+                <InSidebarContext value>{children}</InSidebarContext>
             </div>
         </TooltipProvider>
     );

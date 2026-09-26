@@ -7,6 +7,10 @@ import {
     DashboardSquare01Icon,
     Globe02Icon,
     Home01Icon,
+    Logout03Icon,
+    PaintBoardIcon,
+    Settings02Icon,
+    UserIcon,
     Megaphone01Icon,
     Moon02Icon,
     Notification01Icon,
@@ -28,6 +32,14 @@ import {
     Confirmer,
     Sidebar,
     SidebarContent,
+    SidebarFooter,
+    MenuItem,
+    MenuRadioGroup,
+    MenuRadioItem,
+    MenuSeparator,
+    MenuSub,
+    UserMenu,
+    LocaleSubmenu,
     SidebarGroup,
     SidebarHeader,
     SidebarItem,
@@ -36,6 +48,7 @@ import {
     isActivePath,
     toast,
 } from "@zse-gdansk/ui";
+import { GB, PL, UA } from "country-flag-icons/react/3x2";
 import { useState, useSyncExternalStore } from "react";
 
 import { TableDemo } from "../TableDemo";
@@ -124,7 +137,59 @@ function Nav({ pathname }: { pathname: string }) {
                     </SidebarItem>
                 </SidebarGroup>
             </SidebarContent>
+            <SidebarFooter>
+                <Account />
+            </SidebarFooter>
         </Sidebar>
+    );
+}
+
+function Account() {
+    const theme = useTheme();
+    const [language, setLanguage] = useState("pl");
+
+    return (
+        <UserMenu name="Anna Kowalska" description="Nauczycielka matematyki">
+            <MenuItem icon={UserIcon} onClick={() => toast("Profil")}>
+                Profil
+            </MenuItem>
+            <MenuItem icon={Settings02Icon} onClick={() => toast("Ustawienia")}>
+                Ustawienia
+            </MenuItem>
+            <MenuSeparator />
+            <MenuSub icon={PaintBoardIcon} label="Motyw">
+                <MenuRadioGroup value={theme} onValueChange={setTheme}>
+                    <MenuRadioItem value="light" closeOnClick>
+                        Jasny
+                    </MenuRadioItem>
+                    <MenuRadioItem value="dark" closeOnClick>
+                        Ciemny
+                    </MenuRadioItem>
+                </MenuRadioGroup>
+            </MenuSub>
+            <LocaleSubmenu
+                locales={["pl", "en", "uk"]}
+                value={language}
+                flags={{ pl: PL, en: GB, uk: UA }}
+                // Udaje wczytywanie tłumaczeń, żeby było widać spinner.
+                onValueChange={(next) =>
+                    new Promise<void>((done) =>
+                        setTimeout(() => {
+                            setLanguage(next);
+                            done();
+                        }, 700),
+                    )
+                }
+            />
+            <MenuSeparator />
+            <MenuItem
+                icon={Logout03Icon}
+                variant="danger-hover"
+                onClick={() => toast("Wylogowano")}
+            >
+                Wyloguj
+            </MenuItem>
+        </UserMenu>
     );
 }
 
@@ -160,15 +225,26 @@ function pageTitle(pathname: string) {
     return TITLES[`/${section}`] ?? "Start";
 }
 
+// Motyw z atrybutu na <html>, wspólny dla paska i menu konta.
+const subscribeTheme = (onChange: () => void) => {
+    const observer = new MutationObserver(onChange);
+    observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["data-theme"],
+    });
+    return () => observer.disconnect();
+};
+const readTheme = () => document.documentElement.dataset.theme ?? "light";
+const setTheme = (theme: string) =>
+    document.documentElement.setAttribute("data-theme", theme);
+
+function useTheme() {
+    return useSyncExternalStore(subscribeTheme, readTheme);
+}
+
 function Header() {
-    const [theme, setTheme] = useState(
-        () => document.documentElement.dataset.theme ?? "light",
-    );
-    const toggleTheme = () => {
-        const next = theme === "light" ? "dark" : "light";
-        document.documentElement.setAttribute("data-theme", next);
-        setTheme(next);
-    };
+    const theme = useTheme();
+    const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
 
     return (
         <AppHeader

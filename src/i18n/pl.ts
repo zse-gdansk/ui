@@ -185,6 +185,7 @@ export const pl: Messages = {
         expand: "Rozwiń panel",
         openMenu: "Otwórz menu",
     },
+    userMenu: { label: (name) => `Konto: ${name}` },
     localeSwitcher: { label: "Język" },
     table: {
         search: "Szukaj…",

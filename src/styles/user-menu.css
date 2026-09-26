@@ -1,0 +1,134 @@
+.zse-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--color-text);
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+    transition: scale 160ms var(--ease-out);
+}
+
+.zse-user[data-variant="row"] {
+    width: 100%;
+    height: 40px;
+    margin: 0;
+    padding: 0 8px;
+    overflow: hidden;
+    white-space: nowrap;
+    transition-property: scale, width, height, margin, padding;
+    transition-duration: 160ms, 220ms, 220ms, 220ms, 220ms;
+    transition-timing-function:
+        var(--ease-out), var(--ease-drawer), var(--ease-drawer),
+        var(--ease-drawer), var(--ease-drawer);
+}
+
+.zse-sidebar[data-collapsed] .zse-user[data-variant="row"] {
+    width: 32px;
+    height: 32px;
+    margin: 4px 0 4px 4px;
+    padding: 0 4px;
+}
+
+/* W pasku: okrągły przycisk w wymiarze ikon paska. */
+.zse-user[data-variant="compact"] {
+    display: grid;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+    border-radius: var(--radius-full);
+}
+
+@media (hover: hover) {
+    .zse-user:hover {
+        background: var(--color-bg-hover);
+    }
+}
+
+.zse-user[data-popup-open] {
+    background: var(--color-bg-active);
+}
+
+.zse-user:active {
+    scale: 0.98;
+}
+
+.zse-user[data-variant="compact"]:active,
+.zse-sidebar[data-collapsed] .zse-user:active {
+    scale: 0.96;
+}
+
+.zse-user:focus-visible {
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: -1.5px;
+}
+
+.zse-user .zse-avatar {
+    flex: none;
+}
+
+.zse-user-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.3;
+}
+
+.zse-user-name,
+.zse-user-description {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.zse-user-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.zse-user-description {
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+}
+
+.zse-user-chevron {
+    flex: none;
+    color: var(--color-text-secondary);
+}
+
+/* Po zwinięciu tekst gaśnie jak etykiety pozycji, a krawędź go ucina. */
+.zse-user-text,
+.zse-user-chevron {
+    transition: opacity 150ms ease 60ms;
+}
+
+.zse-sidebar[data-collapsed] :is(.zse-user-text, .zse-user-chevron) {
+    opacity: 0;
+    transition-delay: 0ms;
+}
+
+/* Nagłówek menu, gdy wiersz nie pokazuje imienia. */
+.zse-user-head {
+    display: flex;
+    flex-direction: column;
+    padding: 6px 10px 8px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--color-border-subtle);
+    line-height: 1.3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-user:active,
+    .zse-user[data-variant="compact"]:active,
+    .zse-sidebar[data-collapsed] .zse-user:active {
+        scale: 1;
+    }
+}

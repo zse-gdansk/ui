@@ -145,6 +145,7 @@ export interface Messages {
     accordion: { showDetails: string };
     kbd: { space: string; backspace: string; delete: string; escape: string };
     localeSwitcher: { label: string };
+    userMenu: { label: (name: string) => string };
     appShell: {
         skip: string;
         sidebar: string;

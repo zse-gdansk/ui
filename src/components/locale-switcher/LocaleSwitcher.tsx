@@ -1,11 +1,16 @@
 "use client";
 
 import { LanguageSkillIcon } from "@hugeicons/core-free-icons";
-import { useState, type ComponentType } from "react";
+import {
+    useSyncExternalStore,
+    type ComponentType,
+    type ReactNode,
+} from "react";
 
 import { useMessages } from "../../i18n/context";
 import { Button } from "../button/Button";
-import { Menu, MenuRadioGroup, MenuRadioItem } from "../menu/Menu";
+import { Menu, MenuRadioGroup, MenuRadioItem, MenuSub } from "../menu/Menu";
+import { Spinner } from "../spinner/Spinner";
 
 // Komponent flagi, np. PL z country-flag-icons/react/3x2.
 export type FlagComponent = ComponentType<{
@@ -61,6 +66,93 @@ function nativeName(code: string) {
 const isPromise = (value: unknown): value is PromiseLike<unknown> =>
     typeof (value as PromiseLike<unknown> | null)?.then === "function";
 
+// Język w trakcie wczytywania, poza drzewem: aplikacja ma jeden język,
+// a menu z podmenu zamyka się po wyborze i jego stan by przepadł.
+let pendingLocale: string | null = null;
+const pendingListeners = new Set<() => void>();
+
+function setPendingLocale(next: string | null) {
+    pendingLocale = next;
+    for (const listener of pendingListeners) listener();
+}
+
+const subscribePending = (listener: () => void) => {
+    pendingListeners.add(listener);
+    return () => {
+        pendingListeners.delete(listener);
+    };
+};
+
+// Wspólne dla przycisku i podmenu: zwrócona obietnica (np.
+// i18n.changeLanguage) trzyma wybrany język jako oczekujący do końca.
+function useLocaleChange(
+    value: string,
+    onValueChange: (locale: string) => unknown,
+) {
+    const pending = useSyncExternalStore(
+        subscribePending,
+        () => pendingLocale,
+        () => null,
+    );
+
+    const select = (next: string) => {
+        if (next === value) return;
+        const result = onValueChange(next);
+        if (!isPromise(result)) return;
+        setPendingLocale(next);
+        const done = () => {
+            if (pendingLocale === next) setPendingLocale(null);
+        };
+        result.then(done, done);
+    };
+
+    return { pending, shown: pending ?? value, select };
+}
+
+// Języki jako pozycje radio: flaga, nazwa własna i nazwa w bieżącym
+// języku aplikacji („Українська ukraiński”).
+function LocaleOptions({
+    locales,
+    value,
+    shown,
+    flags,
+    onSelect,
+}: {
+    locales: readonly string[];
+    value: string;
+    shown: string;
+    flags: LocaleSwitcherProps["flags"];
+    onSelect: (locale: string) => void;
+}) {
+    return (
+        <MenuRadioGroup value={shown} onValueChange={onSelect}>
+            {locales.map((locale) => {
+                const native = nativeName(locale);
+                const local = languageName(locale, value);
+                const Flag = flags?.[locale];
+                return (
+                    <MenuRadioItem
+                        key={locale}
+                        value={locale}
+                        closeOnClick
+                        {...(Flag && {
+                            icon: (
+                                <Flag className="zse-locale-flag" aria-hidden />
+                            ),
+                        })}
+                    >
+                        <span lang={locale}>{native}</span>
+                        {local.toLocaleLowerCase(value) !==
+                            native.toLocaleLowerCase(value) && (
+                            <span className="zse-locale-local">{local}</span>
+                        )}
+                    </MenuRadioItem>
+                );
+            })}
+        </MenuRadioGroup>
+    );
+}
+
 // Wybór języka aplikacji. Nie zależy od biblioteki tłumaczeń: wartość
 // i zmiana idą z zewnątrz (i18next, next-intl, własny stan).
 export function LocaleSwitcher({
@@ -75,20 +167,8 @@ export function LocaleSwitcher({
     "aria-label": ariaLabel,
 }: LocaleSwitcherProps) {
     const t = useMessages();
-    // Język w trakcie wczytywania; do końca zaznaczony w menu.
-    const [pending, setPending] = useState<string | null>(null);
-    const shown = pending ?? value;
+    const { pending, shown, select } = useLocaleChange(value, onValueChange);
     const code = shown.split("-")[0]?.toLocaleUpperCase(shown) ?? shown;
-
-    const select = (next: string) => {
-        if (next === value) return;
-        const result = onValueChange(next);
-        if (!isPromise(result)) return;
-        setPending(next);
-        const done = () =>
-            setPending((current) => (current === next ? null : current));
-        result.then(done, done);
-    };
 
     return (
         <Menu
@@ -109,36 +189,55 @@ export function LocaleSwitcher({
                 </Button>
             }
         >
-            <MenuRadioGroup value={shown} onValueChange={select}>
-                {locales.map((locale) => {
-                    const native = nativeName(locale);
-                    const local = languageName(locale, value);
-                    const Flag = flags?.[locale];
-                    return (
-                        <MenuRadioItem
-                            key={locale}
-                            value={locale}
-                            closeOnClick
-                            {...(Flag && {
-                                icon: (
-                                    <Flag
-                                        className="zse-locale-flag"
-                                        aria-hidden
-                                    />
-                                ),
-                            })}
-                        >
-                            <span lang={locale}>{native}</span>
-                            {local.toLocaleLowerCase(value) !==
-                                native.toLocaleLowerCase(value) && (
-                                <span className="zse-locale-local">
-                                    {local}
-                                </span>
-                            )}
-                        </MenuRadioItem>
-                    );
-                })}
-            </MenuRadioGroup>
+            <LocaleOptions
+                locales={locales}
+                value={value}
+                shown={shown}
+                flags={flags}
+                onSelect={select}
+            />
         </Menu>
+    );
+}
+
+export type LocaleSubmenuProps = Pick<
+    LocaleSwitcherProps,
+    "locales" | "value" | "onValueChange" | "flags"
+> & {
+    // Inny tekst niż „Język”.
+    label?: ReactNode;
+};
+
+// Ten sam wybór języka jako podmenu w innym menu, np. w UserMenu. Obok
+// etykiety bieżący język, w trakcie wczytywania spinner.
+export function LocaleSubmenu({
+    locales,
+    value,
+    onValueChange,
+    flags,
+    label,
+}: LocaleSubmenuProps) {
+    const t = useMessages();
+    const { pending, shown, select } = useLocaleChange(value, onValueChange);
+
+    return (
+        <MenuSub
+            icon={LanguageSkillIcon}
+            label={label ?? t.localeSwitcher.label}
+            suffix={
+                <>
+                    {pending !== null && <Spinner size="sm" />}
+                    <span lang={shown}>{nativeName(shown)}</span>
+                </>
+            }
+        >
+            <LocaleOptions
+                locales={locales}
+                value={value}
+                shown={shown}
+                flags={flags}
+                onSelect={select}
+            />
+        </MenuSub>
     );
 }
