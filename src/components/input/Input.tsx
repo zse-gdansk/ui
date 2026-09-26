@@ -4,6 +4,7 @@ import { Field } from "@base-ui/react/field";
 import { ViewIcon, ViewOffIcon } from "@hugeicons/core-free-icons";
 import { useState, type ComponentProps, type ReactNode } from "react";
 
+import { FieldFooter } from "../field/FieldFooter";
 import { Icon, type IconGlyph } from "../icon/Icon";
 
 type InputSize = "sm" | "md" | "lg";
@@ -42,7 +43,8 @@ export function Input({
             className="zse-input"
             data-size={size}
             disabled={disabled}
-            invalid={Boolean(error)}
+            {...(error && { invalid: true })}
+            {...(props.name !== undefined && { name: props.name })}
         >
             {label != null && label !== false && (
                 <Field.Label className="zse-input-label">{label}</Field.Label>
@@ -111,18 +113,7 @@ export function Input({
                 )}
             </div>
 
-            {error ? (
-                <Field.Error className="zse-input-hint" match>
-                    {error}
-                </Field.Error>
-            ) : (
-                hint != null &&
-                hint !== false && (
-                    <Field.Description className="zse-input-hint">
-                        {hint}
-                    </Field.Description>
-                )
-            )}
+            <FieldFooter error={error} hint={hint} />
         </Field.Root>
     );
 }

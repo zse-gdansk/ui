@@ -6,6 +6,7 @@ import { Calendar03Icon } from "@hugeicons/core-free-icons";
 import { useState, type ReactNode } from "react";
 
 import { Button } from "../button/Button";
+import { FieldFooter } from "../field/FieldFooter";
 import { Icon } from "../icon/Icon";
 import { Calendar, type CalendarMark, type DateRange } from "./Calendar";
 import { formatDate, formatRange, startOfDay } from "./dates";
@@ -129,7 +130,8 @@ export function DatePicker(props: DatePickerProps) {
             className="zse-input zse-datepicker"
             data-size={size}
             disabled={disabled}
-            invalid={Boolean(error)}
+            {...(error && { invalid: true })}
+            {...(name !== undefined && { name: name })}
         >
             {label != null && label !== false && (
                 <Field.Label className="zse-input-label">{label}</Field.Label>
@@ -208,18 +210,7 @@ export function DatePicker(props: DatePickerProps) {
                 </>
             )}
 
-            {error ? (
-                <Field.Error className="zse-input-hint" match>
-                    {error}
-                </Field.Error>
-            ) : (
-                hint != null &&
-                hint !== false && (
-                    <Field.Description className="zse-input-hint">
-                        {hint}
-                    </Field.Description>
-                )
-            )}
+            <FieldFooter error={error} hint={hint} />
         </Field.Root>
     );
 }

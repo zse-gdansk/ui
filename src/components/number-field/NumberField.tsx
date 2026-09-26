@@ -9,6 +9,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import type { ReactNode } from "react";
 
+import { FieldFooter } from "../field/FieldFooter";
 import { Icon } from "../icon/Icon";
 
 export interface NumberFieldProps {
@@ -105,7 +106,8 @@ export function NumberField({
             className="zse-input zse-number"
             data-size={size}
             disabled={disabled}
-            invalid={Boolean(error)}
+            {...(error && { invalid: true })}
+            {...(name !== undefined && { name: name })}
         >
             <BaseNumberField.Root
                 className="zse-number-root"
@@ -179,18 +181,7 @@ export function NumberField({
                 </BaseNumberField.Group>
             </BaseNumberField.Root>
 
-            {error ? (
-                <Field.Error className="zse-input-hint" match>
-                    {error}
-                </Field.Error>
-            ) : (
-                hint != null &&
-                hint !== false && (
-                    <Field.Description className="zse-input-hint">
-                        {hint}
-                    </Field.Description>
-                )
-            )}
+            <FieldFooter error={error} hint={hint} />
         </Field.Root>
     );
 }

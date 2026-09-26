@@ -43,6 +43,7 @@ import { CodeDemo } from "./CodeDemo";
 import { CodeBlockDemo } from "./CodeDemo2";
 import { ComboboxDemo } from "./ComboboxDemo";
 import { EmptyDemo } from "./EmptyDemo";
+import { FormDemo } from "./FormDemo";
 import { GradesDemo } from "./GradesDemo";
 import { LinkDemo } from "./LinkDemo";
 import { MenuDemo } from "./MenuDemo";
@@ -443,6 +444,8 @@ export function App() {
             <ProgressDemo />
 
             <SkeletonDemo />
+
+            <FormDemo />
 
             <AccordionDemo />
 

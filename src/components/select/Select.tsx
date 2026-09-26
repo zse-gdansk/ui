@@ -5,6 +5,7 @@ import { Select as BaseSelect } from "@base-ui/react/select";
 import { ArrowDown01Icon, Tick02Icon } from "@hugeicons/core-free-icons";
 import type { ComponentProps, ReactNode } from "react";
 
+import { FieldFooter } from "../field/FieldFooter";
 import { Icon } from "../icon/Icon";
 import { ScrollArea } from "../scroll-area/ScrollArea";
 
@@ -59,7 +60,8 @@ export function Select({
             className="zse-input"
             data-size={size}
             disabled={disabled}
-            invalid={Boolean(error)}
+            {...(error && { invalid: true })}
+            {...(name !== undefined && { name: name })}
         >
             {label != null && label !== false && (
                 <Field.Label className="zse-input-label">{label}</Field.Label>
@@ -140,18 +142,7 @@ export function Select({
                 </BaseSelect.Portal>
             </BaseSelect.Root>
 
-            {error ? (
-                <Field.Error className="zse-input-hint" match>
-                    {error}
-                </Field.Error>
-            ) : (
-                hint != null &&
-                hint !== false && (
-                    <Field.Description className="zse-input-hint">
-                        {hint}
-                    </Field.Description>
-                )
-            )}
+            <FieldFooter error={error} hint={hint} />
         </Field.Root>
     );
 }

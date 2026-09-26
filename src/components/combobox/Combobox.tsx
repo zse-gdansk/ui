@@ -12,6 +12,7 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { Highlight } from "../../search/Highlight";
 import { createSearch, type SearchKey } from "../../search/search";
+import { FieldFooter } from "../field/FieldFooter";
 import { Icon } from "../icon/Icon";
 import { ScrollArea } from "../scroll-area/ScrollArea";
 
@@ -227,7 +228,8 @@ export function Combobox(props: ComboboxProps) {
             className="zse-input zse-combobox"
             data-size={size}
             disabled={disabled}
-            invalid={Boolean(error)}
+            {...(error && { invalid: true })}
+            {...(name !== undefined && { name: name })}
         >
             {label != null && label !== false && (
                 <Field.Label className="zse-input-label">{label}</Field.Label>
@@ -378,18 +380,7 @@ export function Combobox(props: ComboboxProps) {
                 </BaseCombobox.Portal>
             </BaseCombobox.Root>
 
-            {error ? (
-                <Field.Error className="zse-input-hint" match>
-                    {error}
-                </Field.Error>
-            ) : (
-                hint != null &&
-                hint !== false && (
-                    <Field.Description className="zse-input-hint">
-                        {hint}
-                    </Field.Description>
-                )
-            )}
+            <FieldFooter error={error} hint={hint} />
         </Field.Root>
     );
 }

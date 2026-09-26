@@ -265,3 +265,7 @@ body {
     gap: 32px;
     max-width: 560px;
 }
+
+.form-demo {
+    max-width: 560px;
+}

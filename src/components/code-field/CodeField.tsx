@@ -11,6 +11,7 @@ import {
     type ReactNode,
 } from "react";
 
+import { FieldFooter } from "../field/FieldFooter";
 import { Icon } from "../icon/Icon";
 
 type Status = "idle" | "verifying" | "success" | "error";
@@ -105,7 +106,8 @@ export function CodeField({
             className="zse-input zse-code"
             data-size={size}
             disabled={disabled || status === "verifying"}
-            invalid={Boolean(shownError)}
+            {...(shownError && { invalid: true })}
+            {...(name !== undefined && { name: name })}
         >
             {label != null && label !== false && (
                 <Field.Label className="zse-input-label">{label}</Field.Label>
@@ -196,18 +198,7 @@ export function CodeField({
                 )}
             </div>
 
-            {shownError ? (
-                <Field.Error className="zse-input-hint" match>
-                    {shownError}
-                </Field.Error>
-            ) : (
-                hint != null &&
-                hint !== false && (
-                    <Field.Description className="zse-input-hint">
-                        {hint}
-                    </Field.Description>
-                )
-            )}
+            <FieldFooter error={shownError} hint={hint} />
         </Field.Root>
     );
 }

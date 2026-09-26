@@ -10,6 +10,8 @@ import {
     type TextareaHTMLAttributes,
 } from "react";
 
+import { FieldFooter } from "../field/FieldFooter";
+
 export interface TextareaProps extends Omit<
     TextareaHTMLAttributes<HTMLTextAreaElement>,
     "rows"
@@ -99,6 +101,7 @@ export function Textarea({
         <Field.Root
             className="zse-input zse-textarea"
             disabled={disabled}
+            {...(props.name !== undefined && { name: props.name })}
             {...(error && { invalid: true })}
             {...(maxLength !== undefined && {
                 validationMode: "onChange" as const,
@@ -141,19 +144,11 @@ export function Textarea({
                     .join(" ")}
             />
 
-            {(message || hasHint || maxLength !== undefined) && (
+            {(message || hasHint || maxLength !== undefined || props.name) && (
                 <div className="zse-textarea-meta">
-                    {message ? (
-                        <Field.Error className="zse-input-hint" match>
-                            {message}
-                        </Field.Error>
-                    ) : (
-                        hasHint && (
-                            <Field.Description className="zse-input-hint">
-                                {hint}
-                            </Field.Description>
-                        )
-                    )}
+                    <span className="zse-textarea-messages">
+                        <FieldFooter error={message} hint={hint} />
+                    </span>
                     {maxLength !== undefined && (
                         <span
                             className="zse-textarea-count"

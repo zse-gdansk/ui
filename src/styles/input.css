@@ -241,3 +241,27 @@
         scale: 1;
     }
 }
+
+/* Przy błędzie podpowiedź znika, żeby pod polem była jedna linia. */
+.zse-input[data-invalid] .zse-input-description {
+    display: none;
+}
+
+/* Wymagane pole: gwiazdka przy etykiecie. :has, bo required siedzi na
+   kontrolce (także ukrytym inpucie Selecta czy NumberFielda). */
+.zse-input:has([required], [aria-required="true"]) > .zse-input-label::after,
+.zse-input:has([required], [aria-required="true"])
+    .zse-number-root
+    > .zse-input-label::after {
+    content: " *";
+    color: var(--color-danger-text);
+}
+
+/* Checkbox i grupa radio w polu formularza: komunikat pod spodem. */
+.zse-check-field {
+    gap: 6px;
+}
+
+.zse-check-field .zse-input-hint {
+    padding-inline-start: 0;
+}
