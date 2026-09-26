@@ -4,6 +4,7 @@
 }
 
 .zse-popover {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -12,7 +13,6 @@
     max-width: min(22rem, calc(100vw - 16px));
     max-height: var(--available-height);
     padding: 14px 16px;
-    overflow-y: auto;
     border: 1px solid var(--color-border-subtle);
     border-radius: var(--radius-lg);
     background: var(--color-bg-raised);
@@ -61,6 +61,11 @@
     margin-inline-start: auto;
 }
 
+.zse-popover-body {
+    min-height: 0;
+    overflow-y: auto;
+}
+
 .zse-popover-description {
     margin: -4px 0 0;
     color: var(--color-text-secondary);
@@ -72,6 +77,7 @@
 }
 
 .zse-popover-arrow {
+    position: absolute;
     width: 10px;
     height: 10px;
     border: 1px solid var(--color-border-subtle);
