@@ -58,6 +58,7 @@ import { SheetDemo } from "./SheetDemo";
 import { SkeletonDemo } from "./SkeletonDemo";
 import { SliderDemo } from "./SliderDemo";
 import { StepperDemo } from "./StepperDemo";
+import { ToggleDemo } from "./ToggleDemo";
 import { UploadDemo } from "./UploadDemo";
 
 const RAMPS = ["gray", "blue", "green", "orange", "red", "violet"] as const;
@@ -448,6 +449,8 @@ export function App() {
             <ProgressDemo />
 
             <SkeletonDemo />
+
+            <ToggleDemo />
 
             <StepperDemo />
 

@@ -1,0 +1,141 @@
+.zse-toggle {
+    --toggle-height: 36px;
+
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    box-sizing: border-box;
+    height: var(--toggle-height);
+    padding: 0 12px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--color-text-secondary);
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+        color var(--duration-fast) ease,
+        scale 160ms var(--ease-out);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.zse-toggle[data-size="sm"] {
+    --toggle-height: 32px;
+
+    padding: 0 10px;
+    font-size: 0.8125rem;
+}
+
+.zse-toggle[data-icon-only] {
+    width: var(--toggle-height);
+    padding: 0;
+}
+
+.zse-toggle[data-variant="outline"] {
+    border-color: var(--color-border-strong);
+}
+
+@media (hover: hover) {
+    .zse-toggle:not([data-disabled], [data-pressed]):hover {
+        background: var(--color-bg-tint);
+        color: var(--color-text);
+    }
+}
+
+/* Wciśnięty: tło i pełny kolor tekstu, jak zaznaczenie w pasku narzędzi.
+   Tło bez przejścia, żeby szybkie klikanie nie zostawało w tyle. */
+.zse-toggle[data-pressed] {
+    background: var(--color-bg-active);
+    color: var(--color-text);
+}
+
+.zse-toggle[data-variant="outline"][data-pressed] {
+    border-color: var(--color-border-hover);
+}
+
+.zse-toggle:not([data-disabled]):active {
+    scale: 0.96;
+}
+
+.zse-toggle:focus-visible {
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: 2px;
+}
+
+.zse-toggle[data-disabled] {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.zse-toggle-icon {
+    flex: none;
+    width: 16px;
+    height: 16px;
+}
+
+.zse-toggle-swap {
+    display: grid;
+}
+
+.zse-toggle-swap > .zse-toggle-icon {
+    grid-area: 1 / 1;
+    transition-property: opacity, scale, filter;
+    transition-duration: 300ms;
+    transition-timing-function: var(--ease-standard);
+}
+
+.zse-toggle:not([data-pressed]) .zse-toggle-icon[data-when="on"],
+.zse-toggle[data-pressed] .zse-toggle-icon[data-when="off"] {
+    opacity: 0;
+    scale: 0.25;
+    filter: blur(4px);
+}
+
+.zse-toggle-group {
+    display: inline-flex;
+    gap: 2px;
+}
+
+.zse-toggle-group[data-variant="outline"] {
+    gap: 0;
+}
+
+.zse-toggle-group[data-variant="outline"] > .zse-toggle:not(:first-child) {
+    margin-inline-start: -1px;
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+}
+
+.zse-toggle-group[data-variant="outline"] > .zse-toggle:not(:last-child) {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+}
+
+.zse-toggle-group[data-variant="outline"] > .zse-toggle[data-pressed],
+.zse-toggle-group[data-variant="outline"] > .zse-toggle:focus-visible {
+    z-index: 1;
+}
+
+.zse-toggle-group[data-variant="outline"] > .zse-toggle:active {
+    scale: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-toggle:active {
+        scale: 1;
+    }
+
+    .zse-toggle-swap > .zse-toggle-icon {
+        transition-property: opacity;
+    }
+
+    .zse-toggle .zse-toggle-icon {
+        scale: 1 !important;
+        filter: none !important;
+    }
+}

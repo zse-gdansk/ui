@@ -216,3 +216,10 @@ export {
     type StepperProps,
     type StepperStep,
 } from "./components/stepper/Stepper";
+export {
+    Toggle,
+    ToggleGroup,
+    type ToggleGroupItem,
+    type ToggleGroupProps,
+    type ToggleProps,
+} from "./components/toggle/Toggle";
