@@ -258,3 +258,10 @@ body {
 .context-area span {
     color: var(--color-text-secondary);
 }
+
+.accordion-demo {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 560px;
+}

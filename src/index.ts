@@ -163,3 +163,10 @@ export {
     PopoverClose,
     type PopoverProps,
 } from "./components/popover/Popover";
+export {
+    Accordion,
+    Collapsible,
+    type AccordionItem,
+    type AccordionProps,
+    type CollapsibleProps,
+} from "./components/accordion/Accordion";

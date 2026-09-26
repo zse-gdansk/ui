@@ -34,6 +34,7 @@ import {
 } from "@zse-gdansk/ui";
 import { useState } from "react";
 
+import { AccordionDemo } from "./AccordionDemo";
 import { AlertDemo } from "./AlertDemo";
 import { AvatarDemo } from "./AvatarDemo";
 import { BadgeDemo } from "./BadgeDemo";
@@ -442,6 +443,8 @@ export function App() {
             <ProgressDemo />
 
             <SkeletonDemo />
+
+            <AccordionDemo />
 
             <CalendarDemo />
 
