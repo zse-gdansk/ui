@@ -12,6 +12,8 @@ import {
     createContext,
     useContext,
     useId,
+    useLayoutEffect,
+    useRef,
     useState,
     type ReactElement,
     type ReactNode,
@@ -166,9 +168,27 @@ export interface SidebarContentProps {
 // Środek panelu, przewija się niezależnie od strony.
 export function SidebarContent({ children, label }: SidebarContentProps) {
     const t = useMessages();
+    const navRef = useRef<HTMLElement>(null);
+
+    useLayoutEffect(() => {
+        const nav = navRef.current;
+        const viewport = nav?.closest<HTMLElement>(".zse-scroll-viewport");
+        const active = nav?.querySelector<HTMLElement>('[aria-current="page"]');
+        if (!viewport || !active) return;
+        const view = viewport.getBoundingClientRect();
+        const item = active.getBoundingClientRect();
+        const fade =
+            parseFloat(getComputedStyle(viewport).scrollPaddingTop) || 0;
+        if (item.top >= view.top + fade && item.bottom <= view.bottom - fade)
+            return;
+        viewport.scrollTop +=
+            item.top - view.top - (view.height - item.height) / 2;
+    });
+
     return (
         <ScrollArea className="zse-sidebar-content" arrows={false}>
             <nav
+                ref={navRef}
                 className="zse-sidebar-nav"
                 aria-label={label ?? t.appShell.navigation}
             >

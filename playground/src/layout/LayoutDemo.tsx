@@ -7,6 +7,17 @@ import {
     DashboardSquare01Icon,
     Globe02Icon,
     Home01Icon,
+    BellIcon,
+    Bus01Icon,
+    Clock01Icon,
+    Database01Icon,
+    DoorIcon,
+    FileImportIcon,
+    LibraryIcon,
+    Shield01Icon,
+    TeacherIcon,
+    UserMultipleIcon,
+    UserSwitchIcon,
     Logout03Icon,
     PaintBoardIcon,
     Settings02Icon,
@@ -124,6 +135,50 @@ function Nav({ pathname }: { pathname: string }) {
                         Ogłoszenia
                     </SidebarItem>
                 </SidebarGroup>
+                <SidebarGroup label="Szkoła">
+                    <SidebarItem icon={TeacherIcon} {...item("/nauczyciele")}>
+                        Nauczyciele
+                    </SidebarItem>
+                    <SidebarItem icon={DoorIcon} {...item("/sale")}>
+                        Sale
+                    </SidebarItem>
+                    <SidebarItem icon={BellIcon} {...item("/dzwonki")}>
+                        Dzwonki
+                    </SidebarItem>
+                    <SidebarItem
+                        icon={UserSwitchIcon}
+                        badge={2}
+                        {...item("/zastepstwa")}
+                    >
+                        Zastępstwa
+                    </SidebarItem>
+                    <SidebarItem icon={Bus01Icon} {...item("/wycieczki")}>
+                        Wycieczki
+                    </SidebarItem>
+                    <SidebarItem icon={LibraryIcon} {...item("/biblioteka")}>
+                        Biblioteka
+                    </SidebarItem>
+                </SidebarGroup>
+                <SidebarGroup label="Administracja">
+                    <SidebarItem
+                        icon={UserMultipleIcon}
+                        {...item("/uzytkownicy")}
+                    >
+                        Użytkownicy
+                    </SidebarItem>
+                    <SidebarItem icon={Shield01Icon} {...item("/uprawnienia")}>
+                        Uprawnienia
+                    </SidebarItem>
+                    <SidebarItem icon={FileImportIcon} {...item("/import")}>
+                        Import danych
+                    </SidebarItem>
+                    <SidebarItem icon={Database01Icon} {...item("/kopie")}>
+                        Kopie zapasowe
+                    </SidebarItem>
+                    <SidebarItem icon={Clock01Icon} {...item("/logi")}>
+                        Historia zmian
+                    </SidebarItem>
+                </SidebarGroup>
                 <SidebarGroup label="Inne">
                     <SidebarItem icon={Settings01Icon} {...item("/ustawienia")}>
                         Ustawienia
@@ -204,6 +259,17 @@ const TITLES: Record<string, string> = {
     "/glosowania": "Głosowania",
     "/ogloszenia": "Ogłoszenia",
     "/ustawienia": "Ustawienia",
+    "/nauczyciele": "Nauczyciele",
+    "/sale": "Sale",
+    "/dzwonki": "Dzwonki",
+    "/zastepstwa": "Zastępstwa",
+    "/wycieczki": "Wycieczki",
+    "/biblioteka": "Biblioteka",
+    "/uzytkownicy": "Użytkownicy",
+    "/uprawnienia": "Uprawnienia",
+    "/import": "Import danych",
+    "/kopie": "Kopie zapasowe",
+    "/logi": "Historia zmian",
 };
 
 function crumbsFor(pathname: string) {

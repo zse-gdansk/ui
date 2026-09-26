@@ -11,6 +11,11 @@
     min-width: 0;
 }
 
+/* Wysuwany panel na telefonie: pozycje w wysokości palca (touch-target). */
+.zse-sidebar[data-drawer] {
+    --sidebar-item-height: 40px;
+}
+
 .zse-sidebar-header {
     display: flex;
     flex: none;
