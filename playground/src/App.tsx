@@ -25,6 +25,7 @@ import {
     Select,
     Switch,
     Tabs,
+    Textarea,
     toast,
     Toaster,
     Tooltip,
@@ -162,6 +163,23 @@ export function App() {
                     disabled
                     hint="Pole zablokowane"
                 />
+                <Textarea
+                    label="Uwagi do pracy"
+                    placeholder="Co poprawić w następnym zadaniu…"
+                    hint="Uczeń zobaczy je przy ocenie"
+                    maxLength={300}
+                />
+                <Textarea
+                    label="Opis zadania"
+                    rows={4}
+                    maxRows={false}
+                    defaultValue="Napisz program, który wczytuje listę uczniów z pliku CSV i wypisuje średnią punktów z każdego zadania."
+                />
+                <Textarea
+                    label="Uzasadnienie"
+                    error="Uzasadnienie jest wymagane"
+                />
+                <Textarea label="Notatka" disabled defaultValue="Zablokowane" />
                 <Select
                     label="Klasa"
                     placeholder="Wybierz klasę"

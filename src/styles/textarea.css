@@ -1,0 +1,54 @@
+/* Wysokość z wierszy: line-height x wiersze + padding + ramka. */
+.zse-textarea .zse-textarea-field {
+    --textarea-line: 1.5em;
+    --textarea-chrome: calc(2 * var(--textarea-pad-y) + 2px);
+    --textarea-pad-y: 9px;
+
+    display: block;
+    height: auto;
+    min-height: calc(
+        var(--textarea-rows) * var(--textarea-line) + var(--textarea-chrome)
+    );
+    padding-block: var(--textarea-pad-y);
+    line-height: var(--textarea-line);
+    resize: vertical;
+    scroll-padding-block: var(--textarea-pad-y);
+}
+
+.zse-textarea .zse-textarea-field[data-autosize] {
+    max-height: calc(
+        var(--textarea-max-rows) * var(--textarea-line) + var(--textarea-chrome)
+    );
+    overflow-y: auto;
+    resize: none;
+}
+
+.zse-textarea-field::-webkit-resizer {
+    background: transparent;
+}
+
+.zse-textarea-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+
+.zse-textarea-count {
+    margin-inline-start: auto;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.4;
+    white-space: nowrap;
+    transition-property: color;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: ease;
+}
+
+.zse-textarea-count[data-near] {
+    color: var(--color-warning-text);
+}
+
+.zse-textarea-count[data-over] {
+    color: var(--color-danger-text);
+}
