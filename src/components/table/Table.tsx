@@ -26,6 +26,8 @@ export interface TableProps extends HTMLAttributes<HTMLTableElement> {
     // Z wysokością przewija się też w pionie i nagłówek się przykleja.
     maxHeight?: CSSProperties["maxHeight"];
     size?: "sm" | "md";
+    // Co drugi wiersz z innym tłem, łatwiej prowadzić wzrok w szerokiej siatce.
+    striped?: boolean;
 }
 
 // Znaczniki krawędzi na kontenerze, cienie przy przyklejonych częściach
@@ -86,6 +88,7 @@ export function Table({
     label,
     maxHeight,
     size = "md",
+    striped = false,
     className,
     ...props
 }: TableProps) {
@@ -103,6 +106,7 @@ export function Table({
             <table
                 {...props}
                 data-size={size}
+                data-striped={striped || undefined}
                 className={cx("zse-table", className)}
             />
         </section>

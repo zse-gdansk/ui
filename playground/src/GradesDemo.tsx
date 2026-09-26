@@ -70,7 +70,7 @@ export function GradesDemo() {
     }
 
     return (
-        <Table label="Wyniki sprawdzianu, klasa 3C" maxHeight={360}>
+        <Table label="Wyniki sprawdzianu, klasa 3C" maxHeight={360} striped>
             <TableHeader>
                 <TableRow>
                     <TableHead

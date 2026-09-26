@@ -10,6 +10,11 @@
         var(--color-bg-surface),
         var(--color-accent-solid) 10%
     );
+    --table-stripe-bg: color-mix(
+        in oklch,
+        var(--color-bg-surface),
+        var(--color-text) 2%
+    );
     --table-shadow: oklch(0% 0 0 / 14%);
 
     position: relative;
@@ -79,6 +84,12 @@
 .zse-table-scroller[data-scroll-top] .zse-table-head {
     --edge-y: 0 8px 10px -8px var(--table-shadow);
     border-bottom-color: var(--color-border);
+}
+
+/* :where, żeby hover i zaznaczenie zawsze wygrywały z pasem. */
+.zse-table[data-striped]
+    :where(.zse-table-body .zse-table-row:nth-child(even)) {
+    --table-row-bg: var(--table-stripe-bg);
 }
 
 @media (hover: hover) {
