@@ -329,3 +329,14 @@ body {
     margin: 4px 0 0;
     color: var(--color-text-secondary);
 }
+
+.stat-demo {
+    display: grid;
+    gap: 16px;
+}
+
+.stat-demo-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+    gap: 12px;
+}

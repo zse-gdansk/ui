@@ -171,4 +171,10 @@ export const pl: Messages = {
         escape: "Esc",
     },
     localeSwitcher: { label: "Język" },
+    stat: {
+        noData: "Brak danych",
+        increase: (delta) => `wzrost o ${delta}`,
+        decrease: (delta) => `spadek o ${delta}`,
+        unchanged: "bez zmian",
+    },
 };

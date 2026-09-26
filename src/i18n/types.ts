@@ -137,6 +137,12 @@ export interface Messages {
     accordion: { showDetails: string };
     kbd: { space: string; backspace: string; delete: string; escape: string };
     localeSwitcher: { label: string };
+    stat: {
+        noData: string;
+        increase: (delta: string) => string;
+        decrease: (delta: string) => string;
+        unchanged: string;
+    };
 }
 
 // Częściowe nadpisanie katalogu, np. zmiana jednego tekstu w aplikacji.

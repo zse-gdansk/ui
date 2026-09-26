@@ -1,0 +1,223 @@
+.zse-stat {
+    --stat-value-size: 1.75rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+    container-type: inline-size;
+}
+
+.zse-stat[data-size="sm"] {
+    --stat-value-size: 1.25rem;
+
+    gap: 4px;
+}
+
+.zse-stat[data-size="lg"] {
+    --stat-value-size: 2.25rem;
+}
+
+.zse-stat[data-tone="success"] {
+    --stat-tone: var(--color-success-text);
+}
+
+.zse-stat[data-tone="danger"] {
+    --stat-tone: var(--color-danger-text);
+}
+
+.zse-stat[data-tone="neutral"] {
+    --stat-tone: var(--color-text-secondary);
+}
+
+.zse-stat-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.3;
+}
+
+.zse-stat-label > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.zse-stat-label svg {
+    flex: none;
+}
+
+.zse-stat-body {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.zse-stat-main {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+}
+
+.zse-stat-value {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    color: var(--color-text);
+    white-space: nowrap;
+}
+
+/* Cyfry o stałej szerokości: dojeżdżająca liczba nie drga. Duże stopnie
+   ciaśniej, jak w nagłówkach. */
+.zse-stat-number {
+    font-size: var(--stat-value-size);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.zse-stat-number[data-empty] {
+    color: var(--color-text-disabled);
+}
+
+.zse-stat-unit {
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.zse-stat[data-size="sm"] .zse-stat-unit {
+    font-size: 0.8125rem;
+}
+
+.zse-stat-value-skeleton,
+.zse-stat-change-skeleton {
+    justify-self: start;
+}
+
+.zse-stat-change {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px 6px;
+    font-size: 0.8125rem;
+    line-height: 1.3;
+}
+
+.zse-stat-delta {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    color: var(--stat-tone);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+}
+
+.zse-stat-delta svg {
+    flex: none;
+}
+
+.zse-stat-delta-label {
+    color: var(--color-text-secondary);
+}
+
+.zse-stat-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.zse-stat-description {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    text-wrap: pretty;
+}
+
+/* Kolor wykresu idzie za kierunkiem zmiany; bez zmiany jest szary. */
+.zse-stat-trend {
+    flex: none;
+    width: 96px;
+    height: 32px;
+    overflow: visible;
+    color: var(--stat-tone);
+}
+
+.zse-stat[data-size="sm"] .zse-stat-trend {
+    width: 72px;
+    height: 24px;
+}
+
+.zse-stat-trend-line {
+    stroke-width: 1.75px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 700ms var(--ease-out);
+
+    @starting-style {
+        stroke-dashoffset: 1;
+    }
+}
+
+.zse-stat-trend-area,
+.zse-stat-trend-dot,
+.zse-stat-trend-halo {
+    transition: opacity 400ms var(--ease-out) 300ms;
+
+    @starting-style {
+        opacity: 0;
+    }
+}
+
+.zse-stat-trend-halo {
+    opacity: 0.18;
+}
+
+/* Wąska karta: wykres pod liczbą na całą szerokość. */
+@container (max-width: 240px) {
+    .zse-stat-body {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .zse-stat-trend {
+        width: 100%;
+    }
+}
+
+.zse-stat-group {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(min(var(--stat-min, 180px), 100%), 1fr)
+    );
+    overflow: hidden;
+}
+
+.zse-stat-group > .zse-stat {
+    padding: 16px 20px;
+    box-shadow: -1px -1px 0 var(--color-separator);
+}
+
+.zse-stat-group[data-variant="outline"] {
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-lg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-stat-trend-line {
+        transition: none;
+    }
+}

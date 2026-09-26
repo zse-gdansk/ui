@@ -240,6 +240,12 @@ export {
     type PasswordStrengthProps,
 } from "./components/password-strength/PasswordStrength";
 export {
+    Stat,
+    StatGroup,
+    type StatGroupProps,
+    type StatProps,
+} from "./components/stat/Stat";
+export {
     LocaleSwitcher,
     type FlagComponent,
     type LocaleSwitcherProps,
