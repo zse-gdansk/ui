@@ -41,6 +41,7 @@ import { ComboboxDemo } from "./ComboboxDemo";
 import { GradesDemo } from "./GradesDemo";
 import { MenuDemo } from "./MenuDemo";
 import { NumberDemo } from "./NumberDemo";
+import { ProgressDemo } from "./ProgressDemo";
 import { SheetDemo } from "./SheetDemo";
 import { SkeletonDemo } from "./SkeletonDemo";
 import { UploadDemo } from "./UploadDemo";
@@ -417,6 +418,8 @@ export function App() {
             </section>
 
             <SheetDemo />
+
+            <ProgressDemo />
 
             <SkeletonDemo />
 

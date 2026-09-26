@@ -155,3 +155,15 @@ body {
     flex-direction: column;
     gap: 16px;
 }
+
+.progress-demo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 32px;
+}
+
+.progress-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

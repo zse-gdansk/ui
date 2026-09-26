@@ -1,0 +1,211 @@
+@property --zse-progress {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+}
+
+.zse-progress {
+    --progress-height: 6px;
+    --progress-tone: var(--color-accent-solid);
+    --progress-text: var(--color-text);
+    --progress-track: color-mix(in oklab, var(--color-text) 9%, transparent);
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.zse-progress[data-size="sm"] {
+    --progress-height: 4px;
+}
+
+.zse-progress[data-size="lg"] {
+    --progress-height: 10px;
+}
+
+.zse-progress[data-tone="success"],
+.zse-progress[data-complete] {
+    --progress-tone: var(--color-success-solid);
+    --progress-text: var(--color-success-text);
+}
+
+.zse-progress[data-tone="warning"] {
+    --progress-tone: var(--color-warning-solid);
+    --progress-text: var(--color-warning-text);
+}
+
+.zse-progress[data-tone="danger"] {
+    --progress-tone: var(--color-danger-solid);
+    --progress-text: var(--color-danger-text);
+}
+
+.zse-progress-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.875rem;
+    line-height: 1.3;
+}
+
+.zse-progress-label {
+    min-width: 0;
+    overflow: hidden;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.zse-progress-value {
+    flex: none;
+    margin-inline-start: auto;
+    color: var(--progress-text);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    transition: color 300ms ease;
+}
+
+.zse-progress-track {
+    position: relative;
+    height: var(--progress-height);
+    overflow: hidden;
+    border-radius: var(--radius-full);
+    background: var(--progress-track);
+}
+
+.zse-progress-indicator {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--progress-tone);
+    transform: translateX(calc((var(--zse-progress) - 1) * 100%));
+    transition:
+        transform 500ms var(--ease-out),
+        background-color 300ms ease;
+
+    /* Przy pierwszym renderze wypełnia się od zera. */
+    @starting-style {
+        transform: translateX(-100%);
+    }
+}
+
+/* Nieznany czas: krótki odcinek przejeżdża przez tor. */
+.zse-progress-indicator[data-indeterminate] {
+    right: auto;
+    width: 40%;
+    transform: none;
+    animation: zse-progress-slide 1.4s var(--ease-standard) infinite;
+}
+
+@keyframes zse-progress-slide {
+    from {
+        translate: -100% 0;
+    }
+    to {
+        translate: 250% 0;
+    }
+}
+
+.zse-progress-track[data-segmented] {
+    --gap: 3px;
+    --piece: calc(
+        (100% - (var(--segments) - 1) * var(--gap)) / var(--segments)
+    );
+
+    border-radius: 2px;
+    mask-image: repeating-linear-gradient(
+        to right,
+        #000 0 var(--piece),
+        transparent var(--piece) calc(var(--piece) + var(--gap))
+    );
+}
+
+.zse-progress-track[data-segmented] .zse-progress-indicator {
+    border-radius: 0;
+}
+
+.zse-progress[data-shape="ring"] {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+
+.zse-progress[data-shape="ring"] .zse-progress-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
+.zse-progress-ring {
+    --ring-thickness: max(3px, calc(var(--ring-size) * 0.1));
+
+    position: relative;
+    display: grid;
+    flex: none;
+    width: var(--ring-size);
+    height: var(--ring-size);
+    place-items: center;
+    transition: --zse-progress 600ms var(--ease-out);
+
+    @starting-style {
+        --zse-progress: 0;
+    }
+}
+
+.zse-progress-ring::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(
+        var(--progress-tone) calc(var(--zse-progress) * 1turn),
+        var(--progress-track) 0
+    );
+    mask-image: radial-gradient(
+        farthest-side,
+        transparent calc(100% - var(--ring-thickness)),
+        #000 calc(100% - var(--ring-thickness) + 0.5px)
+    );
+    transition: background-color 300ms ease;
+}
+
+.zse-progress-ring[data-indeterminate]::before {
+    background: conic-gradient(
+        var(--progress-tone) 0.25turn,
+        var(--progress-track) 0
+    );
+    animation: zse-spin 900ms linear infinite;
+}
+
+.zse-progress-ring-value {
+    position: relative;
+    color: var(--progress-text);
+    font-size: calc(var(--ring-size) * 0.26);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-progress-indicator,
+    .zse-progress-ring {
+        transition: none;
+    }
+
+    .zse-progress-indicator[data-indeterminate],
+    .zse-progress-ring[data-indeterminate]::before {
+        width: 100%;
+        translate: none;
+        animation: zse-progress-pulse 1.6s ease-in-out infinite alternate;
+    }
+
+    @keyframes zse-progress-pulse {
+        to {
+            opacity: 0.4;
+        }
+    }
+}

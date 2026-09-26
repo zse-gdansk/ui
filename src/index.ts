@@ -120,3 +120,9 @@ export {
     type SearchOptions,
     type SearchResult,
 } from "./search/search";
+export {
+    Meter,
+    Progress,
+    type MeterProps,
+    type ProgressProps,
+} from "./components/progress/Progress";
