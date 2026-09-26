@@ -24,7 +24,7 @@ export function InputGroupDemo() {
         <section className="fields">
             <InputGroup
                 label="Adres strony klasy"
-                suffix=".zse.edu.pl"
+                suffix=".zse.edu.gdansk.pl"
                 placeholder="twoja-klasa"
                 check={checkName}
                 successHint="Adres jest wolny"
@@ -35,7 +35,7 @@ export function InputGroupDemo() {
             <InputGroup
                 label="E-mail szkolny"
                 icon={Mail01Icon}
-                suffix="@zse.edu.pl"
+                suffix="@zse.edu.gdansk.pl"
                 placeholder="jan.kowalski"
             />
             <InputGroup
@@ -43,7 +43,7 @@ export function InputGroupDemo() {
                 icon={Globe02Icon}
                 prefix="https://"
                 status="success"
-                defaultValue="zse.edu.pl"
+                defaultValue="zse.edu.gdansk.pl"
                 size="sm"
             />
         </section>

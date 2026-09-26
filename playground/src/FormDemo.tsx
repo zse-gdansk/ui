@@ -24,7 +24,7 @@ const schema = z.object({
         .string()
         .trim()
         .min(2, "Nazwisko musi mieć co najmniej 2 znaki"),
-    email: z.email("Wpisz adres e-mail, np. jan.kowalski@zse.edu.pl"),
+    email: z.email("Wpisz adres e-mail, np. jan.kowalski@zse.edu.gdansk.pl"),
     klasa: z.string({ error: "Wybierz klasę" }),
     punkty: z
         .number({ error: "Wpisz liczbę punktów" })
@@ -42,7 +42,7 @@ const schema = z.object({
 // Udawany serwer: 1 s, zajęty adres wraca jako błąd pola.
 async function send(values: z.infer<typeof schema>) {
     await new Promise((done) => setTimeout(done, 1000));
-    if (values.email === "zajety@zse.edu.pl")
+    if (values.email === "zajety@zse.edu.gdansk.pl")
         return { errors: { email: "Ten adres jest już zarejestrowany" } };
     toast.success(`Zapisano zgłoszenie: ${values.imie} ${values.nazwisko}`);
 }
@@ -65,7 +65,7 @@ export function FormDemo() {
                             label="E-mail"
                             type="email"
                             autoComplete="email"
-                            hint="Adres zajety@zse.edu.pl pokaże błąd z serwera"
+                            hint="Adres zajety@zse.edu.gdansk.pl pokaże błąd z serwera"
                         />
                         <FormRow>
                             <Select

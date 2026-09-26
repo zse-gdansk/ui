@@ -111,7 +111,7 @@ function Nav({
                     </SidebarItem>
                     <SidebarItem
                         icon={Globe02Icon}
-                        href="https://zse.edu.pl"
+                        href="https://zse.edu.gdansk.pl/pl"
                         external
                     >
                         Strona szkoły
