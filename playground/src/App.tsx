@@ -46,6 +46,7 @@ import { ComboboxDemo } from "./ComboboxDemo";
 import { EmptyDemo } from "./EmptyDemo";
 import { FormDemo } from "./FormDemo";
 import { GradesDemo } from "./GradesDemo";
+import { InputGroupDemo } from "./InputGroupDemo";
 import { LinkDemo } from "./LinkDemo";
 import { MenuDemo } from "./MenuDemo";
 import { MiscDemo } from "./MiscDemo";
@@ -449,6 +450,8 @@ export function App() {
             <ProgressDemo />
 
             <SkeletonDemo />
+
+            <InputGroupDemo />
 
             <ToggleDemo />
 

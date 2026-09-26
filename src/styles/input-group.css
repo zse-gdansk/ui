@@ -1,0 +1,187 @@
+.zse-input-group {
+    --group-height: 40px;
+}
+
+.zse-input-group[data-size="sm"] {
+    --group-height: 36px;
+}
+
+.zse-input-group[data-size="lg"] {
+    --group-height: 48px;
+}
+
+/* Ramką jest cała grupa, w środku przedrostek, pole, przyrostek i status. */
+.zse-input-group-box {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    box-sizing: border-box;
+    height: var(--group-height);
+    padding-inline: var(--input-pad);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-muted);
+    outline: 1.5px solid transparent;
+    outline-offset: 1.5px;
+    cursor: text;
+    transition-property: background-color, border-color, outline-color;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out);
+}
+
+.zse-input-group-box:focus-within {
+    border-color: var(--color-focus-ring);
+    background: var(--color-bg-hover);
+    outline-color: var(--color-focus-ring);
+}
+
+.zse-input-group[data-invalid] .zse-input-group-box {
+    border-color: var(--color-danger-solid);
+}
+
+.zse-input-group[data-invalid] .zse-input-group-box:focus-within {
+    outline-color: var(--color-danger-solid);
+}
+
+.zse-input-group-input {
+    flex: 1;
+    min-width: 1ch;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-text);
+    caret-color: var(--color-text);
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    outline: none;
+}
+
+.zse-input-group-input[data-hugging] {
+    flex: 0 1 auto;
+}
+
+.zse-input-group-spacer {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.zse-input-group-mirror {
+    position: absolute;
+    visibility: hidden;
+    white-space: pre;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    pointer-events: none;
+}
+
+.zse-input-group-input::placeholder {
+    font-weight: 400;
+}
+
+.zse-input-group-input::placeholder {
+    color: var(--color-text-secondary);
+    opacity: 1;
+}
+
+@media (min-width: 640px) {
+    .zse-input-group:not([data-size="lg"])
+        :is(
+            .zse-input-group-input,
+            .zse-input-group-affix,
+            .zse-input-group-mirror
+        ) {
+        font-size: 0.875rem;
+    }
+}
+
+.zse-input-group-affix {
+    flex: none;
+    color: color-mix(in oklab, var(--color-text-secondary) 75%, transparent);
+    font-size: 1rem;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.zse-input-group-affix[data-side="end"] {
+    flex: 0 1000 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.zse-input-group-icon {
+    display: flex;
+    flex: none;
+    margin-inline-end: var(--input-gap);
+    color: var(--color-text-secondary);
+}
+
+.zse-input-group-icon svg,
+.zse-input-group-status svg {
+    width: var(--input-icon-size);
+    height: var(--input-icon-size);
+}
+
+.zse-input-group-status {
+    display: grid;
+    flex: none;
+    margin-inline-start: var(--input-gap);
+}
+
+.zse-input-group-status > span {
+    display: flex;
+    grid-area: 1 / 1;
+    transition-property: opacity, scale, filter;
+    transition-duration: 300ms;
+    transition-timing-function: var(--ease-standard);
+}
+
+.zse-input-group-status > [data-layer="loading"] {
+    color: var(--color-text-secondary);
+}
+
+.zse-input-group-status > [data-layer="success"] {
+    color: var(--color-success-text);
+}
+
+.zse-input-group-status > [data-layer="error"] {
+    color: var(--color-danger-text);
+}
+
+.zse-input-group-status > [data-hidden] {
+    opacity: 0;
+    scale: 0.25;
+    filter: blur(4px);
+}
+
+.zse-input-group-spinner {
+    animation: zse-spin 700ms linear infinite;
+}
+
+.zse-input-group[data-status="success"] .zse-input-description {
+    color: var(--color-success-text);
+}
+
+.zse-input-group-live {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-input-group-status > span {
+        transition-property: opacity;
+    }
+
+    .zse-input-group-status > [data-hidden] {
+        scale: 1;
+        filter: none;
+    }
+}

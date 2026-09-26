@@ -223,3 +223,7 @@ export {
     type ToggleGroupProps,
     type ToggleProps,
 } from "./components/toggle/Toggle";
+export {
+    InputGroup,
+    type InputGroupProps,
+} from "./components/input-group/InputGroup";
