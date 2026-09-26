@@ -13,6 +13,7 @@
 
 .zse-select-value {
     min-width: 0;
+    line-height: 1.3;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -72,9 +73,7 @@
 }
 
 .zse-select-list {
-    max-height: var(--available-height);
-    overflow-y: auto;
-    scroll-padding-block: 4px;
+    outline: none;
 }
 
 .zse-select-item {

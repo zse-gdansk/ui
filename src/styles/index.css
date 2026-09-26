@@ -4,7 +4,9 @@
 @import "./input.css";
 @import "./textarea.css";
 @import "./file-upload.css";
+@import "./scroll-area.css";
 @import "./select.css";
+@import "./combobox.css";
 @import "./checkbox.css";
 @import "./switch.css";
 @import "./radio.css";

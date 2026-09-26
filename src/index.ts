@@ -102,3 +102,12 @@ export {
     type FileUploadProps,
     type UploadContext,
 } from "./components/file-upload/FileUpload";
+export {
+    Combobox,
+    type ComboboxOption,
+    type ComboboxProps,
+} from "./components/combobox/Combobox";
+export {
+    ScrollArea,
+    type ScrollAreaProps,
+} from "./components/scroll-area/ScrollArea";

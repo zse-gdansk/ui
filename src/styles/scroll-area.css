@@ -1,0 +1,161 @@
+@property --zse-fade-top {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0px;
+}
+
+@property --zse-fade-bottom {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0px;
+}
+
+@property --zse-fade-left {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0px;
+}
+
+@property --zse-fade-right {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0px;
+}
+
+.zse-scroll {
+    --scroll-fade: 28px;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.zse-scroll-viewport {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+    scroll-padding: var(--scroll-fade);
+    mask-image:
+        linear-gradient(
+            to bottom,
+            transparent,
+            #000 var(--zse-fade-top),
+            #000 calc(100% - var(--zse-fade-bottom)),
+            transparent
+        ),
+        linear-gradient(
+            to right,
+            transparent,
+            #000 var(--zse-fade-left),
+            #000 calc(100% - var(--zse-fade-right)),
+            transparent
+        );
+    mask-composite: intersect;
+    transition-property:
+        --zse-fade-top, --zse-fade-bottom, --zse-fade-left, --zse-fade-right;
+    transition-duration: 200ms;
+    transition-timing-function: var(--ease-out);
+}
+
+.zse-scroll:is([data-axis="vertical"], [data-axis="both"])
+    > .zse-scroll-viewport {
+    overflow-y: auto;
+}
+
+.zse-scroll:is([data-axis="horizontal"], [data-axis="both"])
+    > .zse-scroll-viewport {
+    overflow-x: auto;
+}
+
+.zse-scroll[data-scroll-top] > .zse-scroll-viewport {
+    --zse-fade-top: var(--scroll-fade);
+}
+
+.zse-scroll[data-scroll-bottom] > .zse-scroll-viewport {
+    --zse-fade-bottom: var(--scroll-fade);
+}
+
+.zse-scroll[data-scroll-left] > .zse-scroll-viewport {
+    --zse-fade-left: var(--scroll-fade);
+}
+
+.zse-scroll[data-scroll-right] > .zse-scroll-viewport {
+    --zse-fade-right: var(--scroll-fade);
+}
+
+.zse-scroll-arrow {
+    position: absolute;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    color: var(--color-text-secondary);
+    opacity: 0;
+    pointer-events: none;
+    transition-property: opacity, translate;
+    transition-duration: 200ms;
+    transition-timing-function: var(--ease-out);
+}
+
+.zse-scroll-arrow[data-edge="top"],
+.zse-scroll-arrow[data-edge="bottom"] {
+    inset-inline: 0;
+    height: 20px;
+}
+
+.zse-scroll-arrow[data-edge="left"],
+.zse-scroll-arrow[data-edge="right"] {
+    inset-block: 0;
+    width: 20px;
+}
+
+.zse-scroll-arrow[data-edge="top"] {
+    top: 0;
+    translate: 0 -4px;
+}
+
+.zse-scroll-arrow[data-edge="bottom"] {
+    bottom: 0;
+    translate: 0 4px;
+}
+
+.zse-scroll-arrow[data-edge="left"] {
+    left: 0;
+    translate: -4px 0;
+}
+
+.zse-scroll-arrow[data-edge="right"] {
+    right: 0;
+    translate: 4px 0;
+}
+
+.zse-scroll[data-scroll-top] > .zse-scroll-arrow[data-edge="top"],
+.zse-scroll[data-scroll-bottom] > .zse-scroll-arrow[data-edge="bottom"],
+.zse-scroll[data-scroll-left] > .zse-scroll-arrow[data-edge="left"],
+.zse-scroll[data-scroll-right] > .zse-scroll-arrow[data-edge="right"] {
+    opacity: 1;
+    translate: 0 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .zse-scroll[data-scroll-top] > .zse-scroll-arrow[data-edge="top"],
+    .zse-scroll[data-scroll-bottom] > .zse-scroll-arrow[data-edge="bottom"],
+    .zse-scroll[data-scroll-left] > .zse-scroll-arrow[data-edge="left"],
+    .zse-scroll[data-scroll-right] > .zse-scroll-arrow[data-edge="right"] {
+        pointer-events: auto;
+        cursor: default;
+    }
+
+    .zse-scroll-arrow:hover {
+        color: var(--color-text);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-scroll-arrow {
+        translate: none !important;
+    }
+}

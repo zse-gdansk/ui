@@ -6,6 +6,7 @@ import { ArrowDown01Icon, Tick02Icon } from "@hugeicons/core-free-icons";
 import type { ComponentProps, ReactNode } from "react";
 
 import { Icon } from "../icon/Icon";
+import { ScrollArea } from "../scroll-area/ScrollArea";
 
 export interface SelectOption {
     value: string;
@@ -109,23 +110,25 @@ export function Select({
                         alignItemWithTrigger={false}
                     >
                         <BaseSelect.Popup className="zse-select-popup">
-                            <BaseSelect.List className="zse-select-list">
-                                {options.map((option) => (
-                                    <BaseSelect.Item
-                                        key={option.value}
-                                        value={option.value}
-                                        disabled={option.disabled}
-                                        className="zse-select-item"
-                                    >
-                                        <BaseSelect.ItemText className="zse-select-item-text">
-                                            {option.label}
-                                        </BaseSelect.ItemText>
-                                        <BaseSelect.ItemIndicator className="zse-select-item-indicator">
-                                            <Icon icon={Tick02Icon} />
-                                        </BaseSelect.ItemIndicator>
-                                    </BaseSelect.Item>
-                                ))}
-                            </BaseSelect.List>
+                            <ScrollArea maxHeight="var(--available-height)">
+                                <BaseSelect.List className="zse-select-list">
+                                    {options.map((option) => (
+                                        <BaseSelect.Item
+                                            key={option.value}
+                                            value={option.value}
+                                            disabled={option.disabled}
+                                            className="zse-select-item"
+                                        >
+                                            <BaseSelect.ItemText className="zse-select-item-text">
+                                                {option.label}
+                                            </BaseSelect.ItemText>
+                                            <BaseSelect.ItemIndicator className="zse-select-item-indicator">
+                                                <Icon icon={Tick02Icon} />
+                                            </BaseSelect.ItemIndicator>
+                                        </BaseSelect.Item>
+                                    ))}
+                                </BaseSelect.List>
+                            </ScrollArea>
                         </BaseSelect.Popup>
                     </BaseSelect.Positioner>
                 </BaseSelect.Portal>
