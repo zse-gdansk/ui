@@ -57,6 +57,9 @@ export interface UseTableOptions<Row> {
     // a total to liczba wszystkich pasujących wierszy.
     manual?: boolean;
     total?: number;
+    // Klucz wiersza do zaznaczania. Bez niego liczy się obiekt, więc
+    // zaznaczenie znika, gdy wiersz dostaje nowy obiekt po edycji.
+    getRowId?: (row: Row) => string | number;
 }
 
 export interface TableFilterFacet {
@@ -67,6 +70,17 @@ export interface TableFilterFacet {
     options: readonly (TableFilterOption & { count?: number })[];
     selected: readonly string[];
     onChange: (selected: readonly string[]) => void;
+}
+
+// Stan zaznaczenia dla TableToolbar, który zamienia się w pasek akcji.
+export interface TableSelectionSummary {
+    count: number;
+    total: number;
+    allSelected: boolean;
+    // Cała strona zaznaczona, a pasujących wierszy jest więcej.
+    canSelectAll: boolean;
+    onSelectAll: () => void;
+    onClear: () => void;
 }
 
 const DEFAULT_STATE: TableState = {
@@ -121,6 +135,7 @@ export function useTable<Row>({
     onStateChange,
     manual = false,
     total: manualTotal,
+    getRowId,
 }: UseTableOptions<Row>) {
     const t = useMessages();
     const [inner, setInner] = useState<TableState>(() => ({
@@ -128,6 +143,9 @@ export function useTable<Row>({
         ...initialState,
     }));
     const state = controlled ?? inner;
+    const [picked, setPicked] = useState<ReadonlySet<unknown>>(() => new Set());
+    // Ostatnio kliknięty wiersz, od niego liczy się zakres z Shiftem.
+    const [anchor, setAnchor] = useState<unknown>(null);
 
     const update = (patch: Partial<TableState>) => {
         const next = { ...state, ...patch };
@@ -189,6 +207,42 @@ export function useTable<Row>({
     const rows = manual
         ? data
         : sorted.slice((page - 1) * state.pageSize, page * state.pageSize);
+
+    // Zaznaczone liczą się tylko wśród pasujących, więc akcja zbiorcza nie
+    // obejmie wiersza ukrytego filtrem.
+    const idOf = (row: Row): unknown => (getRowId ? getRowId(row) : row);
+    const pool = manual ? data : sorted;
+    const selectedRows = pool.filter((row) => picked.has(idOf(row)));
+    const pageIds = rows.map(idOf);
+    const pageSelected = pageIds.filter((id) => picked.has(id)).length;
+    const allSelected = total > 0 && selectedRows.length === total;
+
+    const setPickedIds = (ids: readonly unknown[], checked: boolean) =>
+        setPicked((current) => {
+            const next = new Set(current);
+            for (const id of ids)
+                if (checked) next.add(id);
+                else next.delete(id);
+            return next;
+        });
+    const toggleRow = (row: Row, checked: boolean, range = false) => {
+        const id = idOf(row);
+        const from = range ? pageIds.indexOf(anchor) : -1;
+        const to = pageIds.indexOf(id);
+        setPickedIds(
+            from === -1
+                ? [id]
+                : pageIds.slice(Math.min(from, to), Math.max(from, to) + 1),
+            checked,
+        );
+        setAnchor(id);
+    };
+    const selectPage = (checked: boolean) => setPickedIds(pageIds, checked);
+    const selectAll = () => setPickedIds(pool.map(idOf), true);
+    const clearSelection = () => {
+        setPicked(new Set());
+        setAnchor(null);
+    };
 
     const isFiltered =
         state.query.trim() !== "" ||
@@ -259,6 +313,31 @@ export function useTable<Row>({
         clearFilters,
         setPage,
         setPageSize,
+        selection: {
+            rows: selectedRows,
+            count: selectedRows.length,
+            allSelected,
+            isSelected: (row: Row) => picked.has(idOf(row)),
+            toggle: toggleRow,
+            selectPage,
+            selectAll,
+            clear: clearSelection,
+        },
+        // {...table.selectProps(row)} na TableSelectCell.
+        selectProps: (row: Row) => ({
+            checked: picked.has(idOf(row)),
+            onCheckedChange: (
+                checked: boolean,
+                { range }: { range: boolean },
+            ) => toggleRow(row, checked, range),
+        }),
+        // {...table.selectAllProps} na TableSelectHead.
+        selectAllProps: {
+            checked: pageIds.length > 0 && pageSelected === pageIds.length,
+            indeterminate: pageSelected > 0 && pageSelected < pageIds.length,
+            onCheckedChange: selectPage,
+            disabled: pageIds.length === 0,
+        },
         // Zakresy dopasowania do <Highlight>, po nazwie klucza wyszukiwania.
         getRanges: (row: Row, key: string): readonly Range[] =>
             matches?.get(row)?.ranges[key] ?? [],
@@ -279,6 +358,18 @@ export function useTable<Row>({
             isFiltered,
             onClear: clearFilters,
             total,
+            selection: {
+                count: selectedRows.length,
+                total,
+                allSelected,
+                canSelectAll:
+                    !manual &&
+                    !allSelected &&
+                    pageIds.length > 0 &&
+                    pageSelected === pageIds.length,
+                onSelectAll: selectAll,
+                onClear: clearSelection,
+            } satisfies TableSelectionSummary,
         },
         // {...table.paginationProps} na Pagination.
         paginationProps: {

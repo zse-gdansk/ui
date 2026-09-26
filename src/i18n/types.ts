@@ -146,7 +146,14 @@ export interface Messages {
         filterNoOptions: string;
         actions: string;
         moreActions: string;
+        selectRow: string;
+        selectPage: string;
+        selected: (count: number, formatted: string) => string;
+        selectAll: (count: number, formatted: string) => string;
+        allSelected: (count: number, formatted: string) => string;
+        clearSelection: string;
     };
+    confirm: { confirm: string; failed: string };
     stat: {
         noData: string;
         increase: (delta: string) => string;

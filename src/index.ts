@@ -251,11 +251,18 @@ export {
     type TableToolbarProps,
 } from "./components/table/TableToolbar";
 export {
+    TableSelectCell,
+    TableSelectHead,
+    type TableSelectCellProps,
+    type TableSelectHeadProps,
+} from "./components/table/TableSelect";
+export {
     useTable,
     type SortDirection,
     type TableFilter,
     type TableFilterFacet,
     type TableFilterOption,
+    type TableSelectionSummary,
     type TableSort,
     type TableSortColumn,
     type TableState,
@@ -283,3 +290,5 @@ export {
     type MessagesOverride,
     type PluralForms,
 } from "./i18n";
+export { Confirmer } from "./components/confirm/Confirmer";
+export { confirm, type ConfirmOptions } from "./components/confirm/confirm";

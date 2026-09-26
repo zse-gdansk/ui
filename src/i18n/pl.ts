@@ -181,6 +181,16 @@ export const pl: Messages = {
         filterNoOptions: "Brak opcji",
         actions: "Akcje",
         moreActions: "Więcej akcji",
+        selectRow: "Zaznacz wiersz",
+        selectPage: "Zaznacz wszystkie na stronie",
+        selected: (_, formatted) => `Zaznaczono: ${formatted}`,
+        selectAll: (_, formatted) => `Zaznacz wszystkie (${formatted})`,
+        allSelected: (_, formatted) => `Zaznaczono wszystkie (${formatted})`,
+        clearSelection: "Odznacz wszystko",
+    },
+    confirm: {
+        confirm: "Potwierdź",
+        failed: "Nie udało się. Spróbuj ponownie.",
     },
     stat: {
         noData: "Brak danych",

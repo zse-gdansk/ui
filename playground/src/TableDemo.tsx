@@ -25,7 +25,11 @@ import {
     TableHead,
     TableHeader,
     TableRow,
+    TableSelectCell,
+    TableSelectHead,
     TableToolbar,
+    confirm,
+    Menu,
     toast,
     useTable,
 } from "@zse-gdansk/ui";
@@ -133,13 +137,82 @@ export function TableDemo() {
             },
         },
         initialState: { pageSize: 10 },
+        getRowId: (student) => student.id,
     });
+
+    const moveSelected = (className: string) => {
+        const ids = new Set(table.selection.rows.map((student) => student.id));
+        setStudents(
+            students.map((item) =>
+                ids.has(item.id)
+                    ? Object.assign({}, item, { className })
+                    : item,
+            ),
+        );
+        toast.success(`Przeniesiono do ${className}: ${ids.size}`);
+        table.selection.clear();
+    };
+
+    const removeSelected = async () => {
+        const ids = new Set(table.selection.rows.map((student) => student.id));
+        const removed = await confirm({
+            title: `Usunąć zaznaczonych uczniów (${ids.size})?`,
+            description:
+                "Znikną z listy razem z punktami. Tego nie da się cofnąć.",
+            confirmLabel: "Usuń",
+            pendingLabel: "Usuwanie…",
+            danger: true,
+            // Udaje zapytanie do serwera, żeby było widać spinner.
+            onConfirm: () => new Promise((resolve) => setTimeout(resolve, 800)),
+        });
+        if (!removed) return;
+        setStudents((current) => current.filter((item) => !ids.has(item.id)));
+        table.selection.clear();
+        toast.success(`Usunięto uczniów: ${ids.size}`);
+    };
 
     return (
         <section className="table-demo">
             <TableToolbar
                 {...table.toolbarProps}
                 searchPlaceholder="Szukaj ucznia"
+                selectionLabels={{
+                    selectAll: (_, n) => `Zaznacz wszystkich (${n})`,
+                    allSelected: (_, n) => `Zaznaczono wszystkich (${n})`,
+                }}
+                bulkActions={
+                    <>
+                        <Menu
+                            align="end"
+                            trigger={
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    icon={ArrowLeftRightIcon}
+                                >
+                                    Przenieś
+                                </Button>
+                            }
+                        >
+                            {CLASSES.map((name) => (
+                                <MenuItem
+                                    key={name}
+                                    onClick={() => moveSelected(name)}
+                                >
+                                    {name}
+                                </MenuItem>
+                            ))}
+                        </Menu>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            icon={Delete02Icon}
+                            onClick={removeSelected}
+                        >
+                            Usuń
+                        </Button>
+                    </>
+                }
             >
                 <Button size="sm">Dodaj ucznia</Button>
             </TableToolbar>
@@ -147,6 +220,7 @@ export function TableDemo() {
             <Table label="Uczniowie" size="sm">
                 <TableHeader>
                     <TableRow>
+                        <TableSelectHead {...table.selectAllProps} />
                         <TableHead {...table.sortProps("name")}>
                             Uczeń
                         </TableHead>
@@ -166,7 +240,7 @@ export function TableDemo() {
                 <TableBody>
                     {table.rows.length === 0 && (
                         <TableEmpty
-                            colSpan={6}
+                            colSpan={7}
                             icon={SearchRemoveIcon}
                             title="Brak wyników"
                             description="Zmień wyszukiwanie albo filtry."
@@ -182,7 +256,14 @@ export function TableDemo() {
                         />
                     )}
                     {table.rows.map((student) => (
-                        <TableRow key={student.id}>
+                        <TableRow
+                            key={student.id}
+                            selected={table.selection.isSelected(student)}
+                        >
+                            <TableSelectCell
+                                {...table.selectProps(student)}
+                                label={`Zaznacz: ${student.name}`}
+                            />
                             <TableCell>
                                 <Highlight
                                     text={student.name}

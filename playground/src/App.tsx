@@ -31,6 +31,7 @@ import {
     Tooltip,
     TooltipProvider,
     Icon,
+    Confirmer,
 } from "@zse-gdansk/ui";
 import { useState } from "react";
 
@@ -368,6 +369,7 @@ export function App() {
                     Promise
                 </Button>
                 <Toaster />
+                <Confirmer />
             </section>
 
             <section className="cards">
