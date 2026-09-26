@@ -1,0 +1,140 @@
+.zse-popover-positioner {
+    z-index: 95;
+    outline: none;
+}
+
+.zse-popover {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-sizing: border-box;
+    width: max-content;
+    max-width: min(22rem, calc(100vw - 16px));
+    max-height: var(--available-height);
+    padding: 14px 16px;
+    overflow-y: auto;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-raised);
+    background-clip: padding-box;
+    box-shadow: var(--shadow-popover);
+    color: var(--color-text);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    outline: none;
+    transform-origin: var(--transform-origin);
+    transition-property: opacity, scale;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out);
+}
+
+.zse-popover[data-starting-style],
+.zse-popover[data-ending-style] {
+    opacity: 0;
+    scale: 0.97;
+}
+
+.zse-popover[data-ending-style] {
+    transition-duration: 100ms;
+}
+
+.zse-popover[data-instant] {
+    transition-duration: 0ms;
+}
+
+.zse-popover-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.zse-popover-title {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+}
+
+.zse-popover-header .zse-modal-close {
+    margin-inline-start: auto;
+}
+
+.zse-popover-description {
+    margin: -4px 0 0;
+    color: var(--color-text-secondary);
+    text-wrap: pretty;
+}
+
+.zse-popover-header + .zse-popover-description {
+    margin-top: -6px;
+}
+
+.zse-popover-arrow {
+    width: 10px;
+    height: 10px;
+    border: 1px solid var(--color-border-subtle);
+    background: var(--color-bg-raised);
+    rotate: 45deg;
+}
+
+.zse-popover-arrow[data-side="bottom"] {
+    top: -6px;
+    border-right: 0;
+    border-bottom: 0;
+}
+
+.zse-popover-arrow[data-side="top"] {
+    bottom: -6px;
+    border-top: 0;
+    border-left: 0;
+}
+
+.zse-popover-arrow[data-side="left"] {
+    right: -6px;
+    border-bottom: 0;
+    border-left: 0;
+}
+
+.zse-popover-arrow[data-side="right"] {
+    left: -6px;
+    border-top: 0;
+    border-right: 0;
+}
+
+.zse-context-trigger {
+    -webkit-touch-callout: none;
+}
+
+@media (pointer: coarse) {
+    .zse-context-trigger {
+        user-select: none;
+        transition: scale 150ms var(--ease-out);
+    }
+
+    .zse-context-trigger:active {
+        scale: 0.98;
+        transition: scale 500ms var(--ease-out);
+    }
+
+    .zse-context-trigger[data-popup-open] {
+        scale: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-popover {
+        transition-property: opacity;
+    }
+
+    .zse-popover[data-starting-style],
+    .zse-popover[data-ending-style] {
+        scale: 1;
+    }
+
+    .zse-context-trigger,
+    .zse-context-trigger:active {
+        scale: 1;
+    }
+}

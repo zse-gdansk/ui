@@ -216,3 +216,45 @@ body {
 .link-demo p {
     margin: 0;
 }
+
+.popover-person {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px 4px 4px;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: var(--color-bg-muted);
+    color: var(--color-text);
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: default;
+}
+
+.popover-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.popover-muted {
+    color: var(--color-text-secondary);
+    font-size: 0.8125rem;
+}
+
+.context-area {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-width: 420px;
+    padding: 24px;
+    border: 1px dashed var(--color-border-strong);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-subtle);
+    font-size: 0.875rem;
+}
+
+.context-area span {
+    color: var(--color-text-secondary);
+}

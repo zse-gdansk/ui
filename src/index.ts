@@ -154,3 +154,12 @@ export {
     type EmptyStateProps,
 } from "./components/empty-state/EmptyState";
 export { Link, type LinkProps } from "./components/link/Link";
+export {
+    ContextMenu,
+    type ContextMenuProps,
+} from "./components/context-menu/ContextMenu";
+export {
+    Popover,
+    PopoverClose,
+    type PopoverProps,
+} from "./components/popover/Popover";

@@ -47,6 +47,7 @@ import { LinkDemo } from "./LinkDemo";
 import { MenuDemo } from "./MenuDemo";
 import { NumberDemo } from "./NumberDemo";
 import { PaginationDemo } from "./PaginationDemo";
+import { PopoverDemo } from "./PopoverDemo";
 import { ProgressDemo } from "./ProgressDemo";
 import { SegmentedDemo } from "./SegmentedDemo";
 import { SheetDemo } from "./SheetDemo";
@@ -425,6 +426,8 @@ export function App() {
             </section>
 
             <SheetDemo />
+
+            <PopoverDemo />
 
             <CodeBlockDemo />
 

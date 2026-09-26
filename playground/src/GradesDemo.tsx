@@ -1,4 +1,12 @@
 import {
+    CheckmarkBadge01Icon,
+    Delete02Icon,
+    UserIcon,
+} from "@hugeicons/core-free-icons";
+import {
+    ContextMenu,
+    MenuItem,
+    MenuSeparator,
     Switch,
     Table,
     TableBody,
@@ -8,6 +16,7 @@ import {
     TableHeader,
     TableNumberCell,
     TableRow,
+    toast,
 } from "@zse-gdansk/ui";
 import { useState } from "react";
 
@@ -144,7 +153,55 @@ export function GradesDemo() {
                                     ),
                             })}
                         >
-                            <TableCell sticky="left">{student.name}</TableCell>
+                            <ContextMenu
+                                trigger={
+                                    <TableCell sticky="left">
+                                        {student.name}
+                                    </TableCell>
+                                }
+                            >
+                                <MenuItem
+                                    icon={UserIcon}
+                                    onClick={() => toast.info(student.name)}
+                                >
+                                    Profil ucznia
+                                </MenuItem>
+                                <MenuItem
+                                    icon={CheckmarkBadge01Icon}
+                                    shortcut="mod+m"
+                                    onClick={() => {
+                                        TASKS.forEach((task, i) =>
+                                            setPoint(student.name, i, task.max),
+                                        );
+                                        toast.success(
+                                            `Maksimum dla: ${student.name}`,
+                                        );
+                                    }}
+                                >
+                                    Wszystkie zadania na max
+                                </MenuItem>
+                                <MenuSeparator />
+                                <MenuItem
+                                    icon={Delete02Icon}
+                                    variant="danger"
+                                    onClick={() => {
+                                        TASKS.forEach((_, i) =>
+                                            setPoint(student.name, i, null),
+                                        );
+                                        toast.undo(
+                                            `Wyczyszczono punkty: ${student.name}`,
+                                            {
+                                                onUndo: () =>
+                                                    toast.info(
+                                                        "Cofnięcie w demo nie działa",
+                                                    ),
+                                            },
+                                        );
+                                    }}
+                                >
+                                    Wyczyść punkty
+                                </MenuItem>
+                            </ContextMenu>
                             {TASKS.map((task, i) => {
                                 const value = student.points[i] ?? null;
                                 return editing ? (
