@@ -335,11 +335,13 @@ function Header() {
                             theme === "light" ? "Ciemny motyw" : "Jasny motyw"
                         }
                         onClick={toggleTheme}
+                        priority="secondary"
                     />
                     <HeaderAction
                         icon={DashboardSquare01Icon}
                         label="Wszystkie komponenty"
                         href="/"
+                        priority="secondary"
                     />
                 </>
             }

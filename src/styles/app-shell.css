@@ -292,3 +292,17 @@ html:has(.zse-shell) {
         scale: 1;
     }
 }
+
+.zse-header-more {
+    display: none;
+}
+
+@media (max-width: 639.98px) {
+    .zse-header-action[data-priority="secondary"] {
+        display: none;
+    }
+
+    .zse-header-more {
+        display: contents;
+    }
+}

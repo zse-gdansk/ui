@@ -184,6 +184,7 @@ export const pl: Messages = {
         collapse: "Zwiń panel",
         expand: "Rozwiń panel",
         openMenu: "Otwórz menu",
+        moreActions: "Więcej akcji",
     },
     userMenu: { label: (name) => `Konto: ${name}` },
     localeSwitcher: { label: "Język" },

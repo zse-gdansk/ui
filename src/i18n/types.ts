@@ -153,6 +153,7 @@ export interface Messages {
         collapse: string;
         expand: string;
         openMenu: string;
+        moreActions: string;
     };
     table: {
         search: string;
