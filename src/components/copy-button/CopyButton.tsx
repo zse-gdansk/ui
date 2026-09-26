@@ -58,8 +58,11 @@ export function CopyButton({
                         ? undefined
                         : ariaLabel
             }
-            onClick={() => {
-                void copy(value).then(() => onCopy?.());
+            onClick={async () => {
+                try {
+                    await copy(value);
+                    onCopy?.();
+                } catch {}
             }}
         >
             <span className="zse-copy-icons" aria-hidden>

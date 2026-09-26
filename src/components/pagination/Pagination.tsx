@@ -216,13 +216,12 @@ export function Pagination({
 
                     <div ref={listRef} className="zse-pagination-pages">
                         <span className="zse-pagination-thumb" aria-hidden />
-                        {items.map((item, index) =>
+                        {items.map((item) =>
                             typeof item === "number" ? (
-                                // Klucz z pozycji, nie z numeru: przy przewijaniu
-                                // numery zmieniają się w miejscu, a nie znikają.
+                                // Numer strony jest tożsamością przycisku: przy
+                                // przewijaniu ten sam numer zachowuje stan DOM.
                                 <span
-                                    // oxlint-disable-next-line react/no-array-index-key
-                                    key={index}
+                                    key={item}
                                     className="zse-pagination-slot"
                                 >
                                     {control(
@@ -309,15 +308,16 @@ function Gap({
     return (
         <span className="zse-pagination-slot">
             <input
+                // Fokus przy otwarciu skoku (montowanie po kliknięciu), bez autoFocus.
+                ref={(node) => {
+                    node?.focus();
+                }}
                 className="zse-pagination-jump"
                 type="text"
                 inputMode="numeric"
                 enterKeyHint="go"
                 aria-label={t.pagination.jumpInput(count)}
                 placeholder="…"
-                // Pole pojawia się na kliknięcie, fokus od razu w nim.
-                // oxlint-disable-next-line jsx-a11y/no-autofocus
-                autoFocus
                 onKeyDown={onKeyDown}
                 onBlur={onClose}
                 onInput={(event) => {

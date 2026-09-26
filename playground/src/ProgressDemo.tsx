@@ -4,20 +4,15 @@ import { useEffect, useState } from "react";
 export function ProgressDemo() {
     const [upload, setUpload] = useState(0);
     const [running, setRunning] = useState(false);
+    const animating = running && upload < 100;
 
     useEffect(() => {
-        if (!running) return;
-        const timer = setInterval(
-            () =>
-                setUpload((value) => {
-                    const next = Math.min(value + 7 + Math.random() * 9, 100);
-                    if (next >= 100) setRunning(false);
-                    return next;
-                }),
-            300,
-        );
+        if (!animating) return;
+        const timer = setInterval(() => {
+            setUpload((value) => Math.min(value + 7 + Math.random() * 9, 100));
+        }, 300);
         return () => clearInterval(timer);
-    }, [running]);
+    }, [animating]);
 
     return (
         <section className="progress-demo">

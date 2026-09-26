@@ -78,6 +78,9 @@ export function StatDemo() {
                         </a>
                     )}
                 />
+                <span id="glosowanie" hidden>
+                    Głosowanie
+                </span>
             </div>
 
             <div className="button-row">

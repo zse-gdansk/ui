@@ -411,6 +411,9 @@ export function App() {
                         </CardDescription>
                     </CardHeader>
                 </Card>
+                <span id="plan" hidden>
+                    Plan lekcji
+                </span>
             </section>
 
             <section className="button-row">

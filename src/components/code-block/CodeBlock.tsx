@@ -26,8 +26,8 @@ export interface CodeBlockProps {
     code: string;
     // ts, tsx, python, bash, sql… Bez języka: zwykły tekst.
     language?: string;
-    // HTML z Shiki wyrenderowany na serwerze. Wtedy blok nie ładuje Shiki
-    // w przeglądarce. Tylko zaufany HTML, trafia do strony bez zmian.
+    // Wynik Shiki `codeToHtml` z SSR. Wtedy blok nie ładuje Shiki
+    // w przeglądarce. Tylko wyjście highlightera (już zescape'owane).
     html?: string;
     // Nazwa pliku w nagłówku, np. "sortowanie.py".
     filename?: string;
@@ -48,7 +48,7 @@ export interface CodeBlockProps {
     className?: string;
 }
 
-const escape = (text: string) =>
+const escapeHtml = (text: string) =>
     text
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
@@ -70,17 +70,17 @@ function plain(code: string, marks: Marks) {
             let cursor = 0;
             for (const { start: from, end: to, className } of ranges) {
                 if (from < start || to > start + line.length) continue;
-                html += escape(line.slice(cursor, from - start));
-                html += `<span class="${className}">${escape(line.slice(from - start, to - start))}</span>`;
+                html += escapeHtml(line.slice(cursor, from - start));
+                html += `<span class="${className}">${escapeHtml(line.slice(from - start, to - start))}</span>`;
                 cursor = to - start;
             }
-            html += escape(line.slice(cursor));
+            html += escapeHtml(line.slice(cursor));
             const classes = ["line", ...lineClasses(i + 1, marks)].join(" ");
             const messages = marks.errors
                 .filter((error) => error.line === i + 1 && error.message)
                 .map((error) => {
                     const { className, style } = errorLine(error);
-                    return `\n<span class="${className}" style="${style}">${escape(error.message)}</span>`;
+                    return `\n<span class="${className}" style="${style}">${escapeHtml(error.message)}</span>`;
                 })
                 .join("");
             return `<span class="${classes}">${html}</span>${messages}`;
@@ -92,7 +92,7 @@ function plain(code: string, marks: Marks) {
 export function CodeBlock({
     code,
     language: languageProp,
-    html,
+    html: highlightedHtml,
     filename,
     lineNumbers = false,
     highlight: marked = NONE,
@@ -130,7 +130,7 @@ export function CodeBlock({
     const collapsible = maxLines !== false && lineCount > maxLines + 2;
 
     useEffect(() => {
-        if (html || !language) return;
+        if (highlightedHtml || !language) return;
         let cancelled = false;
         const [lit, plus, minus, picked, faults] = JSON.parse(marksKey) as [
             number[],
@@ -152,7 +152,11 @@ export function CodeBlock({
         return () => {
             cancelled = true;
         };
-    }, [source, language, html, marksKey]);
+    }, [source, language, highlightedHtml, marksKey]);
+
+    // Tylko wyjście Shiki / escapeHtml: surowy tekst kodu nigdy nie trafia
+    // do sinka jako HTML.
+    const markup = highlightedHtml ?? colored ?? plain(source, marks);
 
     // Kopiuje stan „po”: bez usuniętych linii diffu.
     const copy = () =>
@@ -240,9 +244,7 @@ export function CodeBlock({
                 // Pełny kod jest w DOM także zwinięty, więc wyszukiwanie na
                 // stronie i kopiowanie działają.
                 // oxlint-disable-next-line react/no-danger
-                dangerouslySetInnerHTML={{
-                    __html: html ?? colored ?? plain(source, marks),
-                }}
+                dangerouslySetInnerHTML={{ __html: markup }}
             />
 
             {collapsible && !expanded && (

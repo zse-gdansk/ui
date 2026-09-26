@@ -52,6 +52,9 @@ export function BadgeDemo() {
                     render={<a href="#informatyka">Informatyka</a>}
                 />
             </div>
+            <span id="informatyka" hidden>
+                Informatyka
+            </span>
         </section>
     );
 }

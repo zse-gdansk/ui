@@ -106,12 +106,18 @@ export function Slider({
                 <BaseSlider.Control className="zse-slider-control">
                     <BaseSlider.Track className="zse-slider-track">
                         <BaseSlider.Indicator className="zse-slider-indicator" />
-                        {values.map((item, index) => (
+                        {values.map((item, thumb) => (
                             <BaseSlider.Thumb
-                                // Kciuki mają stałe miejsca w tablicy.
-                                // oxlint-disable-next-line react/no-array-index-key
-                                key={index}
-                                index={index}
+                                // Rola kciuka (od/do), nie wartość: wartość
+                                // zmienia się przy przeciąganiu.
+                                key={
+                                    values.length > 1
+                                        ? thumb === 0
+                                            ? "from"
+                                            : "to"
+                                        : "value"
+                                }
+                                index={thumb}
                                 className="zse-slider-thumb"
                                 getAriaLabel={
                                     values.length > 1
