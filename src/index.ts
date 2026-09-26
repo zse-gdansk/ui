@@ -185,3 +185,13 @@ export type {
     StandardSchemaV1,
     InferOutput,
 } from "./components/form/standard-schema";
+export {
+    CheckboxGroup,
+    type CheckboxGroupProps,
+    type CheckboxOption,
+} from "./components/checkbox-group/CheckboxGroup";
+export {
+    Slider,
+    type SliderMark,
+    type SliderProps,
+} from "./components/slider/Slider";
