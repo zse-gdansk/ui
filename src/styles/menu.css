@@ -140,6 +140,11 @@
     filter: blur(0);
 }
 
+.zse-menu-trailing {
+    flex: none;
+    margin-inline: 16px -2px;
+}
+
 .zse-menu-dot {
     width: 6px;
     height: 6px;

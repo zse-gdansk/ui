@@ -170,4 +170,5 @@ export const pl: Messages = {
         delete: "Del",
         escape: "Esc",
     },
+    localeSwitcher: { label: "Język" },
 };

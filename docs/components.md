@@ -46,26 +46,27 @@ Spis tego, co jest i co już potrafi. Zanim dodasz komponent albo prop, sprawdź
 
 ## Treść i informacja
 
-| Komponent                                         | Base UI                | Najważniejsze                                                                                 |
-| ------------------------------------------------- | ---------------------- | --------------------------------------------------------------------------------------------- |
-| `Card`, `Container`                               | useRender              |                                                                                               |
-| `Table` i części, `TableNumberCell`, `TableEmpty` | –                      | przyklejony nagłówek i kolumny, cienie krawędzi, krzyżyk hovera, edycja punktów jak w arkuszu |
-| `Accordion`, `Collapsible`                        | Accordion, Collapsible | `plain`/`card`/`separated`, otwieranie przy ⌘F                                                |
-| `Tabs`                                            | Tabs                   |                                                                                               |
-| `SegmentedControl`                                | RadioGroup             | suwak pod wybranym                                                                            |
-| `Stepper`                                         | –                      | linia postępu wypełniana z pól kroku, walidacja kroku, wersja kompaktowa                      |
-| `Pagination`                                      | –                      | stała liczba pozycji, skok do strony z „…”, `@container`                                      |
-| `Breadcrumbs`                                     | –                      | chowanie środka do menu „…” z mierzenia szerokości                                            |
-| `Alert`                                           | –                      | akcja w linii z Promise, zwijanie przy zamknięciu                                             |
-| `Badge`                                           | useRender              | `soft`/`outline`/`solid`, kropka z pulsem                                                     |
-| `Avatar`, `AvatarGroup`                           | Avatar                 | generator gradientów z seeda, inicjały z kontrastem                                           |
-| `Progress`, `Meter`                               | Progress, Meter        | kolor z progów, kawałki, pierścień                                                            |
-| `Skeleton`, `SkeletonText`                        | –                      | wspólna fala shimmeru, tryb z dziećmi bez skoku układu                                        |
-| `EmptyState`                                      | –                      | kafelek na kartach, wejście po kolei                                                          |
-| `Spinner`, `Kbd`, `Separator`                     | Separator              | `Kbd` z systemowymi skrótami                                                                  |
-| `ScrollArea`                                      | –                      | wygaszanie maską, przewijanie po najechaniu na strzałkę                                       |
-| `CodeBlock`                                       | – (Shiki)              | osobne wejście `@zse-gdansk/ui/code-block`, diffy, słowa, błędy, ikony języków                |
-| `Icon`                                            | –                      | owijka Hugeicons                                                                              |
+| Komponent                                         | Base UI                | Najważniejsze                                                                                                                                                                       |
+| ------------------------------------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Card`, `Container`                               | useRender              |                                                                                                                                                                                     |
+| `Table` i części, `TableNumberCell`, `TableEmpty` | –                      | przyklejony nagłówek i kolumny, cienie krawędzi, krzyżyk hovera, edycja punktów jak w arkuszu                                                                                       |
+| `Accordion`, `Collapsible`                        | Accordion, Collapsible | `plain`/`card`/`separated`, otwieranie przy ⌘F                                                                                                                                      |
+| `Tabs`                                            | Tabs                   |                                                                                                                                                                                     |
+| `SegmentedControl`                                | RadioGroup             | suwak pod wybranym                                                                                                                                                                  |
+| `Stepper`                                         | –                      | linia postępu wypełniana z pól kroku, walidacja kroku, wersja kompaktowa                                                                                                            |
+| `Pagination`                                      | –                      | stała liczba pozycji, skok do strony z „…”, `@container`                                                                                                                            |
+| `Breadcrumbs`                                     | –                      | chowanie środka do menu „…” z mierzenia szerokości                                                                                                                                  |
+| `Alert`                                           | –                      | akcja w linii z Promise, zwijanie przy zamknięciu                                                                                                                                   |
+| `Badge`                                           | useRender              | `soft`/`outline`/`solid`, kropka z pulsem                                                                                                                                           |
+| `Avatar`, `AvatarGroup`                           | Avatar                 | generator gradientów z seeda, inicjały z kontrastem                                                                                                                                 |
+| `Progress`, `Meter`                               | Progress, Meter        | kolor z progów, kawałki, pierścień                                                                                                                                                  |
+| `Skeleton`, `SkeletonText`                        | –                      | wspólna fala shimmeru, tryb z dziećmi bez skoku układu                                                                                                                              |
+| `EmptyState`                                      | –                      | kafelek na kartach, wejście po kolei                                                                                                                                                |
+| `Spinner`, `Kbd`, `Separator`                     | Separator              | `Kbd` z systemowymi skrótami                                                                                                                                                        |
+| `ScrollArea`                                      | –                      | wygaszanie maską, przewijanie po najechaniu na strzałkę                                                                                                                             |
+| `CodeBlock`                                       | – (Shiki)              | osobne wejście `@zse-gdansk/ui/code-block`, diffy, słowa, błędy, ikony języków                                                                                                      |
+| `Icon`                                            | –                      | owijka Hugeicons                                                                                                                                                                    |
+| `LocaleSwitcher`                                  | Menu                   | nazwy języków z `Intl.DisplayNames` (własna + w języku interfejsu), spinner do końca obietnicy `onValueChange`, flagi z `flags` (np. country-flag-icons), bez zależności od i18next |
 
 ## Narzędzia
 

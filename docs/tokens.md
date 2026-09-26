@@ -14,6 +14,7 @@ Wszystkie tokeny są w `src/styles/tokens.css`, a palety kolorów w `src/styles/
 | obramowania | `--color-border-subtle`, `--color-border`, `-strong`, `-hover`, `--color-separator`, `--color-focus-ring`       |
 | akcent      | `--color-accent-bg`, `-bg-hover`, `-border`, `-solid`, `-solid-hover`, `-text`                                  |
 | statusy     | `--color-danger-*`, `--color-success-solid`/`-text`, `--color-warning-solid`/`-text`                            |
+| obrazy      | `--color-image-outline`: obrys 1px na zdjęciach i flagach (`outline-offset: -1px`), czerń albo biel 10%         |
 
 Brakuje roli? Dodaj token semantyczny, nie sięgaj po prymityw w komponencie i nie pożyczaj tokenu z innej roli, bo „wartość akurat pasuje”.
 

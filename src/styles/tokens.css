@@ -52,6 +52,7 @@
     --color-bg-surface: var(--gray-1);
     --color-bg-elevated: var(--gray-4);
     --color-bg-tint: oklch(0% 0 0 / 6%);
+    --color-image-outline: oklch(0% 0 0 / 10%);
     --shadow-modal:
         0 4px 8px oklch(0% 0 0 / 8%), 0 8px 24px oklch(0% 0 0 / 8%),
         0 0 0 1px oklch(0% 0 0 / 4%);
@@ -69,6 +70,7 @@
     --color-bg-surface: var(--gray-2);
     --color-bg-elevated: var(--gray-4);
     --color-bg-tint: oklch(100% 0 0 / 8%);
+    --color-image-outline: oklch(100% 0 0 / 10%);
     --shadow-modal:
         0 4px 8px oklch(0% 0 0 / 30%), 0 8px 24px oklch(0% 0 0 / 30%),
         0 0 0 1px oklch(100% 0 0 / 5%);

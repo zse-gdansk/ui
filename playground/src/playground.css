@@ -316,3 +316,16 @@ body {
     font-size: 0.9375rem;
     letter-spacing: 0.05em;
 }
+
+.locale-demo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.locale-demo p {
+    margin: 4px 0 0;
+    color: var(--color-text-secondary);
+}

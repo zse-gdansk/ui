@@ -248,24 +248,39 @@ export interface MenuRadioItemProps {
     value: string;
     children: ReactNode;
     disabled?: boolean;
+    // Zamyka menu po wyborze, gdy wybór jest jedynym celem menu.
+    closeOnClick?: boolean;
+    // Np. flaga; zaznaczenie przechodzi wtedy na znacznik po prawej.
+    icon?: ReactNode;
 }
 
 export function MenuRadioItem({
     value,
     children,
     disabled = false,
+    closeOnClick = false,
+    icon,
 }: MenuRadioItemProps) {
     return (
         <BaseMenu.RadioItem
             className="zse-menu-item"
             value={value}
             disabled={disabled}
+            closeOnClick={closeOnClick}
         >
             <ItemContent
-                icon={<span className="zse-menu-indicator zse-menu-dot" />}
+                icon={
+                    icon ?? <span className="zse-menu-indicator zse-menu-dot" />
+                }
             >
                 {children}
             </ItemContent>
+            {icon && (
+                <Icon
+                    icon={Tick02Icon}
+                    className="zse-menu-indicator zse-menu-trailing"
+                />
+            )}
         </BaseMenu.RadioItem>
     );
 }

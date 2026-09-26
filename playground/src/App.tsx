@@ -49,6 +49,7 @@ import { FormDemo } from "./FormDemo";
 import { GradesDemo } from "./GradesDemo";
 import { InputGroupDemo } from "./InputGroupDemo";
 import { LinkDemo } from "./LinkDemo";
+import { LocaleDemo } from "./LocaleDemo";
 import { MenuDemo } from "./MenuDemo";
 import { MiscDemo } from "./MiscDemo";
 import { NumberDemo } from "./NumberDemo";
@@ -463,6 +464,8 @@ export function App() {
             <BreadcrumbsDemo />
 
             <MiscDemo />
+
+            <LocaleDemo />
 
             <SliderDemo />
 

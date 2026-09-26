@@ -240,6 +240,11 @@ export {
     type PasswordStrengthProps,
 } from "./components/password-strength/PasswordStrength";
 export {
+    LocaleSwitcher,
+    type FlagComponent,
+    type LocaleSwitcherProps,
+} from "./components/locale-switcher/LocaleSwitcher";
+export {
     LocaleProvider,
     pl,
     plural,

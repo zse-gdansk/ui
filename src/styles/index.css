@@ -42,5 +42,6 @@
 @import "./sheet.css";
 @import "./table.css";
 @import "./menu.css";
+@import "./locale-switcher.css";
 @import "./popover.css";
 @import "./number-field.css";
