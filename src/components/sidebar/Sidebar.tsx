@@ -5,6 +5,7 @@ import { useRender } from "@base-ui/react/use-render";
 import {
     ArrowDown01Icon,
     ArrowLeft01Icon,
+    ArrowRight01Icon,
     LinkSquare02Icon,
     PanelLeftCloseIcon,
     PanelLeftOpenIcon,
@@ -47,6 +48,8 @@ export function useSidebarPlacement() {
     const { rail } = useRail();
     return { inSidebar: useContext(InSidebarContext), rail };
 }
+
+const BackContext = createContext(false);
 
 // Pozycje w bocznym menu zwiniętego podmenu renderują się jako MenuItem.
 const InMenuContext = createContext(false);
@@ -276,7 +279,9 @@ export type SidebarBackProps = Omit<SidebarItemProps, "icon" | "badge">;
 export function SidebarBack(props: SidebarBackProps) {
     return (
         <SidebarGroup>
-            <SidebarItem icon={ArrowLeft01Icon} opensView {...props} />
+            <BackContext value>
+                <SidebarItem icon={ArrowLeft01Icon} opensView {...props} />
+            </BackContext>
         </SidebarGroup>
     );
 }
@@ -345,6 +350,12 @@ export function SidebarItem({
 }: SidebarItemProps) {
     const { rail } = useRail();
     const inMenu = useContext(InMenuContext);
+    const back = useContext(BackContext);
+    const hint = external
+        ? LinkSquare02Icon
+        : opensView && !back
+          ? ArrowRight01Icon
+          : null;
     const link = href !== undefined || render !== undefined;
 
     const element = useRender({
@@ -379,9 +390,9 @@ export function SidebarItem({
                                 className="zse-sidebar-glyph"
                             />
                         )}
-                        {icon && external && (
+                        {icon && hint && (
                             <Icon
-                                icon={LinkSquare02Icon}
+                                icon={hint}
                                 size={18}
                                 className="zse-sidebar-glyph-alt"
                             />
@@ -391,9 +402,9 @@ export function SidebarItem({
                     {badge != null && (
                         <span className="zse-sidebar-badge">{badge}</span>
                     )}
-                    {external && (
+                    {hint && (
                         <Icon
-                            icon={LinkSquare02Icon}
+                            icon={hint}
                             size={12}
                             className="zse-sidebar-external"
                         />
