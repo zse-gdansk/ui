@@ -140,3 +140,8 @@ export {
     DatePicker,
     type DatePickerProps,
 } from "./components/calendar/DatePicker";
+export {
+    SegmentedControl,
+    type SegmentedControlProps,
+    type SegmentedOption,
+} from "./components/segmented/SegmentedControl";

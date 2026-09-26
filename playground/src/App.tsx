@@ -44,6 +44,7 @@ import { GradesDemo } from "./GradesDemo";
 import { MenuDemo } from "./MenuDemo";
 import { NumberDemo } from "./NumberDemo";
 import { ProgressDemo } from "./ProgressDemo";
+import { SegmentedDemo } from "./SegmentedDemo";
 import { SheetDemo } from "./SheetDemo";
 import { SkeletonDemo } from "./SkeletonDemo";
 import { UploadDemo } from "./UploadDemo";
@@ -420,6 +421,8 @@ export function App() {
             </section>
 
             <SheetDemo />
+
+            <SegmentedDemo />
 
             <ProgressDemo />
 
