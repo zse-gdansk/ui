@@ -64,6 +64,7 @@ import { SliderDemo } from "./SliderDemo";
 import { StatDemo } from "./StatDemo";
 import { StepperDemo } from "./StepperDemo";
 import { TableDemo } from "./TableDemo";
+import { TimeDemo } from "./TimeDemo";
 import { ToggleDemo } from "./ToggleDemo";
 import { UploadDemo } from "./UploadDemo";
 
@@ -485,6 +486,8 @@ export function App() {
             <AccordionDemo />
 
             <CalendarDemo />
+
+            <TimeDemo />
 
             <CodeDemo />
 

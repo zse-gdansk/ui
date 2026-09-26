@@ -37,6 +37,14 @@ export interface Messages {
         empty: string;
         emptyFor: (query: string) => string;
     };
+    timePicker: {
+        pick: string;
+        now: string;
+        // Znacznik przedziału, który właśnie trwa.
+        current: string;
+        hours: string;
+        minutes: string;
+    };
     datePicker: {
         pick: string;
         pickRange: string;

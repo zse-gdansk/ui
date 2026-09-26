@@ -292,3 +292,8 @@ export {
 } from "./i18n";
 export { Confirmer } from "./components/confirm/Confirmer";
 export { confirm, type ConfirmOptions } from "./components/confirm/confirm";
+export {
+    TimePicker,
+    type TimePickerProps,
+    type TimeSlot,
+} from "./components/time-picker/TimePicker";

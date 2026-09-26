@@ -44,6 +44,13 @@ export const pl: Messages = {
         empty: "Brak wyników",
         emptyFor: (query) => `Brak wyników dla „${query}”`,
     },
+    timePicker: {
+        pick: "Wybierz godzinę",
+        now: "Teraz",
+        current: "trwa",
+        hours: "Godziny",
+        minutes: "Minuty",
+    },
     datePicker: {
         pick: "Wybierz datę",
         pickRange: "Wybierz zakres dat",
