@@ -188,3 +188,18 @@ body {
     border: 1px dashed var(--color-border);
     border-radius: var(--radius-lg);
 }
+
+.empty-search {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+}
+
+.empty-list {
+    margin: 0;
+    padding: 0 4px;
+    list-style: none;
+    font-size: 0.875rem;
+    line-height: 2;
+}

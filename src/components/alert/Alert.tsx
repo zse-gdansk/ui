@@ -10,6 +10,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import { useState, type HTMLAttributes, type ReactNode } from "react";
 
+import { markEnter } from "../../utils/enter";
 import { Icon, type IconGlyph } from "../icon/Icon";
 
 type AlertVariant = "info" | "success" | "warning" | "danger";
@@ -42,25 +43,6 @@ export interface AlertProps extends Omit<
     // Z nim pojawia się X. Wywoływane po animacji zamknięcia.
     onDismiss?: () => void;
     dismissLabel?: string;
-}
-
-// Alert, który pojawia się po załadowaniu strony (np. błąd po wysłaniu
-// formularza), wjeżdża. Te obecne od początku stoją bez animacji.
-let pageReady = false;
-if (typeof window !== "undefined") {
-    if (document.readyState === "complete") pageReady = true;
-    else
-        window.addEventListener(
-            "load",
-            () => {
-                pageReady = true;
-            },
-            { once: true },
-        );
-}
-
-function markEnter(element: HTMLDivElement | null) {
-    if (element && pageReady) element.dataset.enter = "";
 }
 
 export function Alert({

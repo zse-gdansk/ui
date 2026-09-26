@@ -149,3 +149,7 @@ export {
     Pagination,
     type PaginationProps,
 } from "./components/pagination/Pagination";
+export {
+    EmptyState,
+    type EmptyStateProps,
+} from "./components/empty-state/EmptyState";

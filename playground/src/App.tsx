@@ -40,6 +40,7 @@ import { BadgeDemo } from "./BadgeDemo";
 import { CalendarDemo } from "./CalendarDemo";
 import { CodeDemo } from "./CodeDemo";
 import { ComboboxDemo } from "./ComboboxDemo";
+import { EmptyDemo } from "./EmptyDemo";
 import { GradesDemo } from "./GradesDemo";
 import { MenuDemo } from "./MenuDemo";
 import { NumberDemo } from "./NumberDemo";
@@ -422,6 +423,8 @@ export function App() {
             </section>
 
             <SheetDemo />
+
+            <EmptyDemo />
 
             <PaginationDemo />
 
