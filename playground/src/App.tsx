@@ -34,6 +34,7 @@ import {
 } from "@zse-gdansk/ui";
 import { useState } from "react";
 
+import { AlertDemo } from "./AlertDemo";
 import { GradesDemo } from "./GradesDemo";
 import { MenuDemo } from "./MenuDemo";
 import { NumberDemo } from "./NumberDemo";
@@ -408,6 +409,8 @@ export function App() {
                     }
                 />
             </section>
+
+            <AlertDemo />
 
             <NumberDemo />
 

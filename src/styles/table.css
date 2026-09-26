@@ -1,17 +1,17 @@
 .zse-table-scroller {
     --table-row-bg: var(--color-bg-surface);
     --table-hover-bg: color-mix(
-        in oklch,
+        in oklab,
         var(--color-bg-surface),
         var(--color-text) 4%
     );
     --table-selected-bg: color-mix(
-        in oklch,
+        in oklab,
         var(--color-bg-surface),
         var(--color-accent-solid) 10%
     );
     --table-stripe-bg: color-mix(
-        in oklch,
+        in oklab,
         var(--color-bg-surface),
         var(--color-text) 2%
     );

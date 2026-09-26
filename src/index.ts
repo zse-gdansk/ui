@@ -78,3 +78,4 @@ export {
     NumberField,
     type NumberFieldProps,
 } from "./components/number-field/NumberField";
+export { Alert, type AlertProps } from "./components/alert/Alert";
