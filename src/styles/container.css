@@ -1,0 +1,27 @@
+.zse-container {
+    --container-width: 1024px;
+
+    box-sizing: border-box;
+    width: 100%;
+    max-width: var(--container-width);
+    margin-inline: auto;
+    padding-inline: 16px;
+}
+
+@media (min-width: 640px) {
+    .zse-container {
+        padding-inline: 24px;
+    }
+}
+
+.zse-container[data-size="sm"] {
+    --container-width: 640px;
+}
+
+.zse-container[data-size="md"] {
+    --container-width: 768px;
+}
+
+.zse-container[data-size="xl"] {
+    --container-width: 1280px;
+}

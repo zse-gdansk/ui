@@ -10,6 +10,12 @@ import {
 } from "@hugeicons/core-free-icons";
 import {
     Button,
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
     Checkbox,
     Input,
     Radio,
@@ -310,6 +316,50 @@ export function App() {
                     Promise
                 </Button>
                 <Toaster />
+            </section>
+
+            <section className="cards">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Sprawdzian z fizyki</CardTitle>
+                        <CardDescription>
+                            Klasa 3C, 26 września, 28 uczniów
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        Średnia 3,8. Oddane prace: 26 z 28.
+                    </CardContent>
+                    <CardFooter>
+                        <Button size="sm">Wystaw oceny</Button>
+                        <Button size="sm" variant="ghost">
+                            Szczegóły
+                        </Button>
+                    </CardFooter>
+                </Card>
+                <Card variant="elevated">
+                    <CardHeader>
+                        <CardTitle>Wybory do samorządu</CardTitle>
+                        <CardDescription>
+                            Głosowanie do piątku, 15:00
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>Oddano 412 głosów z 780.</CardContent>
+                </Card>
+                <Card
+                    variant="subtle"
+                    render={({ children, ...props }) => (
+                        <a {...props} href="#plan">
+                            {children}
+                        </a>
+                    )}
+                >
+                    <CardHeader>
+                        <CardTitle>Plan lekcji</CardTitle>
+                        <CardDescription>
+                            Karta jako link: hover i fokus
+                        </CardDescription>
+                    </CardHeader>
+                </Card>
             </section>
         </main>
     );

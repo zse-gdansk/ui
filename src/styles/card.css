@@ -1,0 +1,92 @@
+.zse-card {
+    --card-padding: 20px;
+    --card-radius: var(--radius-lg);
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-sizing: border-box;
+    padding: var(--card-padding);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--card-radius);
+    background: var(--color-bg-surface);
+    color: var(--color-text);
+    text-align: start;
+    text-decoration: none;
+}
+
+@media (max-width: 480px) {
+    .zse-card {
+        --card-padding: 16px;
+    }
+}
+
+.zse-card[data-variant="elevated"] {
+    border-color: transparent;
+    box-shadow: var(--shadow-card);
+}
+
+.zse-card[data-variant="subtle"] {
+    border-color: transparent;
+    background: var(--color-bg-subtle);
+}
+
+:is(a, button).zse-card {
+    font: inherit;
+    cursor: pointer;
+    outline: none;
+    transition-property: border-color, box-shadow, background-color;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: ease;
+}
+
+@media (hover: hover) {
+    :is(a, button).zse-card[data-variant="outline"]:hover {
+        border-color: var(--color-border);
+    }
+
+    :is(a, button).zse-card[data-variant="elevated"]:hover {
+        box-shadow: var(--shadow-popover);
+    }
+
+    :is(a, button).zse-card[data-variant="subtle"]:hover {
+        background: var(--color-bg-muted);
+    }
+}
+
+:is(a, button).zse-card:focus-visible {
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: 2px;
+}
+
+.zse-card-header {
+    display: grid;
+    gap: 4px;
+}
+
+.zse-card-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+}
+
+.zse-card-description {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.zse-card-content {
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.zse-card-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
