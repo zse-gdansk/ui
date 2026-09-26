@@ -112,7 +112,7 @@ export function LocaleSwitcher({
             <MenuRadioGroup value={shown} onValueChange={select}>
                 {locales.map((locale) => {
                     const native = nativeName(locale);
-                    const local = languageName(locale, t.locale);
+                    const local = languageName(locale, value);
                     const Flag = flags?.[locale];
                     return (
                         <MenuRadioItem
@@ -129,8 +129,8 @@ export function LocaleSwitcher({
                             })}
                         >
                             <span lang={locale}>{native}</span>
-                            {local.toLocaleLowerCase(t.locale) !==
-                                native.toLocaleLowerCase(t.locale) && (
+                            {local.toLocaleLowerCase(value) !==
+                                native.toLocaleLowerCase(value) && (
                                 <span className="zse-locale-local">
                                     {local}
                                 </span>
