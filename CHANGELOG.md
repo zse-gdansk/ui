@@ -1,5 +1,40 @@
 # Changelog
 
+## [1.1.0](https://github.com/zse-gdansk/ui/compare/v1.0.0...v1.1.0) (2026-09-26)
+
+
+### Nowe funkcje
+
+* **app-loader:** dodano komponent AppLoader z pełnoekranowym ekranem wczytywania aplikacji ([150cdf6](https://github.com/zse-gdansk/ui/commit/150cdf68cfef4c514d304e5b63f8bbc194e1fb17))
+* **app-shell:** akcje drugorzędne paska w menu na telefonie ([0497492](https://github.com/zse-gdansk/ui/commit/0497492acc13d5ff8a201076a65174369a4518c6))
+* **app-shell:** dodano komponent AppHeader z obsługą breadcrumbów i akcji w nagłówku ([f04942d](https://github.com/zse-gdansk/ui/commit/f04942d38e91ea08b757b9ca3687f08a2df8769d))
+* **app-shell:** dodano komponent AppShell z kontekstem i obsługą stanu panelu bocznego ([1eb11d3](https://github.com/zse-gdansk/ui/commit/1eb11d330fbcb30dca8ba22dc0efcc86c6f86c79))
+* **fonts:** dodano wsparcie dla czcionki Inter z konfiguracją i preloadem ([1d21df4](https://github.com/zse-gdansk/ui/commit/1d21df434afaacfc2ccf0987d70bfeae6ff6c0fe))
+* **menu, sheet:** dodano obsługę zapytań medialnych dla komponentów MenuSub i Sheet ([247f63b](https://github.com/zse-gdansk/ui/commit/247f63ba99702ff9a4db3e4b2606516704eea95f))
+* **page-header:** dodano komponent PageHeader z tytułem, opisem, akcjami i metadanymi ([72da147](https://github.com/zse-gdansk/ui/commit/72da1471019bf35f4af4e29a927be86c257fdb22))
+* **secret-field:** dodano komponent SecretField do obsługi tajnych wartości z opcją pokazywania i kopiowania ([fdc0a7b](https://github.com/zse-gdansk/ui/commit/fdc0a7b05643a56e8bdffd826ad84491d4bde221))
+* **sidebar:** dodano ikonę wskazującą kierunek powrotu w elementach menu bocznego ([03e0df5](https://github.com/zse-gdansk/ui/commit/03e0df5093437bc8aaf55409643b7c254a67859e))
+* **sidebar:** dodano nowe klasy dla ikon w panelu bocznym oraz poprawiono animacje ([691de64](https://github.com/zse-gdansk/ui/commit/691de645c6aba906c3e1049524e87f65949a09fe))
+* **sidebar:** dodano widoki w panelu bocznym z animacjami przejścia i obsługą powrotu do menu głównego ([9d06555](https://github.com/zse-gdansk/ui/commit/9d065551365d66aa1b69b2b9ee21cfd45897424e))
+* **spinner:** dodano komponent Spokes jako wskaźnik ładowania, zastępując ikony LoaderCircle w innych komponentach ([8e0d7fd](https://github.com/zse-gdansk/ui/commit/8e0d7fd8c212a590408dd1bf6df3117b31059040))
+* **table:** dodano akcje wiersza z menu i szybkimi przyciskami ([d4ad267](https://github.com/zse-gdansk/ui/commit/d4ad2679adbbbe7064912639791fd1403170f56c))
+* **table:** zaznaczanie wierszy z akcjami zbiorczymi i confirm() ([16313b9](https://github.com/zse-gdansk/ui/commit/16313b9b01f4550db87271f66d150bfddd453cd5))
+* **time-picker:** dodano komponent wyboru czasu z obsługą przedziałów czasowych ([aa4ab2e](https://github.com/zse-gdansk/ui/commit/aa4ab2e7725bdef2f731d80e5fb5f20e449e1b61))
+* **user-menu:** dodano komponent UserMenu z obsługą konta użytkownika i menu akcji ([fd99008](https://github.com/zse-gdansk/ui/commit/fd990083d25195e37ad71562f7af49a00afb7a8a))
+
+
+### Poprawki
+
+* **form-demo:** poprawiono adresy e-mail i strony klasy na zse.edu.gdansk.pl ([4e4f217](https://github.com/zse-gdansk/ui/commit/4e4f2177d9646dbacd1064b88f1960fe5790693b))
+* **secret-demo:** zmieniono wartość klucza API na wartość demonstracyjną ([75fca35](https://github.com/zse-gdansk/ui/commit/75fca352303279f621cd55f829c19cf3cbe70f56))
+* **sidebar:** przewinięcie do aktywnej pozycji i wyższe pozycje na telefonie ([728658f](https://github.com/zse-gdansk/ui/commit/728658f4e4e1b6a8f7e0f530c2ed30036899002f))
+* **time-picker:** poprawiono klucz dla przycisków slotów na unikalny identyfikator czasowy ([565cddd](https://github.com/zse-gdansk/ui/commit/565cddd6368cf5b14c1592fe6ab973f6a0e9a573))
+
+
+### Dokumentacja
+
+* **design:** dodano wytyczne projektowe, usunięto tracking i przejścia koloru przy hoverze ([b66883e](https://github.com/zse-gdansk/ui/commit/b66883e0c724f95e5d63e48cdad739441bf0fb13))
+
 ## 1.0.0 (2026-09-26)
 
 
