@@ -187,6 +187,13 @@ export const pl: Messages = {
         moreActions: "Więcej akcji",
     },
     userMenu: { label: (name) => `Konto: ${name}` },
+    secretField: {
+        show: "Pokaż",
+        hide: "Ukryj",
+        hidden: "Wartość ukryta",
+        hiddenEnding: (ending) => `Wartość ukryta, kończy się na ${ending}`,
+        loadFailed: "Nie udało się wczytać wartości.",
+    },
     appLoader: {
         loading: "Wczytywanie…",
         slow: [

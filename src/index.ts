@@ -352,3 +352,7 @@ export {
     type PageTabProps,
     type PageTabsProps,
 } from "./components/page-tabs/PageTabs";
+export {
+    SecretField,
+    type SecretFieldProps,
+} from "./components/secret-field/SecretField";

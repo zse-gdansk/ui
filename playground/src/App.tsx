@@ -57,6 +57,7 @@ import { NumberDemo } from "./NumberDemo";
 import { PaginationDemo } from "./PaginationDemo";
 import { PopoverDemo } from "./PopoverDemo";
 import { ProgressDemo } from "./ProgressDemo";
+import { SecretDemo } from "./SecretDemo";
 import { SegmentedDemo } from "./SegmentedDemo";
 import { SheetDemo } from "./SheetDemo";
 import { SkeletonDemo } from "./SkeletonDemo";
@@ -489,6 +490,8 @@ export function App() {
             <CalendarDemo />
 
             <TimeDemo />
+
+            <SecretDemo />
 
             <CodeDemo />
 

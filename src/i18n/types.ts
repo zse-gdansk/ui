@@ -146,6 +146,14 @@ export interface Messages {
     kbd: { space: string; backspace: string; delete: string; escape: string };
     localeSwitcher: { label: string };
     userMenu: { label: (name: string) => string };
+    secretField: {
+        show: string;
+        hide: string;
+        // Dla czytnika zamiast kropek.
+        hidden: string;
+        hiddenEnding: (ending: string) => string;
+        loadFailed: string;
+    };
     appLoader: {
         loading: string;
         // Teksty przy długim wczytywaniu: pierwszy zawsze na start, potem

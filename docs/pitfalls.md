@@ -37,6 +37,8 @@ Błędy, które już raz popełniliśmy. Przejrzyj przed oddaniem pracy.
 - **`setCustomValidity` w efekcie spóźnia się o jedną zmianę:** Base UI sprawdza poprawność w `onChange`, przed efektem. Własną walidację dawaj przez `validate` na `Field.Root`.
 - **Filtr comboboxa reagował na tekst wpisywany przez Base UI** (etykieta wybranej opcji po kliknięciu i przy zamykaniu), przez co zamykająca się lista migała wszystkimi opcjami. Filtruj tylko po `reason === "input-change"` i `"input-clear"`.
 - **Base UI Form nie zbiera dat ani plików.** Rejestruj je przez `useFormValue`.
+- **`<fieldset>` z `display: flex` nie centruje w pionie.** Treść leży w anonimowym pudełku bez wysokości fieldsetu, więc `align-items: center` przy stałej wysokości nic nie daje i wszystko siedzi u góry (`SecretField`). Grupa o stałej wysokości to `<div role="group">`.
+- **`FieldFooter` tylko w `Field.Root`.** Używa `Field.Error` i `Field.Validity`, które poza polem rzucają błąd przy renderze i biała strona zostaje dla całej aplikacji (`SecretField`). Komponent, który nie jest polem formularza, pisze podpowiedź i błąd zwykłym `<p className="zse-input-hint">`.
 
 ## Narzędzia i proces
 
