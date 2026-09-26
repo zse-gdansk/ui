@@ -1,0 +1,81 @@
+.zse-link {
+    --link-color: var(--color-text);
+    --link-line: color-mix(in oklab, currentColor 35%, transparent);
+
+    color: var(--link-color);
+    font-weight: 500;
+    text-decoration-line: underline;
+    text-decoration-color: var(--link-line);
+    text-decoration-thickness: from-font;
+    text-underline-offset: 0.2em;
+    border-radius: 2px;
+    cursor: pointer;
+    transition-property: color, text-decoration-color;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.zse-link[data-variant="accent"] {
+    --link-color: var(--color-accent-text);
+}
+
+.zse-link[data-variant="plain"] {
+    --link-color: var(--color-text-secondary);
+    --link-line: transparent;
+
+    font-weight: inherit;
+}
+
+@media (hover: hover) {
+    .zse-link:hover {
+        --link-line: currentColor;
+    }
+
+    .zse-link[data-variant="plain"]:hover {
+        --link-color: var(--color-text);
+        --link-line: color-mix(in oklab, currentColor 35%, transparent);
+    }
+}
+
+.zse-link:focus-visible {
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: 2px;
+}
+
+.zse-link-external {
+    display: inline-block;
+    width: 0.85em;
+    height: 0.85em;
+    margin-inline-start: 0.15em;
+    vertical-align: -0.05em;
+    opacity: 0.7;
+    transition: opacity var(--duration-fast) ease;
+}
+
+@media (hover: hover) {
+    .zse-link:hover .zse-link-external {
+        opacity: 1;
+    }
+}
+
+.zse-link-hint {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.zse-link-url {
+    margin: 0;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-tint);
+    color: var(--color-text-secondary);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}

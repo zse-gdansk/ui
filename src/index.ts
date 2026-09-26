@@ -153,3 +153,4 @@ export {
     EmptyState,
     type EmptyStateProps,
 } from "./components/empty-state/EmptyState";
+export { Link, type LinkProps } from "./components/link/Link";

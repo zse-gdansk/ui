@@ -203,3 +203,16 @@ body {
     font-size: 0.875rem;
     line-height: 2;
 }
+
+.link-demo {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 560px;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+}
+
+.link-demo p {
+    margin: 0;
+}
