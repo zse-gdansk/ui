@@ -335,3 +335,7 @@ export {
     type PageHeaderProps,
 } from "./components/page-header/PageHeader";
 export { UserMenu, type UserMenuProps } from "./components/user-menu/UserMenu";
+export {
+    AppLoader,
+    type AppLoaderProps,
+} from "./components/app-loader/AppLoader";

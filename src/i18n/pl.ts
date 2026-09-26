@@ -187,6 +187,17 @@ export const pl: Messages = {
         moreActions: "Więcej akcji",
     },
     userMenu: { label: (name) => `Konto: ${name}` },
+    appLoader: {
+        loading: "Wczytywanie…",
+        slow: [
+            "To trwa dłużej niż zwykle.",
+            "Wciąż wczytujemy dane.",
+            "Jeśli to się przeciąga, sprawdź połączenie z internetem.",
+            "Jeszcze chwila…",
+        ],
+        failed: "Nie udało się wczytać aplikacji.",
+        retry: "Spróbuj ponownie",
+    },
     localeSwitcher: { label: "Język" },
     table: {
         search: "Szukaj…",

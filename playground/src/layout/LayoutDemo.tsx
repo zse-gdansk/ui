@@ -34,6 +34,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import {
     AppHeader,
+    AppLoader,
     AppShell,
     Badge,
     Button,
@@ -60,7 +61,7 @@ import {
     toast,
 } from "@zse-gdansk/ui";
 import { GB, PL, UA } from "country-flag-icons/react/3x2";
-import { useState, useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 
 import { TableDemo } from "../TableDemo";
 
@@ -355,52 +356,85 @@ const subscribeHash = (onChange: () => void) => {
 };
 const readHash = () => location.hash.slice(1) || "/uczniowie";
 
+// ?loader=slow: wczytywanie się nie kończy (dopisek po 8 s),
+// ?loader=error: błąd z ponowieniem.
+const LOADER_MODE = new URLSearchParams(location.search).get("loader");
+
 export function LayoutDemo() {
     const pathname = useSyncExternalStore(subscribeHash, readHash);
+    const [status, setStatus] = useState<"loading" | "ready" | "error">(
+        "loading",
+    );
+    const [attempt, setAttempt] = useState(0);
+
+    // Udaje wczytywanie sesji i uprawnień przy wejściu do panelu.
+    useEffect(() => {
+        if (LOADER_MODE === "slow") return;
+        const timer = setTimeout(
+            () =>
+                setStatus(
+                    LOADER_MODE === "error" && attempt === 0
+                        ? "error"
+                        : "ready",
+                ),
+            1500,
+        );
+        return () => clearTimeout(timer);
+    }, [attempt]);
 
     return (
-        <AppShell
-            sidebar={<Nav pathname={pathname} />}
-            header={<Header />}
-            cookie={COOKIE}
-            defaultCollapsed={savedCollapsed}
+        <AppLoader
+            loading={status === "loading"}
+            error={status === "error"}
+            label="Wczytywanie dziennika"
+            onRetry={() => {
+                setStatus("loading");
+                setAttempt((value) => value + 1);
+            }}
         >
-            <HeaderBreadcrumbs items={crumbsFor(pathname)} />
-            <div className="demo-page">
-                <PageHeader
-                    title={pageTitle(pathname)}
-                    description="Zwiń panel przyciskiem obok nazwy albo ⌘B / Ctrl+B."
-                    meta={
-                        <>
-                            <Badge tone="success" size="sm">
-                                64 uczniów
-                            </Badge>
-                            <span>Rok szkolny 2026/27</span>
-                        </>
-                    }
-                    actions={
-                        <>
-                            <Button
-                                variant="outline"
-                                icon={Download04Icon}
-                                onClick={() => toast("Eksport do CSV")}
-                            >
-                                Eksport
-                            </Button>
-                            <Button
-                                icon={Add01Icon}
-                                onClick={() => toast("Nowy uczeń")}
-                            >
-                                Dodaj ucznia
-                            </Button>
-                        </>
-                    }
-                />
-                <TableDemo />
-                <TableDemo />
-            </div>
-            <Toaster />
-            <Confirmer />
-        </AppShell>
+            <AppShell
+                sidebar={<Nav pathname={pathname} />}
+                header={<Header />}
+                cookie={COOKIE}
+                defaultCollapsed={savedCollapsed}
+            >
+                <HeaderBreadcrumbs items={crumbsFor(pathname)} />
+                <div className="demo-page">
+                    <PageHeader
+                        title={pageTitle(pathname)}
+                        description="Zwiń panel przyciskiem obok nazwy albo ⌘B / Ctrl+B."
+                        meta={
+                            <>
+                                <Badge tone="success" size="sm">
+                                    64 uczniów
+                                </Badge>
+                                <span>Rok szkolny 2026/27</span>
+                            </>
+                        }
+                        actions={
+                            <>
+                                <Button
+                                    variant="outline"
+                                    icon={Download04Icon}
+                                    onClick={() => toast("Eksport do CSV")}
+                                >
+                                    Eksport
+                                </Button>
+                                <Button
+                                    icon={Add01Icon}
+                                    onClick={() => toast("Nowy uczeń")}
+                                >
+                                    Dodaj ucznia
+                                </Button>
+                            </>
+                        }
+                    />
+                    <TableDemo />
+                    <TableDemo />
+                </div>
+                <Toaster />
+                <Confirmer />
+            </AppShell>
+        </AppLoader>
     );
 }
