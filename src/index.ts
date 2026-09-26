@@ -48,9 +48,11 @@ export {
     TableFooter,
     TableHead,
     TableHeader,
+    TableNumberCell,
     TableRow,
     type TableCellProps,
     type TableHeadProps,
+    type TableNumberCellProps,
     type TableProps,
     type TableRowProps,
 } from "./components/table/Table";
@@ -71,3 +73,7 @@ export {
     type MenuSubProps,
 } from "./components/menu/Menu";
 export { formatShortcut, type Shortcut } from "./components/menu/shortcut";
+export {
+    NumberField,
+    type NumberFieldProps,
+} from "./components/number-field/NumberField";

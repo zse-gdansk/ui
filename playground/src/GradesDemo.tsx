@@ -1,10 +1,12 @@
 import {
+    Switch,
     Table,
     TableBody,
     TableCell,
     TableFooter,
     TableHead,
     TableHeader,
+    TableNumberCell,
     TableRow,
 } from "@zse-gdansk/ui";
 import { useState } from "react";
@@ -37,10 +39,21 @@ const NAMES = [
     "Zając Tymon",
 ];
 
-const STUDENTS = NAMES.map((name, row) => {
-    const points = TASKS.map(({ max }, col) => (row * 7 + col * 3) % (max + 1));
-    return { name, points, sum: points.reduce((a, b) => a + b, 0) };
-});
+type Points = (number | null)[];
+
+const INITIAL: Record<string, Points> = Object.fromEntries(
+    NAMES.map((name, row) => [
+        name,
+        TASKS.map(({ max }, col) => (row * 7 + col * 3) % (max + 1)),
+    ]),
+);
+
+const sumOf = (points: Points) =>
+    points.reduce<number>((a, b) => a + (b ?? 0), 0);
+const average = (values: number[]) =>
+    format(values.reduce((a, b) => a + b, 0) / values.length);
+const format = (value: number) =>
+    value.toLocaleString("pl-PL", { maximumFractionDigits: 1 });
 const MAX = TASKS.reduce((a, task) => a + task.max, 0);
 
 export function GradesDemo() {
@@ -52,8 +65,24 @@ export function GradesDemo() {
         dir: "asc",
     });
     const [selected, setSelected] = useState<string | null>(null);
+    const [editing, setEditing] = useState(true);
+    const [points, setPoints] = useState(INITIAL);
 
-    const rows = STUDENTS.toSorted((a, b) => {
+    const students = NAMES.map((name) => {
+        const row = points[name] ?? [];
+        return { name, points: row, sum: sumOf(row) };
+    });
+
+    function setPoint(name: string, task: number, value: number | null) {
+        setPoints((prev) => ({
+            ...prev,
+            [name]: (prev[name] ?? []).map((old, i) =>
+                i === task ? value : old,
+            ),
+        }));
+    }
+
+    const rows = students.toSorted((a, b) => {
         const order =
             sort.by === "name"
                 ? a.name.localeCompare(b.name, "pl")
@@ -70,75 +99,90 @@ export function GradesDemo() {
     }
 
     return (
-        <Table label="Wyniki sprawdzianu, klasa 3C" maxHeight={360} striped>
-            <TableHeader>
-                <TableRow>
-                    <TableHead
-                        sticky="left"
-                        sort={sort.by === "name" && sort.dir}
-                        onSort={() => toggle("name")}
-                    >
-                        Uczeń
-                    </TableHead>
-                    {TASKS.map((task) => (
-                        <TableHead key={task.id} numeric>
-                            Zad. {task.number} / {task.max}
+        <section className="grades">
+            <Switch
+                label="Edycja punktów"
+                checked={editing}
+                onCheckedChange={setEditing}
+            />
+            <Table label="Wyniki sprawdzianu, klasa 3C" maxHeight={360} striped>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead
+                            sticky="left"
+                            sort={sort.by === "name" && sort.dir}
+                            onSort={() => toggle("name")}
+                        >
+                            Uczeń
                         </TableHead>
+                        {TASKS.map((task) => (
+                            <TableHead key={task.id} numeric>
+                                Zad. {task.number} / {task.max}
+                            </TableHead>
+                        ))}
+                        <TableHead
+                            sticky="right"
+                            numeric
+                            sort={sort.by === "sum" && sort.dir}
+                            onSort={() => toggle("sum")}
+                        >
+                            Suma / {MAX}
+                        </TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {rows.map((student) => (
+                        <TableRow
+                            key={student.name}
+                            selected={!editing && selected === student.name}
+                            {...(!editing && {
+                                onClick: () =>
+                                    setSelected((prev) =>
+                                        prev === student.name
+                                            ? null
+                                            : student.name,
+                                    ),
+                            })}
+                        >
+                            <TableCell sticky="left">{student.name}</TableCell>
+                            {TASKS.map((task, i) => {
+                                const value = student.points[i] ?? null;
+                                return editing ? (
+                                    <TableNumberCell
+                                        key={task.id}
+                                        label={`Zadanie ${task.number}, ${student.name}`}
+                                        value={value}
+                                        max={task.max}
+                                        onValueChange={(next) =>
+                                            setPoint(student.name, i, next)
+                                        }
+                                    />
+                                ) : (
+                                    <TableCell key={task.id} numeric>
+                                        {value === null ? "–" : format(value)}
+                                    </TableCell>
+                                );
+                            })}
+                            <TableCell sticky="right" numeric>
+                                {format(student.sum)}
+                            </TableCell>
+                        </TableRow>
                     ))}
-                    <TableHead
-                        sticky="right"
-                        numeric
-                        sort={sort.by === "sum" && sort.dir}
-                        onSort={() => toggle("sum")}
-                    >
-                        Suma / {MAX}
-                    </TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {rows.map((student) => (
-                    <TableRow
-                        key={student.name}
-                        selected={selected === student.name}
-                        onClick={() =>
-                            setSelected((prev) =>
-                                prev === student.name ? null : student.name,
-                            )
-                        }
-                    >
-                        <TableCell sticky="left">{student.name}</TableCell>
-                        {student.points.map((value, i) => (
-                            <TableCell key={TASKS[i]?.id} numeric>
-                                {value}
+                </TableBody>
+                <TableFooter>
+                    <TableRow>
+                        <TableCell sticky="left">Średnia</TableCell>
+                        {TASKS.map((task, i) => (
+                            <TableCell key={task.id} numeric>
+                                {average(students.map((s) => s.points[i] ?? 0))}
                             </TableCell>
                         ))}
                         <TableCell sticky="right" numeric>
-                            {student.sum}
+                            {average(students.map((s) => s.sum))}
                         </TableCell>
                     </TableRow>
-                ))}
-            </TableBody>
-            <TableFooter>
-                <TableRow>
-                    <TableCell sticky="left">Średnia</TableCell>
-                    {TASKS.map((task, i) => (
-                        <TableCell key={task.id} numeric>
-                            {(
-                                STUDENTS.reduce(
-                                    (a, s) => a + (s.points[i] ?? 0),
-                                    0,
-                                ) / STUDENTS.length
-                            ).toFixed(1)}
-                        </TableCell>
-                    ))}
-                    <TableCell sticky="right" numeric>
-                        {(
-                            STUDENTS.reduce((a, s) => a + s.sum, 0) /
-                            STUDENTS.length
-                        ).toFixed(1)}
-                    </TableCell>
-                </TableRow>
-            </TableFooter>
-        </Table>
+                </TableFooter>
+            </Table>
+        </section>
     );
 }

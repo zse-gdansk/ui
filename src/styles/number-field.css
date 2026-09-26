@@ -1,0 +1,190 @@
+.zse-number {
+    --number-height: 40px;
+    --number-button: 32px;
+}
+
+.zse-number[data-size="sm"] {
+    --number-height: 36px;
+    --number-button: 28px;
+}
+
+.zse-number[data-size="lg"] {
+    --number-height: 48px;
+    --number-button: 36px;
+}
+
+.zse-number-root {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.zse-number-group {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    height: var(--number-height);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-muted);
+    outline: 1.5px solid transparent;
+    outline-offset: 1.5px;
+    cursor: text;
+    transition-property: background-color, border-color, outline-color;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out);
+}
+
+.zse-number-group:focus-within {
+    border-color: var(--color-focus-ring);
+    background: var(--color-bg-hover);
+    outline-color: var(--color-focus-ring);
+}
+
+.zse-number[data-invalid] .zse-number-group {
+    border-color: var(--color-danger-solid);
+}
+
+.zse-number[data-invalid] .zse-number-group:focus-within {
+    outline-color: var(--color-danger-solid);
+}
+
+.zse-number-input {
+    flex: 1;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    padding: 0 var(--input-pad);
+    border: 0;
+    background: transparent;
+    color: var(--color-text);
+    caret-color: var(--color-text);
+    font: inherit;
+    font-size: 1rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+    outline: none;
+}
+
+@media (min-width: 640px) {
+    .zse-number:not([data-size="lg"]) .zse-number-input,
+    .zse-number:not([data-size="lg"]) .zse-number-suffix {
+        font-size: 0.875rem;
+    }
+}
+
+.zse-number-input::placeholder {
+    color: var(--color-text-secondary);
+    opacity: 1;
+}
+
+.zse-number-input:disabled {
+    cursor: not-allowed;
+    -webkit-text-fill-color: var(--color-text);
+}
+
+.zse-number-group[data-suffix] .zse-number-input {
+    padding-inline-end: 6px;
+}
+
+.zse-number-suffix {
+    flex: none;
+    padding-inline-end: var(--input-pad);
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+.zse-number-group[data-buttons] .zse-number-suffix {
+    padding-inline-end: 8px;
+}
+
+.zse-number-buttons {
+    display: flex;
+    flex: none;
+    gap: 2px;
+    padding-inline-end: calc(
+        (var(--number-height) - var(--number-button)) / 2 - 1px
+    );
+}
+
+.zse-number-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--number-button);
+    height: var(--number-button);
+    padding: 0;
+    border: 0;
+    border-radius: calc(var(--radius-md) - 4px);
+    background: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition-property: scale, opacity;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out);
+}
+
+.zse-number-button svg {
+    width: var(--input-icon-size);
+    height: var(--input-icon-size);
+}
+
+@media (hover: hover) {
+    .zse-number-button:not([data-disabled]):hover {
+        background: var(--color-bg-tint);
+        color: var(--color-text);
+    }
+}
+
+.zse-number-button:not([data-disabled]):active {
+    scale: 0.96;
+}
+
+.zse-number-button:focus-visible {
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: -1.5px;
+}
+
+/* Na granicy min albo max. */
+.zse-number-button[data-disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.zse-number[data-disabled] .zse-number-group,
+.zse-number[data-disabled] .zse-number-button {
+    cursor: not-allowed;
+}
+
+.zse-number-scrub {
+    align-self: flex-start;
+    cursor: ew-resize;
+    user-select: none;
+    touch-action: none;
+}
+
+.zse-number-scrub .zse-input-label {
+    cursor: inherit;
+}
+
+.zse-number[data-disabled] .zse-number-scrub {
+    cursor: not-allowed;
+}
+
+.zse-number-scrub-cursor {
+    display: flex;
+    color: var(--color-text);
+    filter: drop-shadow(0 1px 1px oklch(100% 0 0 / 80%));
+}
+
+[data-theme="dark"] .zse-number-scrub-cursor {
+    filter: drop-shadow(0 1px 1px oklch(0% 0 0 / 80%));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-number-button:not([data-disabled]):active {
+        scale: 1;
+    }
+}

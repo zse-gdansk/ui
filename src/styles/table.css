@@ -76,7 +76,8 @@
     transition-property: border-color, box-shadow;
 }
 
-.zse-table-head[data-column-hover] {
+.zse-table-head[data-column-hover],
+.zse-table-head[data-column-focus] {
     background: var(--table-hover-bg);
     color: var(--color-text);
 }
@@ -96,6 +97,10 @@
     .zse-table-body .zse-table-row:hover {
         --table-row-bg: var(--table-hover-bg);
     }
+}
+
+.zse-table-body .zse-table-row:focus-within {
+    --table-row-bg: var(--table-hover-bg);
 }
 
 .zse-table-row[data-selected] {
@@ -208,4 +213,56 @@
     background: var(--color-bg-surface);
     color: var(--color-text-secondary);
     text-align: center;
+}
+
+.zse-table-input-cell {
+    padding: 0;
+}
+
+.zse-table-input {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 4rem;
+    height: calc(var(--table-cell-height) - 1px);
+    padding: 0 var(--table-cell-padding);
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-variant-numeric: tabular-nums;
+    text-align: inherit;
+    outline: 2px solid transparent;
+    outline-offset: -2px;
+    cursor: text;
+}
+
+@media (hover: hover) {
+    .zse-table-input:not(:disabled):hover {
+        box-shadow: inset 0 0 0 1px var(--color-border);
+    }
+}
+
+.zse-table-input:focus {
+    outline-color: var(--color-focus-ring);
+    background: var(--color-bg-raised);
+    box-shadow: none;
+}
+
+.zse-table-input::placeholder {
+    color: var(--color-text-disabled);
+    opacity: 1;
+}
+
+.zse-table-input::selection {
+    background: var(--color-accent-bg-hover);
+}
+
+.zse-table-input[aria-invalid] {
+    color: var(--color-danger-text);
+    outline-color: var(--color-danger-solid);
+}
+
+.zse-table-input:disabled {
+    cursor: not-allowed;
 }
