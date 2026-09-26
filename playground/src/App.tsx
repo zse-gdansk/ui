@@ -35,6 +35,7 @@ import {
 import { useState } from "react";
 
 import { AlertDemo } from "./AlertDemo";
+import { AvatarDemo } from "./AvatarDemo";
 import { BadgeDemo } from "./BadgeDemo";
 import { GradesDemo } from "./GradesDemo";
 import { MenuDemo } from "./MenuDemo";
@@ -416,6 +417,8 @@ export function App() {
             <SheetDemo />
 
             <SkeletonDemo />
+
+            <AvatarDemo />
 
             <BadgeDemo />
 

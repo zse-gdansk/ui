@@ -91,3 +91,9 @@ export {
     type SkeletonTextProps,
 } from "./components/skeleton/Skeleton";
 export { Sheet, SheetClose, type SheetProps } from "./components/sheet/Sheet";
+export {
+    Avatar,
+    AvatarGroup,
+    type AvatarGroupProps,
+    type AvatarProps,
+} from "./components/avatar/Avatar";
