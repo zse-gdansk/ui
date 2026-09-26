@@ -39,6 +39,7 @@ import { BadgeDemo } from "./BadgeDemo";
 import { GradesDemo } from "./GradesDemo";
 import { MenuDemo } from "./MenuDemo";
 import { NumberDemo } from "./NumberDemo";
+import { SheetDemo } from "./SheetDemo";
 import { SkeletonDemo } from "./SkeletonDemo";
 
 const RAMPS = ["gray", "blue", "green", "orange", "red", "violet"] as const;
@@ -411,6 +412,8 @@ export function App() {
                     }
                 />
             </section>
+
+            <SheetDemo />
 
             <SkeletonDemo />
 

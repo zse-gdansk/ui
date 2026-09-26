@@ -1,0 +1,234 @@
+.zse-sheet-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    min-height: 100dvh;
+    background: var(--color-bg-overlay);
+    opacity: calc(1 - var(--drawer-swipe-progress, 0));
+    transition: opacity 400ms var(--ease-drawer);
+}
+
+.zse-sheet-backdrop[data-starting-style],
+.zse-sheet-backdrop[data-ending-style] {
+    opacity: 0;
+}
+
+.zse-sheet-backdrop[data-swiping] {
+    transition-duration: 0ms;
+}
+
+.zse-sheet-backdrop[data-ending-style] {
+    transition-duration: calc(var(--drawer-swipe-strength, 1) * 400ms);
+}
+
+@supports (-webkit-touch-callout: none) {
+    .zse-sheet-backdrop {
+        position: absolute;
+    }
+}
+
+.zse-sheet-viewport {
+    --sheet-gap: 8px;
+
+    position: fixed;
+    inset: 0;
+    z-index: 91;
+    display: flex;
+    padding: var(--sheet-gap);
+    pointer-events: none;
+}
+
+.zse-sheet-viewport[data-side="right"] {
+    justify-content: flex-end;
+}
+
+.zse-sheet-viewport[data-side="bottom"] {
+    align-items: flex-end;
+    padding: 0;
+}
+
+.zse-sheet {
+    --sheet-width: 400px;
+    --sheet-offset: calc(100% + var(--sheet-gap) + 2px);
+
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: min(var(--sheet-width), 100%);
+    max-height: 100%;
+    border-radius: var(--radius-xl);
+    background: var(--color-bg-elevated);
+    box-shadow: var(--shadow-modal);
+    color: var(--color-text);
+    outline: none;
+    pointer-events: auto;
+    transition: transform 400ms var(--ease-drawer);
+    will-change: transform;
+}
+
+.zse-sheet[data-size="sm"] {
+    --sheet-width: 340px;
+}
+
+.zse-sheet[data-size="lg"] {
+    --sheet-width: 560px;
+}
+
+.zse-sheet[data-side="right"] {
+    transform: translateX(var(--drawer-swipe-movement-x, 0px));
+}
+
+.zse-sheet[data-side="left"] {
+    --sheet-offset: calc(-100% - var(--sheet-gap) - 2px);
+
+    transform: translateX(var(--drawer-swipe-movement-x, 0px));
+}
+
+.zse-sheet[data-side="right"][data-starting-style],
+.zse-sheet[data-side="right"][data-ending-style],
+.zse-sheet[data-side="left"][data-starting-style],
+.zse-sheet[data-side="left"][data-ending-style] {
+    transform: translateX(var(--sheet-offset));
+}
+
+/* Od dołu zawsze na całą szerokość ekranu. Na szerokim ekranie treść
+   w środku trzyma 640px, żeby linie nie ciągnęły się przez cały monitor. */
+.zse-sheet[data-side="bottom"] {
+    --sheet-inline: max(20px, calc((100% - 640px) / 2));
+
+    width: 100%;
+    max-height: calc(100dvh - 48px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    border-end-start-radius: 0;
+    border-end-end-radius: 0;
+    transform: translateY(
+        calc(
+            var(--drawer-snap-point-offset, 0px) +
+                var(--drawer-swipe-movement-y, 0px)
+        )
+    );
+}
+
+/* Z punktami zaczepienia panel ma zawsze pełną wysokość, a Base UI
+   zsuwa go w dół o --drawer-snap-point-offset. Na połowie widać górną
+   część, po rozwinięciu całość. */
+.zse-sheet[data-side="bottom"][data-snap] {
+    height: calc(100dvh - 48px);
+}
+
+.zse-sheet[data-side="bottom"]
+    :is(.zse-sheet-header, .zse-sheet-body, .zse-sheet-footer) {
+    padding-inline: var(--sheet-inline);
+}
+
+/* Boczny panel na telefonie: odstęp od wcięcia i zaokrąglonych rogów
+   ekranu w poziomie. */
+.zse-sheet-viewport:not([data-side="bottom"]) {
+    padding-inline: max(var(--sheet-gap), env(safe-area-inset-left, 0px))
+        max(var(--sheet-gap), env(safe-area-inset-right, 0px));
+}
+
+.zse-sheet[data-snap] .zse-sheet-header,
+.zse-sheet[data-snap] .zse-sheet-handle {
+    touch-action: none;
+    user-select: none;
+}
+
+.zse-sheet[data-side="bottom"][data-starting-style],
+.zse-sheet[data-side="bottom"][data-ending-style] {
+    transform: translateY(calc(100% + 2px));
+}
+
+.zse-sheet[data-swiping] {
+    transition-duration: 0ms;
+    user-select: none;
+}
+
+.zse-sheet[data-ending-style] {
+    transition-duration: calc(var(--drawer-swipe-strength, 1) * 400ms);
+}
+
+.zse-sheet-handle {
+    flex: none;
+    width: 36px;
+    height: 4px;
+    margin: 8px auto -4px;
+    border-radius: var(--radius-full);
+    background: var(--color-border);
+}
+
+.zse-sheet-header {
+    display: flex;
+    flex: none;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 20px 0;
+}
+
+.zse-sheet-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.zse-sheet-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+}
+
+.zse-sheet-description {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.625;
+}
+
+.zse-sheet-header .zse-modal-close[data-hidden]:not(:focus-visible) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.zse-sheet-body {
+    flex: 1;
+    min-height: 0;
+    padding: 16px 20px 20px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.zse-sheet-footer {
+    display: flex;
+    flex: none;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 12px 20px 16px;
+    border-top: 1px solid var(--color-border-subtle);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-sheet {
+        transition-property: opacity;
+    }
+
+    .zse-sheet[data-starting-style],
+    .zse-sheet[data-ending-style] {
+        opacity: 0;
+    }
+
+    .zse-sheet[data-side][data-starting-style],
+    .zse-sheet[data-side][data-ending-style] {
+        transform: none;
+    }
+}

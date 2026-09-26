@@ -41,7 +41,7 @@
 }
 
 .zse-select-positioner {
-    z-index: 20;
+    z-index: 95;
     outline: none;
     user-select: none;
 }

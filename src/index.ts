@@ -90,3 +90,4 @@ export {
     type SkeletonProps,
     type SkeletonTextProps,
 } from "./components/skeleton/Skeleton";
+export { Sheet, SheetClose, type SheetProps } from "./components/sheet/Sheet";

@@ -149,3 +149,9 @@ body {
 .skeleton-profile-text {
     flex: 1;
 }
+
+.sheet-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
