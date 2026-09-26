@@ -1,16 +1,21 @@
 import {
     CheckmarkBadge01Icon,
     Delete02Icon,
+    Search01Icon,
     UserIcon,
 } from "@hugeicons/core-free-icons";
 import {
+    Button,
     ContextMenu,
+    createSearch,
+    Input,
     MenuItem,
     MenuSeparator,
     Switch,
     Table,
     TableBody,
     TableCell,
+    TableEmpty,
     TableFooter,
     TableHead,
     TableHeader,
@@ -76,6 +81,7 @@ export function GradesDemo() {
     const [selected, setSelected] = useState<string | null>(null);
     const [editing, setEditing] = useState(true);
     const [points, setPoints] = useState(INITIAL);
+    const [query, setQuery] = useState("");
 
     const students = NAMES.map((name) => {
         const row = points[name] ?? [];
@@ -91,13 +97,22 @@ export function GradesDemo() {
         }));
     }
 
-    const rows = students.toSorted((a, b) => {
-        const order =
-            sort.by === "name"
-                ? a.name.localeCompare(b.name, "pl")
-                : a.sum - b.sum;
-        return sort.dir === "asc" ? order : -order;
-    });
+    const matching = query.trim()
+        ? new Set(
+              createSearch(students, { keys: ["name"] })(query).map(
+                  (result) => result.item.name,
+              ),
+          )
+        : null;
+    const rows = students
+        .filter((student) => !matching || matching.has(student.name))
+        .toSorted((a, b) => {
+            const order =
+                sort.by === "name"
+                    ? a.name.localeCompare(b.name, "pl")
+                    : a.sum - b.sum;
+            return sort.dir === "asc" ? order : -order;
+        });
 
     function toggle(by: "name" | "sum") {
         setSort((prev) =>
@@ -109,6 +124,13 @@ export function GradesDemo() {
 
     return (
         <section className="grades">
+            <Input
+                size="sm"
+                leftIcon={Search01Icon}
+                placeholder="Szukaj ucznia, np. zajac"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+            />
             <Switch
                 label="Edycja punktów"
                 checked={editing}
@@ -140,6 +162,23 @@ export function GradesDemo() {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
+                    {rows.length === 0 && (
+                        <TableEmpty
+                            colSpan={TASKS.length + 2}
+                            icon={Search01Icon}
+                            title={`Brak uczniów pasujących do „${query.trim()}”`}
+                            description="Sprawdź pisownię albo wyczyść wyszukiwanie."
+                            actions={
+                                <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => setQuery("")}
+                                >
+                                    Wyczyść
+                                </Button>
+                            }
+                        />
+                    )}
                     {rows.map((student) => (
                         <TableRow
                             key={student.name}

@@ -209,7 +209,7 @@
 }
 
 .zse-table-empty {
-    padding: 40px 16px;
+    padding: 0;
     background: var(--color-bg-surface);
     color: var(--color-text-secondary);
     text-align: center;

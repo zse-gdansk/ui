@@ -52,6 +52,7 @@ export {
     TableNumberCell,
     TableRow,
     type TableCellProps,
+    type TableEmptyProps,
     type TableHeadProps,
     type TableNumberCellProps,
     type TableProps,

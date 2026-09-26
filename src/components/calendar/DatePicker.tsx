@@ -7,6 +7,7 @@ import { useState, type ReactNode } from "react";
 
 import { Button } from "../button/Button";
 import { FieldFooter } from "../field/FieldFooter";
+import { useFormValue } from "../form/context";
 import { Icon } from "../icon/Icon";
 import { Calendar, type CalendarMark, type DateRange } from "./Calendar";
 import { formatDate, formatRange, startOfDay } from "./dates";
@@ -66,6 +67,9 @@ export function DatePicker(props: DatePickerProps) {
     const value = props.value === undefined ? internal : props.value;
     const single = range ? null : (value as Date | null);
     const span = range ? (value as DateRange | null) : null;
+    // W Form wartością jest Date albo { from, to }, nie tekst, więc schemat
+    // może od razu sprawdzać np. z.date().min(dzisiaj).
+    useFormValue(name, value);
 
     function set(next: Date | DateRange | null) {
         if (props.value === undefined) setInternal(next);

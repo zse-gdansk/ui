@@ -15,7 +15,8 @@ import {
     type ThHTMLAttributes,
 } from "react";
 
-import { Icon } from "../icon/Icon";
+import { EmptyState } from "../empty-state/EmptyState";
+import { Icon, type IconGlyph } from "../icon/Icon";
 
 const cx = (...names: (string | false | undefined)[]) =>
     names.filter(Boolean).join(" ");
@@ -297,17 +298,36 @@ export function TableCell({
     );
 }
 
+export interface TableEmptyProps {
+    colSpan: number;
+    icon?: IconGlyph;
+    // Tytuł; children działa tak samo, dla zgodności ze starym użyciem.
+    title?: ReactNode;
+    description?: ReactNode;
+    actions?: ReactNode;
+    children?: ReactNode;
+}
+
+// Pusty stan w tabeli: ten sam EmptyState co w reszcie aplikacji, w małym
+// rozmiarze, na całą szerokość wiersza.
 export function TableEmpty({
     colSpan,
+    icon,
+    title,
+    description,
+    actions,
     children,
-}: {
-    colSpan: number;
-    children: ReactNode;
-}) {
+}: TableEmptyProps) {
     return (
         <tr>
             <td colSpan={colSpan} className="zse-table-empty">
-                {children}
+                <EmptyState
+                    size="sm"
+                    title={title ?? children}
+                    {...(icon && { icon })}
+                    {...(description != null && { description })}
+                    {...(actions != null && { actions })}
+                />
             </td>
         </tr>
     );

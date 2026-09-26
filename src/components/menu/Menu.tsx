@@ -116,6 +116,9 @@ export interface MenuItemProps {
     variant?: "default" | "danger";
     // Link zamiast akcji, zamyka menu po kliknięciu.
     href?: string;
+    // Link z routera zamiast <a>, np. <NextLink href="/oceny" />, żeby
+    // przejście nie przeładowało strony.
+    render?: ReactElement<Record<string, unknown>>;
 }
 
 export function MenuItem({
@@ -126,6 +129,7 @@ export function MenuItem({
     disabled = false,
     variant = "default",
     href,
+    render,
 }: MenuItemProps) {
     const ref = useRef<HTMLElement>(null);
     useShortcut(shortcut, ref, disabled);
@@ -144,6 +148,7 @@ export function MenuItem({
             <BaseMenu.LinkItem
                 ref={ref as RefObject<HTMLAnchorElement | null>}
                 {...aria}
+                {...(render && { render })}
                 href={href}
                 closeOnClick
                 className="zse-menu-item"

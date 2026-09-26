@@ -4,7 +4,14 @@ import {
     ArrowRight01Icon,
     MoreHorizontalIcon,
 } from "@hugeicons/core-free-icons";
-import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import {
+    isValidElement,
+    useLayoutEffect,
+    useRef,
+    useState,
+    type ReactElement,
+    type ReactNode,
+} from "react";
 
 import { Icon, type IconGlyph } from "../icon/Icon";
 import { Menu, MenuItem } from "../menu/Menu";
@@ -131,6 +138,15 @@ export function Breadcrumbs({
         />
     );
 
+    // Link z routera także w menu „…”: element z renderLink (np. NextLink
+    // z href) jako render pozycji menu, Base UI dokłada treść i klasy.
+    const routerLink = (href: string) => {
+        const element = renderLink?.({ href, className: "", children: null });
+        return isValidElement(element)
+            ? { render: element as ReactElement<Record<string, unknown>> }
+            : {};
+    };
+
     const lastIndex = items.length - 1;
     const hiddenItems = hidden
         .map((i) => items[i])
@@ -172,6 +188,9 @@ export function Breadcrumbs({
                                             {...(hiddenItem.href && {
                                                 href: hiddenItem.href,
                                             })}
+                                            {...(hiddenItem.href &&
+                                                renderLink &&
+                                                routerLink(hiddenItem.href))}
                                         >
                                             {hiddenItem.label}
                                         </MenuItem>

@@ -3,8 +3,7 @@
 import { Fieldset as BaseFieldset } from "@base-ui/react/fieldset";
 import { Form as BaseForm } from "@base-ui/react/form";
 import {
-    createContext,
-    useContext,
+    useCallback,
     useEffect,
     useMemo,
     useRef,
@@ -15,6 +14,7 @@ import {
 
 import { Alert } from "../alert/Alert";
 import { Button } from "../button/Button";
+import { FormContext, useFormState } from "./context";
 import type {
     InferOutput,
     StandardIssue,
@@ -50,12 +50,6 @@ export interface FormProps<
     warnOnLeave?: boolean;
     children: ReactNode;
 }
-
-interface FormState {
-    submitting: boolean;
-}
-
-const FormContext = createContext<FormState>({ submitting: false });
 
 // Ścieżka błędu schematu jako nazwa pola: ["adres", "miasto"] → "adres.miasto".
 function issueName(issue: StandardIssue) {
@@ -103,7 +97,17 @@ export function Form<Schema extends StandardSchemaV1 | undefined = undefined>({
     const [message, setMessage] = useState<string | null>(null);
     const [submitting, setSubmitting] = useState(false);
     const [dirty, setDirty] = useState(false);
-    const state = useMemo(() => ({ submitting }), [submitting]);
+    const extras = useRef(new Map<string, () => unknown>());
+    const register = useCallback((name: string, read: () => unknown) => {
+        extras.current.set(name, read);
+        return () => {
+            if (extras.current.get(name) === read) extras.current.delete(name);
+        };
+    }, []);
+    const state = useMemo(
+        () => ({ submitting, register }),
+        [submitting, register],
+    );
 
     useEffect(() => {
         if (!warnOnLeave || !dirty) return;
@@ -117,9 +121,12 @@ export function Form<Schema extends StandardSchemaV1 | undefined = undefined>({
         if (submitting) return;
         setMessage(null);
 
-        let values: unknown = raw;
+        // Daty, pliki i inne wartości spoza Field.Control (context.ts).
+        const all: Record<string, unknown> = { ...raw };
+        for (const [name, read] of extras.current) all[name] = read();
+        let values: unknown = all;
         if (schema) {
-            const result = await schema["~standard"].validate(raw);
+            const result = await schema["~standard"].validate(all);
             if (result.issues) {
                 setErrors(toErrors(result.issues));
                 focusFirstError(formRef.current);
@@ -186,7 +193,7 @@ export function FormSubmit({
     pendingLabel,
     ...props
 }: FormSubmitProps) {
-    const { submitting } = useContext(FormContext);
+    const { submitting } = useFormState();
     return (
         <Button {...props} type="submit" loading={submitting}>
             {submitting && pendingLabel ? pendingLabel : children}

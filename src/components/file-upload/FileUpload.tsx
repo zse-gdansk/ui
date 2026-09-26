@@ -1,5 +1,6 @@
 "use client";
 
+import { Field } from "@base-ui/react/field";
 import {
     AlertCircleIcon,
     Cancel01Icon,
@@ -18,6 +19,8 @@ import {
     type ReactNode,
 } from "react";
 
+import { FieldFooter } from "../field/FieldFooter";
+import { useFormValue } from "../form/context";
 import { Icon } from "../icon/Icon";
 import {
     accepts,
@@ -256,6 +259,11 @@ export function FileUpload({
     const valid = items.filter(
         (item) => item.status !== "rejected" && !item.leaving,
     );
+    // W Form wartością pola są poprawne pliki (File[]), bez odrzuconych.
+    useFormValue(
+        name,
+        valid.map((item) => item.file),
+    );
     const validKey = valid.map((item) => item.id).join();
     const reported = useRef("");
     useEffect(() => {
@@ -330,10 +338,12 @@ export function FileUpload({
             null);
 
     return (
-        <div
+        // Field.Root, żeby błąd z Form (schemat, serwer) trafił pod pole.
+        <Field.Root
             className="zse-upload"
-            data-disabled={disabled || undefined}
-            data-invalid={error ? "" : undefined}
+            disabled={disabled}
+            {...(name !== undefined && { name })}
+            {...(error && { invalid: true })}
         >
             {label != null && label !== false && (
                 <span id={`${id}-label`} className="zse-input-label">
@@ -434,12 +444,12 @@ export function FileUpload({
                 </ul>
             )}
 
-            {error && <p className="zse-input-hint">{error}</p>}
+            <FieldFooter error={error} />
 
             <span className="zse-upload-live" aria-live="polite">
                 {announcement}
             </span>
-        </div>
+        </Field.Root>
     );
 }
 

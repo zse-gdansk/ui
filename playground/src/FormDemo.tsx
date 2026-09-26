@@ -2,7 +2,9 @@ import {
     Card,
     CardContent,
     Checkbox,
+    DatePicker,
     Fieldset,
+    FileUpload,
     Form,
     FormRow,
     FormSubmit,
@@ -30,6 +32,8 @@ const schema = z.object({
         .max(50, "Maksymalnie 50 punktów"),
     kandydat: z.string({ error: "Wybierz kandydata" }),
     uwagi: z.string().max(300).optional(),
+    termin: z.date({ error: "Wybierz termin rozmowy" }),
+    zalacznik: z.array(z.instanceof(File)).min(1, "Dodaj zdjęcie legitymacji"),
     regulamin: z.literal(true, {
         error: "Zaakceptuj regulamin, żeby wysłać zgłoszenie",
     }),
@@ -94,6 +98,17 @@ export function FormDemo() {
                             label="Uwagi"
                             placeholder="Opcjonalnie"
                             maxLength={300}
+                        />
+                        <DatePicker
+                            name="termin"
+                            label="Termin rozmowy"
+                            min={new Date()}
+                        />
+                        <FileUpload
+                            name="zalacznik"
+                            label="Zdjęcie legitymacji"
+                            accept="image/*"
+                            multiple={false}
                         />
                         <Checkbox
                             name="regulamin"
