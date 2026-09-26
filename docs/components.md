@@ -7,6 +7,7 @@ Spis tego, co jest i co już potrafi. Zanim dodasz komponent albo prop, sprawdź
 | Komponent                                                                                                                  | Base UI                    | Najważniejsze                                                                                                                                                                                                                                                                                                                                                              |
 | -------------------------------------------------------------------------------------------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `AppShell`, `AppShellTrigger`, `useAppShell`                                                                               | Drawer                     | panel po lewej i pasek nad treścią, szkielet na wysokość ekranu i przewija się tylko `main` (jak w Linearze, bez gumowego odbicia całego layoutu); zwinięcie do 56px animowane szerokością (⌘B / Ctrl+B bez animacji), poniżej 768px ta sama treść w wysuwanym panelu, `AppShellTrigger` tylko na telefonie; `cookie` zapisuje zwinięcie dla SSR; link „Przejdź do treści” |
+| `AppHeader`, `HeaderBreadcrumbs`, `HeaderAction`                                                                           | – (Breadcrumbs, Tooltip)   | pasek dla `header`: przycisk panelu na telefonie, breadrumbs albo `title`, akcje zawsze w całości; breadrumbs deklaruje strona przez `<HeaderBreadcrumbs>` (portal do paska, środek chowa się do „…”); `HeaderAction` 32×32 z tooltipem, `shortcut` działa globalnie i jest w tooltipie, `badge` jako kropka, `render` dla linków                                              |
 | `Sidebar`, `SidebarHeader`, `SidebarContent`, `SidebarGroup`, `SidebarItem`, `SidebarSub`, `SidebarFooter`, `isActivePath` | Collapsible, Menu, Tooltip | ikony w stałej kolumnie i etykiety ucinane krawędzią, więc zwijanie nic nie przesuwa; po zwinięciu najechanie zamienia znak w przycisk rozwijania, tooltipy (kolejne od razu), licznik jako kropka, grupy z kreską w tym samym wierszu; `SidebarSub` rozwija się w miejscu, a po zwinięciu otwiera menu obok ikony; `render` dla linków routera                            |
 
 Zwinięcie bez mignięcia w Next.js: serwer czyta cookie i podaje stan startowy, szkielet sam zapisuje zmiany.
@@ -52,6 +53,23 @@ Panel to części `Sidebar` w propie `sidebar`:
         </SidebarGroup>
     </SidebarContent>
 </Sidebar>
+```
+
+Pasek i breadrumbs strony. `AppHeader` idzie do layoutu, breadrumbs do strony, bo dopiero ona zna nazwy (np. ucznia z bazy). Na pierwszym renderze na serwerze widać `title`, breadrumbs pojawiają się po hydracji w tym samym miejscu.
+
+```tsx
+// layout
+<AppShell header={<AppHeader title="Dziennik ZSE" actions={<HeaderAction icon={Search01Icon} label="Szukaj" shortcut="mod+k" onClick={openPalette} />} />} sidebar={…}>
+
+// components/crumbs.tsx: funkcji renderLink nie przekaże strona serwerowa,
+// więc Link podpina raz małe opakowanie klienckie.
+"use client";
+export const Crumbs = (props: BreadcrumbsProps) => (
+    <HeaderBreadcrumbs {...props} renderLink={(link) => <Link {...link} />} />
+);
+
+// app/(app)/uczniowie/[id]/page.tsx (serwerowa)
+<Crumbs items={[{ label: "Uczniowie", href: "/uczniowie" }, { label: student.name }]} />
 ```
 
 Części panelu czytają `useAppShell()`: `collapsed` i `inDrawer` (w wysuwanym panelu treść jest zawsze w pełnej wersji).

@@ -39,6 +39,13 @@ export interface AppShellState {
 
 export const AppShellContext = createContext<AppShellState | null>(null);
 
+// Miejsce w pasku na breadcrumb strony: AppHeader je wystawia,
+// HeaderBreadcrumbs renderuje do niego przez portal.
+export const HeaderSlotContext = createContext<{
+    slot: HTMLElement | null;
+    setSlot: (slot: HTMLElement | null) => void;
+}>({ slot: null, setSlot: () => {} });
+
 // Stan szkieletu dla części panelu i własnych przycisków.
 export function useAppShell() {
     const state = useContext(AppShellContext);
@@ -82,6 +89,8 @@ export function AppShell({
     const rootRef = useRef<HTMLDivElement>(null);
     const [inner, setInner] = useState(defaultCollapsed);
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [slot, setSlot] = useState<HTMLElement | null>(null);
+    const slotValue = useMemo(() => ({ slot, setSlot }), [slot]);
     const collapsed = controlled ?? inner;
 
     const hasSidebar = sidebar != null;
@@ -170,81 +179,86 @@ export function AppShell({
     }, [mobileOpen]);
 
     return (
-        <AppShellContext value={state}>
-            <div
-                ref={rootRef}
-                className="zse-shell"
-                data-collapsed={collapsed || undefined}
-                data-sidebar={sidebar ? "" : undefined}
-            >
-                <a className="zse-shell-skip" href={`#${mainId}`}>
-                    {t.appShell.skip}
-                </a>
-                {sidebar != null && (
-                    <aside
-                        id={sidebarId}
-                        className="zse-shell-sidebar"
-                        aria-label={sidebarLabel ?? t.appShell.sidebar}
-                        data-collapsed={collapsed || undefined}
-                    >
-                        {sidebar}
-                    </aside>
-                )}
-                <div className="zse-shell-body">
-                    {header != null && (
-                        <header ref={headerRef} className="zse-shell-header">
-                            {header}
-                        </header>
-                    )}
-                    <main
-                        ref={mainRef}
-                        id={mainId}
-                        className="zse-shell-main"
-                        tabIndex={-1}
-                    >
-                        {children}
-                    </main>
-                </div>
-            </div>
-
-            {sidebar != null && (
-                <Drawer.Root
-                    open={mobileOpen}
-                    onOpenChange={(open) => setMobileOpen(open)}
-                    swipeDirection="left"
+        <HeaderSlotContext value={slotValue}>
+            <AppShellContext value={state}>
+                <div
+                    ref={rootRef}
+                    className="zse-shell"
+                    data-collapsed={collapsed || undefined}
+                    data-sidebar={sidebar ? "" : undefined}
                 >
-                    <Drawer.Portal>
-                        <Drawer.Backdrop className="zse-sheet-backdrop zse-shell-backdrop" />
-                        <Drawer.Viewport
-                            className="zse-sheet-viewport"
-                            data-side="left"
+                    <a className="zse-shell-skip" href={`#${mainId}`}>
+                        {t.appShell.skip}
+                    </a>
+                    {sidebar != null && (
+                        <aside
+                            id={sidebarId}
+                            className="zse-shell-sidebar"
+                            aria-label={sidebarLabel ?? t.appShell.sidebar}
+                            data-collapsed={collapsed || undefined}
                         >
-                            <Drawer.Popup
-                                className="zse-sheet zse-shell-drawer"
-                                data-side="left"
-                                data-size="sm"
-                                // Wybór pozycji w panelu to przejście na inną
-                                // stronę, więc panel się chowa.
-                                onClick={(event) => {
-                                    if (
-                                        event.target instanceof Element &&
-                                        event.target.closest("a[href]")
-                                    )
-                                        setMobileOpen(false);
-                                }}
+                            {sidebar}
+                        </aside>
+                    )}
+                    <div className="zse-shell-body">
+                        {header != null && (
+                            <header
+                                ref={headerRef}
+                                className="zse-shell-header"
                             >
-                                <Drawer.Title className="zse-shell-sr">
-                                    {sidebarLabel ?? t.appShell.sidebar}
-                                </Drawer.Title>
-                                <AppShellContext value={drawerState}>
-                                    {sidebar}
-                                </AppShellContext>
-                            </Drawer.Popup>
-                        </Drawer.Viewport>
-                    </Drawer.Portal>
-                </Drawer.Root>
-            )}
-        </AppShellContext>
+                                {header}
+                            </header>
+                        )}
+                        <main
+                            ref={mainRef}
+                            id={mainId}
+                            className="zse-shell-main"
+                            tabIndex={-1}
+                        >
+                            {children}
+                        </main>
+                    </div>
+                </div>
+
+                {sidebar != null && (
+                    <Drawer.Root
+                        open={mobileOpen}
+                        onOpenChange={(open) => setMobileOpen(open)}
+                        swipeDirection="left"
+                    >
+                        <Drawer.Portal>
+                            <Drawer.Backdrop className="zse-sheet-backdrop zse-shell-backdrop" />
+                            <Drawer.Viewport
+                                className="zse-sheet-viewport"
+                                data-side="left"
+                            >
+                                <Drawer.Popup
+                                    className="zse-sheet zse-shell-drawer"
+                                    data-side="left"
+                                    data-size="sm"
+                                    // Wybór pozycji w panelu to przejście na inną
+                                    // stronę, więc panel się chowa.
+                                    onClick={(event) => {
+                                        if (
+                                            event.target instanceof Element &&
+                                            event.target.closest("a[href]")
+                                        )
+                                            setMobileOpen(false);
+                                    }}
+                                >
+                                    <Drawer.Title className="zse-shell-sr">
+                                        {sidebarLabel ?? t.appShell.sidebar}
+                                    </Drawer.Title>
+                                    <AppShellContext value={drawerState}>
+                                        {sidebar}
+                                    </AppShellContext>
+                                </Drawer.Popup>
+                            </Drawer.Viewport>
+                        </Drawer.Portal>
+                    </Drawer.Root>
+                )}
+            </AppShellContext>
+        </HeaderSlotContext>
     );
 }
 

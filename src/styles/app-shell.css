@@ -180,3 +180,117 @@ html:has(.zse-shell) {
         scale: 1;
     }
 }
+
+/* AppHeader: przycisk panelu (telefon), breadcrumb albo tytuł, akcje. */
+.zse-header {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.zse-header-start {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    min-width: 0;
+}
+
+.zse-header-slot {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+}
+
+/* Tytuł to zastępstwo, dopóki strona nie poda breadcrumbsów. */
+.zse-header-slot:empty {
+    display: none;
+}
+
+.zse-header-slot:not(:empty) + .zse-header-title {
+    display: none;
+}
+
+.zse-header-slot > .zse-breadcrumbs {
+    flex: 1;
+}
+
+.zse-header-title {
+    min-width: 0;
+    overflow: hidden;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.zse-header-actions {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Tło bez przejścia, jak w panelu: hover nadąża za kursorem. */
+.zse-header-action {
+    position: relative;
+    display: grid;
+    flex: none;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    place-items: center;
+    border: 0;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: scale 160ms var(--ease-out);
+}
+
+@media (hover: hover) {
+    .zse-header-action:hover {
+        background: var(--color-bg-hover);
+        color: var(--color-text);
+    }
+}
+
+.zse-header-action:active {
+    scale: 0.96;
+}
+
+.zse-header-action[data-active],
+.zse-header-action[data-popup-open] {
+    background: var(--color-bg-active);
+    color: var(--color-text);
+}
+
+.zse-header-action[aria-disabled="true"] {
+    color: var(--color-text-disabled);
+    cursor: not-allowed;
+}
+
+.zse-header-action:focus-visible {
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: -1.5px;
+}
+
+/* Kropka jak licznik w zwiniętym panelu. */
+.zse-header-action[data-badge]::after {
+    content: "";
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 7px;
+    height: 7px;
+    border: 1.5px solid var(--color-bg);
+    border-radius: var(--radius-full);
+    background: var(--color-accent-solid);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-header-action:active {
+        scale: 1;
+    }
+}

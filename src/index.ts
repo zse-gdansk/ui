@@ -321,3 +321,10 @@ export {
     type SidebarProps,
     type SidebarSubProps,
 } from "./components/sidebar/Sidebar";
+export {
+    AppHeader,
+    HeaderAction,
+    HeaderBreadcrumbs,
+    type AppHeaderProps,
+    type HeaderActionProps,
+} from "./components/app-shell/AppHeader";

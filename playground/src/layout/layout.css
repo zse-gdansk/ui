@@ -10,32 +10,6 @@
     font-weight: 600;
 }
 
-.demo-header-title {
-    font-size: 0.875rem;
-    font-weight: 500;
-}
-
-.demo-header-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-inline-start: auto;
-    font-size: 0.875rem;
-}
-
-.demo-header-actions a {
-    color: var(--color-text-secondary);
-}
-
-.demo-header-actions button {
-    padding: 4px 10px;
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    background: var(--color-bg-muted);
-    color: var(--color-text);
-    font: inherit;
-}
-
 .demo-page {
     display: grid;
     gap: 24px;
