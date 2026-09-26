@@ -2,9 +2,10 @@
 
 import { Drawer } from "@base-ui/react/drawer";
 import { Cancel01Icon } from "@hugeicons/core-free-icons";
-import { useSyncExternalStore, type ReactElement, type ReactNode } from "react";
+import type { ReactElement, ReactNode } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { useMediaQuery } from "../../utils/use-media-query";
 import { Icon } from "../icon/Icon";
 
 type Side = "right" | "left" | "bottom";
@@ -33,17 +34,6 @@ const SWIPE = { right: "right", left: "left", bottom: "down" } as const;
 const EXPANDABLE: Drawer.Root.SnapPoint[] = [0.5, 1];
 
 const WIDE = "(min-width: 640px)";
-function subscribe(onChange: () => void) {
-    const query = matchMedia(WIDE);
-    query.addEventListener("change", onChange);
-    return () => query.removeEventListener("change", onChange);
-}
-const useWide = () =>
-    useSyncExternalStore(
-        subscribe,
-        () => matchMedia(WIDE).matches,
-        () => false,
-    );
 
 export function Sheet({
     open,
@@ -60,7 +50,7 @@ export function Sheet({
     snapPoints,
 }: SheetProps) {
     const t = useMessages();
-    const wide = useWide();
+    const wide = useMediaQuery(WIDE);
     const resolved: Side = side === "auto" ? (wide ? "right" : "bottom") : side;
     const snaps =
         resolved === "bottom"

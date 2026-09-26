@@ -10,6 +10,7 @@ import {
 } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { useMediaQuery } from "../../utils/use-media-query";
 import { Icon, type IconGlyph } from "../icon/Icon";
 import {
     ariaShortcut,
@@ -307,6 +308,8 @@ export interface MenuSubProps {
     suffix?: ReactNode;
 }
 
+const FINE_POINTER = "(hover: hover) and (pointer: fine)";
+
 export function MenuSub({
     label,
     icon,
@@ -314,11 +317,13 @@ export function MenuSub({
     disabled = false,
     suffix,
 }: MenuSubProps) {
+    const finePointer = useMediaQuery(FINE_POINTER, true);
     return (
         <BaseMenu.SubmenuRoot>
             <BaseMenu.SubmenuTrigger
                 className="zse-menu-item zse-menu-sub-trigger"
                 disabled={disabled}
+                openOnHover={finePointer}
             >
                 <ItemContent icon={icon && <Icon icon={icon} />}>
                     {label}
