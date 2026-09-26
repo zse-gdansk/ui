@@ -12,7 +12,7 @@ export function SecretDemo() {
             <div className="fields">
                 <SecretField
                     label="Klucz API dziennika"
-                    value="sk_live_51HdZs8Kq2mV9xR4tLw8Np3Bzabcdxyzxyzefg"
+                    value="demo_live_51HdZs8Kq2mV9xR4tLw8Np3Bzabcdxyzxyzefg"
                     hint="Nie udostępniaj go nikomu. Chowa się po 30 s."
                 />
                 <SecretField label="PIN do drukarki" value="4821" size="sm" />
