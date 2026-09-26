@@ -126,3 +126,7 @@ export {
     type MeterProps,
     type ProgressProps,
 } from "./components/progress/Progress";
+export {
+    CodeField,
+    type CodeFieldProps,
+} from "./components/code-field/CodeField";

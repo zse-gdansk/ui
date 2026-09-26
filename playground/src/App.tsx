@@ -37,6 +37,7 @@ import { useState } from "react";
 import { AlertDemo } from "./AlertDemo";
 import { AvatarDemo } from "./AvatarDemo";
 import { BadgeDemo } from "./BadgeDemo";
+import { CodeDemo } from "./CodeDemo";
 import { ComboboxDemo } from "./ComboboxDemo";
 import { GradesDemo } from "./GradesDemo";
 import { MenuDemo } from "./MenuDemo";
@@ -422,6 +423,8 @@ export function App() {
             <ProgressDemo />
 
             <SkeletonDemo />
+
+            <CodeDemo />
 
             <ComboboxDemo />
 
