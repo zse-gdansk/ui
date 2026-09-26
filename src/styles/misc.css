@@ -1,0 +1,106 @@
+
+.zse-kbd {
+    display: inline-grid;
+    box-sizing: border-box;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    place-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: 5px;
+    background: var(--color-bg-surface);
+    box-shadow: inset 0 -1px 0 var(--color-border);
+    color: var(--color-text-secondary);
+    font: inherit;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.zse-kbd[data-size="md"] {
+    min-width: 22px;
+    height: 22px;
+    font-size: 0.75rem;
+}
+
+.zse-kbd-group {
+    display: inline-flex;
+    gap: 3px;
+    vertical-align: middle;
+    font: inherit;
+}
+
+.zse-kbd-group > .zse-kbd {
+    vertical-align: baseline;
+}
+
+.zse-separator {
+    flex: none;
+    border: 0;
+    background: var(--color-separator);
+}
+
+.zse-separator[data-orientation="horizontal"] {
+    width: 100%;
+    height: 1px;
+}
+
+.zse-separator[data-orientation="vertical"] {
+    align-self: stretch;
+    width: 1px;
+    min-height: 1em;
+}
+
+.zse-separator[data-labelled] {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    background: none;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+}
+
+.zse-separator[data-labelled]::before,
+.zse-separator[data-labelled]::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--color-separator);
+}
+
+.zse-spinner {
+    position: relative;
+    display: inline-flex;
+    flex: none;
+    vertical-align: middle;
+    animation: zse-spinner-in 200ms ease var(--spinner-delay, 0ms) both;
+}
+
+.zse-spinner-icon {
+    animation: zse-spin 700ms linear infinite;
+}
+
+.zse-spinner-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+@keyframes zse-spinner-in {
+    from {
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    /* Obrót zostaje, ale wolniej: nieruchomy spinner nic nie mówi. */
+    .zse-spinner-icon {
+        animation-duration: 1.6s;
+    }
+}

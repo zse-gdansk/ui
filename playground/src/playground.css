@@ -269,3 +269,26 @@ body {
 .form-demo {
     max-width: 560px;
 }
+
+.misc-text {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.8;
+}
+
+.misc-accent {
+    color: var(--color-accent-text);
+}
+
+.misc-login {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 320px;
+}
+
+.misc-toolbar {
+    height: 24px;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+}

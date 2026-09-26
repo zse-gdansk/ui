@@ -75,28 +75,30 @@ function parse(shortcut: Shortcut, apple: boolean): Parsed {
 const label = (key: string, names: Record<string, string>) =>
     names[key] ?? key.toUpperCase();
 
-export function formatShortcut(shortcut: Shortcut, apple = isApple()) {
+// Klawisze osobno, np. ["⇧", "⌘", "A"] albo ["Ctrl", "Shift", "A"].
+export function shortcutKeys(shortcut: Shortcut, apple = isApple()) {
     const { ctrl, meta, alt, shift, key } = parse(shortcut, apple);
-    if (apple) {
-        return [
-            ctrl && "⌃",
-            alt && "⌥",
-            shift && "⇧",
-            meta && "⌘",
-            label(key, SYMBOLS),
-        ]
-            .filter(Boolean)
-            .join("");
-    }
-    return [
-        ctrl && "Ctrl",
-        meta && "Win",
-        alt && "Alt",
-        shift && "Shift",
-        label(key, NAMES),
-    ]
-        .filter(Boolean)
-        .join("+");
+    const keys = apple
+        ? [
+              ctrl && "⌃",
+              alt && "⌥",
+              shift && "⇧",
+              meta && "⌘",
+              label(key, SYMBOLS),
+          ]
+        : [
+              ctrl && "Ctrl",
+              meta && "Win",
+              alt && "Alt",
+              shift && "Shift",
+              label(key, NAMES),
+          ];
+    return keys.filter((part): part is string => Boolean(part));
+}
+
+// Kolejność modyfikatorów jak w menu macOS: ⌃ ⌥ ⇧ ⌘.
+export function formatShortcut(shortcut: Shortcut, apple = isApple()) {
+    return shortcutKeys(shortcut, apple).join(apple ? "" : "+");
 }
 
 export function ariaShortcut(shortcut: Shortcut, apple = isApple()) {

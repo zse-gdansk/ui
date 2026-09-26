@@ -47,6 +47,7 @@ import { FormDemo } from "./FormDemo";
 import { GradesDemo } from "./GradesDemo";
 import { LinkDemo } from "./LinkDemo";
 import { MenuDemo } from "./MenuDemo";
+import { MiscDemo } from "./MiscDemo";
 import { NumberDemo } from "./NumberDemo";
 import { PaginationDemo } from "./PaginationDemo";
 import { PopoverDemo } from "./PopoverDemo";
@@ -445,6 +446,8 @@ export function App() {
             <ProgressDemo />
 
             <SkeletonDemo />
+
+            <MiscDemo />
 
             <SliderDemo />
 

@@ -73,7 +73,11 @@ export {
     type MenuRadioItemProps,
     type MenuSubProps,
 } from "./components/menu/Menu";
-export { formatShortcut, type Shortcut } from "./components/menu/shortcut";
+export {
+    formatShortcut,
+    shortcutKeys,
+    type Shortcut,
+} from "./components/menu/shortcut";
 export {
     NumberField,
     type NumberFieldProps,
@@ -195,3 +199,9 @@ export {
     type SliderMark,
     type SliderProps,
 } from "./components/slider/Slider";
+export { Kbd, type KbdProps } from "./components/kbd/Kbd";
+export {
+    Separator,
+    type SeparatorProps,
+} from "./components/separator/Separator";
+export { Spinner, type SpinnerProps } from "./components/spinner/Spinner";
