@@ -1,0 +1,445 @@
+.zse-calendar {
+    --calendar-cell: 36px;
+    --calendar-band: var(--color-accent-bg);
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: calc(var(--calendar-cell) * 7);
+    color: var(--color-text);
+    font-size: 0.875rem;
+    user-select: none;
+}
+
+.zse-calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 32px;
+}
+
+/* Nazwa miesiąca przełącza na siatkę miesięcy, szybki skok o rok. */
+.zse-calendar-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    height: 32px;
+    margin-inline-start: -8px;
+    padding: 0 8px;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: scale 160ms var(--ease-out);
+}
+
+.zse-calendar-title-icon {
+    color: var(--color-text-secondary);
+    transition: rotate 200ms var(--ease-out);
+}
+
+.zse-calendar:not([data-view="days"]) .zse-calendar-title-icon {
+    rotate: 180deg;
+}
+
+.zse-calendar-nav {
+    display: flex;
+    gap: 2px;
+    margin-inline-end: -4px;
+}
+
+.zse-calendar-button {
+    display: grid;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    place-items: center;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: scale 160ms var(--ease-out);
+}
+
+.zse-calendar-button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+@media (hover: hover) {
+    .zse-calendar-title:hover,
+    .zse-calendar-button:not(:disabled):hover {
+        background: var(--color-bg-tint);
+        color: var(--color-text);
+    }
+}
+
+.zse-calendar-title:active,
+.zse-calendar-button:not(:disabled):active {
+    scale: 0.96;
+}
+
+.zse-calendar :is(button):focus-visible {
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: -1.5px;
+}
+
+/* Scena przewijania: stara siatka leży nad nową w tym samym miejscu. */
+.zse-calendar-stage {
+    position: relative;
+    overflow: hidden;
+    margin-inline: -2px;
+    padding-inline: 2px;
+}
+
+.zse-calendar-grid {
+    border-collapse: separate;
+    border-spacing: 0 2px;
+    margin-block: -2px;
+    table-layout: fixed;
+    width: calc(var(--calendar-cell) * 7);
+    outline: none;
+}
+
+.zse-calendar-weekdays th {
+    width: var(--calendar-cell);
+    height: 28px;
+    padding: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Stary miesiąc wyjeżdża, nowy wjeżdża z przeciwnej strony, jednocześnie.
+   Nagłówek dni tygodnia stoi w miejscu, rusza się tylko siatka dni. */
+.zse-calendar-grid,
+.zse-calendar-months {
+    --shift: calc(var(--direction, 0) * 40px);
+}
+
+.zse-calendar-grid[data-direction="1"],
+.zse-calendar-months[data-direction="1"] {
+    --direction: 1;
+}
+
+.zse-calendar-grid[data-direction="-1"],
+.zse-calendar-months[data-direction="-1"] {
+    --direction: -1;
+}
+
+.zse-calendar-grid tbody,
+.zse-calendar-months {
+    animation: zse-calendar-in 260ms var(--ease-out) both;
+}
+
+.zse-calendar-grid[data-leaving],
+.zse-calendar-months[data-leaving] {
+    position: absolute;
+    inset: 0 2px auto;
+    pointer-events: none;
+}
+
+.zse-calendar-grid[data-leaving] thead {
+    visibility: hidden;
+}
+
+.zse-calendar-grid[data-leaving] tbody,
+.zse-calendar-months[data-leaving] {
+    animation-name: zse-calendar-out;
+}
+
+@keyframes zse-calendar-in {
+    from {
+        opacity: 0;
+        translate: var(--shift) 0;
+    }
+}
+
+@keyframes zse-calendar-out {
+    to {
+        opacity: 0;
+        translate: calc(var(--shift) * -1) 0;
+    }
+}
+
+/* Pasek zakresu leży pod dniami, ciągły między nimi. Końce tylko do
+   połowy komórki, żeby wybrany dzień był kółkiem na końcu paska. */
+.zse-calendar-cell {
+    width: var(--calendar-cell);
+    height: var(--calendar-cell);
+    padding: 0;
+}
+
+.zse-calendar-cell[data-band] {
+    background: var(--calendar-band);
+}
+
+.zse-calendar-cell[data-band-start] {
+    background: linear-gradient(
+        to right,
+        transparent 50%,
+        var(--calendar-band) 50%
+    );
+}
+
+.zse-calendar-cell[data-band-end] {
+    background: linear-gradient(
+        to left,
+        transparent 50%,
+        var(--calendar-band) 50%
+    );
+}
+
+.zse-calendar-cell[data-band-start][data-band-end] {
+    background: none;
+}
+
+/* Pasek łamie się na końcu tygodnia z zaokrągleniem, jak tekst. */
+.zse-calendar-cell[data-band]:first-child:not([data-band-start]) {
+    border-start-start-radius: var(--radius-md);
+    border-end-start-radius: var(--radius-md);
+}
+
+.zse-calendar-cell[data-band]:last-child:not([data-band-end]) {
+    border-start-end-radius: var(--radius-md);
+    border-end-end-radius: var(--radius-md);
+}
+
+.zse-calendar-day {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: var(--calendar-cell);
+    height: var(--calendar-cell);
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    transition: scale 160ms var(--ease-out);
+}
+
+@media (hover: hover) {
+    .zse-calendar-day:not([data-selected], [data-disabled]):hover {
+        background: var(--color-bg-hover);
+    }
+}
+
+.zse-calendar-day:not([data-disabled]):active {
+    scale: 0.94;
+}
+
+.zse-calendar-day[data-outside] {
+    color: var(--color-text-disabled);
+}
+
+.zse-calendar-day[data-today] {
+    font-weight: 600;
+}
+
+.zse-calendar-day[data-today]::after {
+    content: "";
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    width: 12px;
+    height: 2px;
+    border-radius: var(--radius-full);
+    background: var(--color-accent-solid);
+    translate: -50% 0;
+}
+
+.zse-calendar-day[data-selected] {
+    background: var(--color-accent-solid);
+    color: var(--color-text-on-accent);
+    font-weight: 600;
+}
+
+/* Drugi koniec zakresu pod kursorem, zanim klikniesz: obrys w kolorze
+   zaznaczenia, w którąkolwiek stronę od pierwszego dnia. */
+.zse-calendar-day[data-preview] {
+    box-shadow: inset 0 0 0 1.5px var(--color-accent-solid);
+}
+
+.zse-calendar-day[data-selected][data-today]::after {
+    background: var(--color-text-on-accent);
+}
+
+.zse-calendar-day[data-disabled] {
+    color: var(--color-text-disabled);
+    text-decoration: line-through;
+    text-decoration-color: color-mix(in oklab, currentColor 60%, transparent);
+    cursor: not-allowed;
+}
+
+.zse-calendar-marks {
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    display: flex;
+    gap: 2px;
+    translate: -50% 0;
+}
+
+.zse-calendar-day[data-today] .zse-calendar-marks {
+    bottom: 1px;
+}
+
+.zse-calendar-marks > span {
+    width: 4px;
+    height: 4px;
+    border-radius: var(--radius-full);
+    background: var(--color-accent-solid);
+}
+
+.zse-calendar-marks > [data-tone="success"] {
+    background: var(--color-success-solid);
+}
+
+.zse-calendar-marks > [data-tone="warning"] {
+    background: var(--color-warning-solid);
+}
+
+.zse-calendar-marks > [data-tone="danger"] {
+    background: var(--color-danger-solid);
+}
+
+.zse-calendar-day[data-selected] .zse-calendar-marks > span {
+    background: var(--color-text-on-accent);
+}
+
+.zse-calendar-months {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+    height: calc(var(--calendar-cell) * 6 + 2px * 5 + 28px);
+    align-content: center;
+}
+
+.zse-calendar-months[data-kind="years"] {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.zse-calendar-month {
+    min-width: 0;
+    height: 36px;
+    padding: 0 8px;
+    border: 0;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    transition: scale 160ms var(--ease-out);
+}
+
+@media (hover: hover) {
+    .zse-calendar-month:not([data-selected], :disabled):hover {
+        background: var(--color-bg-hover);
+    }
+}
+
+.zse-calendar-month:not(:disabled):active {
+    scale: 0.96;
+}
+
+.zse-calendar-month[data-current] {
+    font-weight: 600;
+}
+
+.zse-calendar-month[data-selected] {
+    background: var(--color-accent-solid);
+    color: var(--color-text-on-accent);
+    font-weight: 600;
+}
+
+.zse-calendar-month:disabled {
+    color: var(--color-text-disabled);
+    cursor: not-allowed;
+}
+
+.zse-calendar-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--color-border-subtle);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-calendar-grid tbody,
+    .zse-calendar-months {
+        animation-duration: 160ms;
+    }
+
+    @keyframes zse-calendar-in {
+        from {
+            opacity: 0;
+        }
+    }
+
+    @keyframes zse-calendar-out {
+        to {
+            opacity: 0;
+        }
+    }
+
+    .zse-calendar-day:active,
+    .zse-calendar-month:active,
+    .zse-calendar-title:active,
+    .zse-calendar-button:active {
+        scale: 1;
+    }
+}
+
+.zse-datepicker-trigger {
+    display: flex;
+    align-items: center;
+    gap: var(--input-gap);
+    text-align: start;
+    cursor: pointer;
+}
+
+.zse-datepicker-trigger:disabled {
+    cursor: not-allowed;
+}
+
+.zse-datepicker-icon {
+    flex: none;
+    width: var(--input-icon-size);
+    height: var(--input-icon-size);
+    color: var(--color-text-secondary);
+}
+
+/* Pole ma line-height 1, a overflow: hidden ucinałby ogonki liter. */
+.zse-datepicker-value {
+    min-width: 0;
+    overflow: hidden;
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.zse-datepicker-trigger[data-placeholder] .zse-datepicker-value {
+    color: var(--color-text-secondary);
+}
+
+.zse-datepicker-trigger[data-popup-open] {
+    border-color: var(--color-focus-ring);
+}
+
+/* Popover ma szerokość kalendarza, nie pola. */
+.zse-datepicker-popup {
+    width: auto;
+    padding: 12px;
+}

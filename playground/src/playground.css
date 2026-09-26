@@ -167,3 +167,17 @@ body {
     flex-direction: column;
     gap: 20px;
 }
+
+.calendar-demo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.calendar-card {
+    padding: 12px;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-surface);
+}
