@@ -185,7 +185,7 @@
 .zse-upload-list {
     display: flex;
     flex-direction: column;
-    margin: 0;
+    margin: -6px 0 0;
     padding: 0;
     list-style: none;
 }
@@ -209,12 +209,12 @@
     transition-duration: 200ms, 150ms;
 }
 
-.zse-upload-item > .zse-upload-row {
+.zse-upload-clip {
     min-height: 0;
     overflow: hidden;
 }
 
-.zse-upload-item + .zse-upload-item > .zse-upload-row {
+.zse-upload-row {
     margin-top: 6px;
 }
 

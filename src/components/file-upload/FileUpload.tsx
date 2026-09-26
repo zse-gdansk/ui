@@ -253,7 +253,12 @@ export function FileUpload({
         controllers.current.get(item.id)?.abort();
         setAnnouncement(`Usunięto ${item.file.name}`);
         if (reducedMotion()) drop(item.id);
-        else update(item.id, { leaving: true });
+        else {
+            update(item.id, { leaving: true });
+            // Zapas, gdy transitionend nie przyjdzie (np. wiersz
+            // przerenderował się w trakcie wysyłania). drop jest idempotentny.
+            setTimeout(() => drop(item.id), 400);
+        }
     }
 
     const valid = items.filter(
@@ -430,19 +435,17 @@ export function FileUpload({
                 }}
             />
 
-            {items.length > 0 && (
-                <ul className="zse-upload-list">
-                    {items.map((item) => (
-                        <FileRow
-                            key={item.id}
-                            item={item}
-                            onRemove={() => remove(item)}
-                            onRetry={() => upload(item)}
-                            onLeft={() => drop(item.id)}
-                        />
-                    ))}
-                </ul>
-            )}
+            <ul className="zse-upload-list">
+                {items.map((item) => (
+                    <FileRow
+                        key={item.id}
+                        item={item}
+                        onRemove={() => remove(item)}
+                        onRetry={() => upload(item)}
+                        onLeft={() => drop(item.id)}
+                    />
+                ))}
+            </ul>
 
             <FieldFooter error={error} />
 
@@ -490,62 +493,66 @@ function FileRow({
                     onLeft();
             }}
         >
-            <div className="zse-upload-row">
-                <span className="zse-upload-thumb">
-                    <Icon icon={fileIcon(file)} size={18} />
-                    {preview && <img src={preview} alt="" />}
-                </span>
-                <span className="zse-upload-info">
-                    <span className="zse-upload-name" title={file.name}>
-                        <span className="zse-upload-base">{base}</span>
-                        <span className="zse-upload-ext">{ext}</span>
+            <div className="zse-upload-clip">
+                <div className="zse-upload-row">
+                    <span className="zse-upload-thumb">
+                        <Icon icon={fileIcon(file)} size={18} />
+                        {preview && <img src={preview} alt="" />}
                     </span>
-                    <span className="zse-upload-meta">
-                        <span>{formatSize(file.size)}</span>
-                        {meta && (
-                            <span className="zse-upload-status">{meta}</span>
-                        )}
+                    <span className="zse-upload-info">
+                        <span className="zse-upload-name" title={file.name}>
+                            <span className="zse-upload-base">{base}</span>
+                            <span className="zse-upload-ext">{ext}</span>
+                        </span>
+                        <span className="zse-upload-meta">
+                            <span>{formatSize(file.size)}</span>
+                            {meta && (
+                                <span className="zse-upload-status">
+                                    {meta}
+                                </span>
+                            )}
+                        </span>
+                        <span
+                            className="zse-upload-progress"
+                            data-visible={status === "uploading" || undefined}
+                            style={{ "--progress": progress } as CSSProperties}
+                            aria-hidden
+                        />
                     </span>
-                    <span
-                        className="zse-upload-progress"
-                        data-visible={status === "uploading" || undefined}
-                        style={{ "--progress": progress } as CSSProperties}
-                        aria-hidden
-                    />
-                </span>
-                <span className="zse-upload-state" aria-hidden>
-                    <span
-                        className="zse-upload-state-icon"
-                        data-hidden={status !== "done" || undefined}
-                    >
-                        <Icon icon={CheckmarkCircle02Icon} size={16} />
+                    <span className="zse-upload-state" aria-hidden>
+                        <span
+                            className="zse-upload-state-icon"
+                            data-hidden={status !== "done" || undefined}
+                        >
+                            <Icon icon={CheckmarkCircle02Icon} size={16} />
+                        </span>
+                        <span
+                            className="zse-upload-state-icon"
+                            data-tone="danger"
+                            data-hidden={!failed || undefined}
+                        >
+                            <Icon icon={AlertCircleIcon} size={16} />
+                        </span>
                     </span>
-                    <span
-                        className="zse-upload-state-icon"
-                        data-tone="danger"
-                        data-hidden={!failed || undefined}
-                    >
-                        <Icon icon={AlertCircleIcon} size={16} />
-                    </span>
-                </span>
-                {status === "error" && (
+                    {status === "error" && (
+                        <button
+                            type="button"
+                            className="zse-upload-button"
+                            aria-label={`Wyślij ponownie ${file.name}`}
+                            onClick={onRetry}
+                        >
+                            <Icon icon={RefreshIcon} size={14} />
+                        </button>
+                    )}
                     <button
                         type="button"
                         className="zse-upload-button"
-                        aria-label={`Wyślij ponownie ${file.name}`}
-                        onClick={onRetry}
+                        aria-label={`Usuń ${file.name}`}
+                        onClick={onRemove}
                     >
-                        <Icon icon={RefreshIcon} size={14} />
+                        <Icon icon={Cancel01Icon} size={14} />
                     </button>
-                )}
-                <button
-                    type="button"
-                    className="zse-upload-button"
-                    aria-label={`Usuń ${file.name}`}
-                    onClick={onRemove}
-                >
-                    <Icon icon={Cancel01Icon} size={14} />
-                </button>
+                </div>
             </div>
         </li>
     );
