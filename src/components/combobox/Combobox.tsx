@@ -81,6 +81,7 @@ export function Combobox(props: ComboboxProps) {
     const multiple = props.multiple === true;
 
     const [query, setQuery] = useState("");
+    const [open, setOpen] = useState(false);
     const [results, setResults] = useState<ComboboxOption[]>([]);
     const [pending, setPending] = useState(false);
     const [searchError, setSearchError] = useState<string | null>(null);
@@ -124,8 +125,13 @@ export function Combobox(props: ComboboxProps) {
         else props.onValueChange?.(nextValues[0] ?? null);
     }
 
-    function type(next: string, reason: string) {
+    function type(text: string, reason: string) {
         if (reason !== "input-change" && reason !== "input-clear") return;
+        const shown = props.multiple === true ? undefined : current[0]?.label;
+        const next =
+            !open && shown && text.startsWith(shown)
+                ? text.slice(shown.length)
+                : text;
         setQuery(next);
         if (onSearch) setPending(next.trim() !== "");
     }
@@ -154,7 +160,13 @@ export function Combobox(props: ComboboxProps) {
         };
     }, [trimmed, onSearch]);
 
-    const search = !multiple && current[0]?.label === query ? "" : query;
+    const search = query;
+    const chosen = multiple ? undefined : current[0];
+
+    // Pojedynczy wybór: zamknięte pole pokazuje wybraną opcję, a otwarte
+    // jest puste do nowego szukania, z wybraną opcją jako podpowiedzią.
+    // Zamknięcie bez wyboru wraca do niej, bo wartość się nie zmieniła.
+    const inputValue = open ? query : (chosen?.label ?? query);
 
     // Lokalnie silnik filtruje i układa od najlepszego dopasowania. Wyniki
     // z serwera zostają w jego kolejności, silnik daje im tylko podświetlenie.
@@ -203,8 +215,10 @@ export function Combobox(props: ComboboxProps) {
         <BaseCombobox.Input
             className="zse-combobox-input"
             {...(id !== undefined && { id })}
-            {...(placeholder !== undefined &&
-                (!multiple || current.length === 0) && { placeholder })}
+            {...(open && chosen
+                ? { placeholder: chosen.label }
+                : placeholder !== undefined &&
+                  (!multiple || current.length === 0) && { placeholder })}
         />
     );
 
@@ -230,6 +244,12 @@ export function Combobox(props: ComboboxProps) {
                 onInputValueChange={(next, details) =>
                     type(next, details.reason)
                 }
+                {...(!multiple && { inputValue })}
+                onOpenChange={(next, details) => {
+                    setOpen(next);
+                    // Otwarcie wpisywaniem zostawia wpisany znak.
+                    if (next && details.reason !== "input-change") setQuery("");
+                }}
                 onOpenChangeComplete={(next) => {
                     if (!next) setQuery("");
                 }}
