@@ -80,3 +80,9 @@ export {
 } from "./components/number-field/NumberField";
 export { Alert, type AlertProps } from "./components/alert/Alert";
 export { Badge, type BadgeProps } from "./components/badge/Badge";
+export {
+    Skeleton,
+    SkeletonText,
+    type SkeletonProps,
+    type SkeletonTextProps,
+} from "./components/skeleton/Skeleton";

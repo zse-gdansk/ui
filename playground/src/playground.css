@@ -133,3 +133,19 @@ body {
     flex-direction: column;
     gap: 12px;
 }
+
+.skeletons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.skeleton-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.skeleton-profile-text {
+    flex: 1;
+}
