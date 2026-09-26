@@ -97,11 +97,18 @@
     grid-area: 1 / 1;
     width: 12px;
     height: 12px;
+    transition-property: opacity, filter, scale;
+    transition-duration: 300ms;
+    transition-timing-function: var(--ease-standard);
 }
 
+/* Kreska ↔ znacznik (np. „zaznacz wszystkie” w CheckboxGroup) podmieniane
+   jak ikony w całej bibliotece, a nie przeskokiem. */
 .zse-checkbox-root[data-indeterminate] .zse-checkbox-tick,
 .zse-checkbox-root:not([data-indeterminate]) .zse-checkbox-minus {
-    visibility: hidden;
+    opacity: 0;
+    filter: blur(4px);
+    scale: 0.25;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -109,8 +116,15 @@
         scale: 1;
     }
 
-    .zse-checkbox-indicator {
+    .zse-checkbox-indicator,
+    .zse-checkbox-indicator svg {
         transition-property: opacity;
+    }
+
+    .zse-checkbox-root[data-indeterminate] .zse-checkbox-tick,
+    .zse-checkbox-root:not([data-indeterminate]) .zse-checkbox-minus {
+        filter: none;
+        scale: 1;
     }
 
     .zse-checkbox-indicator[data-unchecked],
