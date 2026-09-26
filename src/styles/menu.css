@@ -49,7 +49,7 @@
     line-height: 1.2;
     letter-spacing: -0.01em;
     text-decoration: none;
-    cursor: default;
+    cursor: pointer;
     outline: none;
 }
 
@@ -74,6 +74,7 @@
 
 .zse-menu-item[data-disabled] {
     opacity: 0.45;
+    cursor: not-allowed;
 }
 
 .zse-menu-icon {
