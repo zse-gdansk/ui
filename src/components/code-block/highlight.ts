@@ -1,6 +1,6 @@
 import type { HighlighterCore, ShikiTransformer } from "shiki/core";
 
-import { lineClasses, wordRanges, type Marks } from "./annotations";
+import { decorations, errorLine, lineClasses, type Marks } from "./annotations";
 
 // Shiki w przeglądarce, ładowany dopiero przy pierwszym bloku kodu.
 // Silnik regexów w JS zamiast WASM Onigurumy, gramatyki pojedynczo.
@@ -61,6 +61,32 @@ export async function highlight(code: string, language: string, marks: Marks) {
         pre(node) {
             delete node.properties.style;
             delete node.properties.tabindex;
+
+            // Komunikat błędu jako osobna linia pod błędną. W pre, bo
+            // dekoracje są już wtedy dopasowane do linii kodu.
+            const body = node.children.find(
+                (child) => child.type === "element" && child.tagName === "code",
+            );
+            if (body?.type !== "element") return;
+            const lines = body.children.filter(
+                (child) => child.type === "element",
+            );
+            for (const error of marks.errors.toReversed()) {
+                const anchor = lines[error.line - 1];
+                if (!error.message || !anchor) continue;
+                const { className, style } = errorLine(error);
+                body.children.splice(
+                    body.children.indexOf(anchor) + 1,
+                    0,
+                    { type: "text", value: "\n" },
+                    {
+                        type: "element",
+                        tagName: "span",
+                        properties: { class: className, style },
+                        children: [{ type: "text", value: error.message }],
+                    },
+                );
+            }
         },
         line(node, line) {
             for (const kind of lineClasses(line, marks))
@@ -73,10 +99,12 @@ export async function highlight(code: string, language: string, marks: Marks) {
         themes: { light: "github-light", dark: "one-dark-pro" },
         defaultColor: false,
         transformers: [lineMarks],
-        decorations: wordRanges(code, marks.words).map(([start, end]) => ({
-            start,
-            end,
-            properties: { class: "zse-code-word" },
-        })),
+        decorations: decorations(code, marks).map(
+            ({ start, end, className }) => ({
+                start,
+                end,
+                properties: { class: className },
+            }),
+        ),
     });
 }

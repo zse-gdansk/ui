@@ -118,7 +118,7 @@
     padding-inline-start: 0;
 }
 
-.zse-code-block[data-line-numbers] .line::before {
+.zse-code-block[data-line-numbers] .line:not(.zse-code-error-message)::before {
     content: counter(code-line);
     counter-increment: code-line;
     display: inline-block;
@@ -189,14 +189,38 @@
         color-mix(in oklab, var(--color-accent-solid) 35%, transparent);
 }
 
-/* Kolory z Shiki: obie palety w zmiennych, motyw wybiera jedną. */
-.zse-code-body .shiki span {
+/* Błąd: falista kreska pod fragmentem jak w edytorze, komunikat pod
+   linią zawija się do szerokości bloku zamiast go rozpychać. */
+.zse-code-body .zse-code-error {
+    text-decoration: underline wavy var(--color-danger-solid);
+    text-decoration-thickness: 1px;
+    text-decoration-skip-ink: none;
+    text-underline-offset: 0.3em;
+}
+
+.zse-code-body .zse-code-error-message {
+    width: 100%;
+    min-width: 0;
+    padding-inline-start: calc(var(--code-pad) + min(var(--error-indent), 50%));
+    color: var(--color-danger-text);
+    white-space: normal;
+    user-select: none;
+}
+
+.zse-code-block[data-line-numbers] .zse-code-error-message {
+    padding-inline-start: calc(2.5em + 1.25em + min(var(--error-indent), 50%));
+}
+
+/* Kolory z Shiki: obie palety w zmiennych, motyw wybiera jedną. Tylko
+   tokeny wewnątrz linii: linia z komunikatem błędu to sama .line, więc
+   zostaje czerwona. */
+.zse-code-body .shiki .line span {
     color: var(--shiki-light);
     font-style: var(--shiki-light-font-style);
     font-weight: var(--shiki-light-font-weight);
 }
 
-[data-theme="dark"] .zse-code-body .shiki span {
+[data-theme="dark"] .zse-code-body .shiki .line span {
     color: var(--shiki-dark);
     font-style: var(--shiki-dark-font-style);
     font-weight: var(--shiki-dark-font-weight);

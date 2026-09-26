@@ -47,6 +47,14 @@ function srednia(punkty: (number | null)[]) {
     return oddane.length ? suma / oddane.length : 0; // [!code highlight]
 }`;
 
+const ERROR = `import { Pagination } from "@zse-gdansk/ui";
+
+type Wariant = "auto" | "full" | "compact";
+
+const wariant: Wariant = "mini";
+//                       ^^^^^^ Type '"mini"' is not assignable to type 'Wariant'.
+<Pagination pageCount={12} variant={wariant} />;`;
+
 export function CodeBlockDemo() {
     return (
         <section className="fields">
@@ -63,6 +71,7 @@ export function CodeBlockDemo() {
                 lineNumbers
             />
             <CodeBlock code={DIFF} language="ts" filename="srednia.ts" />
+            <CodeBlock code={ERROR} language="tsx" />
             <CodeBlock
                 code={PYTHON}
                 language="python"

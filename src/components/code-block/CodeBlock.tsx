@@ -10,9 +10,11 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 import { Icon } from "../icon/Icon";
 import {
+    decorations,
+    errorLine,
     lineClasses,
     parseAnnotations,
-    wordRanges,
+    type CodeError,
     type Marks,
 } from "./annotations";
 import { highlight } from "./highlight";
@@ -36,6 +38,9 @@ export interface CodeBlockProps {
     // Słowa zaznaczone w całym bloku, np. zmienna, o której jest mowa.
     // W kodzie: // [!code word:oddane].
     words?: readonly string[];
+    // Błędy pod linią, zwykle z kompilatora. W kodzie linią z daszkami:
+    // //       ^^^^^^^ komunikat
+    errors?: readonly CodeError[];
     // Dłuższy blok zaczyna zwinięty do tylu linii, z przyciskiem rozwinięcia.
     maxLines?: number | false;
     className?: string;
@@ -60,7 +65,7 @@ const NONE: readonly never[] = [];
 // Zanim Shiki się załaduje: ten sam układ linii i zaznaczeń bez kolorów,
 // więc podmiana na pokolorowany kod niczego nie przesuwa.
 function plain(code: string, marks: Marks) {
-    const ranges = wordRanges(code, marks.words);
+    const ranges = decorations(code, marks);
     let offset = 0;
     const body = code
         .split("\n")
@@ -69,15 +74,22 @@ function plain(code: string, marks: Marks) {
             offset += line.length + 1;
             let html = "";
             let cursor = 0;
-            for (const [from, to] of ranges) {
+            for (const { start: from, end: to, className } of ranges) {
                 if (from < start || to > start + line.length) continue;
                 html += escape(line.slice(cursor, from - start));
-                html += `<span class="zse-code-word">${escape(line.slice(from - start, to - start))}</span>`;
+                html += `<span class="${className}">${escape(line.slice(from - start, to - start))}</span>`;
                 cursor = to - start;
             }
             html += escape(line.slice(cursor));
             const classes = ["line", ...lineClasses(i + 1, marks)].join(" ");
-            return `<span class="${classes}">${html}</span>`;
+            const messages = marks.errors
+                .filter((error) => error.line === i + 1 && error.message)
+                .map((error) => {
+                    const { className, style } = errorLine(error);
+                    return `\n<span class="${className}" style="${style}">${escape(error.message)}</span>`;
+                })
+                .join("");
+            return `<span class="${classes}">${html}</span>${messages}`;
         })
         .join("\n");
     return `<pre class="shiki"><code>${body}</code></pre>`;
@@ -93,6 +105,7 @@ export function CodeBlock({
     added = NONE,
     removed = NONE,
     words = NONE,
+    errors = NONE,
     maxLines = 16,
     className,
 }: CodeBlockProps) {
@@ -105,12 +118,14 @@ export function CodeBlock({
         added: new Set([...parsed.added, ...added]),
         removed: new Set([...parsed.removed, ...removed]),
         words: [...parsed.words, ...words],
+        errors: [...parsed.errors, ...errors],
     };
     const marksKey = JSON.stringify([
         [...marks.highlight],
         [...marks.added],
         [...marks.removed],
         marks.words,
+        marks.errors,
     ]);
     const [colored, setColored] = useState<string | null>(null);
     const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">(
@@ -125,17 +140,19 @@ export function CodeBlock({
     useEffect(() => {
         if (html || !language) return;
         let cancelled = false;
-        const [lit, plus, minus, picked] = JSON.parse(marksKey) as [
+        const [lit, plus, minus, picked, faults] = JSON.parse(marksKey) as [
             number[],
             number[],
             number[],
             string[],
+            CodeError[],
         ];
         const current: Marks = {
             highlight: new Set(lit),
             added: new Set(plus),
             removed: new Set(minus),
             words: picked,
+            errors: faults,
         };
         void highlight(source, language, current).then((result) => {
             if (!cancelled && result) setColored(result);
