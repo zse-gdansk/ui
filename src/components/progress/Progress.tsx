@@ -66,7 +66,6 @@ function Visual({
         segments && segments > 1 ? Math.ceil(fill * segments) / segments : fill;
     const style = {
         "--zse-progress": shown,
-        ...(segments && segments > 1 && { "--segments": segments }),
         ...(shape === "ring" && { "--ring-size": `${ringSize}px` }),
     } as CSSProperties;
 
@@ -83,12 +82,26 @@ function Visual({
             </Track>
         );
 
+    if (segments && segments > 1) {
+        const filled = Math.round(shown * segments);
+        return (
+            <Track className="zse-progress-segments" style={style}>
+                {Array.from({ length: segments }, (_, index) => (
+                    <span
+                        // Kawałki są stałe, nie zmieniają kolejności.
+                        // oxlint-disable-next-line react/no-array-index-key
+                        key={index}
+                        className="zse-progress-segment"
+                        data-filled={index < filled || undefined}
+                        style={{ "--index": index } as CSSProperties}
+                    />
+                ))}
+            </Track>
+        );
+    }
+
     return (
-        <Track
-            className="zse-progress-track"
-            data-segmented={segments && segments > 1 ? "" : undefined}
-            style={style}
-        >
+        <Track className="zse-progress-track" style={style}>
             <span
                 className="zse-progress-indicator"
                 data-indeterminate={indeterminate || undefined}
