@@ -127,3 +127,9 @@ body {
     gap: 12px;
     max-width: 560px;
 }
+
+.badges {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}

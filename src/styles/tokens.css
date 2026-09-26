@@ -36,8 +36,12 @@
     --color-danger-text: var(--red-11);
     --color-text-on-danger: var(--red-contrast);
 
+    --color-success-solid: var(--green-9);
     --color-success-text: var(--green-11);
+    --color-text-on-success: var(--green-contrast);
+    --color-warning-solid: var(--orange-9);
     --color-warning-text: var(--orange-11);
+    --color-text-on-warning: var(--orange-contrast);
 }
 
 /* Menu i popovery: w ciemnym motywie jaśniejsze od tła, bo cień tam

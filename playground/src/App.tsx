@@ -35,6 +35,7 @@ import {
 import { useState } from "react";
 
 import { AlertDemo } from "./AlertDemo";
+import { BadgeDemo } from "./BadgeDemo";
 import { GradesDemo } from "./GradesDemo";
 import { MenuDemo } from "./MenuDemo";
 import { NumberDemo } from "./NumberDemo";
@@ -409,6 +410,8 @@ export function App() {
                     }
                 />
             </section>
+
+            <BadgeDemo />
 
             <AlertDemo />
 
