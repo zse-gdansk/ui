@@ -48,10 +48,8 @@
     color: var(--color-text-secondary);
     text-decoration: none;
     white-space: nowrap;
-    transition:
-        color var(--duration-fast) ease,
-        scale 160ms var(--ease-out);
     -webkit-tap-highlight-color: transparent;
+    transition: scale 160ms var(--ease-out);
 }
 
 .zse-breadcrumbs-list > .zse-breadcrumbs-item:first-child .zse-crumb {

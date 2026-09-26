@@ -58,7 +58,6 @@
     font-size: 0.9375rem;
     font-weight: 500;
     line-height: 1.4;
-    letter-spacing: -0.01em;
     text-align: start;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
@@ -137,7 +136,6 @@
     font-size: 0.875rem;
     font-weight: 500;
     cursor: pointer;
-    transition: color var(--duration-fast) ease;
     -webkit-tap-highlight-color: transparent;
 }
 

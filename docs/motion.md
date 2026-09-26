@@ -21,7 +21,7 @@ Animacja musi mieć cel: pokazać, skąd coś przyszło (popover od wyzwalacza),
 | `--ease-standard` | `cubic-bezier(0.2, 0, 0, 1)`     | podmiana ikon i warstw                          |
 | `--ease-drawer`   | `cubic-bezier(0.32, 0.72, 0, 1)` | sheet, jak w iOS                                |
 | `--ease-toast`    | `cubic-bezier(0.22, 1, 0.36, 1)` | stos toastów                                    |
-| `--duration-fast` | `150ms`                          | kolory, obramowania, drobne zmiany              |
+| `--duration-fast` | `150ms`                          | zmiany stanu bez hovera, przezroczystość        |
 
 Nigdy `ease-in` na elementach interfejsu (zaczyna wolno, wygląda na opóźnienie). `linear` tylko dla ruchu ciągłego (spinner). `ease-in-out` dla ruchu na ekranie bez początku i końca (shimmer skeletonu).
 
@@ -33,7 +33,7 @@ Nigdy `ease-in` na elementach interfejsu (zaczyna wolno, wygląda na opóźnieni
 
 ### Hover
 
-Tylko w `@media (hover: hover)`, żeby na dotyku stan nie zostawał po tapnięciu. **Tło hovera bez przejścia**: przy szybkim ruchu kursorem po liście (menu, tabela, dni) przejście tła zostaje w tyle i wygląda na lag. Kolor tekstu może mieć `var(--duration-fast)`.
+Tylko w `@media (hover: hover)`, żeby na dotyku stan nie zostawał po tapnięciu. **Hover bez żadnych przejść koloru**: tło, tekst, ramka i obrys zmieniają się od razu, bo przy szybkim ruchu kursorem po liście (menu, tabela, dni) przejście zostaje w tyle i wygląda na lag. `var(--duration-fast)` na kolorze tylko dla zmian stanu, których hover nie wywołuje (kreska przy przewijaniu, wypełnienie postępu, spełniona reguła hasła). Reguła `hover-instant` w [design.md](design.md).
 
 ### Popover, menu, tooltip, select
 

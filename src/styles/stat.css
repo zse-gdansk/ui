@@ -78,7 +78,6 @@
     font-weight: 600;
     font-variant-numeric: tabular-nums;
     line-height: 1.1;
-    letter-spacing: -0.02em;
 }
 
 .zse-stat-number[data-empty] {

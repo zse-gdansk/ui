@@ -72,12 +72,10 @@
     color: var(--color-text-secondary);
     font-size: 0.875rem;
     font-weight: 500;
-    letter-spacing: -0.01em;
     white-space: nowrap;
     cursor: pointer;
     outline: none;
     -webkit-tap-highlight-color: transparent;
-    transition: color var(--duration-fast) ease;
 }
 
 .zse-segmented[data-full] .zse-segmented-item {

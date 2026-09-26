@@ -25,12 +25,7 @@
     cursor: pointer;
     outline: 1.5px solid transparent;
     outline-offset: 1.5px;
-    transition-property:
-        background-color, border-color, color, outline-color, scale;
-    transition-duration:
-        var(--duration-fast), var(--duration-fast), var(--duration-fast),
-        var(--duration-fast), 200ms;
-    transition-timing-function: var(--ease-out);
+    transition: scale 200ms var(--ease-out);
 }
 
 .zse-checkbox-root::before {
@@ -74,7 +69,6 @@
 .zse-checkbox-label {
     font-size: 0.875rem;
     line-height: 1.2;
-    letter-spacing: -0.01em;
     color: var(--color-text-secondary);
 }
 

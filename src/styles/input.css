@@ -26,7 +26,6 @@
     font-size: 0.875rem;
     font-weight: 500;
     line-height: 1.2;
-    letter-spacing: -0.01em;
     color: var(--color-text-secondary);
 }
 
@@ -48,12 +47,8 @@
     font: inherit;
     font-size: 1rem;
     line-height: 1;
-    letter-spacing: -0.01em;
     outline: 1.5px solid transparent;
     outline-offset: 1.5px;
-    transition-property: background-color, border-color, outline-color;
-    transition-duration: var(--duration-fast);
-    transition-timing-function: var(--ease-out);
 }
 
 .zse-input[data-size="sm"] .zse-input-field {
@@ -166,9 +161,6 @@
     background: transparent;
     color: var(--color-text-secondary);
     cursor: pointer;
-    transition-property: color;
-    transition-duration: var(--duration-fast);
-    transition-timing-function: var(--ease-out);
 }
 
 .zse-input-toggle:focus {

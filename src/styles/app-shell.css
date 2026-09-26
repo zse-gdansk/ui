@@ -116,9 +116,7 @@ html:has(.zse-shell) {
     background: transparent;
     color: var(--color-text-secondary);
     cursor: pointer;
-    transition-property: background-color, color, scale;
-    transition-duration: var(--duration-fast), var(--duration-fast), 160ms;
-    transition-timing-function: ease, ease, var(--ease-out);
+    transition: scale 160ms var(--ease-out);
 }
 
 @media (hover: hover) {

@@ -60,3 +60,5 @@ Popover otwierany w modalu albo sheecie musi być nad nim, stąd 95 powyżej 91.
 - Liczby zmieniające się w miejscu (liczniki, punkty, procenty, daty w kalendarzu): `font-variant-numeric: tabular-nums`.
 - Pola formularzy mają `font-size: 1rem` na telefonie (poniżej 16px iOS przybliża stronę przy fokusie), a od 640px `0.875rem`.
 - `text-wrap: balance` na tytułach, `pretty` na opisach.
+- Bez `letter-spacing` w komponentach (reguła `no-tracking` w [design.md](design.md)); wyjątek tylko dla krótkich wersalików, np. kod języka.
+- `--shadow-popover` zawiera obrys `0 0 0 1px var(--color-border-subtle)`, więc powierzchnia z nim nie dostaje osobnej ramki (`floating-surface`).

@@ -26,9 +26,6 @@
     line-height: 1.4;
     text-align: center;
     cursor: pointer;
-    transition-property: border-color, background-color;
-    transition-duration: var(--duration-fast);
-    transition-timing-function: ease;
 }
 
 @media (hover: hover) {
@@ -78,9 +75,7 @@
     margin-bottom: 6px;
     place-items: center;
     color: var(--color-text-secondary);
-    transition-property: translate, color;
-    transition-duration: 300ms, var(--duration-fast);
-    transition-timing-function: var(--ease-out), ease;
+    transition: translate 300ms var(--ease-out);
 }
 
 .zse-upload-icon::before,
@@ -227,9 +222,6 @@
     border: 1px solid var(--color-border-subtle);
     border-radius: var(--radius-md);
     background: var(--color-bg-surface);
-    transition-property: border-color, background-color;
-    transition-duration: var(--duration-fast);
-    transition-timing-function: ease;
 }
 
 .zse-upload-item:is([data-status="error"], [data-status="rejected"])
@@ -295,7 +287,6 @@
     font-size: 0.875rem;
     font-weight: 500;
     line-height: 1.3;
-    letter-spacing: -0.01em;
 }
 
 .zse-upload-base {

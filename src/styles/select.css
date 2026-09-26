@@ -86,7 +86,6 @@
     border-radius: calc(var(--radius-md) - 4px);
     font-size: 0.875rem;
     line-height: 1.2;
-    letter-spacing: -0.01em;
     cursor: pointer;
     user-select: none;
     outline: none;

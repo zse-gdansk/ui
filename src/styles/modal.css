@@ -60,7 +60,6 @@
     font-size: 1rem;
     font-weight: 500;
     line-height: 1.4;
-    letter-spacing: -0.01em;
 }
 
 .zse-modal-description {
@@ -83,9 +82,7 @@
     background: transparent;
     color: var(--color-text-secondary);
     cursor: pointer;
-    transition-property: background-color, color, scale;
-    transition-duration: var(--duration-fast), var(--duration-fast), 200ms;
-    transition-timing-function: ease, ease, var(--ease-out);
+    transition: scale 200ms var(--ease-out);
 }
 
 @media (hover: hover) {

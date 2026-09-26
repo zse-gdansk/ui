@@ -10,9 +10,6 @@
     text-underline-offset: 0.2em;
     border-radius: 2px;
     cursor: pointer;
-    transition-property: color, text-decoration-color;
-    transition-duration: var(--duration-fast);
-    transition-timing-function: ease;
     -webkit-tap-highlight-color: transparent;
 }
 

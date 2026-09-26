@@ -35,9 +35,6 @@
     font: inherit;
     cursor: pointer;
     outline: none;
-    transition-property: border-color, box-shadow, background-color;
-    transition-duration: var(--duration-fast);
-    transition-timing-function: ease;
 }
 
 @media (hover: hover) {
@@ -69,7 +66,6 @@
     font-size: 1rem;
     font-weight: 600;
     line-height: 1.4;
-    letter-spacing: -0.01em;
 }
 
 .zse-card-description {

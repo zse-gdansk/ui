@@ -15,19 +15,16 @@
     font-size: 0.875rem;
     font-weight: 500;
     line-height: 1;
-    letter-spacing: -0.01em;
     white-space: nowrap;
     text-decoration: none;
     cursor: pointer;
     user-select: none;
     outline: none;
     -webkit-tap-highlight-color: transparent;
-    transition-property:
-        background-color, border-color, color, opacity, filter, scale;
-    transition-duration:
-        var(--duration-fast), var(--duration-fast), var(--duration-fast),
-        var(--duration-fast), var(--duration-fast), 200ms;
-    transition-timing-function: var(--ease-out);
+    transition:
+        opacity var(--duration-fast) var(--ease-out),
+        filter var(--duration-fast) var(--ease-out),
+        scale 200ms var(--ease-out);
 }
 
 .zse-button[data-size="sm"] {

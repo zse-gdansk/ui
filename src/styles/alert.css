@@ -41,7 +41,6 @@
     color: var(--color-text);
     font-size: 0.875rem;
     line-height: 1.5;
-    letter-spacing: -0.01em;
 }
 
 [data-theme="dark"] .zse-alert {
@@ -122,9 +121,6 @@
         transparent 50%
     );
     text-underline-offset: 0.2em;
-    transition-property: text-decoration-color;
-    transition-duration: var(--duration-fast);
-    transition-timing-function: ease;
 }
 
 @media (hover: hover) {
@@ -163,9 +159,7 @@
     );
     text-underline-offset: 0.2em;
     cursor: pointer;
-    transition-property: text-decoration-color, scale;
-    transition-duration: var(--duration-fast), 160ms;
-    transition-timing-function: ease, var(--ease-out);
+    transition: scale 160ms var(--ease-out);
 }
 
 .zse-alert-action + .zse-alert-close {

@@ -24,9 +24,6 @@
     outline: 1.5px solid transparent;
     outline-offset: 1.5px;
     cursor: text;
-    transition-property: background-color, border-color, outline-color;
-    transition-duration: var(--duration-fast);
-    transition-timing-function: var(--ease-out);
 }
 
 .zse-combobox-group:focus-within {
@@ -56,7 +53,6 @@
     caret-color: var(--color-text);
     font: inherit;
     font-size: 1rem;
-    letter-spacing: -0.01em;
     outline: none;
 }
 
@@ -186,10 +182,6 @@
     line-height: 1;
     outline: none;
     cursor: default;
-    transition-property: box-shadow, background-color;
-    transition-duration: var(--duration-fast);
-    transition-timing-function: ease;
-
     @starting-style {
         opacity: 0;
         scale: 0.9;
@@ -197,10 +189,9 @@
 }
 
 .zse-combobox-chip {
-    transition-property: box-shadow, background-color, opacity, scale;
-    transition-duration:
-        var(--duration-fast), var(--duration-fast), 200ms, 200ms;
-    transition-timing-function: ease, ease, var(--ease-out), var(--ease-out);
+    transition:
+        opacity 200ms var(--ease-out),
+        scale 200ms var(--ease-out);
 }
 
 .zse-combobox-chip:focus-visible,

@@ -30,9 +30,6 @@
     outline: 1.5px solid transparent;
     outline-offset: 1.5px;
     cursor: text;
-    transition-property: background-color, border-color, outline-color;
-    transition-duration: var(--duration-fast);
-    transition-timing-function: var(--ease-out);
 }
 
 .zse-number-group:focus-within {
@@ -63,7 +60,6 @@
     font: inherit;
     font-size: 1rem;
     font-variant-numeric: tabular-nums;
-    letter-spacing: -0.01em;
     outline: none;
 }
 

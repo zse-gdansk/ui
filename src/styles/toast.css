@@ -35,7 +35,6 @@
     box-sizing: border-box;
     width: 100%;
     height: var(--height);
-    border: 1px solid var(--color-border-subtle);
     border-radius: var(--radius-lg);
     background: var(--color-bg-raised);
     box-shadow: var(--shadow-popover);
@@ -189,7 +188,6 @@
     font-size: 0.875rem;
     font-weight: 500;
     line-height: 1.25rem;
-    letter-spacing: -0.01em;
 }
 
 .zse-toast-description {
@@ -220,10 +218,9 @@
     background: transparent;
     color: var(--color-text-secondary);
     cursor: pointer;
-    transition-property: background-color, color, opacity, scale;
-    transition-duration:
-        var(--duration-fast), var(--duration-fast), var(--duration-fast), 200ms;
-    transition-timing-function: ease, ease, ease, var(--ease-out);
+    transition:
+        opacity var(--duration-fast) ease,
+        scale 200ms var(--ease-out);
 }
 
 .zse-toast-button + .zse-toast-button {

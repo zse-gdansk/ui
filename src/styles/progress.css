@@ -54,7 +54,6 @@
     overflow: hidden;
     color: var(--color-text-secondary);
     font-weight: 500;
-    letter-spacing: -0.01em;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
@@ -190,7 +189,6 @@
     font-size: calc(var(--ring-size) * 0.26);
     font-weight: 600;
     font-variant-numeric: tabular-nums;
-    letter-spacing: -0.02em;
 }
 
 @media (prefers-reduced-motion: reduce) {

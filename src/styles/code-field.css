@@ -60,9 +60,6 @@
     font-size: var(--code-font);
     text-align: center;
     outline: none;
-    transition-property: border-color, background-color, box-shadow;
-    transition-duration: var(--duration-fast);
-    transition-timing-function: var(--ease-out);
 }
 
 .zse-code-input::selection {

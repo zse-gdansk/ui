@@ -136,10 +136,6 @@
     transition-timing-function: var(--ease-out);
 }
 
-.zse-pagination-gap {
-    letter-spacing: 0.05em;
-}
-
 .zse-pagination-jump {
     box-sizing: border-box;
     width: calc(var(--pagination-size) + 16px);

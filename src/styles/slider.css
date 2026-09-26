@@ -61,9 +61,7 @@
         0 0 0 1px oklch(0% 0 0 / 8%);
     outline: none;
     cursor: grab;
-    transition:
-        scale 160ms var(--ease-out),
-        box-shadow var(--duration-fast) ease;
+    transition: scale 160ms var(--ease-out);
 }
 
 @media (pointer: coarse) {
@@ -237,7 +235,7 @@
 @media (prefers-reduced-motion: reduce) {
     .zse-slider-thumb,
     .zse-slider-bubble {
-        transition-property: opacity, box-shadow;
+        transition-property: opacity;
     }
 
     .zse-slider-thumb:hover,

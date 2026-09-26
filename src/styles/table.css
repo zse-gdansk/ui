@@ -342,9 +342,9 @@
     background: transparent;
     color: var(--color-text-secondary);
     cursor: pointer;
-    transition-property: color, opacity, scale;
-    transition-duration: var(--duration-fast), var(--duration-fast), 160ms;
-    transition-timing-function: ease, ease, var(--ease-out);
+    transition:
+        opacity var(--duration-fast) ease,
+        scale 160ms var(--ease-out);
 }
 
 @media (hover: hover) {

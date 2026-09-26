@@ -24,9 +24,6 @@
     outline: 1.5px solid transparent;
     outline-offset: 1.5px;
     cursor: text;
-    transition-property: background-color, border-color, outline-color;
-    transition-duration: var(--duration-fast);
-    transition-timing-function: var(--ease-out);
 }
 
 .zse-input-group-box:focus-within {
@@ -55,7 +52,6 @@
     font: inherit;
     font-size: 1rem;
     font-weight: 500;
-    letter-spacing: -0.01em;
     outline: none;
 }
 
@@ -74,7 +70,6 @@
     white-space: pre;
     font-size: 1rem;
     font-weight: 500;
-    letter-spacing: -0.01em;
     pointer-events: none;
 }
 

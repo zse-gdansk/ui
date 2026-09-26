@@ -32,7 +32,6 @@
     color: inherit;
     font: inherit;
     font-weight: 600;
-    letter-spacing: -0.01em;
     cursor: pointer;
     transition: scale 160ms var(--ease-out);
 }
