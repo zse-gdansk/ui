@@ -137,6 +137,16 @@ export interface Messages {
     accordion: { showDetails: string };
     kbd: { space: string; backspace: string; delete: string; escape: string };
     localeSwitcher: { label: string };
+    table: {
+        search: string;
+        clearFilters: string;
+        results: (count: number, formatted: string) => string;
+        noResults: string;
+        noResultsHint: string;
+        filterNoOptions: string;
+        actions: string;
+        moreActions: string;
+    };
     stat: {
         noData: string;
         increase: (delta: string) => string;

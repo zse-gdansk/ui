@@ -240,6 +240,29 @@ export {
     type PasswordStrengthProps,
 } from "./components/password-strength/PasswordStrength";
 export {
+    TableActions,
+    TableActionsHead,
+    type TableActionsHeadProps,
+    type TableActionsProps,
+    type TableQuickAction,
+} from "./components/table/TableActions";
+export {
+    TableToolbar,
+    type TableToolbarProps,
+} from "./components/table/TableToolbar";
+export {
+    useTable,
+    type SortDirection,
+    type TableFilter,
+    type TableFilterFacet,
+    type TableFilterOption,
+    type TableSort,
+    type TableSortColumn,
+    type TableState,
+    type UseTableOptions,
+    type UseTableResult,
+} from "./components/table/use-table";
+export {
     Stat,
     StatGroup,
     type StatGroupProps,

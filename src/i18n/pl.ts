@@ -171,6 +171,17 @@ export const pl: Messages = {
         escape: "Esc",
     },
     localeSwitcher: { label: "Język" },
+    table: {
+        search: "Szukaj…",
+        clearFilters: "Wyczyść filtry",
+        results: (n, formatted) =>
+            `${formatted} ${plural("pl-PL", n, { one: "wynik", few: "wyniki", other: "wyników" })}`,
+        noResults: "Brak wyników",
+        noResultsHint: "Zmień wyszukiwanie albo filtry.",
+        filterNoOptions: "Brak opcji",
+        actions: "Akcje",
+        moreActions: "Więcej akcji",
+    },
     stat: {
         noData: "Brak danych",
         increase: (delta) => `wzrost o ${delta}`,

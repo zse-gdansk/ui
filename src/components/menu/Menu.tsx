@@ -181,7 +181,11 @@ export interface MenuCheckboxItemProps {
     defaultChecked?: boolean;
     onCheckedChange?: (checked: boolean) => void;
     shortcut?: Shortcut;
+    // Tekst po prawej zamiast skrótu, np. liczba wierszy przy filtrze.
+    suffix?: ReactNode;
     disabled?: boolean;
+    // Domyślnie menu zostaje otwarte, żeby zaznaczyć kilka pozycji.
+    closeOnClick?: boolean;
 }
 
 export function MenuCheckboxItem({
@@ -190,7 +194,9 @@ export function MenuCheckboxItem({
     defaultChecked,
     onCheckedChange,
     shortcut,
+    suffix,
     disabled = false,
+    closeOnClick = false,
 }: MenuCheckboxItemProps) {
     const ref = useRef<HTMLDivElement>(null);
     useShortcut(shortcut, ref, disabled);
@@ -201,6 +207,7 @@ export function MenuCheckboxItem({
             {...(shortcut && { "aria-keyshortcuts": ariaShortcut(shortcut) })}
             className="zse-menu-item"
             disabled={disabled}
+            closeOnClick={closeOnClick}
             {...(checked !== undefined && { checked })}
             {...(defaultChecked !== undefined && { defaultChecked })}
             {...(onCheckedChange && {
@@ -213,6 +220,9 @@ export function MenuCheckboxItem({
             >
                 {children}
             </ItemContent>
+            {suffix != null && (
+                <span className="zse-menu-shortcut">{suffix}</span>
+            )}
         </BaseMenu.CheckboxItem>
     );
 }

@@ -340,3 +340,8 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
     gap: 12px;
 }
+
+.table-demo {
+    display: grid;
+    gap: 12px;
+}

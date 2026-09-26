@@ -95,9 +95,14 @@ function trackScroll(scroller: HTMLElement | null) {
     const markFocus = marker("data-column-focus");
     const hover = (event: PointerEvent) => markHover(headOf(event.target));
     const leave = () => markHover(null);
-    const focusIn = (event: FocusEvent) => markFocus(headOf(event.target));
-    const focusOut = (event: FocusEvent) =>
-        markFocus(headOf(event.relatedTarget));
+    const focusIn = (event: FocusEvent) =>
+        markFocus(
+            event.target instanceof Element &&
+                event.target.matches(":focus-visible")
+                ? headOf(event.target)
+                : null,
+        );
+    const focusOut = () => markFocus(null);
 
     update();
     const observer = new ResizeObserver(update);
