@@ -62,8 +62,17 @@
     cursor: pointer;
 }
 
+/* Znak z opacity < 1 dostaje własną warstwę i rysowałby się nad
+   przyciskiem, przechwytując klik. Przycisk leży więc zawsze wyżej, a znak
+   po zwinięciu nie łapie kliknięć. */
 .zse-sidebar-expand {
+    position: relative;
+    z-index: 1;
     opacity: 0;
+}
+
+.zse-sidebar[data-collapsed] .zse-sidebar-logo {
+    pointer-events: none;
 }
 
 /* Zwinięty: najechanie na panel albo fokus z klawiatury zamienia znak
