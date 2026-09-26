@@ -476,11 +476,9 @@ function SlotList({
                 aria-label={t.timePicker.pick}
                 className="zse-timepicker-slots"
             >
-                {slots.map((slot, index) => (
+                {slots.map((slot) => (
                     <button
-                        // Plan dnia się nie przestawia, indeks jest stały.
-                        // oxlint-disable-next-line react/no-array-index-key
-                        key={index}
+                        key={`${slot.start}-${slot.end ?? ""}`}
                         type="button"
                         aria-pressed={slot === selected}
                         disabled={!allowed(slot)}
