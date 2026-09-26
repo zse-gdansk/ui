@@ -366,6 +366,7 @@ export function App() {
 
             <section className="button-row">
                 <Modal
+                    alert
                     trigger={<Button variant="danger">Usuń sprawdzian</Button>}
                     title="Usunąć sprawdzian?"
                     description="Sprawdzian z fizyki i 28 ocen znikną z dziennika. Tego nie da się cofnąć."
