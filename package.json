@@ -46,6 +46,10 @@
         "format": "oxfmt",
         "format:check": "oxfmt --check",
         "check": "bun run typecheck && bun run lint && bun run format:check",
+        "doctor": "react-doctor --yes --verbose",
+        "doctor:changed": "react-doctor --yes --verbose --scope changed --include-untracked --base ${DOCTOR_BASE:-main}",
+        "doctor:score": "react-doctor --yes --score --no-color --project @zse-gdansk/ui",
+        "doctor:badge": "bun run scripts/write-react-doctor-badge.ts",
         "build": "tsdown && cp -R src/styles src/fonts dist/",
         "prepublishOnly": "bun run check && bun run build",
         "prepare": "lefthook install",
@@ -66,6 +70,7 @@
         "lefthook": "^2.1.14",
         "oxfmt": "^0.70.0",
         "oxlint": "^1.85.0",
+        "react-doctor": "^0.9.14",
         "shiki": "^4.4.3",
         "tsdown": "^0.23.0",
         "typescript": "^7.0.2"

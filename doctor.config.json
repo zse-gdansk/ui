@@ -1,0 +1,10 @@
+{
+    "$schema": "https://react.doctor/schema/config.json",
+    "ignore": {
+        "files": ["dist/**", ".agents/**"],
+        "tags": ["test-noise"]
+    },
+    "rules": {
+        "react-doctor/no-high-complexity-react-function": "off"
+    }
+}

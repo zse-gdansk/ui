@@ -4,5 +4,10 @@
     "tabWidth": 4,
     "sortImports": true,
     "sortPackageJson": true,
-    "ignorePatterns": ["dist/**", "bun.lock"]
+    "ignorePatterns": [
+        "dist/**",
+        "bun.lock",
+        "CHANGELOG.md",
+        ".release-please-manifest.json"
+    ]
 }
