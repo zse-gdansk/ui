@@ -7,6 +7,7 @@
 | `bun run dev`                   | playground (Vite) z biblioteką prosto ze źródeł, zmiany widać od razu           |
 | `bun run check`                 | typy (TS 7), lint (oxlint), format (oxfmt); musi przejść bez błędów i ostrzeżeń |
 | `bun run format`                | formatuje (4 spacje, szerokość 80)                                              |
+| `bun run build`                 | build paczki do `dist/` (tsdown, plik na moduł) i kopia styli oraz fontów       |
 | `bun --filter playground build` | build playgroundu                                                               |
 | `bun run colors`                | przelicza palety w `colors.css` ze `scripts/colors.ts`                          |
 
@@ -29,6 +30,17 @@ style(icon): zmniejszono grubość kreski ikon
 ```
 
 Agent nie commituje: proponuje nazwę, commit robi autor.
+
+## Wydania
+
+Wersje, CHANGELOG i publikację robi [release-please](https://github.com/googleapis/release-please) (`.github/workflows/release.yaml`), z commitów:
+
+- Po każdym pushu na `main` otwiera albo aktualizuje PR „chore: wydano X.Y.Z” z nową wersją w `package.json` i wpisami w `CHANGELOG.md`.
+- Scalenie tego PR tworzy tag, GitHub Release i publikuje paczkę w GitHub Packages.
+- `feat` podnosi wersję minor, `fix` patch, zmiana łamiąca (`feat!:` albo `BREAKING CHANGE:` w treści) major. Zmiana łamiąca to wszystko, co zmusza aplikację do zmiany kodu: usunięty albo przemianowany prop, eksport, klasa CSS czy token.
+- Konkretną wersję wymusza stopka `Release-As: X.Y.Z` w treści commita.
+- W CHANGELOG trafiają `feat`, `fix`, `perf`, `revert` i `docs`; `refactor`, `style`, `chore`, `ci`, `build` i `test` są ukryte. Opis commita jest wpisem, więc ma być zrozumiały dla kogoś, kto używa biblioteki.
+- Konfiguracja w `release-please-config.json`, aktualna wersja w `.release-please-manifest.json`. Wersji w `package.json` nie zmienia się ręcznie.
 
 ## Sprawdzanie pracy
 

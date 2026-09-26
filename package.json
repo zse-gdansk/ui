@@ -1,15 +1,43 @@
 {
     "name": "@zse-gdansk/ui",
     "version": "0.0.0",
-    "private": true,
+    "description": "Wspólna biblioteka komponentów, tokenów i stylów dla projektów Zespołu Szkół Energetycznych w Gdańsku.",
+    "homepage": "https://github.com/zse-gdansk/ui#readme",
+    "bugs": {
+        "url": "https://github.com/zse-gdansk/ui/issues"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/zse-gdansk/ui.git"
+    },
     "workspaces": [
         "playground"
     ],
+    "files": [
+        "dist"
+    ],
     "type": "module",
+    "sideEffects": [
+        "**/*.css"
+    ],
     "exports": {
-        ".": "./src/index.ts",
-        "./code-block": "./src/code-block.ts",
-        "./styles.css": "./src/styles/index.css"
+        ".": {
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
+        },
+        "./code-block": {
+            "types": "./dist/code-block.d.ts",
+            "default": "./dist/code-block.js"
+        },
+        "./styles.css": {
+            "types": "./dist/styles/index.d.css.ts",
+            "default": "./dist/styles/index.css"
+        },
+        "./package.json": "./package.json"
+    },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com"
     },
     "scripts": {
         "typecheck": "tsc --noEmit && tsc --noEmit -p playground && tsc --noEmit -p scripts",
@@ -18,6 +46,8 @@
         "format": "oxfmt",
         "format:check": "oxfmt --check",
         "check": "bun run typecheck && bun run lint && bun run format:check",
+        "build": "tsdown && cp -R src/styles src/fonts dist/",
+        "prepublishOnly": "bun run check && bun run build",
         "prepare": "lefthook install",
         "dev": "bun --filter playground dev",
         "colors": "bun scripts/colors.ts && oxfmt src/styles/colors.css"
@@ -37,6 +67,7 @@
         "oxfmt": "^0.70.0",
         "oxlint": "^1.85.0",
         "shiki": "^4.4.3",
+        "tsdown": "^0.23.0",
         "typescript": "^7.0.2"
     },
     "peerDependencies": {
