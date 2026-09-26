@@ -236,7 +236,7 @@
 
 @media (hover: hover) {
     .zse-toast-button:hover {
-        background: var(--color-bg-muted);
+        background: var(--color-bg-tint);
         color: var(--color-text);
     }
 

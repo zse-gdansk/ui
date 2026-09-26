@@ -39,3 +39,4 @@ export {
     Container,
     type ContainerProps,
 } from "./components/container/Container";
+export { Modal, ModalClose, type ModalProps } from "./components/modal/Modal";

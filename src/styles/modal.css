@@ -1,0 +1,123 @@
+.zse-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    background: var(--color-bg-overlay);
+    backdrop-filter: blur(4px);
+    transition: opacity 300ms var(--ease-out);
+}
+
+.zse-modal-backdrop[data-starting-style],
+.zse-modal-backdrop[data-ending-style] {
+    opacity: 0;
+}
+
+.zse-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 91;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-sizing: border-box;
+    width: min(400px, calc(100vw - 32px));
+    max-height: calc(100dvh - 32px);
+    padding: 20px 20px 16px;
+    overflow-y: auto;
+    border-radius: var(--radius-xl);
+    background: var(--color-bg-elevated);
+    box-shadow: var(--shadow-modal);
+    color: var(--color-text);
+    outline: none;
+    translate: -50% -50%;
+    transition-property: opacity, scale;
+    transition-duration: 300ms;
+    transition-timing-function: var(--ease-out);
+}
+
+.zse-modal[data-starting-style],
+.zse-modal[data-ending-style] {
+    opacity: 0;
+    scale: 0.95;
+}
+
+.zse-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.zse-modal-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.zse-modal-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+}
+
+.zse-modal-description {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.625;
+}
+
+.zse-modal-close {
+    display: grid;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    margin: -2px -4px 0 0;
+    padding: 0;
+    place-items: center;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition-property: background-color, color, scale;
+    transition-duration: var(--duration-fast), var(--duration-fast), 200ms;
+    transition-timing-function: ease, ease, var(--ease-out);
+}
+
+@media (hover: hover) {
+    .zse-modal-close:hover {
+        background: var(--color-bg-tint);
+        color: var(--color-text);
+    }
+}
+
+.zse-modal-close:active {
+    scale: 0.96;
+}
+
+.zse-modal-close:focus-visible {
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: 2px;
+}
+
+.zse-modal-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-modal[data-starting-style],
+    .zse-modal[data-ending-style] {
+        scale: 1;
+    }
+
+    .zse-modal-close:active {
+        scale: 1;
+    }
+}

@@ -18,6 +18,8 @@ import {
     CardTitle,
     Checkbox,
     Input,
+    Modal,
+    ModalClose,
     Radio,
     RadioGroup,
     Select,
@@ -360,6 +362,28 @@ export function App() {
                         </CardDescription>
                     </CardHeader>
                 </Card>
+            </section>
+
+            <section className="button-row">
+                <Modal
+                    trigger={<Button variant="danger">Usuń sprawdzian</Button>}
+                    title="Usunąć sprawdzian?"
+                    description="Sprawdzian z fizyki i 28 ocen znikną z dziennika. Tego nie da się cofnąć."
+                    footer={
+                        <>
+                            <ModalClose
+                                render={<Button variant="ghost" size="sm" />}
+                            >
+                                Anuluj
+                            </ModalClose>
+                            <ModalClose
+                                render={<Button variant="danger" size="sm" />}
+                            >
+                                Usuń
+                            </ModalClose>
+                        </>
+                    }
+                />
             </section>
         </main>
     );
