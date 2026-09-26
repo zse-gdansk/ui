@@ -5,7 +5,6 @@ import { Field } from "@base-ui/react/field";
 import {
     ArrowDown01Icon,
     Cancel01Icon,
-    LoaderCircleIcon,
     Tick02Icon,
 } from "@hugeicons/core-free-icons";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
@@ -16,6 +15,7 @@ import { createSearch, type SearchKey } from "../../search/search";
 import { FieldFooter } from "../field/FieldFooter";
 import { Icon } from "../icon/Icon";
 import { ScrollArea } from "../scroll-area/ScrollArea";
+import { Spokes } from "../spinner/Spinner";
 
 export interface ComboboxOption {
     value: string;
@@ -319,8 +319,7 @@ export function Combobox(props: ComboboxProps) {
                             <BaseCombobox.Status className="zse-combobox-status">
                                 {status === "searching" && (
                                     <>
-                                        <Icon
-                                            icon={LoaderCircleIcon}
+                                        <Spokes
                                             size={14}
                                             className="zse-combobox-spinner"
                                         />

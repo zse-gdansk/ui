@@ -78,8 +78,48 @@
     animation: zse-spinner-in 200ms ease var(--spinner-delay, 0ms) both;
 }
 
-.zse-spinner-icon {
-    animation: zse-spin 700ms linear infinite;
+/* Szprychy jak w iOS: osiem kresek przy krawędzi, jasność przeskakuje po
+   nich zgodnie z ruchem wskazówek. Każda kreska gaśnie liniowo, kolejna
+   zaczyna 1/8 cyklu później. Sama opacity, bez obrotu elementu. */
+.zse-spokes {
+    --spokes-size: 16px;
+    --spokes-duration: 800ms;
+
+    position: relative;
+    display: inline-block;
+    flex: none;
+    width: var(--spokes-size);
+    height: var(--spokes-size);
+    vertical-align: middle;
+}
+
+.zse-spokes > span {
+    --spoke-width: max(1.5px, calc(var(--spokes-size) * 0.11));
+
+    position: absolute;
+    top: 0;
+    left: calc(50% - var(--spoke-width) / 2);
+    width: var(--spoke-width);
+    height: calc(var(--spokes-size) * 0.28);
+    border-radius: 999px;
+    background: currentColor;
+    opacity: 0.2;
+    transform-origin: 50% calc(var(--spokes-size) / 2);
+    rotate: calc(var(--i) * 45deg);
+    animation: zse-spoke var(--spokes-duration) linear infinite;
+    animation-delay: calc(
+        var(--i) * var(--spokes-duration) / 8 - var(--spokes-duration)
+    );
+}
+
+@keyframes zse-spoke {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0.2;
+    }
 }
 
 .zse-spinner-label {
@@ -98,8 +138,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    /* Obrót zostaje, ale wolniej: nieruchomy spinner nic nie mówi. */
-    .zse-spinner-icon {
-        animation-duration: 1.6s;
+    /* Ruch zostaje, ale wolniej: nieruchomy wskaźnik nic nie mówi. */
+    .zse-spokes {
+        --spokes-duration: 1.6s;
     }
 }

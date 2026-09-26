@@ -1,10 +1,8 @@
 "use client";
 
-import { LoaderCircleIcon } from "@hugeicons/core-free-icons";
 import type { CSSProperties } from "react";
 
 import { useMessages } from "../../i18n/context";
-import { Icon } from "../icon/Icon";
 
 export interface SpinnerProps {
     size?: "sm" | "md" | "lg";
@@ -16,8 +14,37 @@ export interface SpinnerProps {
 }
 
 const SIZES = { sm: 16, md: 20, lg: 32 } as const;
+const SPOKES = [0, 1, 2, 3, 4, 5, 6, 7] as const;
 
-// Ten sam kręcący się okrąg co w Button z loading, w kolorze tekstu.
+export interface SpokesProps {
+    // Średnica w px; bez niej z --spokes-size (np. rozmiar ikony przycisku).
+    size?: number;
+    className?: string;
+}
+
+// Wskaźnik ładowania jak w iOS i macOS: osiem kresek, po których biegnie
+// jasność. Sama opacity, więc tanio i ostro także przy 14px. Ozdoba bez
+// znaczenia dla czytnika; nazwę daje Spinner albo kontrolka obok.
+export function Spokes({ size, className }: SpokesProps) {
+    return (
+        <span
+            className={["zse-spokes", className].filter(Boolean).join(" ")}
+            style={
+                size === undefined
+                    ? undefined
+                    : ({ "--spokes-size": `${size}px` } as CSSProperties)
+            }
+            aria-hidden
+        >
+            {SPOKES.map((index) => (
+                <span key={index} style={{ "--i": index } as CSSProperties} />
+            ))}
+        </span>
+    );
+}
+
+// Samodzielny wskaźnik ładowania z nazwą dla czytnika, w kolorze tekstu.
+// Ten sam co w Button z loading i w pozostałych komponentach.
 export function Spinner({
     size = "md",
     label,
@@ -35,12 +62,7 @@ export function Spinner({
                     : undefined
             }
         >
-            <Icon
-                icon={LoaderCircleIcon}
-                size={SIZES[size]}
-                className="zse-spinner-icon"
-                aria-hidden
-            />
+            <Spokes size={SIZES[size]} />
             <span className="zse-spinner-label">
                 {label ?? t.common.loading}
             </span>

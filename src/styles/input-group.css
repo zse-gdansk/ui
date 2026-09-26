@@ -153,10 +153,6 @@
     filter: blur(4px);
 }
 
-.zse-input-group-spinner {
-    animation: zse-spin 700ms linear infinite;
-}
-
 .zse-input-group[data-status="success"] .zse-input-description {
     color: var(--color-success-text);
 }

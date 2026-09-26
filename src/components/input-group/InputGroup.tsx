@@ -4,7 +4,6 @@ import { Field } from "@base-ui/react/field";
 import {
     AlertCircleIcon,
     CheckmarkCircle02Icon,
-    LoaderCircleIcon,
 } from "@hugeicons/core-free-icons";
 import {
     useCallback,
@@ -19,6 +18,7 @@ import {
 import { useMessages } from "../../i18n/context";
 import { FieldFooter } from "../field/FieldFooter";
 import { Icon, type IconGlyph } from "../icon/Icon";
+import { Spokes } from "../spinner/Spinner";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -213,10 +213,7 @@ export function InputGroup({
                             data-layer="loading"
                             data-hidden={status !== "loading" || undefined}
                         >
-                            <Icon
-                                icon={LoaderCircleIcon}
-                                className="zse-input-group-spinner"
-                            />
+                            <Spokes className="zse-input-group-spinner" />
                         </span>
                         <span
                             data-layer="success"

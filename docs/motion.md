@@ -23,7 +23,7 @@ Animacja musi mieć cel: pokazać, skąd coś przyszło (popover od wyzwalacza),
 | `--ease-toast`    | `cubic-bezier(0.22, 1, 0.36, 1)` | stos toastów                                    |
 | `--duration-fast` | `150ms`                          | zmiany stanu bez hovera, przezroczystość        |
 
-Nigdy `ease-in` na elementach interfejsu (zaczyna wolno, wygląda na opóźnienie). `linear` tylko dla ruchu ciągłego (spinner). `ease-in-out` dla ruchu na ekranie bez początku i końca (shimmer skeletonu).
+Nigdy `ease-in` na elementach interfejsu (zaczyna wolno, wygląda na opóźnienie). `linear` tylko dla ruchu ciągłego (szprychy spinnera: każda kreska gaśnie liniowo, kolejna 1/8 cyklu później, cykl 800 ms). `ease-in-out` dla ruchu na ekranie bez początku i końca (shimmer skeletonu).
 
 ## Wzorce, które stosujemy
 

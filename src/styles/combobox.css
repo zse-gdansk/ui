@@ -238,10 +238,6 @@
     line-height: 1.4;
 }
 
-.zse-combobox-spinner {
-    animation: zse-spin 700ms linear infinite;
-}
-
 .zse-combobox-item-text {
     display: flex;
     flex: 1;

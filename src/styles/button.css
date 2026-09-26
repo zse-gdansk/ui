@@ -154,14 +154,14 @@
     height: var(--button-icon-size);
 }
 
+.zse-button-icon-layer > .zse-spokes {
+    --spokes-size: var(--button-icon-size);
+}
+
 .zse-button-icon-layer[data-hidden] {
     opacity: 0;
     filter: blur(4px);
     scale: 0.25;
-}
-
-.zse-button-spinner {
-    animation: zse-spin 700ms linear infinite;
 }
 
 @keyframes zse-spin {

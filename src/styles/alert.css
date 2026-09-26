@@ -188,7 +188,6 @@
 
 .zse-alert-spinner {
     color: var(--alert-tone);
-    animation: zse-spin 700ms linear infinite;
 }
 
 .zse-alert-close {

@@ -2,7 +2,6 @@
 
 import { Field } from "@base-ui/react/field";
 import { OTPField } from "@base-ui/react/otp-field";
-import { LoaderCircleIcon } from "@hugeicons/core-free-icons";
 import {
     Fragment,
     useRef,
@@ -13,7 +12,7 @@ import {
 
 import { useMessages } from "../../i18n/context";
 import { FieldFooter } from "../field/FieldFooter";
-import { Icon } from "../icon/Icon";
+import { Spinner } from "../spinner/Spinner";
 
 type Status = "idle" | "verifying" | "success" | "error";
 
@@ -194,11 +193,10 @@ export function CodeField({
                     })}
                 </OTPField.Root>
                 {status === "verifying" && (
-                    <Icon
-                        icon={LoaderCircleIcon}
-                        size={18}
+                    <Spinner
+                        size="sm"
+                        label={t.codeField.verifying}
                         className="zse-code-spinner"
-                        aria-label={t.codeField.verifying}
                     />
                 )}
             </div>

@@ -6,13 +6,13 @@ import {
     Cancel01Icon,
     CheckmarkCircle02Icon,
     InformationCircleIcon,
-    LoaderCircleIcon,
 } from "@hugeicons/core-free-icons";
 import { useState, type HTMLAttributes, type ReactNode } from "react";
 
 import { useMessages } from "../../i18n/context";
 import { markEnter } from "../../utils/enter";
 import { Icon, type IconGlyph } from "../icon/Icon";
+import { Spokes } from "../spinner/Spinner";
 
 type AlertVariant = "info" | "success" | "warning" | "danger";
 
@@ -128,8 +128,7 @@ export function Alert({
                         >
                             {action.label}
                             {pending && (
-                                <Icon
-                                    icon={LoaderCircleIcon}
+                                <Spokes
                                     size={14}
                                     className="zse-alert-spinner"
                                 />

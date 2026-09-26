@@ -172,10 +172,6 @@
     scale: 0.25;
 }
 
-.zse-toast-icon-layer[data-name="loading"] svg {
-    animation: zse-toast-spin 700ms linear infinite;
-}
-
 .zse-toast-text {
     display: grid;
     flex: 1;
@@ -262,12 +258,6 @@
         opacity: 0;
         filter: blur(2px);
         scale: 0.6;
-    }
-}
-
-@keyframes zse-toast-spin {
-    to {
-        rotate: 360deg;
     }
 }
 

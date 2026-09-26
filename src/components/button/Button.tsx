@@ -1,10 +1,10 @@
 "use client";
 
 import { Button as BaseButton } from "@base-ui/react/button";
-import { LoaderCircleIcon } from "@hugeicons/core-free-icons";
 import type { ComponentProps } from "react";
 
 import { Icon, type IconGlyph } from "../icon/Icon";
+import { Spokes } from "../spinner/Spinner";
 
 // Etykieta ma wagę 500, więc kreska grubsza niż domyślne 1.5 przy tekście.
 const BUTTON_STROKE = 1.75;
@@ -50,11 +50,7 @@ export function Button({
                     className="zse-button-icon-layer"
                     data-hidden={!loading || undefined}
                 >
-                    <Icon
-                        icon={LoaderCircleIcon}
-                        strokeWidth={BUTTON_STROKE}
-                        className="zse-button-spinner"
-                    />
+                    <Spokes className="zse-button-spinner" />
                 </span>
             </span>
         </span>

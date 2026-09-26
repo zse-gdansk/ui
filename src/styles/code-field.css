@@ -195,7 +195,6 @@
 .zse-code-spinner {
     flex: none;
     color: var(--color-text-secondary);
-    animation: zse-spin 700ms linear infinite;
 }
 
 @media (max-width: 420px) {

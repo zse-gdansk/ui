@@ -7,20 +7,19 @@ import {
     Cancel01Icon,
     CheckmarkCircle02Icon,
     InformationCircleIcon,
-    LoaderCircleIcon,
     Undo02Icon,
 } from "@hugeicons/core-free-icons";
 
 import { useMessages } from "../../i18n/context";
 import { Icon, type IconGlyph } from "../icon/Icon";
+import { Spokes } from "../spinner/Spinner";
 import { type ToastData, type ToastType, toastManager } from "./toast";
 
-const ICONS: Record<ToastType, IconGlyph> = {
+const ICONS: Record<Exclude<ToastType, "loading">, IconGlyph> = {
     success: CheckmarkCircle02Icon,
     error: AlertCircleIcon,
     warning: Alert02Icon,
     info: InformationCircleIcon,
-    loading: LoaderCircleIcon,
 };
 
 export interface ToasterProps {
@@ -88,6 +87,13 @@ function Toasts({
                                     <Icon icon={glyph} size={16} />
                                 </span>
                             ))}
+                            <span
+                                className="zse-toast-icon-layer"
+                                data-name="loading"
+                                data-hidden={type !== "loading" || undefined}
+                            >
+                                <Spokes size={16} />
+                            </span>
                         </span>
                     )}
                     <div className="zse-toast-text">
