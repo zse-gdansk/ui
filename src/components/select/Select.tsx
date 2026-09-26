@@ -29,6 +29,8 @@ export interface SelectProps {
     disabled?: boolean;
     name?: string;
     id?: string;
+    // Nazwa dla czytnika, gdy nie ma widocznej etykiety.
+    "aria-label"?: string;
     className?: ComponentProps<typeof BaseSelect.Trigger>["className"];
 }
 
@@ -45,6 +47,7 @@ export function Select({
     disabled = false,
     name,
     id,
+    "aria-label": ariaLabel,
     className,
 }: SelectProps) {
     const items = Object.fromEntries(
@@ -78,6 +81,9 @@ export function Select({
             >
                 <div className="zse-input-control">
                     <BaseSelect.Trigger
+                        {...(ariaLabel !== undefined && {
+                            "aria-label": ariaLabel,
+                        })}
                         className={(state) =>
                             [
                                 "zse-input-field",

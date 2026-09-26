@@ -145,3 +145,7 @@ export {
     type SegmentedControlProps,
     type SegmentedOption,
 } from "./components/segmented/SegmentedControl";
+export {
+    Pagination,
+    type PaginationProps,
+} from "./components/pagination/Pagination";
