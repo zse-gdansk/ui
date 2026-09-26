@@ -205,3 +205,9 @@ export {
     type SeparatorProps,
 } from "./components/separator/Separator";
 export { Spinner, type SpinnerProps } from "./components/spinner/Spinner";
+export { Label, type LabelProps } from "./components/label/Label";
+export {
+    Breadcrumbs,
+    type BreadcrumbItem,
+    type BreadcrumbsProps,
+} from "./components/breadcrumbs/Breadcrumbs";

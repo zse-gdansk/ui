@@ -38,6 +38,7 @@ import { AccordionDemo } from "./AccordionDemo";
 import { AlertDemo } from "./AlertDemo";
 import { AvatarDemo } from "./AvatarDemo";
 import { BadgeDemo } from "./BadgeDemo";
+import { BreadcrumbsDemo } from "./BreadcrumbsDemo";
 import { CalendarDemo } from "./CalendarDemo";
 import { CodeDemo } from "./CodeDemo";
 import { CodeBlockDemo } from "./CodeDemo2";
@@ -446,6 +447,8 @@ export function App() {
             <ProgressDemo />
 
             <SkeletonDemo />
+
+            <BreadcrumbsDemo />
 
             <MiscDemo />
 

@@ -292,3 +292,18 @@ body {
     color: var(--color-text-secondary);
     font-size: 0.875rem;
 }
+
+.crumbs-narrow,
+.crumbs-tiny {
+    padding: 8px 12px;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-lg);
+}
+
+.crumbs-narrow {
+    max-width: 420px;
+}
+
+.crumbs-tiny {
+    max-width: 240px;
+}

@@ -1,0 +1,150 @@
+.zse-label[data-required]::after {
+    content: " *";
+    color: var(--color-danger-text);
+}
+
+.zse-label-optional {
+    margin-inline-start: 6px;
+    color: var(--color-text-disabled);
+    font-size: 0.75rem;
+    font-weight: 400;
+}
+
+.zse-breadcrumbs {
+    position: relative;
+    min-width: 0;
+    font-size: 0.875rem;
+}
+
+.zse-breadcrumbs-list {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.zse-breadcrumbs-item {
+    display: flex;
+    flex: none;
+    align-items: center;
+    min-width: 0;
+}
+
+/* Bieżąca strona dostaje resztę miejsca i ucina się jako ostatnia. */
+.zse-breadcrumbs-list > .zse-breadcrumbs-item:last-child {
+    flex: 0 1 auto;
+}
+
+.zse-crumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    height: 28px;
+    padding: 0 6px;
+    border-radius: var(--radius-sm);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+        color var(--duration-fast) ease,
+        scale 160ms var(--ease-out);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.zse-breadcrumbs-list > .zse-breadcrumbs-item:first-child .zse-crumb {
+    margin-inline-start: -6px;
+}
+
+/* Długa nazwa ucina się wielokropkiem, pełna w podpowiedzi (title). */
+.zse-crumb-text {
+    min-width: 0;
+    max-width: 22ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.zse-crumb[aria-current] {
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+.zse-crumb[aria-current] .zse-crumb-text {
+    max-width: none;
+}
+
+a.zse-crumb,
+button.zse-crumb {
+    border: 0;
+    background: transparent;
+    font: inherit;
+    cursor: pointer;
+}
+
+@media (hover: hover) {
+    a.zse-crumb:hover,
+    button.zse-crumb:hover {
+        background: var(--color-bg-hover);
+        color: var(--color-text);
+    }
+}
+
+a.zse-crumb:active,
+button.zse-crumb:active {
+    scale: 0.96;
+}
+
+.zse-crumb:focus-visible {
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: -1.5px;
+}
+
+.zse-crumb-more {
+    width: 28px;
+    justify-content: center;
+    padding: 0;
+}
+
+.zse-crumb-more[data-popup-open] {
+    background: var(--color-bg-hover);
+    color: var(--color-text);
+}
+
+.zse-crumb-icon {
+    flex: none;
+}
+
+.zse-crumb-separator {
+    flex: none;
+    margin-inline: 2px;
+    color: var(--color-text-disabled);
+}
+
+/* Kopia do mierzenia: pełna szerokość każdego elementu, bez ucinania. */
+.zse-breadcrumbs-measure {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    visibility: hidden;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.zse-breadcrumbs-measure .zse-crumb span {
+    max-width: 22ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    a.zse-crumb:active,
+    button.zse-crumb:active {
+        scale: 1;
+    }
+}
