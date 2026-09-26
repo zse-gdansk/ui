@@ -1,5 +1,6 @@
 import {
     Add01Icon,
+    ArrowDataTransferHorizontalIcon,
     Analytics01Icon,
     Download04Icon,
     Calendar03Icon,
@@ -39,10 +40,13 @@ import {
     Badge,
     Button,
     PageHeader,
+    PageTab,
+    PageTabs,
     HeaderAction,
     HeaderBreadcrumbs,
     Confirmer,
     Sidebar,
+    SidebarBack,
     SidebarContent,
     SidebarFooter,
     MenuItem,
@@ -80,6 +84,8 @@ function Nav({ pathname }: { pathname: string }) {
         href: `#${href}`,
         active: isActivePath(pathname, href, { exact }),
     });
+    // Ustawienia mają własny widok panelu, z powrotem do menu głównego.
+    const settings = isActivePath(pathname, "/ustawienia");
 
     return (
         <Sidebar>
@@ -87,111 +93,190 @@ function Nav({ pathname }: { pathname: string }) {
                 logo={<span className="demo-logo">Z</span>}
                 title="Dziennik ZSE"
             />
-            <SidebarContent>
-                <SidebarGroup>
-                    <SidebarItem icon={Home01Icon} {...item("/", true)}>
-                        Start
-                    </SidebarItem>
-                </SidebarGroup>
-                <SidebarGroup label="Dziennik">
-                    <SidebarItem icon={UserGroupIcon} {...item("/uczniowie")}>
-                        Uczniowie
-                    </SidebarItem>
-                    <SidebarItem
-                        icon={CheckListIcon}
-                        badge={3}
-                        {...item("/punkty")}
-                    >
-                        Punkty
-                    </SidebarItem>
-                    <SidebarSub
-                        icon={School01Icon}
-                        label="Klasy"
-                        active={isActivePath(pathname, "/klasy")}
-                    >
-                        {CLASSES.map((name) => (
-                            <SidebarItem key={name} {...item(`/klasy/${name}`)}>
-                                {name}
+            <SidebarContent
+                view={settings ? "settings" : "main"}
+                level={settings ? 1 : 0}
+            >
+                {settings ? (
+                    <>
+                        <SidebarBack href="#/">Menu główne</SidebarBack>
+                        <SidebarGroup label="Ustawienia">
+                            <SidebarItem
+                                icon={UserIcon}
+                                {...item("/ustawienia", true)}
+                            >
+                                Konto
                             </SidebarItem>
-                        ))}
-                    </SidebarSub>
-                    <SidebarItem icon={Calendar03Icon} {...item("/plan")}>
-                        Plan lekcji
-                    </SidebarItem>
-                    <SidebarItem
-                        icon={Analytics01Icon}
-                        {...item("/statystyki")}
-                    >
-                        Statystyki
-                    </SidebarItem>
-                </SidebarGroup>
-                <SidebarGroup label="Samorząd">
-                    <SidebarItem icon={VoteIcon} {...item("/glosowania")}>
-                        Głosowania
-                    </SidebarItem>
-                    <SidebarItem
-                        icon={Megaphone01Icon}
-                        {...item("/ogloszenia")}
-                    >
-                        Ogłoszenia
-                    </SidebarItem>
-                </SidebarGroup>
-                <SidebarGroup label="Szkoła">
-                    <SidebarItem icon={TeacherIcon} {...item("/nauczyciele")}>
-                        Nauczyciele
-                    </SidebarItem>
-                    <SidebarItem icon={DoorIcon} {...item("/sale")}>
-                        Sale
-                    </SidebarItem>
-                    <SidebarItem icon={BellIcon} {...item("/dzwonki")}>
-                        Dzwonki
-                    </SidebarItem>
-                    <SidebarItem
-                        icon={UserSwitchIcon}
-                        badge={2}
-                        {...item("/zastepstwa")}
-                    >
-                        Zastępstwa
-                    </SidebarItem>
-                    <SidebarItem icon={Bus01Icon} {...item("/wycieczki")}>
-                        Wycieczki
-                    </SidebarItem>
-                    <SidebarItem icon={LibraryIcon} {...item("/biblioteka")}>
-                        Biblioteka
-                    </SidebarItem>
-                </SidebarGroup>
-                <SidebarGroup label="Administracja">
-                    <SidebarItem
-                        icon={UserMultipleIcon}
-                        {...item("/uzytkownicy")}
-                    >
-                        Użytkownicy
-                    </SidebarItem>
-                    <SidebarItem icon={Shield01Icon} {...item("/uprawnienia")}>
-                        Uprawnienia
-                    </SidebarItem>
-                    <SidebarItem icon={FileImportIcon} {...item("/import")}>
-                        Import danych
-                    </SidebarItem>
-                    <SidebarItem icon={Database01Icon} {...item("/kopie")}>
-                        Kopie zapasowe
-                    </SidebarItem>
-                    <SidebarItem icon={Clock01Icon} {...item("/logi")}>
-                        Historia zmian
-                    </SidebarItem>
-                </SidebarGroup>
-                <SidebarGroup label="Inne">
-                    <SidebarItem icon={Settings01Icon} {...item("/ustawienia")}>
-                        Ustawienia
-                    </SidebarItem>
-                    <SidebarItem
-                        icon={Globe02Icon}
-                        href="https://zse.edu.gdansk.pl/pl"
-                        external
-                    >
-                        Strona szkoły
-                    </SidebarItem>
-                </SidebarGroup>
+                            <SidebarItem
+                                icon={Notification01Icon}
+                                {...item("/ustawienia/powiadomienia")}
+                            >
+                                Powiadomienia
+                            </SidebarItem>
+                            <SidebarItem
+                                icon={Shield01Icon}
+                                {...item("/ustawienia/bezpieczenstwo")}
+                            >
+                                Bezpieczeństwo
+                            </SidebarItem>
+                        </SidebarGroup>
+                        <SidebarGroup label="Szkoła">
+                            <SidebarItem
+                                icon={School01Icon}
+                                {...item("/ustawienia/szkola")}
+                            >
+                                Dane szkoły
+                            </SidebarItem>
+                            <SidebarItem
+                                icon={ArrowDataTransferHorizontalIcon}
+                                {...item("/ustawienia/integracje")}
+                            >
+                                Integracje
+                            </SidebarItem>
+                        </SidebarGroup>
+                    </>
+                ) : (
+                    <>
+                        <SidebarGroup>
+                            <SidebarItem icon={Home01Icon} {...item("/", true)}>
+                                Start
+                            </SidebarItem>
+                        </SidebarGroup>
+                        <SidebarGroup label="Dziennik">
+                            <SidebarItem
+                                icon={UserGroupIcon}
+                                {...item("/uczniowie")}
+                            >
+                                Uczniowie
+                            </SidebarItem>
+                            <SidebarItem
+                                icon={CheckListIcon}
+                                badge={3}
+                                {...item("/punkty")}
+                            >
+                                Punkty
+                            </SidebarItem>
+                            <SidebarSub
+                                icon={School01Icon}
+                                label="Klasy"
+                                active={isActivePath(pathname, "/klasy")}
+                            >
+                                {CLASSES.map((name) => (
+                                    <SidebarItem
+                                        key={name}
+                                        {...item(`/klasy/${name}`)}
+                                    >
+                                        {name}
+                                    </SidebarItem>
+                                ))}
+                            </SidebarSub>
+                            <SidebarItem
+                                icon={Calendar03Icon}
+                                {...item("/plan")}
+                            >
+                                Plan lekcji
+                            </SidebarItem>
+                            <SidebarItem
+                                icon={Analytics01Icon}
+                                {...item("/statystyki")}
+                            >
+                                Statystyki
+                            </SidebarItem>
+                        </SidebarGroup>
+                        <SidebarGroup label="Samorząd">
+                            <SidebarItem
+                                icon={VoteIcon}
+                                {...item("/glosowania")}
+                            >
+                                Głosowania
+                            </SidebarItem>
+                            <SidebarItem
+                                icon={Megaphone01Icon}
+                                {...item("/ogloszenia")}
+                            >
+                                Ogłoszenia
+                            </SidebarItem>
+                        </SidebarGroup>
+                        <SidebarGroup label="Szkoła">
+                            <SidebarItem
+                                icon={TeacherIcon}
+                                {...item("/nauczyciele")}
+                            >
+                                Nauczyciele
+                            </SidebarItem>
+                            <SidebarItem icon={DoorIcon} {...item("/sale")}>
+                                Sale
+                            </SidebarItem>
+                            <SidebarItem icon={BellIcon} {...item("/dzwonki")}>
+                                Dzwonki
+                            </SidebarItem>
+                            <SidebarItem
+                                icon={UserSwitchIcon}
+                                badge={2}
+                                {...item("/zastepstwa")}
+                            >
+                                Zastępstwa
+                            </SidebarItem>
+                            <SidebarItem
+                                icon={Bus01Icon}
+                                {...item("/wycieczki")}
+                            >
+                                Wycieczki
+                            </SidebarItem>
+                            <SidebarItem
+                                icon={LibraryIcon}
+                                {...item("/biblioteka")}
+                            >
+                                Biblioteka
+                            </SidebarItem>
+                        </SidebarGroup>
+                        <SidebarGroup label="Administracja">
+                            <SidebarItem
+                                icon={UserMultipleIcon}
+                                {...item("/uzytkownicy")}
+                            >
+                                Użytkownicy
+                            </SidebarItem>
+                            <SidebarItem
+                                icon={Shield01Icon}
+                                {...item("/uprawnienia")}
+                            >
+                                Uprawnienia
+                            </SidebarItem>
+                            <SidebarItem
+                                icon={FileImportIcon}
+                                {...item("/import")}
+                            >
+                                Import danych
+                            </SidebarItem>
+                            <SidebarItem
+                                icon={Database01Icon}
+                                {...item("/kopie")}
+                            >
+                                Kopie zapasowe
+                            </SidebarItem>
+                            <SidebarItem icon={Clock01Icon} {...item("/logi")}>
+                                Historia zmian
+                            </SidebarItem>
+                        </SidebarGroup>
+                        <SidebarGroup label="Inne">
+                            <SidebarItem
+                                icon={Settings01Icon}
+                                opensView
+                                {...item("/ustawienia")}
+                            >
+                                Ustawienia
+                            </SidebarItem>
+                            <SidebarItem
+                                icon={Globe02Icon}
+                                href="https://zse.edu.gdansk.pl/pl"
+                                external
+                            >
+                                Strona szkoły
+                            </SidebarItem>
+                        </SidebarGroup>
+                    </>
+                )}
             </SidebarContent>
             <SidebarFooter>
                 <Account />
@@ -273,23 +358,67 @@ const TITLES: Record<string, string> = {
     "/logi": "Historia zmian",
 };
 
+// Nazwy podstron (trzeci człon adresu i ustawienia).
+const SUBPAGES: Record<string, string> = {
+    punkty: "Punkty",
+    frekwencja: "Frekwencja",
+    plan: "Plan lekcji",
+    powiadomienia: "Powiadomienia",
+    bezpieczenstwo: "Bezpieczeństwo",
+    szkola: "Dane szkoły",
+    integracje: "Integracje",
+};
+
+function labelFor(parts: string[], index: number) {
+    const part = parts[index] ?? "";
+    if (index === 0) return TITLES[`/${part}`] ?? part;
+    if (parts[0] === "klasy" && index === 1) return `Klasa ${part}`;
+    return SUBPAGES[part] ?? part;
+}
+
 function crumbsFor(pathname: string) {
-    const [, section = "", detail] = pathname.split("/");
-    const items = [{ label: "Dziennik ZSE", href: "#/" }];
-    if (section) {
-        const label = TITLES[`/${section}`] ?? section;
-        items.push(
-            detail ? { label, href: `#/${section}` } : { label, href: "" },
-        );
-    }
-    if (detail) items.push({ label: `Klasa ${detail}`, href: "" });
-    return items.map(({ label, href }) => (href ? { label, href } : { label }));
+    const parts = pathname.split("/").filter(Boolean);
+    return [
+        { label: "Dziennik ZSE", href: "#/" },
+        ...parts.map((_, index) =>
+            index === parts.length - 1
+                ? { label: labelFor(parts, index) }
+                : {
+                      label: labelFor(parts, index),
+                      href: `#/${parts.slice(0, index + 1).join("/")}`,
+                  },
+        ),
+    ];
 }
 
 function pageTitle(pathname: string) {
-    const [, section = "", detail] = pathname.split("/");
-    if (detail) return `Klasa ${detail}`;
-    return TITLES[`/${section}`] ?? "Start";
+    const parts = pathname.split("/").filter(Boolean);
+    // Podstrony klasy mają tytuł klasy, a podstronę pokazują zakładki.
+    if (parts[0] === "klasy" && parts[1]) return `Klasa ${parts[1]}`;
+    if (parts.length === 0) return "Start";
+    return labelFor(parts, parts.length - 1);
+}
+
+// Zakładki klasy pod nagłówkiem: każda to osobny adres.
+function ClassTabs({ pathname }: { pathname: string }) {
+    const [, section, name] = pathname.split("/");
+    if (section !== "klasy" || !name) return null;
+    const base = `/klasy/${name}`;
+    const tab = (href: string, exact = false) => ({
+        href: `#${href}`,
+        active: isActivePath(pathname, href, { exact }),
+    });
+
+    return (
+        <PageTabs label={`Widoki klasy ${name}`}>
+            <PageTab {...tab(base, true)}>Uczniowie</PageTab>
+            <PageTab {...tab(`${base}/punkty`)}>Punkty</PageTab>
+            <PageTab {...tab(`${base}/frekwencja`)} badge={3}>
+                Frekwencja
+            </PageTab>
+            <PageTab {...tab(`${base}/plan`)}>Plan lekcji</PageTab>
+        </PageTabs>
+    );
 }
 
 // Motyw z atrybutu na <html>, wspólny dla paska i menu konta.
@@ -429,6 +558,7 @@ export function LayoutDemo() {
                             </>
                         }
                     />
+                    <ClassTabs pathname={pathname} />
                     <TableDemo />
                     <TableDemo />
                 </div>

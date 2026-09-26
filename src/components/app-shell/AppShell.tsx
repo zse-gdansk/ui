@@ -237,11 +237,21 @@ export function AppShell({
                                     data-side="left"
                                     data-size="sm"
                                     // Wybór pozycji w panelu to przejście na inną
-                                    // stronę, więc panel się chowa.
+                                    // stronę, więc panel się chowa. Zostaje przy
+                                    // linkach do innego widoku panelu (wejście
+                                    // w ustawienia, powrót), żeby pokazać menu.
                                     onClick={(event) => {
+                                        const link =
+                                            event.target instanceof Element
+                                                ? event.target.closest(
+                                                      "a[href]",
+                                                  )
+                                                : null;
                                         if (
-                                            event.target instanceof Element &&
-                                            event.target.closest("a[href]")
+                                            link &&
+                                            !link.hasAttribute(
+                                                "data-opens-view",
+                                            )
                                         )
                                             setMobileOpen(false);
                                     }}

@@ -4,6 +4,7 @@ import { Collapsible } from "@base-ui/react/collapsible";
 import { useRender } from "@base-ui/react/use-render";
 import {
     ArrowDown01Icon,
+    ArrowLeft01Icon,
     LinkSquare02Icon,
     PanelLeftCloseIcon,
     PanelLeftOpenIcon,
@@ -11,6 +12,7 @@ import {
 import {
     createContext,
     useContext,
+    useEffect,
     useId,
     useLayoutEffect,
     useRef,
@@ -163,38 +165,119 @@ export function SidebarHeader({ logo, title }: SidebarHeaderProps) {
 export interface SidebarContentProps {
     children: ReactNode;
     label?: string;
+    // Klucz widoku panelu, np. "main" albo "settings". Zmiana podmienia
+    // treść z przejściem w bok.
+    view?: string;
+    // Głębokość widoku: głębiej wjeżdża z prawej, płycej z lewej.
+    level?: number;
 }
 
-// Środek panelu, przewija się niezależnie od strony.
-export function SidebarContent({ children, label }: SidebarContentProps) {
+// Czas przejścia widoków, jak w sidebar.css; zapas na brak animationend.
+const VIEW_SWAP = 220;
+
+type Direction = "forward" | "back";
+
+// Środek panelu, przewija się niezależnie od strony. Z view działa jak
+// nawigacja podstron: wejście w sekcję (np. ustawienia) podmienia treść,
+// stara wyjeżdża w bok razem z wjazdem nowej.
+export function SidebarContent({
+    children,
+    label,
+    view = "main",
+    level = 0,
+}: SidebarContentProps) {
     const t = useMessages();
     const navRef = useRef<HTMLElement>(null);
+    const lastViewRef = useRef(view);
+    // Treść widoku z chwili wejścia: po zmianie widoku zostaje jako
+    // wychodząca kopia do końca animacji.
+    const [shown, setShown] = useState({ view, level, children });
+    const [leaving, setLeaving] = useState<{
+        key: string;
+        children: ReactNode;
+        direction: Direction;
+    } | null>(null);
+
+    if (view !== shown.view) {
+        setLeaving({
+            key: shown.view,
+            children: shown.children,
+            direction: level >= shown.level ? "forward" : "back",
+        });
+        setShown({ view, level, children });
+    }
+
+    useEffect(() => {
+        if (!leaving) return;
+        const timer = setTimeout(() => setLeaving(null), VIEW_SWAP + 80);
+        return () => clearTimeout(timer);
+    }, [leaving]);
 
     useLayoutEffect(() => {
         const nav = navRef.current;
         const viewport = nav?.closest<HTMLElement>(".zse-scroll-viewport");
+        if (!viewport) return;
+        // Nowy widok zaczyna od góry.
+        if (lastViewRef.current !== view) {
+            lastViewRef.current = view;
+            viewport.scrollTop = 0;
+        }
         const active = nav?.querySelector<HTMLElement>('[aria-current="page"]');
-        if (!viewport || !active) return;
-        const view = viewport.getBoundingClientRect();
+        if (!active) return;
+        const bounds = viewport.getBoundingClientRect();
         const item = active.getBoundingClientRect();
         const fade =
             parseFloat(getComputedStyle(viewport).scrollPaddingTop) || 0;
-        if (item.top >= view.top + fade && item.bottom <= view.bottom - fade)
+        if (
+            item.top >= bounds.top + fade &&
+            item.bottom <= bounds.bottom - fade
+        )
             return;
         viewport.scrollTop +=
-            item.top - view.top - (view.height - item.height) / 2;
+            item.top - bounds.top - (bounds.height - item.height) / 2;
     });
 
     return (
         <ScrollArea className="zse-sidebar-content" arrows={false}>
-            <nav
-                ref={navRef}
-                className="zse-sidebar-nav"
-                aria-label={label ?? t.appShell.navigation}
-            >
-                {children}
-            </nav>
+            <div className="zse-sidebar-views">
+                {leaving && (
+                    <nav
+                        key={`leaving-${leaving.key}`}
+                        className="zse-sidebar-nav"
+                        data-leaving={leaving.direction}
+                        inert
+                        aria-hidden
+                        onAnimationEnd={(event) => {
+                            if (event.target === event.currentTarget)
+                                setLeaving(null);
+                        }}
+                    >
+                        {leaving.children}
+                    </nav>
+                )}
+                <nav
+                    key={view}
+                    ref={navRef}
+                    className="zse-sidebar-nav"
+                    data-entering={leaving?.direction}
+                    aria-label={label ?? t.appShell.navigation}
+                >
+                    {children}
+                </nav>
+            </div>
         </ScrollArea>
+    );
+}
+
+export type SidebarBackProps = Omit<SidebarItemProps, "icon" | "badge">;
+
+// Powrót z widoku podstrony, np. „Wszystkie klasy”, na górze panelu. Po
+// zwinięciu sama strzałka z tooltipem.
+export function SidebarBack(props: SidebarBackProps) {
+    return (
+        <SidebarGroup>
+            <SidebarItem icon={ArrowLeft01Icon} opensView {...props} />
+        </SidebarGroup>
     );
 }
 
@@ -240,6 +323,9 @@ export interface SidebarItemProps {
     onClick?: () => void;
     // Liczba na końcu, np. nowe zgłoszenia. Po zwinięciu kropka na ikonie.
     badge?: ReactNode;
+    // Prowadzi do innego widoku panelu (np. „Ustawienia” z własnym menu):
+    // na telefonie wysuwany panel zostaje otwarty i pokazuje nowe menu.
+    opensView?: boolean;
     // Otwiera się w nowej karcie, z ikoną przy najechaniu.
     external?: boolean;
     disabled?: boolean;
@@ -253,6 +339,7 @@ export function SidebarItem({
     render,
     onClick,
     badge,
+    opensView = false,
     external = false,
     disabled = false,
 }: SidebarItemProps) {
@@ -266,6 +353,7 @@ export function SidebarItem({
         props: {
             className: "zse-sidebar-item",
             "data-active": active || undefined,
+            "data-opens-view": opensView || undefined,
             "aria-current": active ? ("page" as const) : undefined,
             "aria-disabled": disabled || undefined,
             ...(!link && { type: "button" as const }),

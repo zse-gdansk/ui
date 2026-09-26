@@ -1,0 +1,95 @@
+.zse-page-tabs {
+    margin-bottom: 24px;
+    box-shadow: inset 0 -1px 0 var(--color-border-subtle);
+}
+
+/* Pod PageHeader bliżej: zakładki należą do nagłówka strony. */
+.zse-page-header:has(+ .zse-page-tabs) {
+    margin-bottom: 12px;
+}
+
+.zse-page-tabs-list {
+    position: relative;
+    display: flex;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.zse-page-tabs-item {
+    flex: none;
+}
+
+.zse-page-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 40px;
+    padding: 0 10px;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    outline: none;
+}
+
+@media (hover: hover) {
+    .zse-page-tab:hover {
+        color: var(--color-text);
+    }
+}
+
+.zse-page-tab[aria-current="page"] {
+    color: var(--color-text);
+}
+
+.zse-page-tab:focus-visible {
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: -4px;
+}
+
+.zse-page-tab-badge {
+    min-width: 18px;
+    padding: 0 5px;
+    box-sizing: border-box;
+    border-radius: var(--radius-full);
+    background: var(--color-bg-tint);
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 18px;
+    text-align: center;
+}
+
+.zse-page-tabs-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: var(--tab-width, 0);
+    height: 2px;
+    border-radius: 2px 2px 0 0;
+    background: var(--color-accent-solid);
+    translate: var(--tab-left, 0) 0;
+    pointer-events: none;
+}
+
+.zse-page-tabs-list[data-ready] .zse-page-tabs-indicator {
+    transition-property: translate, width;
+    transition-duration: 280ms;
+    transition-timing-function: var(--ease-out);
+}
+
+/* Poziome przewijanie bez paska: wygaszone krawędzie ScrollArea mówią, że
+   jest więcej. */
+.zse-page-tabs-scroll .zse-scroll-viewport {
+    scrollbar-width: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-page-tabs-list[data-ready] .zse-page-tabs-indicator {
+        transition-property: none;
+    }
+}

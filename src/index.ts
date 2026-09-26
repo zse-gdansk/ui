@@ -314,6 +314,7 @@ export {
 } from "./components/app-shell/AppShell";
 export {
     Sidebar,
+    SidebarBack,
     SidebarContent,
     SidebarFooter,
     SidebarGroup,
@@ -321,6 +322,7 @@ export {
     SidebarItem,
     SidebarSub,
     isActivePath,
+    type SidebarBackProps,
     type SidebarContentProps,
     type SidebarGroupProps,
     type SidebarHeaderProps,
@@ -344,3 +346,9 @@ export {
     AppLoader,
     type AppLoaderProps,
 } from "./components/app-loader/AppLoader";
+export {
+    PageTab,
+    PageTabs,
+    type PageTabProps,
+    type PageTabsProps,
+} from "./components/page-tabs/PageTabs";
