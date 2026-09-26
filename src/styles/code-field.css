@@ -73,9 +73,7 @@
 
 .zse-code-input:focus {
     border-color: var(--color-focus-ring);
-    background: var(--color-bg-hover);
-    box-shadow: 0 0 0 3px
-        color-mix(in oklab, var(--color-focus-ring) 30%, transparent);
+    box-shadow: var(--field-halo);
 }
 
 .zse-code-input:disabled {
@@ -165,8 +163,7 @@
 }
 
 .zse-code[data-invalid] .zse-code-input:focus {
-    box-shadow: 0 0 0 3px
-        color-mix(in oklab, var(--color-danger-solid) 25%, transparent);
+    box-shadow: var(--field-halo-danger);
 }
 
 .zse-code-slots[data-status="error"] {

@@ -106,8 +106,16 @@
 }
 
 .zse-button:focus-visible {
-    outline: 1.5px solid var(--color-focus-ring);
-    outline-offset: 2px;
+    box-shadow: var(--field-halo);
+    outline: none;
+}
+
+.zse-button[data-variant="outline"]:focus-visible {
+    border-color: var(--color-focus-ring);
+}
+
+.zse-button[data-variant="danger"]:focus-visible {
+    box-shadow: var(--field-halo-danger);
 }
 
 .zse-button[data-disabled]:not([data-loading]) {

@@ -7,7 +7,7 @@ Jak ma wyglądać i zachowywać się każdy komponent tej biblioteki i każdy ek
 - [Typografia](#typografia): `body-size`, `sentence-case`, `no-tracking`, `weight-scale`, `state-weight`, `mono-in-text`, `tabular-numbers`
 - [Odstępy i kształt](#odstępy-i-kształt): `grouped-text`, `optical-padding`, `nested-radius`, `icon-first-line`, `touch-target`
 - [Powierzchnie](#powierzchnie): `floating-surface`, `flat-cards`, `scroll-edges`, `color-meaning`
-- [Ruch i stany](#ruch-i-stany): `hover-instant`, `hover-media`, `press-scale`, `no-layout-shift`, `stable-collapse`, `mounted-dialogs`
+- [Ruch i stany](#ruch-i-stany): `field-focus`, `hover-instant`, `hover-media`, `press-scale`, `no-layout-shift`, `stable-collapse`, `mounted-dialogs`
 - [Tekst](#tekst): `messages`, `plural`
 
 ## Typografia
@@ -332,6 +332,30 @@ Akcent to „interaktywne albo wybrane”, zielony sukces, pomarańczowy ostrze�
 ```
 
 ## Ruch i stany
+
+### `field-focus` Aktywne pole: ramka i poświata
+
+Pole formularza na fokusie dostaje ramkę w kolorze fokusu i miękką poświatę 3px dookoła (`--field-halo`), bez szczeliny i bez zmiany tła. Pole z listą (Select, DatePicker, TimePicker) przy otwartej liście jest zwykłe, bo fokus jest w liście; po zamknięciu fokus wraca na pole i wtedy pojawia się poświata. Przy błędzie ramka i poświata są czerwone (`--field-halo-danger`). `Button` i `CopyButton` mają tę samą poświatę, ale tylko z klawiatury (`:focus-visible`); obrysowany przycisk przejmuje też kolor ramki, a niebezpieczny ma poświatę czerwoną.
+
+**Tak**
+
+```css
+.zse-input-field:focus:not([data-popup-open]) {
+    border-color: var(--color-focus-ring);
+    box-shadow: var(--field-halo);
+}
+```
+
+**Nie**
+
+```css
+.zse-input-field:focus {
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: 1.5px;
+}
+```
+
+Podwójna cienka linia ze szczeliną wygląda jak błąd renderowania.
 
 ### `hover-instant` Hover bez przejść koloru
 

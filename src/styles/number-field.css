@@ -27,15 +27,12 @@
     border: 1px solid var(--color-border-strong);
     border-radius: var(--radius-md);
     background: var(--color-bg-muted);
-    outline: 1.5px solid transparent;
-    outline-offset: 1.5px;
     cursor: text;
 }
 
 .zse-number-group:focus-within {
     border-color: var(--color-focus-ring);
-    background: var(--color-bg-hover);
-    outline-color: var(--color-focus-ring);
+    box-shadow: var(--field-halo);
 }
 
 .zse-number[data-invalid] .zse-number-group {
@@ -43,7 +40,7 @@
 }
 
 .zse-number[data-invalid] .zse-number-group:focus-within {
-    outline-color: var(--color-danger-solid);
+    box-shadow: var(--field-halo-danger);
 }
 
 .zse-number-input {

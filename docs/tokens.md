@@ -62,3 +62,4 @@ Popover otwierany w modalu albo sheecie musi być nad nim, stąd 95 powyżej 91.
 - `text-wrap: balance` na tytułach, `pretty` na opisach.
 - Bez `letter-spacing` w komponentach (reguła `no-tracking` w [design.md](design.md)); wyjątek tylko dla krótkich wersalików, np. kod języka.
 - `--shadow-popover` zawiera obrys `0 0 0 1px var(--color-border-subtle)`, więc powierzchnia z nim nie dostaje osobnej ramki (`floating-surface`).
+- `--field-halo` i `--field-halo-danger`: poświata aktywnego pola formularza (reguła `field-focus` w [design.md](design.md)).

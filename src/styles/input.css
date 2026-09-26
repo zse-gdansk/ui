@@ -47,8 +47,6 @@
     font: inherit;
     font-size: 1rem;
     line-height: 1;
-    outline: 1.5px solid transparent;
-    outline-offset: 1.5px;
 }
 
 .zse-input[data-size="sm"] .zse-input-field {
@@ -82,20 +80,23 @@
     opacity: 1;
 }
 
-.zse-input-field:focus {
+/* Przy otwartej liście (Select, DatePicker, TimePicker) pole jest zwykłe:
+   kliknięcie daje mu fokus na chwilę przed przejściem do listy, a bez
+   :not([data-popup-open]) poświata mignęłaby. Po zamknięciu fokus wraca
+   na pole i wtedy świeci. */
+.zse-input-field:focus:not([data-popup-open]) {
     border-color: var(--color-focus-ring);
-    background: var(--color-bg-hover);
-    outline-color: var(--color-focus-ring);
+    box-shadow: var(--field-halo);
+    outline: none;
 }
 
 .zse-input[data-invalid] .zse-input-field {
     border-color: var(--color-danger-solid);
 }
 
-.zse-input[data-invalid] .zse-input-field:focus {
+.zse-input[data-invalid] .zse-input-field:focus:not([data-popup-open]) {
     border-color: var(--color-danger-solid);
-    background: var(--color-bg-hover);
-    outline-color: var(--color-danger-solid);
+    box-shadow: var(--field-halo-danger);
 }
 
 .zse-input-field:disabled {
@@ -118,7 +119,9 @@
 }
 
 .zse-input-field:focus:-webkit-autofill {
-    box-shadow: inset 0 0 0 1000px var(--color-bg-hover);
+    box-shadow:
+        inset 0 0 0 1000px var(--color-bg-muted),
+        var(--field-halo);
 }
 
 .zse-input-icon {

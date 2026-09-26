@@ -21,6 +21,12 @@
     --color-border-hover: var(--gray-9);
     --color-separator: var(--gray-6);
     --color-focus-ring: var(--accent-8);
+    /* Aktywne pole: ramka w kolorze fokusu i miękka poświata dookoła, bez
+       szczeliny. Wspólne dla wszystkich pól formularza. */
+    --field-halo: 0 0 0 3px
+        color-mix(in oklab, var(--color-focus-ring) 25%, transparent);
+    --field-halo-danger: 0 0 0 3px
+        color-mix(in oklab, var(--color-danger-solid) 22%, transparent);
 
     --color-accent-bg: var(--accent-3);
     --color-accent-bg-hover: var(--accent-4);

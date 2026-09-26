@@ -431,10 +431,6 @@
     color: var(--color-text-secondary);
 }
 
-.zse-datepicker-trigger[data-popup-open] {
-    border-color: var(--color-focus-ring);
-}
-
 /* Popover ma szerokość kalendarza, nie pola. */
 .zse-datepicker-popup {
     width: auto;

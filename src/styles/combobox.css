@@ -21,15 +21,12 @@
     border: 1px solid var(--color-border-strong);
     border-radius: var(--radius-md);
     background: var(--color-bg-muted);
-    outline: 1.5px solid transparent;
-    outline-offset: 1.5px;
     cursor: text;
 }
 
 .zse-combobox-group:focus-within {
     border-color: var(--color-focus-ring);
-    background: var(--color-bg-hover);
-    outline-color: var(--color-focus-ring);
+    box-shadow: var(--field-halo);
 }
 
 .zse-combobox[data-invalid] .zse-combobox-group {
@@ -37,7 +34,7 @@
 }
 
 .zse-combobox[data-invalid] .zse-combobox-group:focus-within {
-    outline-color: var(--color-danger-solid);
+    box-shadow: var(--field-halo-danger);
 }
 
 .zse-combobox-input {
