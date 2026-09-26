@@ -439,6 +439,20 @@
     padding: 0;
 }
 
+/* W gęstej siatce checkbox o krok mniejszy niż w formularzu (18px):
+   nie dominuje nad tekstem wiersza. Promień i znacznik w tej samej
+   proporcji. Cała komórka dalej jest polem kliknięcia. */
+.zse-table-select .zse-checkbox-root {
+    width: 16px;
+    height: 16px;
+    border-radius: 5px;
+}
+
+.zse-table-select .zse-checkbox-indicator svg {
+    width: 11px;
+    height: 11px;
+}
+
 .zse-table-select-hit {
     display: flex;
     align-items: center;
