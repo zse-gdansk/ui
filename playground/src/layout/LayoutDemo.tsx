@@ -213,10 +213,10 @@ export function LayoutDemo() {
             <HeaderBreadcrumbs items={crumbsFor(pathname)} />
             <div className="demo-page">
                 <p className="demo-lead">
-                    Zwiń panel przyciskiem obok nazwy albo ⌘B / Ctrl+B. Breadcrumbs
-                    podaje strona przez HeaderBreadcrumbs, a trafiają do paska.
-                    Poniżej 768px panel wysuwa się z lewej. Zwinięcie zostaje w
-                    cookie, więc przeżywa odświeżenie.
+                    Zwiń panel przyciskiem obok nazwy albo ⌘B / Ctrl+B.
+                    Breadcrumbs podaje strona przez HeaderBreadcrumbs, a
+                    trafiają do paska. Poniżej 768px panel wysuwa się z lewej.
+                    Zwinięcie zostaje w cookie, więc przeżywa odświeżenie.
                 </p>
                 <TableDemo />
                 <TableDemo />

@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 
 import "../../../src/styles/index.css";
 import "../playground.css";
+import "./inter.css";
 import "./layout.css";
 
 import { LayoutDemo } from "./LayoutDemo";

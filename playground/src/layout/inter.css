@@ -1,0 +1,45 @@
+@font-face {
+    font-family: InterVariable;
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("/fonts/InterVariable.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: InterVariable;
+    font-style: italic;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("/fonts/InterVariable-Italic.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Inter Fallback";
+    src: local("Arial"), local("ArialMT");
+    size-adjust: 106.37%;
+    ascent-override: 91.08%;
+    descent-override: 22.68%;
+    line-gap-override: 0%;
+}
+
+:root {
+    font-family: InterVariable, "Inter Fallback", system-ui, sans-serif;
+    font-optical-sizing: auto;
+    font-feature-settings:
+        "cv01" 1,
+        "cv05" 1,
+        "ss03" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+body {
+    font-family: inherit;
+}
+
+:where(button, input, select, textarea) {
+    font-family: inherit;
+    font-feature-settings: inherit;
+}

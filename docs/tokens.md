@@ -55,7 +55,7 @@ Popover otwierany w modalu albo sheecie musi być nad nim, stąd 95 powyżej 91.
 
 ## Typografia i fonty
 
-- Font tekstu dziedziczy się z aplikacji (biblioteka go nie narzuca).
+- Font tekstu dziedziczy się z aplikacji (biblioteka go nie narzuca). Przykład konfiguracji Intera (lokalny plik zmienny, preload, zapasowy Arial dopasowany metrykami, `font-optical-sizing`, warianty znaków): `playground/src/layout/inter.css`.
 - `--font-mono`: Ioskeley Mono (SIL OFL, pliki w `src/fonts`, `@font-face` w `fonts.css`), z zapasem systemowym. Do kodu i tam, gdzie cyfry i znaki muszą mieć stałą szerokość.
 - Liczby zmieniające się w miejscu (liczniki, punkty, procenty, daty w kalendarzu): `font-variant-numeric: tabular-nums`.
 - Pola formularzy mają `font-size: 1rem` na telefonie (poniżej 16px iOS przybliża stronę przy fokusie), a od 640px `0.875rem`.
