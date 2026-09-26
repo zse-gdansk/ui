@@ -1,0 +1,335 @@
+.zse-stepper {
+    --dot: 28px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    container-type: inline-size;
+}
+
+/* Kroki w równych kolumnach, linia postępu przez środki kółek od
+   pierwszego do ostatniego. */
+.zse-stepper-steps {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(var(--steps), minmax(0, 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.zse-stepper-line {
+    position: absolute;
+    top: calc(var(--dot) / 2 - 1px);
+    right: calc(100% / var(--steps) / 2);
+    left: calc(100% / var(--steps) / 2);
+    height: 2px;
+    border-radius: var(--radius-full);
+    background: var(--color-border-subtle);
+}
+
+/* Linia dochodzi do bieżącego kroku i dalej, o tyle, ile go wypełniono. */
+.zse-stepper-line::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--color-accent-solid);
+    transform: scaleX(var(--progress));
+    transform-origin: left;
+    transition: transform 500ms var(--ease-out);
+}
+
+.zse-stepper-step {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    min-width: 0;
+}
+
+.zse-stepper-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    max-width: 100%;
+    padding: 0 4px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.zse-stepper-button:disabled {
+    cursor: default;
+}
+
+.zse-stepper-button:focus-visible {
+    outline: none;
+}
+
+.zse-stepper-button:focus-visible .zse-stepper-dot {
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: 3px;
+}
+
+/* Kółko: numer i znacznik w jednej komórce, podmieniane jak ikony. */
+.zse-stepper-dot {
+    position: relative;
+    display: grid;
+    width: var(--dot);
+    height: var(--dot);
+    place-items: center;
+    border: 1.5px solid var(--color-border-strong);
+    border-radius: var(--radius-full);
+    background: var(--color-bg-surface);
+    color: var(--color-text-secondary);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    transition-property:
+        background-color, border-color, box-shadow, color, scale;
+    transition-duration: 250ms, 250ms, 250ms, 250ms, 160ms;
+    transition-timing-function: var(--ease-out);
+}
+
+.zse-stepper-button:not(:disabled):active .zse-stepper-dot {
+    scale: 0.94;
+}
+
+/* Krok, do którego można wrócić: kółko ciemnieje i lekko rośnie. */
+@media (hover: hover) {
+    .zse-stepper-button:not(:disabled):hover .zse-stepper-dot {
+        scale: 1.08;
+    }
+
+    .zse-stepper-button:not(:disabled):hover .zse-stepper-title {
+        color: var(--color-text);
+    }
+}
+
+.zse-stepper-layer {
+    display: flex;
+    grid-area: 1 / 1;
+    transition-property: opacity, scale, filter;
+    transition-duration: 300ms;
+    transition-timing-function: var(--ease-standard);
+}
+
+.zse-stepper-layer[data-hidden] {
+    opacity: 0;
+    scale: 0.25;
+    filter: blur(4px);
+}
+
+/* Bieżący: obwódka w kolorze akcentu i miękka poświata. */
+.zse-stepper-step[data-state="current"] .zse-stepper-dot {
+    border-color: var(--color-accent-solid);
+    box-shadow: 0 0 0 4px
+        color-mix(in oklab, var(--color-accent-solid) 14%, transparent);
+    color: var(--color-accent-text);
+}
+
+.zse-stepper-step[data-state="complete"] .zse-stepper-dot {
+    border-color: var(--color-accent-solid);
+    background: var(--color-accent-solid);
+    color: var(--color-text-on-accent);
+}
+
+.zse-stepper-step[data-state="error"] .zse-stepper-dot {
+    border-color: var(--color-danger-solid);
+    background: var(--color-danger-solid);
+    box-shadow: 0 0 0 4px
+        color-mix(in oklab, var(--color-danger-solid) 18%, transparent);
+    color: var(--color-text-on-danger);
+    animation: zse-stepper-shake 400ms var(--ease-out);
+}
+
+@keyframes zse-stepper-shake {
+    20% {
+        translate: -4px 0;
+    }
+    45% {
+        translate: 3px 0;
+    }
+    70% {
+        translate: -2px 0;
+    }
+}
+
+.zse-stepper-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.zse-stepper-title {
+    max-width: 100%;
+    overflow: hidden;
+    color: var(--color-text-secondary);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color var(--duration-fast) ease;
+}
+
+.zse-stepper-step:is([data-state="current"], [data-state="error"])
+    .zse-stepper-title {
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+.zse-stepper-optional {
+    color: var(--color-text-disabled);
+    font-size: 0.6875rem;
+}
+
+.zse-stepper-compact {
+    display: none;
+}
+
+/* Wąsko: rząd kółek z nazwami się nie mieści, więc tekst i pasek. */
+@container (max-width: 480px) {
+    .zse-stepper-steps {
+        display: none;
+    }
+
+    .zse-stepper-compact {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: baseline;
+        gap: 4px 10px;
+    }
+}
+
+.zse-stepper-compact-count {
+    color: var(--color-text-secondary);
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.zse-stepper-compact-title {
+    overflow: hidden;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.zse-stepper-segments {
+    display: flex;
+    grid-column: 1 / -1;
+    gap: 3px;
+    height: 4px;
+    margin-top: 6px;
+}
+
+/* Kawałek bieżącego kroku też dopełnia się z polami. */
+.zse-stepper-segments > span {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+    border-radius: var(--radius-full);
+    background: var(--color-border-subtle);
+}
+
+.zse-stepper-segments > span::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--color-accent-solid);
+    transform: translateX(calc((var(--fill) - 1) * 100%));
+    transition: transform 450ms var(--ease-out);
+}
+
+.zse-stepper-viewport {
+    margin: -4px;
+    padding: 4px;
+    overflow: hidden;
+    transition: height 320ms var(--ease-out);
+}
+
+.zse-stepper-panel {
+    animation: zse-stepper-in 320ms var(--ease-out) both;
+}
+
+.zse-stepper-panel[data-direction="1"] {
+    --from: 28px;
+}
+
+.zse-stepper-panel[data-direction="-1"] {
+    --from: -28px;
+}
+
+@keyframes zse-stepper-in {
+    from {
+        opacity: 0;
+        translate: var(--from, 0) 0;
+    }
+}
+
+.zse-stepper-description {
+    margin: 0 0 16px;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.55;
+}
+
+.zse-stepper-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border-subtle);
+}
+
+.zse-stepper-error {
+    margin: 0;
+    color: var(--color-danger-text);
+    font-size: 0.8125rem;
+}
+
+.zse-stepper-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-stepper-line::after,
+    .zse-stepper-segments > span::after,
+    .zse-stepper-viewport {
+        transition: none;
+    }
+
+    .zse-stepper-panel {
+        animation-name: zse-stepper-fade;
+    }
+
+    @keyframes zse-stepper-fade {
+        from {
+            opacity: 0;
+        }
+    }
+
+    .zse-stepper-step[data-state="error"] .zse-stepper-dot {
+        animation: none;
+    }
+
+    .zse-stepper-layer[data-hidden] {
+        scale: 1;
+        filter: none;
+    }
+
+    .zse-stepper-button:hover .zse-stepper-dot,
+    .zse-stepper-button:active .zse-stepper-dot {
+        scale: 1;
+    }
+}

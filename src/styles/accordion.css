@@ -170,6 +170,8 @@
 
 .zse-collapsible-panel {
     height: var(--collapsible-panel-height);
+    margin-inline: -4px;
+    padding-inline: 4px;
 }
 
 .zse-accordion-panel:is([data-starting-style], [data-ending-style]),

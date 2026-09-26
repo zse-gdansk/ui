@@ -211,3 +211,8 @@ export {
     type BreadcrumbItem,
     type BreadcrumbsProps,
 } from "./components/breadcrumbs/Breadcrumbs";
+export {
+    Stepper,
+    type StepperProps,
+    type StepperStep,
+} from "./components/stepper/Stepper";
