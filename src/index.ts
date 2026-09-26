@@ -78,7 +78,11 @@ export {
     NumberField,
     type NumberFieldProps,
 } from "./components/number-field/NumberField";
-export { Alert, type AlertProps } from "./components/alert/Alert";
+export {
+    Alert,
+    type AlertAction,
+    type AlertProps,
+} from "./components/alert/Alert";
 export { Badge, type BadgeProps } from "./components/badge/Badge";
 export {
     Skeleton,

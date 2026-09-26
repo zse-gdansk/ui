@@ -1,4 +1,4 @@
-import { Alert, Button } from "@zse-gdansk/ui";
+import { Alert, Button, toast } from "@zse-gdansk/ui";
 import { useState } from "react";
 
 export function AlertDemo() {
@@ -27,9 +27,17 @@ export function AlertDemo() {
             >
                 Praca oddana teraz zostanie oznaczona jako spóźniona.
             </Alert>
-            <Alert variant="danger">
-                Nie udało się zapisać punktów.{" "}
-                <a href="#retry">Spróbuj ponownie</a>
+            <Alert
+                variant="danger"
+                action={{
+                    label: "Spróbuj ponownie",
+                    onClick: () =>
+                        new Promise((done) => setTimeout(done, 1200)).then(() =>
+                            toast.success("Zapisano punkty"),
+                        ),
+                }}
+            >
+                Nie udało się zapisać punktów.
             </Alert>
             {notice && (
                 <Alert

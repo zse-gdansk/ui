@@ -6,6 +6,7 @@ import {
     Cancel01Icon,
     CheckmarkCircle02Icon,
     InformationCircleIcon,
+    LoaderCircleIcon,
 } from "@hugeicons/core-free-icons";
 import { useState, type HTMLAttributes, type ReactNode } from "react";
 
@@ -20,6 +21,11 @@ const ICONS: Record<AlertVariant, IconGlyph> = {
     danger: AlertCircleIcon,
 };
 
+export interface AlertAction {
+    label: ReactNode;
+    onClick: () => unknown;
+}
+
 export interface AlertProps extends Omit<
     HTMLAttributes<HTMLDivElement>,
     "title"
@@ -28,7 +34,10 @@ export interface AlertProps extends Omit<
     title?: ReactNode;
     // Własna ikona albo false bez ikony.
     icon?: IconGlyph | false;
-    // Przyciski pod treścią.
+    // Akcja w linii z treścią, np. „Spróbuj ponownie”. Gdy onClick zwróci
+    // Promise, przycisk czeka na niego ze spinnerem.
+    action?: AlertAction;
+    // Przyciski pod treścią, gdy akcji jest więcej albo są ważniejsze.
     actions?: ReactNode;
     // Z nim pojawia się X. Wywoływane po animacji zamknięcia.
     onDismiss?: () => void;
@@ -58,6 +67,7 @@ export function Alert({
     variant = "info",
     title,
     icon,
+    action,
     actions,
     onDismiss,
     dismissLabel = "Zamknij",
@@ -66,6 +76,21 @@ export function Alert({
     ...props
 }: AlertProps) {
     const [closing, setClosing] = useState(false);
+    const [pending, setPending] = useState(false);
+
+    async function runAction() {
+        if (!action || pending) return;
+        const result = action.onClick();
+        if (!(result instanceof Promise)) return;
+        setPending(true);
+        try {
+            await result;
+        } catch {
+            // Błąd obsługuje wywołujący (np. toast), tu tylko kończymy czekanie.
+        } finally {
+            setPending(false);
+        }
+    }
     const glyph = icon === false ? null : (icon ?? ICONS[variant]);
     const urgent = variant === "danger" || variant === "warning";
 
@@ -109,6 +134,24 @@ export function Alert({
                             <div className="zse-alert-actions">{actions}</div>
                         )}
                     </div>
+                    {action && (
+                        <button
+                            type="button"
+                            className="zse-alert-action"
+                            aria-busy={pending || undefined}
+                            aria-disabled={pending || undefined}
+                            onClick={() => void runAction()}
+                        >
+                            {action.label}
+                            {pending && (
+                                <Icon
+                                    icon={LoaderCircleIcon}
+                                    size={14}
+                                    className="zse-alert-spinner"
+                                />
+                            )}
+                        </button>
+                    )}
                     {onDismiss && (
                         <button
                             type="button"
