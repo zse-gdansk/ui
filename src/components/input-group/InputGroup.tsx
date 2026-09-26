@@ -30,7 +30,7 @@ export interface InputGroupProps extends Omit<
     hint?: ReactNode;
     error?: string | undefined;
     size?: "sm" | "md" | "lg";
-    // Stały tekst przed i za wartością, np. "https://" i ".zse.edu.pl".
+    // Stały tekst przed i za wartością, np. "https://" i ".zse.edu.gdansk.pl".
     // Nie da się go edytować ani nie trafia do wartości.
     prefix?: ReactNode;
     suffix?: ReactNode;

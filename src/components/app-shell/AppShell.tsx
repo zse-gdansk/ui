@@ -214,7 +214,7 @@ export function AppShell({
                     swipeDirection="left"
                 >
                     <Drawer.Portal>
-                        <Drawer.Backdrop className="zse-sheet-backdrop" />
+                        <Drawer.Backdrop className="zse-sheet-backdrop zse-shell-backdrop" />
                         <Drawer.Viewport
                             className="zse-sheet-viewport"
                             data-side="left"

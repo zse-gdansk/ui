@@ -257,7 +257,20 @@ export function SidebarItem({
                         className="zse-sidebar-icon"
                         data-dot={badge != null || undefined}
                     >
-                        {icon && <Icon icon={icon} size={18} />}
+                        {icon && (
+                            <Icon
+                                icon={icon}
+                                size={18}
+                                className="zse-sidebar-glyph"
+                            />
+                        )}
+                        {icon && external && (
+                            <Icon
+                                icon={LinkSquare02Icon}
+                                size={18}
+                                className="zse-sidebar-glyph-alt"
+                            />
+                        )}
                     </span>
                     <span className="zse-sidebar-label">{children}</span>
                     {badge != null && (

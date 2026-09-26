@@ -5,7 +5,7 @@
     min-height: 100dvh;
     background: var(--color-bg-overlay);
     opacity: calc(1 - var(--drawer-swipe-progress, 0));
-    transition: opacity 400ms var(--ease-drawer);
+    transition: opacity var(--sheet-duration, 400ms) var(--ease-drawer);
 }
 
 .zse-sheet-backdrop[data-starting-style],
@@ -18,7 +18,9 @@
 }
 
 .zse-sheet-backdrop[data-ending-style] {
-    transition-duration: calc(var(--drawer-swipe-strength, 1) * 400ms);
+    transition-duration: calc(
+        var(--drawer-swipe-strength, 1) * var(--sheet-duration, 400ms)
+    );
 }
 
 @supports (-webkit-touch-callout: none) {
@@ -62,7 +64,7 @@
     color: var(--color-text);
     outline: none;
     pointer-events: auto;
-    transition: transform 400ms var(--ease-drawer);
+    transition: transform var(--sheet-duration, 400ms) var(--ease-drawer);
     will-change: transform;
 }
 
@@ -145,7 +147,9 @@
 }
 
 .zse-sheet[data-ending-style] {
-    transition-duration: calc(var(--drawer-swipe-strength, 1) * 400ms);
+    transition-duration: calc(
+        var(--drawer-swipe-strength, 1) * var(--sheet-duration, 400ms)
+    );
 }
 
 .zse-sheet-handle {

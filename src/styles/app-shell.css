@@ -150,6 +150,11 @@ html:has(.zse-shell) {
     font-size: 0.75rem;
 }
 
+.zse-shell-drawer,
+.zse-shell-backdrop {
+    --sheet-duration: 240ms;
+}
+
 .zse-shell-drawer {
     height: 100%;
     overflow: hidden;

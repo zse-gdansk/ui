@@ -34,9 +34,7 @@
 .zse-sidebar-logo,
 .zse-sidebar-expand {
     grid-area: 1 / 1;
-    transition-property: opacity, scale, filter;
-    transition-duration: 200ms;
-    transition-timing-function: var(--ease-standard);
+    transition: opacity 150ms ease;
 }
 
 .zse-sidebar-logo {
@@ -66,8 +64,6 @@
 
 .zse-sidebar-expand {
     opacity: 0;
-    scale: 0.25;
-    filter: blur(4px);
 }
 
 /* Zwinięty: najechanie na panel albo fokus z klawiatury zamienia znak
@@ -75,14 +71,10 @@
 @media (hover: hover) {
     .zse-sidebar[data-collapsed]:not([data-hold]):hover .zse-sidebar-logo {
         opacity: 0;
-        scale: 0.25;
-        filter: blur(4px);
     }
 
     .zse-sidebar[data-collapsed]:not([data-hold]):hover .zse-sidebar-expand {
         opacity: 1;
-        scale: 1;
-        filter: blur(0);
     }
 
     .zse-sidebar-expand:hover,
@@ -95,14 +87,10 @@
 .zse-sidebar[data-collapsed]:has(.zse-sidebar-expand:focus-visible)
     .zse-sidebar-logo {
     opacity: 0;
-    scale: 0.25;
-    filter: blur(4px);
 }
 
 .zse-sidebar-expand:focus-visible {
     opacity: 1;
-    scale: 1;
-    filter: blur(0);
 }
 
 .zse-sidebar-title {
@@ -167,10 +155,12 @@
     transition: var(--sidebar-fade);
 }
 
+/* Kreska na równi między grupami, nie na środku wiersza: nad nią odstęp
+   grup (12px) + 8px, pod nią reszta wiersza (28 - 8), po 20px. */
 .zse-sidebar-group-label::before {
     content: "";
     position: absolute;
-    top: 50%;
+    top: 8px;
     left: 12px;
     width: 16px;
     height: 1px;
@@ -212,11 +202,10 @@
     text-decoration: none;
     white-space: nowrap;
     cursor: pointer;
-    transition-property: background-color, color, scale, width, margin, padding;
-    transition-duration:
-        var(--duration-fast), var(--duration-fast), 160ms, 220ms, 220ms, 220ms;
+    transition-property: scale, width, margin, padding;
+    transition-duration: 160ms, 220ms, 220ms, 220ms;
     transition-timing-function:
-        ease, ease, var(--ease-out), var(--ease-drawer), var(--ease-drawer),
+        var(--ease-out), var(--ease-drawer), var(--ease-drawer),
         var(--ease-drawer);
 }
 
@@ -312,15 +301,60 @@
     color: var(--color-text-secondary);
 }
 
-.zse-sidebar-external {
+.zse-sidebar-external,
+.zse-sidebar-glyph,
+.zse-sidebar-glyph-alt {
+    transition-property: opacity, scale, filter;
+    transition-duration: 200ms;
+    transition-timing-function: var(--ease-standard);
+}
+
+.zse-sidebar-external,
+.zse-sidebar-glyph-alt {
     opacity: 0;
-    transition: opacity var(--duration-fast) ease;
+    scale: 0.25;
+    filter: blur(4px);
+}
+
+.zse-sidebar-glyph,
+.zse-sidebar-glyph-alt {
+    grid-area: 1 / 1;
 }
 
 @media (hover: hover) {
-    .zse-sidebar-item:hover .zse-sidebar-external {
-        opacity: 0.7;
+    .zse-sidebar-item:hover .zse-sidebar-external,
+    .zse-sidebar[data-collapsed]
+        .zse-sidebar-item:hover
+        .zse-sidebar-glyph-alt {
+        opacity: 1;
+        scale: 1;
+        filter: blur(0);
     }
+
+    .zse-sidebar[data-collapsed]
+        .zse-sidebar-item:hover
+        .zse-sidebar-glyph:has(+ .zse-sidebar-glyph-alt) {
+        opacity: 0;
+        scale: 0.25;
+        filter: blur(4px);
+    }
+}
+
+.zse-sidebar-item:focus-visible .zse-sidebar-external,
+.zse-sidebar[data-collapsed]
+    .zse-sidebar-item:focus-visible
+    .zse-sidebar-glyph-alt {
+    opacity: 1;
+    scale: 1;
+    filter: blur(0);
+}
+
+.zse-sidebar[data-collapsed]
+    .zse-sidebar-item:focus-visible
+    .zse-sidebar-glyph:has(+ .zse-sidebar-glyph-alt) {
+    opacity: 0;
+    scale: 0.25;
+    filter: blur(4px);
 }
 
 .zse-sidebar-chevron {
@@ -385,8 +419,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .zse-sidebar-logo,
-    .zse-sidebar-expand {
+    .zse-sidebar-external,
+    .zse-sidebar-glyph,
+    .zse-sidebar-glyph-alt {
         scale: 1 !important;
         filter: none !important;
     }
