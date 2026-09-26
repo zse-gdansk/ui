@@ -1,5 +1,7 @@
 import {
+    Add01Icon,
     Analytics01Icon,
+    Download04Icon,
     Calendar03Icon,
     CheckListIcon,
     DashboardSquare01Icon,
@@ -18,6 +20,9 @@ import {
 import {
     AppHeader,
     AppShell,
+    Badge,
+    Button,
+    PageHeader,
     HeaderAction,
     HeaderBreadcrumbs,
     Confirmer,
@@ -149,6 +154,12 @@ function crumbsFor(pathname: string) {
     return items.map(({ label, href }) => (href ? { label, href } : { label }));
 }
 
+function pageTitle(pathname: string) {
+    const [, section = "", detail] = pathname.split("/");
+    if (detail) return `Klasa ${detail}`;
+    return TITLES[`/${section}`] ?? "Start";
+}
+
 function Header() {
     const [theme, setTheme] = useState(
         () => document.documentElement.dataset.theme ?? "light",
@@ -212,12 +223,35 @@ export function LayoutDemo() {
         >
             <HeaderBreadcrumbs items={crumbsFor(pathname)} />
             <div className="demo-page">
-                <p className="demo-lead">
-                    Zwiń panel przyciskiem obok nazwy albo ⌘B / Ctrl+B.
-                    Breadcrumbs podaje strona przez HeaderBreadcrumbs, a
-                    trafiają do paska. Poniżej 768px panel wysuwa się z lewej.
-                    Zwinięcie zostaje w cookie, więc przeżywa odświeżenie.
-                </p>
+                <PageHeader
+                    title={pageTitle(pathname)}
+                    description="Zwiń panel przyciskiem obok nazwy albo ⌘B / Ctrl+B."
+                    meta={
+                        <>
+                            <Badge tone="success" size="sm">
+                                64 uczniów
+                            </Badge>
+                            <span>Rok szkolny 2026/27</span>
+                        </>
+                    }
+                    actions={
+                        <>
+                            <Button
+                                variant="outline"
+                                icon={Download04Icon}
+                                onClick={() => toast("Eksport do CSV")}
+                            >
+                                Eksport
+                            </Button>
+                            <Button
+                                icon={Add01Icon}
+                                onClick={() => toast("Nowy uczeń")}
+                            >
+                                Dodaj ucznia
+                            </Button>
+                        </>
+                    }
+                />
                 <TableDemo />
                 <TableDemo />
             </div>

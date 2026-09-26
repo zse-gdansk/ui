@@ -328,3 +328,7 @@ export {
     type AppHeaderProps,
     type HeaderActionProps,
 } from "./components/app-shell/AppHeader";
+export {
+    PageHeader,
+    type PageHeaderProps,
+} from "./components/page-header/PageHeader";
