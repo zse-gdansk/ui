@@ -42,6 +42,7 @@ import { MenuDemo } from "./MenuDemo";
 import { NumberDemo } from "./NumberDemo";
 import { SheetDemo } from "./SheetDemo";
 import { SkeletonDemo } from "./SkeletonDemo";
+import { UploadDemo } from "./UploadDemo";
 
 const RAMPS = ["gray", "blue", "green", "orange", "red", "violet"] as const;
 const STEPS = Array.from({ length: 12 }, (_, i) => i + 1);
@@ -417,6 +418,8 @@ export function App() {
             <SheetDemo />
 
             <SkeletonDemo />
+
+            <UploadDemo />
 
             <AvatarDemo />
 

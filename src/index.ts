@@ -97,3 +97,8 @@ export {
     type AvatarGroupProps,
     type AvatarProps,
 } from "./components/avatar/Avatar";
+export {
+    FileUpload,
+    type FileUploadProps,
+    type UploadContext,
+} from "./components/file-upload/FileUpload";
