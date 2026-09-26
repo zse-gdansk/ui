@@ -34,6 +34,7 @@ import {
 import { useState } from "react";
 
 import { GradesDemo } from "./GradesDemo";
+import { MenuDemo } from "./MenuDemo";
 
 const RAMPS = ["gray", "blue", "green", "orange", "red", "violet"] as const;
 const STEPS = Array.from({ length: 12 }, (_, i) => i + 1);
@@ -388,6 +389,8 @@ export function App() {
                     }
                 />
             </section>
+
+            <MenuDemo />
 
             <GradesDemo />
         </main>
