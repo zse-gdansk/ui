@@ -7,7 +7,7 @@ export type IconGlyph = IconProps["icon"];
 export function Icon({
     size = 16,
     color = "currentColor",
-    strokeWidth = 2,
+    strokeWidth = 1.5,
     ...rest
 }: IconProps) {
     return (

@@ -32,8 +32,16 @@ export function Checkbox({ label, className, ...props }: CheckboxProps) {
                 className="zse-checkbox-indicator"
                 keepMounted
             >
-                <Icon icon={Tick02Icon} className="zse-checkbox-tick" />
-                <Icon icon={MinusSignIcon} className="zse-checkbox-minus" />
+                <Icon
+                    icon={Tick02Icon}
+                    strokeWidth={2}
+                    className="zse-checkbox-tick"
+                />
+                <Icon
+                    icon={MinusSignIcon}
+                    strokeWidth={2}
+                    className="zse-checkbox-minus"
+                />
             </BaseCheckbox.Indicator>
         </BaseCheckbox.Root>
     );

@@ -6,6 +6,9 @@ import type { ComponentProps } from "react";
 
 import { Icon, type IconGlyph } from "../icon/Icon";
 
+// Etykieta ma wagę 500, więc kreska grubsza niż domyślne 1.5 przy tekście.
+const BUTTON_STROKE = 1.75;
+
 export interface ButtonProps extends ComponentProps<typeof BaseButton> {
     variant?: "primary" | "ghost" | "outline" | "danger";
     size?: "sm" | "md" | "lg";
@@ -40,7 +43,7 @@ export function Button({
                         className="zse-button-icon-layer"
                         data-hidden={loading || undefined}
                     >
-                        <Icon icon={icon} />
+                        <Icon icon={icon} strokeWidth={BUTTON_STROKE} />
                     </span>
                 )}
                 <span
@@ -49,6 +52,7 @@ export function Button({
                 >
                     <Icon
                         icon={LoaderCircleIcon}
+                        strokeWidth={BUTTON_STROKE}
                         className="zse-button-spinner"
                     />
                 </span>
