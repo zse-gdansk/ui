@@ -10,6 +10,7 @@ import {
     type ReactNode,
 } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { Button } from "../button/Button";
 import { Icon } from "../icon/Icon";
 
@@ -39,8 +40,6 @@ export interface StepperProps {
     nextLabel?: string;
     finishLabel?: string;
 }
-
-const NUMBER = new Intl.NumberFormat("pl-PL");
 
 // Wypełnienie bieżącego kroku z pól w nim: wymagane liczą się w całości,
 // opcjonalne od startu w połowie (krok z samym opcjonalnym polem ma pół,
@@ -89,10 +88,11 @@ export function Stepper({
     onStepChange,
     onComplete,
     linear = true,
-    backLabel = "Wstecz",
-    nextLabel = "Dalej",
-    finishLabel = "Zakończ",
+    backLabel,
+    nextLabel,
+    finishLabel,
 }: StepperProps) {
+    const t = useMessages();
     const [internal, setInternal] = useState(defaultStep);
     const current = Math.min(Math.max(step ?? internal, 0), steps.length - 1);
     // Najdalszy krok, do którego już doszliśmy: do niego można wracać.
@@ -157,7 +157,7 @@ export function Stepper({
                 message:
                     typeof verdict === "string"
                         ? verdict
-                        : "Uzupełnij ten krok",
+                        : t.stepper.incomplete,
             });
             return;
         }
@@ -174,7 +174,7 @@ export function Stepper({
                 message:
                     reason instanceof Error && reason.message
                         ? reason.message
-                        : "Nie udało się zakończyć",
+                        : t.stepper.finishFailed,
             });
         }
     }
@@ -254,7 +254,7 @@ export function Stepper({
                                     </span>
                                     {item.optional && (
                                         <span className="zse-stepper-optional">
-                                            opcjonalny
+                                            {t.stepper.optional}
                                         </span>
                                     )}
                                 </span>
@@ -267,8 +267,7 @@ export function Stepper({
             {/* Wąski kontener: zamiast rzędu kółek nazwa kroku i pasek. */}
             <div className="zse-stepper-compact" aria-hidden>
                 <span className="zse-stepper-compact-count">
-                    Krok {NUMBER.format(current + 1)} z{" "}
-                    {NUMBER.format(steps.length)}
+                    {t.stepper.step(current + 1, steps.length)}
                 </span>
                 <span className="zse-stepper-compact-title">
                     {active?.title}
@@ -322,14 +321,16 @@ export function Stepper({
                         disabled={current === 0 || busy || done}
                         onClick={() => go(current - 1)}
                     >
-                        {backLabel}
+                        {backLabel ?? t.stepper.back}
                     </Button>
                     <Button
                         loading={busy}
                         disabled={done}
                         onClick={() => void next()}
                     >
-                        {last ? finishLabel : nextLabel}
+                        {last
+                            ? (finishLabel ?? t.stepper.finish)
+                            : (nextLabel ?? t.stepper.next)}
                     </Button>
                 </div>
             </div>

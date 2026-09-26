@@ -1,0 +1,173 @@
+import { plural } from "./plural";
+import type { Messages } from "./types";
+
+const count = (n: number, forms: Parameters<typeof plural>[2]) =>
+    `${n} ${plural("pl-PL", n, forms)}`;
+
+const CHARS = { one: "znak", few: "znaki", other: "znaków" };
+const FILES = { one: "plik", few: "pliki", other: "plików" };
+
+export const pl: Messages = {
+    locale: "pl-PL",
+
+    common: {
+        close: "Zamknij",
+        cancel: "Anuluj",
+        clear: "Wyczyść",
+        loading: "Ładowanie",
+        optional: "opcjonalne",
+        remove: (name) => `Usuń ${name}`,
+    },
+    field: {
+        valueMissing: "To pole jest wymagane",
+        typeMismatch: "Nieprawidłowy format",
+        patternMismatch: "Nieprawidłowy format",
+        tooShort: "Za mało znaków",
+        tooLong: "Za dużo znaków",
+        rangeUnderflow: "Wartość jest za mała",
+        rangeOverflow: "Wartość jest za duża",
+        stepMismatch: "Nieprawidłowa wartość",
+        badInput: "Wpisz poprawną wartość",
+    },
+    input: { showPassword: "Pokaż hasło", hidePassword: "Ukryj hasło" },
+    numberField: { decrement: "Zmniejsz", increment: "Zwiększ" },
+    textarea: { tooLong: (extra) => `Za długie o ${count(extra, CHARS)}` },
+    inputGroup: {
+        checking: "Sprawdzanie…",
+        checkFailed: "Nie udało się sprawdzić",
+    },
+    combobox: {
+        showList: "Pokaż listę",
+        searching: "Szukanie…",
+        searchFailed: "Nie udało się wyszukać",
+        startTyping: "Zacznij pisać, żeby wyszukać",
+        empty: "Brak wyników",
+        emptyFor: (query) => `Brak wyników dla „${query}”`,
+    },
+    datePicker: {
+        pick: "Wybierz datę",
+        pickRange: "Wybierz zakres dat",
+        today: "Dziś",
+    },
+    calendar: {
+        previousMonth: "Poprzedni miesiąc",
+        nextMonth: "Następny miesiąc",
+        previousYear: "Poprzedni rok",
+        nextYear: "Następny rok",
+        previousYears: "Poprzednie lata",
+        nextYears: "Następne lata",
+        weekdaysShort: ["pn", "wt", "śr", "cz", "pt", "sb", "nd"],
+        weekdaysLong: [
+            "poniedziałek",
+            "wtorek",
+            "środa",
+            "czwartek",
+            "piątek",
+            "sobota",
+            "niedziela",
+        ],
+    },
+    codeField: {
+        invalid: "Nieprawidłowy kod",
+        verifying: "Sprawdzanie kodu",
+        character: (index, total) => `Znak ${index} z ${total}`,
+    },
+    fileUpload: {
+        drag: (multiple) =>
+            multiple ? "Przeciągnij pliki albo" : "Przeciągnij plik albo",
+        browse: "wybierz z dysku",
+        choose: (multiple) => (multiple ? "Wybierz pliki" : "Wybierz plik"),
+        unsupported: "Nieobsługiwany typ pliku",
+        upTo: (size) => `do ${size}`,
+        types: { image: "obrazy", video: "wideo", audio: "audio" },
+        tooLarge: (max) => `Za duży, maksymalnie ${max}`,
+        tooMany: (max) => `Za dużo plików, maksymalnie ${max}`,
+        uploadFailed: "Nie udało się wysłać",
+        uploaded: "Wysłano",
+        retry: (name) => `Wyślij ponownie ${name}`,
+        added: (n) => `Dodano ${count(n, FILES)}`,
+        rejected: (n) => `Odrzucono ${count(n, FILES)}`,
+        removed: (name) => `Usunięto ${name}`,
+    },
+    slider: { from: "Od", to: "Do" },
+    stepper: {
+        back: "Wstecz",
+        next: "Dalej",
+        finish: "Zakończ",
+        incomplete: "Uzupełnij ten krok",
+        finishFailed: "Nie udało się zakończyć",
+        step: (index, total) => `Krok ${index} z ${total}`,
+        optional: "opcjonalny",
+    },
+    pagination: {
+        label: "Paginacja",
+        perPage: "Na stronie",
+        perPageLabel: "Wierszy na stronie",
+        first: "Pierwsza strona",
+        previous: "Poprzednia strona",
+        next: "Następna strona",
+        last: "Ostatnia strona",
+        jump: "Przejdź do strony…",
+        jumpInput: (total) => `Numer strony, od 1 do ${total}`,
+        page: (page) => `Strona ${page}`,
+        pageOf: (page, total) => `Strona ${page} z ${total}`,
+        noResults: "Brak wyników",
+        range: (from, to, total) => `${from}–${to} z ${total}`,
+    },
+    breadcrumbs: {
+        label: "Ścieżka",
+        showHidden: (n) =>
+            `Pokaż ${n} ${plural("pl-PL", n, { one: "ukryty", other: "ukryte" })}`,
+    },
+    link: {
+        newTab: "(otwiera się w nowej karcie)",
+        leavingTitle: "Opuszczasz stronę",
+        leavingBefore: "Link prowadzi do",
+        leavingAfter:
+            "strony poza naszą aplikacją. Otworzy się w nowej karcie.",
+        go: "Przejdź",
+        dontAsk: (domain) => `Nie pytaj ponownie o ${domain}`,
+    },
+    copy: {
+        copy: "Kopiuj",
+        copied: "Skopiowano",
+        failed: "Nie udało się skopiować",
+        copyCode: "Kopiuj kod",
+    },
+    codeBlock: {
+        showAll: (lines) =>
+            `Pokaż wszystkie ${lines} ${plural("pl-PL", lines, {
+                one: "linię",
+                few: "linie",
+                other: "linii",
+            })}`,
+        code: "Kod",
+    },
+    password: {
+        minLength: (length) => `Co najmniej ${length} znaków`,
+        mixedCase: "Mała i wielka litera",
+        digit: "Cyfra",
+        special: "Znak specjalny, np. ! ? #",
+        levels: ["Bardzo słabe", "Słabe", "Średnie", "Dobre", "Silne"],
+        common: "Bardzo słabe: to jedno z najczęstszych haseł",
+        verdict: (level) => `Siła hasła: ${level.toLocaleLowerCase("pl-PL")}`,
+        empty: "Wpisz hasło, żeby sprawdzić jego siłę",
+        met: "spełnione",
+        unmet: "niespełnione",
+    },
+    form: {
+        submitFailed: "Nie udało się wysłać formularza. Spróbuj ponownie.",
+    },
+    toast: { undo: "Cofnij" },
+    checkboxGroup: {
+        selectAll: "Zaznacz wszystkie",
+        count: (selected, total) => `${selected} z ${total}`,
+    },
+    accordion: { showDetails: "Pokaż szczegóły" },
+    kbd: {
+        space: "Spacja",
+        backspace: "Backspace",
+        delete: "Del",
+        escape: "Esc",
+    },
+};

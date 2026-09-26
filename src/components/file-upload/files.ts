@@ -14,14 +14,14 @@ import type { IconGlyph } from "../icon/Icon";
 
 const UNITS = ["byte", "kilobyte", "megabyte", "gigabyte"] as const;
 
-export function formatSize(bytes: number) {
+export function formatSize(bytes: number, locale: string) {
     let value = bytes;
     let unit = 0;
     while (value >= 1024 && unit < UNITS.length - 1) {
         value /= 1024;
         unit += 1;
     }
-    return new Intl.NumberFormat("pl-PL", {
+    return new Intl.NumberFormat(locale, {
         style: "unit",
         unit: UNITS[unit],
         unitDisplay: "short",
@@ -48,15 +48,17 @@ export function accepts(file: File, accept: string | undefined) {
     );
 }
 
-const GROUPS: Record<string, string> = {
-    "image/*": "obrazy",
-    "video/*": "wideo",
-    "audio/*": "audio",
-    "application/pdf": "PDF",
-    "application/zip": "ZIP",
-};
-
-export function describeAccept(accept: string) {
+export function describeAccept(
+    accept: string,
+    types: { image: string; video: string; audio: string },
+) {
+    const GROUPS: Record<string, string> = {
+        "image/*": types.image,
+        "video/*": types.video,
+        "audio/*": types.audio,
+        "application/pdf": "PDF",
+        "application/zip": "ZIP",
+    };
     return tokens(accept)
         .map(
             (token) =>
@@ -88,12 +90,4 @@ export function fileIcon(file: File): IconGlyph {
     if (/\.(docx?|odt|rtf|txt|md)$/i.test(name)) return Doc02Icon;
     if (CODE.test(name)) return SourceCodeIcon;
     return File01Icon;
-}
-
-const PLURAL = new Intl.PluralRules("pl-PL");
-
-// 1 plik, 2 pliki, 5 plików.
-export function filesWord(count: number) {
-    const form = PLURAL.select(count);
-    return form === "one" ? "plik" : form === "few" ? "pliki" : "plików";
 }

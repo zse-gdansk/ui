@@ -4,6 +4,7 @@ import { Field } from "@base-ui/react/field";
 import { Slider as BaseSlider } from "@base-ui/react/slider";
 import { useState, type ReactNode } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { FieldFooter } from "../field/FieldFooter";
 
 export interface SliderMark {
@@ -53,12 +54,13 @@ export function Slider({
     name,
     disabled = false,
 }: SliderProps) {
+    const t = useMessages();
     const [internal, setInternal] = useState<number | number[]>(
         defaultValue ?? min,
     );
     const current = value ?? internal;
     const values = Array.isArray(current) ? current : [current];
-    const formatter = new Intl.NumberFormat("pl-PL", format);
+    const formatter = new Intl.NumberFormat(t.locale, format);
     const text = values.map((item) => formatter.format(item)).join("–");
     const position = (item: number) =>
         `${((item - min) / (max - min || 1)) * 100}%`;
@@ -76,7 +78,7 @@ export function Slider({
                 min={min}
                 max={max}
                 step={step}
-                locale="pl-PL"
+                locale={t.locale}
                 disabled={disabled}
                 {...(largeStep !== undefined && { largeStep })}
                 {...(format && { format })}
@@ -113,7 +115,10 @@ export function Slider({
                                 className="zse-slider-thumb"
                                 getAriaLabel={
                                     values.length > 1
-                                        ? (i) => (i === 0 ? "Od" : "Do")
+                                        ? (i) =>
+                                              i === 0
+                                                  ? t.slider.from
+                                                  : t.slider.to
                                         : null
                                 }
                             >

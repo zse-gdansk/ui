@@ -10,6 +10,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import { useState, type HTMLAttributes, type ReactNode } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { markEnter } from "../../utils/enter";
 import { Icon, type IconGlyph } from "../icon/Icon";
 
@@ -52,11 +53,12 @@ export function Alert({
     action,
     actions,
     onDismiss,
-    dismissLabel = "Zamknij",
+    dismissLabel,
     className,
     children,
     ...props
 }: AlertProps) {
+    const t = useMessages();
     const [closing, setClosing] = useState(false);
     const [pending, setPending] = useState(false);
 
@@ -138,7 +140,7 @@ export function Alert({
                         <button
                             type="button"
                             className="zse-alert-close"
-                            aria-label={dismissLabel}
+                            aria-label={dismissLabel ?? t.common.close}
                             onClick={() => {
                                 if (
                                     matchMedia(

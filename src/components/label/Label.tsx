@@ -1,5 +1,7 @@
 import type { LabelHTMLAttributes, ReactNode } from "react";
 
+import { useMessages } from "../../i18n/context";
+
 export interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
     children: ReactNode;
     // Czerwona gwiazdka, jak przy wymaganych polach formularza.
@@ -16,6 +18,7 @@ export function Label({
     className,
     ...props
 }: LabelProps) {
+    const t = useMessages();
     return (
         // htmlFor przychodzi w props.
         // oxlint-disable-next-line jsx-a11y/label-has-associated-control
@@ -27,7 +30,9 @@ export function Label({
             data-required={required || undefined}
         >
             {children}
-            {optional && <span className="zse-label-optional">opcjonalne</span>}
+            {optional && (
+                <span className="zse-label-optional">{t.common.optional}</span>
+            )}
         </label>
     );
 }

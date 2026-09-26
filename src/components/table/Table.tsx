@@ -15,6 +15,7 @@ import {
     type ThHTMLAttributes,
 } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { EmptyState } from "../empty-state/EmptyState";
 import { Icon, type IconGlyph } from "../icon/Icon";
 
@@ -347,10 +348,19 @@ export interface TableNumberCellProps extends Omit<
     disabled?: boolean;
 }
 
-const NUMBER_FORMAT = new Intl.NumberFormat("pl-PL", {
-    maximumFractionDigits: 2,
-    useGrouping: false,
-});
+const pointFormats = new Map<string, Intl.NumberFormat>();
+
+function formatPoints(locale: string, value: number) {
+    let format = pointFormats.get(locale);
+    if (!format) {
+        format = new Intl.NumberFormat(locale, {
+            maximumFractionDigits: 2,
+            useGrouping: false,
+        });
+        pointFormats.set(locale, format);
+    }
+    return format.format(value);
+}
 
 // "" to brak wartości, przecinek i kropka jako separator.
 function parsePoints(text: string) {
@@ -389,9 +399,10 @@ export function TableNumberCell({
     className,
     ...props
 }: TableNumberCellProps) {
+    const t = useMessages();
     // Tekst w trakcie edycji; null, gdy komórka pokazuje wartość.
     const [draft, setDraft] = useState<string | null>(null);
-    const text = draft ?? (value === null ? "" : NUMBER_FORMAT.format(value));
+    const text = draft ?? (value === null ? "" : formatPoints(t.locale, value));
     const parsed = parsePoints(text);
     const invalid =
         parsed !== null &&

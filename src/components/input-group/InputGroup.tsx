@@ -16,6 +16,7 @@ import {
     type ReactNode,
 } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { FieldFooter } from "../field/FieldFooter";
 import { Icon, type IconGlyph } from "../icon/Icon";
 
@@ -74,6 +75,8 @@ export function InputGroup({
     className,
     ...props
 }: InputGroupProps) {
+    const t = useMessages();
+    const failedText = t.inputGroup.checkFailed;
     const [value, setValue] = useState(
         String(props.defaultValue ?? props.value ?? ""),
     );
@@ -124,7 +127,7 @@ export function InputGroup({
                     if (controller.signal.aborted) return;
                     setChecked({
                         status: "error",
-                        message: "Nie udało się sprawdzić",
+                        message: failedText,
                     });
                 },
             );
@@ -133,7 +136,7 @@ export function InputGroup({
             clearTimeout(timer);
             controller.abort();
         };
-    }, [value, check, checkDelay]);
+    }, [value, check, checkDelay, failedText]);
 
     const status = statusProp ?? checked.status;
     const message =
@@ -239,7 +242,7 @@ export function InputGroup({
                 }
             />
             <span className="zse-input-group-live" aria-live="polite">
-                {status === "loading" ? "Sprawdzanie…" : ""}
+                {status === "loading" ? t.inputGroup.checking : ""}
             </span>
         </Field.Root>
     );

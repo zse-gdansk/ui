@@ -4,6 +4,7 @@ import { Drawer } from "@base-ui/react/drawer";
 import { Cancel01Icon } from "@hugeicons/core-free-icons";
 import { useSyncExternalStore, type ReactElement, type ReactNode } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { Icon } from "../icon/Icon";
 
 type Side = "right" | "left" | "bottom";
@@ -54,10 +55,11 @@ export function Sheet({
     footer,
     side = "right",
     size = "md",
-    closeLabel = "Zamknij",
+    closeLabel,
     expandable = false,
     snapPoints,
 }: SheetProps) {
+    const t = useMessages();
     const wide = useWide();
     const resolved: Side = side === "auto" ? (wide ? "right" : "bottom") : side;
     const snaps =
@@ -110,7 +112,7 @@ export function Sheet({
                                 data-hidden={
                                     resolved === "bottom" ? "" : undefined
                                 }
-                                aria-label={closeLabel}
+                                aria-label={closeLabel ?? t.common.close}
                             >
                                 <Icon icon={Cancel01Icon} size={14} />
                             </Drawer.Close>

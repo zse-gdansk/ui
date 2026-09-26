@@ -7,6 +7,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import type { ReactNode } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { useCopy } from "../../utils/use-copy";
 import { Icon } from "../icon/Icon";
 
@@ -28,12 +29,15 @@ export interface CopyButtonProps {
 export function CopyButton({
     value,
     label,
-    copiedLabel = "Skopiowano",
-    "aria-label": ariaLabel = "Kopiuj",
+    copiedLabel: copiedProp,
+    "aria-label": ariaProp,
     size = "md",
     variant = "ghost",
     onCopy,
 }: CopyButtonProps) {
+    const t = useMessages();
+    const copiedLabel = copiedProp ?? t.copy.copied;
+    const ariaLabel = ariaProp ?? t.copy.copy;
     const [state, copy] = useCopy();
     const hasLabel = label != null && label !== false;
 
@@ -49,7 +53,7 @@ export function CopyButton({
                 state === "copied"
                     ? String(copiedLabel)
                     : state === "failed"
-                      ? "Nie udało się skopiować"
+                      ? t.copy.failed
                       : hasLabel
                         ? undefined
                         : ariaLabel

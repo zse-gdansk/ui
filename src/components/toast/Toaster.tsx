@@ -11,6 +11,7 @@ import {
     Undo02Icon,
 } from "@hugeicons/core-free-icons";
 
+import { useMessages } from "../../i18n/context";
 import { Icon, type IconGlyph } from "../icon/Icon";
 import { type ToastData, type ToastType, toastManager } from "./toast";
 
@@ -32,9 +33,10 @@ export interface ToasterProps {
 export function Toaster({
     timeout = 4000,
     limit = 3,
-    closeLabel = "Zamknij",
-    undoLabel = "Cofnij",
+    closeLabel,
+    undoLabel,
 }: ToasterProps) {
+    const t = useMessages();
     return (
         <Toast.Provider
             toastManager={toastManager}
@@ -43,7 +45,10 @@ export function Toaster({
         >
             <Toast.Portal>
                 <Toast.Viewport className="zse-toaster">
-                    <Toasts closeLabel={closeLabel} undoLabel={undoLabel} />
+                    <Toasts
+                        closeLabel={closeLabel ?? t.common.close}
+                        undoLabel={undoLabel ?? t.toast.undo}
+                    />
                 </Toast.Viewport>
             </Toast.Portal>
         </Toast.Provider>

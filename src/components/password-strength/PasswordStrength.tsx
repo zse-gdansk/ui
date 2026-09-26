@@ -2,6 +2,9 @@
 
 import { Tick02Icon } from "@hugeicons/core-free-icons";
 
+import { useMessages } from "../../i18n/context";
+import { pl } from "../../i18n/pl";
+import type { Messages } from "../../i18n/types";
 import { Icon } from "../icon/Icon";
 
 export interface PasswordRule {
@@ -37,31 +40,28 @@ const COMMON = new Set([
     "iloveyou",
 ]);
 
-export function defaultRules(minLength = 8): PasswordRule[] {
+export function defaultRules(
+    minLength = 8,
+    messages: Messages["password"] = pl.password,
+): PasswordRule[] {
     return [
         {
-            label: `Co najmniej ${minLength} znaków`,
+            label: messages.minLength(minLength),
             test: (p) => p.length >= minLength,
         },
         {
-            label: "Mała i wielka litera",
+            label: messages.mixedCase,
             test: (p) => /\p{Ll}/u.test(p) && /\p{Lu}/u.test(p),
         },
-        { label: "Cyfra", test: (p) => /\d/.test(p) },
+        { label: messages.digit, test: (p) => /\d/.test(p) },
         {
-            label: "Znak specjalny, np. ! ? #",
+            label: messages.special,
             test: (p) => /[^\p{L}\d\s]/u.test(p),
         },
     ];
 }
 
-const LEVELS = [
-    { label: "Bardzo słabe", tone: "danger" },
-    { label: "Słabe", tone: "danger" },
-    { label: "Średnie", tone: "warning" },
-    { label: "Dobre", tone: "success" },
-    { label: "Silne", tone: "success" },
-] as const;
+const TONES = ["danger", "danger", "warning", "success", "success"] as const;
 
 // 0–4: spełnione wymagania plus jeden punkt za długość od 12 znaków.
 // Za krótkie hasło nie przekroczy „słabego”, popularne jest zawsze 0.
@@ -85,9 +85,13 @@ export function PasswordStrength({
     showRules = true,
     minLength = 8,
 }: PasswordStrengthProps) {
-    const list = rules ?? defaultRules(minLength);
+    const t = useMessages();
+    const list = rules ?? defaultRules(minLength, t.password);
     const score = passwordScore(value, list, minLength);
-    const level = LEVELS[score] ?? LEVELS[0];
+    const level = {
+        label: t.password.levels[score] ?? t.password.levels[0],
+        tone: TONES[score] ?? TONES[0],
+    };
     const common = value !== "" && COMMON.has(value.toLowerCase());
 
     return (
@@ -109,9 +113,9 @@ export function PasswordStrength({
             <p className="zse-password-verdict" aria-live="polite">
                 {value
                     ? common
-                        ? "Bardzo słabe: to jedno z najczęstszych haseł"
-                        : `Siła hasła: ${level.label.toLocaleLowerCase("pl")}`
-                    : "Wpisz hasło, żeby sprawdzić jego siłę"}
+                        ? t.password.common
+                        : t.password.verdict(level.label)
+                    : t.password.empty}
             </p>
             {showRules && (
                 <ul className="zse-password-rules">
@@ -131,7 +135,7 @@ export function PasswordStrength({
                                 </span>
                                 {rule.label}
                                 <span className="zse-password-sr">
-                                    {met ? " (spełnione)" : " (niespełnione)"}
+                                    {` (${met ? t.password.met : t.password.unmet})`}
                                 </span>
                             </li>
                         );

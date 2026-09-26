@@ -19,6 +19,7 @@ import {
     type ReactNode,
 } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { FieldFooter } from "../field/FieldFooter";
 import { useFormValue } from "../form/context";
 import { Icon } from "../icon/Icon";
@@ -26,7 +27,6 @@ import {
     accepts,
     describeAccept,
     fileIcon,
-    filesWord,
     formatSize,
     splitName,
 } from "./files";
@@ -122,6 +122,7 @@ export function FileUpload({
     name,
     disabled = false,
 }: FileUploadProps) {
+    const t = useMessages();
     const id = useId();
     const inputRef = useRef<HTMLInputElement>(null);
     const controllers = useRef(new Map<string, AbortController>());
@@ -162,7 +163,7 @@ export function FileUpload({
                     message:
                         reason instanceof Error && reason.message
                             ? reason.message
-                            : "Nie udało się wysłać",
+                            : t.fileUpload.uploadFailed,
                 });
             },
         );
@@ -183,11 +184,11 @@ export function FileUpload({
             )
                 continue;
             let message: string | undefined;
-            if (!accepts(file, accept)) message = "Nieobsługiwany typ pliku";
+            if (!accepts(file, accept)) message = t.fileUpload.unsupported;
             else if (maxSize !== undefined && file.size > maxSize)
-                message = `Za duży, maksymalnie ${formatSize(maxSize)}`;
+                message = t.fileUpload.tooLarge(formatSize(maxSize, t.locale));
             else if (maxFiles !== undefined && count >= maxFiles)
-                message = `Za dużo plików, maksymalnie ${maxFiles}`;
+                message = t.fileUpload.tooMany(maxFiles);
             if (!message) count += 1;
 
             added.push({
@@ -231,9 +232,8 @@ export function FileUpload({
         const bad = added.length - good.length;
         setAnnouncement(
             [
-                good.length > 0 &&
-                    `Dodano ${good.length} ${filesWord(good.length)}`,
-                bad > 0 && `Odrzucono ${bad} ${filesWord(bad)}`,
+                good.length > 0 && t.fileUpload.added(good.length),
+                bad > 0 && t.fileUpload.rejected(bad),
             ]
                 .filter(Boolean)
                 .join(". "),
@@ -251,7 +251,7 @@ export function FileUpload({
 
     function remove(item: Item) {
         controllers.current.get(item.id)?.abort();
-        setAnnouncement(`Usunięto ${item.file.name}`);
+        setAnnouncement(t.fileUpload.removed(item.file.name));
         if (reducedMotion()) drop(item.id);
         else {
             update(item.id, { leaving: true });
@@ -335,8 +335,9 @@ export function FileUpload({
     const description =
         hint ??
         ([
-            accept && describeAccept(accept),
-            maxSize !== undefined && `do ${formatSize(maxSize)}`,
+            accept && describeAccept(accept, t.fileUpload.types),
+            maxSize !== undefined &&
+                t.fileUpload.upTo(formatSize(maxSize, t.locale)),
         ]
             .filter(Boolean)
             .join(" · ") ||
@@ -402,13 +403,14 @@ export function FileUpload({
                 </span>
                 <span id={`${id}-cta`} className="zse-upload-cta">
                     <span className="zse-upload-fine">
-                        {multiple ? "Przeciągnij pliki" : "Przeciągnij plik"}{" "}
-                        albo{" "}
+                        {t.fileUpload.drag(multiple)}{" "}
                     </span>
                     <span className="zse-upload-action">
-                        <span className="zse-upload-fine">wybierz z dysku</span>
+                        <span className="zse-upload-fine">
+                            {t.fileUpload.browse}
+                        </span>
                         <span className="zse-upload-coarse">
-                            {multiple ? "Wybierz pliki" : "Wybierz plik"}
+                            {t.fileUpload.choose(multiple)}
                         </span>
                     </span>
                 </span>
@@ -467,6 +469,7 @@ function FileRow({
     onRetry: () => void;
     onLeft: () => void;
 }) {
+    const t = useMessages();
     const { file, status, progress, message, preview } = item;
     const [base, ext] = splitName(file.name);
     const failed = status === "error" || status === "rejected";
@@ -474,7 +477,7 @@ function FileRow({
         status === "uploading"
             ? `${Math.round(progress * 100)}%`
             : status === "done"
-              ? "Wysłano"
+              ? t.fileUpload.uploaded
               : failed
                 ? message
                 : null;
@@ -505,7 +508,7 @@ function FileRow({
                             <span className="zse-upload-ext">{ext}</span>
                         </span>
                         <span className="zse-upload-meta">
-                            <span>{formatSize(file.size)}</span>
+                            <span>{formatSize(file.size, t.locale)}</span>
                             {meta && (
                                 <span className="zse-upload-status">
                                     {meta}
@@ -538,7 +541,7 @@ function FileRow({
                         <button
                             type="button"
                             className="zse-upload-button"
-                            aria-label={`Wyślij ponownie ${file.name}`}
+                            aria-label={t.fileUpload.retry(file.name)}
                             onClick={onRetry}
                         >
                             <Icon icon={RefreshIcon} size={14} />
@@ -547,7 +550,7 @@ function FileRow({
                     <button
                         type="button"
                         className="zse-upload-button"
-                        aria-label={`Usuń ${file.name}`}
+                        aria-label={t.common.remove(file.name)}
                         onClick={onRemove}
                     >
                         <Icon icon={Cancel01Icon} size={14} />

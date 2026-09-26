@@ -69,8 +69,9 @@ Spis tego, co jest i co już potrafi. Zanim dodasz komponent albo prop, sprawdź
 
 ## Narzędzia
 
-| Eksport                             | Co robi                                                              |
-| ----------------------------------- | -------------------------------------------------------------------- |
-| `createSearch`, `fold`, `Highlight` | wyszukiwanie z rankingiem, literówką i podświetleniem (`src/search`) |
-| `formatShortcut`, `shortcutKeys`    | skróty klawiszowe pod system (⌘ / Ctrl)                              |
-| `passwordScore`, `defaultRules`     | ocena hasła, np. do walidacji w schemacie                            |
+| Eksport                                         | Co robi                                                              |
+| ----------------------------------------------- | -------------------------------------------------------------------- |
+| `createSearch`, `fold`, `Highlight`             | wyszukiwanie z rankingiem, literówką i podświetleniem (`src/search`) |
+| `formatShortcut`, `shortcutKeys`                | skróty klawiszowe pod system (⌘ / Ctrl)                              |
+| `passwordScore`, `defaultRules`                 | ocena hasła, np. do walidacji w schemacie                            |
+| `LocaleProvider`, `useMessages`, `pl`, `plural` | katalog tekstów i jego nadpisywanie (`docs/i18n.md`)                 |

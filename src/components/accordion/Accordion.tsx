@@ -5,6 +5,7 @@ import { Collapsible as BaseCollapsible } from "@base-ui/react/collapsible";
 import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
 import type { ReactElement, ReactNode } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { Icon, type IconGlyph } from "../icon/Icon";
 
 export interface AccordionItem {
@@ -108,7 +109,7 @@ export interface CollapsibleProps {
 
 // Pojedyncza zwijana sekcja z własnym wyzwalaczem, np. „Pokaż szczegóły”.
 export function Collapsible({
-    label = "Pokaż szczegóły",
+    label,
     trigger,
     children,
     open,
@@ -116,6 +117,7 @@ export function Collapsible({
     onOpenChange,
     className,
 }: CollapsibleProps) {
+    const t = useMessages();
     return (
         <BaseCollapsible.Root
             className={["zse-collapsible", className].filter(Boolean).join(" ")}
@@ -129,7 +131,7 @@ export function Collapsible({
                 <BaseCollapsible.Trigger render={trigger} />
             ) : (
                 <BaseCollapsible.Trigger className="zse-collapsible-trigger">
-                    {label}
+                    {label ?? t.accordion.showDetails}
                     <Icon
                         icon={ArrowDown01Icon}
                         size={14}

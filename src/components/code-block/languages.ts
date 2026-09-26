@@ -67,7 +67,8 @@ const INFO: Record<string, LanguageInfo> = {
 };
 
 const FALLBACK: LanguageInfo = {
-    name: "Kod",
+    // Pusta: CodeBlock podstawia tekst z katalogu (t.codeBlock.code).
+    name: "",
     icon: FileCodeIcon,
     hue: 0,
     chroma: 0,

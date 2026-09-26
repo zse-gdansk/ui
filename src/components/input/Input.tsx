@@ -4,6 +4,7 @@ import { Field } from "@base-ui/react/field";
 import { ViewIcon, ViewOffIcon } from "@hugeicons/core-free-icons";
 import { useState, type ComponentProps, type ReactNode } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { FieldFooter } from "../field/FieldFooter";
 import { Icon, type IconGlyph } from "../icon/Icon";
 
@@ -33,6 +34,7 @@ export function Input({
     className,
     ...props
 }: InputProps) {
+    const t = useMessages();
     const isPassword = type === "password";
     const [passwordVisible, setPasswordVisible] = useState(false);
     const hasLeft = Boolean(leftIcon);
@@ -81,7 +83,9 @@ export function Input({
                         className="zse-input-toggle"
                         disabled={disabled}
                         aria-label={
-                            passwordVisible ? "Ukryj hasło" : "Pokaż hasło"
+                            passwordVisible
+                                ? t.input.hidePassword
+                                : t.input.showPassword
                         }
                         aria-pressed={passwordVisible}
                         onMouseDown={(event) => event.preventDefault()}

@@ -4,6 +4,7 @@ import { useRender } from "@base-ui/react/use-render";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 import { useState, type MouseEvent } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { Button } from "../button/Button";
 import { Checkbox } from "../checkbox/Checkbox";
 import { Icon } from "../icon/Icon";
@@ -75,6 +76,7 @@ export function Link({
     onClick,
     ...props
 }: LinkProps) {
+    const t = useMessages();
     const opensNew = external ?? isExternal(props.href);
     const [asking, setAsking] = useState(false);
     const [dontAsk, setDontAsk] = useState(false);
@@ -123,7 +125,7 @@ export function Link({
                                 aria-hidden
                             />
                             <span className="zse-link-hint">
-                                (otwiera się w nowej karcie)
+                                {t.link.newTab}
                             </span>
                         </>
                     )}
@@ -140,11 +142,11 @@ export function Link({
             <Modal
                 open={asking}
                 onOpenChange={setAsking}
-                title="Opuszczasz stronę"
+                title={t.link.leavingTitle}
                 description={
                     <>
-                        Link prowadzi do <strong>{domain}</strong>, strony poza
-                        naszą aplikacją. Otworzy się w nowej karcie.
+                        {t.link.leavingBefore} <strong>{domain}</strong>,{" "}
+                        {t.link.leavingAfter}
                     </>
                 }
                 footer={
@@ -152,7 +154,7 @@ export function Link({
                         <ModalClose
                             render={<Button variant="ghost" size="sm" />}
                         >
-                            Anuluj
+                            {t.common.cancel}
                         </ModalClose>
                         <Button
                             size="sm"
@@ -174,14 +176,14 @@ export function Link({
                                 setAsking(false);
                             }}
                         >
-                            Przejdź
+                            {t.link.go}
                         </Button>
                     </>
                 }
             >
                 <p className="zse-link-url">{href}</p>
                 <Checkbox
-                    label={`Nie pytaj ponownie o ${domain}`}
+                    label={t.link.dontAsk(domain)}
                     checked={dontAsk}
                     onCheckedChange={(next) => setDontAsk(next)}
                 />

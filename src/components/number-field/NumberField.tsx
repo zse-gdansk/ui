@@ -9,6 +9,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import type { ReactNode } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { FieldFooter } from "../field/FieldFooter";
 import { Icon } from "../icon/Icon";
 
@@ -82,7 +83,7 @@ export function NumberField({
     largeStep,
     smallStep,
     format,
-    locale = "pl-PL",
+    locale,
     suffix,
     scrub = false,
     wheel = false,
@@ -93,9 +94,10 @@ export function NumberField({
     required = false,
     name,
     id,
-    decrementLabel = "Zmniejsz",
-    incrementLabel = "Zwiększ",
+    decrementLabel,
+    incrementLabel,
 }: NumberFieldProps) {
+    const t = useMessages();
     const hasLabel = label != null && label !== false;
     const labelNode = hasLabel && (
         <Field.Label className="zse-input-label">{label}</Field.Label>
@@ -114,7 +116,7 @@ export function NumberField({
                 disabled={disabled}
                 readOnly={readOnly}
                 required={required}
-                locale={locale}
+                locale={locale ?? t.locale}
                 allowWheelScrub={wheel}
                 {...defined({
                     value,
@@ -166,13 +168,17 @@ export function NumberField({
                         <span className="zse-number-buttons">
                             <BaseNumberField.Decrement
                                 className="zse-number-button"
-                                aria-label={decrementLabel}
+                                aria-label={
+                                    decrementLabel ?? t.numberField.decrement
+                                }
                             >
                                 <Icon icon={MinusSignIcon} />
                             </BaseNumberField.Decrement>
                             <BaseNumberField.Increment
                                 className="zse-number-button"
-                                aria-label={incrementLabel}
+                                aria-label={
+                                    incrementLabel ?? t.numberField.increment
+                                }
                             >
                                 <Icon icon={PlusSignIcon} />
                             </BaseNumberField.Increment>

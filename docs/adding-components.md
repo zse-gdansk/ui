@@ -23,7 +23,7 @@ Komponent z ciężką zależnością (np. Shiki w `CodeBlock`) dostaje **osobny 
 - **API z propsami, nie z dziećmi,** gdy komponent ma stałą strukturę (`Select` z `options`, `Tabs` z `items`). Części składane (`Menu` + `MenuItem`) tylko tam, gdzie treść jest dowolna.
 - **`exactOptionalPropertyTypes` jest włączone.** Opcjonalne propsy przekazywane do Base UI rozsmarowuj warunkowo: `{...(value !== undefined && { value })}`. Propsy, które użytkownik poda jako `x ? "…" : undefined`, typuj `string | undefined` (np. `error`).
 - **Kontrolowany i niekontrolowany:** `value` / `defaultValue` / `onValueChange`, wewnętrzny stan tylko wtedy, gdy `value` nie jest podane.
-- **Teksty jako propsy z polskimi domyślnymi** (`closeLabel = "Zamknij"`), żeby dało się je zmienić.
+- **Teksty z katalogu, prop do nadpisania:** `closeLabel?: string` bez wartości domyślnej, w renderze `closeLabel ?? t.common.close` (`const t = useMessages()`). Nowe klucze w `src/i18n/types.ts` i `pl.ts`, patrz `docs/i18n.md`.
 - **`className` od użytkownika łączone** z własną klasą (`[..].filter(Boolean).join(" ")`), a przy Base UI obsługuj też wariant z funkcją stanu.
 - **`render` do podmiany elementu** (link z routera, np. `NextLink`) przez `useRender` albo prop `render` części Base UI. Biblioteka nie zależy od `next`.
 

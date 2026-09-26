@@ -15,6 +15,7 @@ import {
     type ReactNode,
 } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { Icon, type IconGlyph } from "../icon/Icon";
 import { Select } from "../select/Select";
 import { pageRange } from "./range";
@@ -47,8 +48,6 @@ export interface PaginationProps {
     hideSinglePage?: boolean;
     className?: string;
 }
-
-const NUMBER = new Intl.NumberFormat("pl-PL");
 
 // Suwak pod bieżącą stroną, jak w SegmentedControl.
 function place(list: HTMLElement | null, page: number) {
@@ -83,6 +82,8 @@ export function Pagination({
     hideSinglePage = true,
     className,
 }: PaginationProps) {
+    const t = useMessages();
+    const NUMBER = new Intl.NumberFormat(t.locale);
     const count = Math.max(
         pageCount ??
             (total !== undefined && pageSize ? Math.ceil(total / pageSize) : 1),
@@ -162,15 +163,17 @@ export function Pagination({
     const info =
         showInfo && total !== undefined && pageSize
             ? total === 0
-                ? "Brak wyników"
-                : `${NUMBER.format(first * pageSize + 1)}–${NUMBER.format(
-                      Math.min(current * pageSize, total),
-                  )} z ${NUMBER.format(total)}`
+                ? t.pagination.noResults
+                : t.pagination.range(
+                      NUMBER.format(first * pageSize + 1),
+                      NUMBER.format(Math.min(current * pageSize, total)),
+                      NUMBER.format(total),
+                  )
             : null;
 
     return (
         <nav
-            aria-label="Paginacja"
+            aria-label={t.pagination.label}
             className={["zse-pagination", className].filter(Boolean).join(" ")}
             data-size={size}
             data-variant={variant}
@@ -187,10 +190,10 @@ export function Pagination({
                     )}
                     {pageSizeOptions && pageSize && (
                         <span className="zse-pagination-size">
-                            <span aria-hidden>Na stronie</span>
+                            <span aria-hidden>{t.pagination.perPage}</span>
                             <Select
                                 size="sm"
-                                aria-label="Wierszy na stronie"
+                                aria-label={t.pagination.perPageLabel}
                                 value={String(pageSize)}
                                 options={pageSizeOptions.map((option) => ({
                                     value: String(option),
@@ -208,8 +211,8 @@ export function Pagination({
             {count > 1 && (
                 <div className="zse-pagination-controls">
                     {showEdges &&
-                        arrow(1, ArrowLeftDoubleIcon, "Pierwsza strona")}
-                    {arrow(current - 1, ArrowLeft01Icon, "Poprzednia strona")}
+                        arrow(1, ArrowLeftDoubleIcon, t.pagination.first)}
+                    {arrow(current - 1, ArrowLeft01Icon, t.pagination.previous)}
 
                     <div ref={listRef} className="zse-pagination-pages">
                         <span className="zse-pagination-thumb" aria-hidden />
@@ -225,7 +228,7 @@ export function Pagination({
                                     {control(
                                         item,
                                         NUMBER.format(item),
-                                        `Strona ${item}`,
+                                        t.pagination.page(NUMBER.format(item)),
                                         {
                                             className:
                                                 "zse-pagination-button zse-pagination-page",
@@ -251,12 +254,15 @@ export function Pagination({
 
                     {/* Wąski kontener: sam tekst zamiast numerów. */}
                     <span className="zse-pagination-compact" aria-live="polite">
-                        Strona {NUMBER.format(current)} z {NUMBER.format(count)}
+                        {t.pagination.pageOf(
+                            NUMBER.format(current),
+                            NUMBER.format(count),
+                        )}
                     </span>
 
-                    {arrow(current + 1, ArrowRight01Icon, "Następna strona")}
+                    {arrow(current + 1, ArrowRight01Icon, t.pagination.next)}
                     {showEdges &&
-                        arrow(count, ArrowRightDoubleIcon, "Ostatnia strona")}
+                        arrow(count, ArrowRightDoubleIcon, t.pagination.last)}
                 </div>
             )}
         </nav>
@@ -276,13 +282,14 @@ function Gap({
     onClose: () => void;
     onJump: (page: number) => void;
 }) {
+    const t = useMessages();
     if (!open)
         return (
             <span className="zse-pagination-slot">
                 <button
                     type="button"
                     className="zse-pagination-button zse-pagination-gap"
-                    aria-label="Przejdź do strony…"
+                    aria-label={t.pagination.jump}
                     onClick={onOpen}
                 >
                     …
@@ -306,7 +313,7 @@ function Gap({
                 type="text"
                 inputMode="numeric"
                 enterKeyHint="go"
-                aria-label={`Numer strony, od 1 do ${count}`}
+                aria-label={t.pagination.jumpInput(count)}
                 placeholder="…"
                 // Pole pojawia się na kliknięcie, fokus od razu w nim.
                 // oxlint-disable-next-line jsx-a11y/no-autofocus

@@ -9,6 +9,7 @@ import {
     type RefObject,
 } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { Icon, type IconGlyph } from "../icon/Icon";
 import {
     ariaShortcut,
@@ -92,13 +93,14 @@ function ItemContent({
     shortcut?: Shortcut | undefined;
     children: ReactNode;
 }) {
+    const t = useMessages();
     return (
         <>
             <span className="zse-menu-icon">{icon}</span>
             <span className="zse-menu-text">{children}</span>
             {shortcut && (
                 <kbd className="zse-menu-shortcut" aria-hidden>
-                    {formatShortcut(shortcut)}
+                    {formatShortcut(shortcut, undefined, t.kbd)}
                 </kbd>
             )}
         </>

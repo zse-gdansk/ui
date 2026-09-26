@@ -4,6 +4,8 @@ import { Meter as BaseMeter } from "@base-ui/react/meter";
 import { Progress as BaseProgress } from "@base-ui/react/progress";
 import type { CSSProperties, ReactNode } from "react";
 
+import { useMessages } from "../../i18n/context";
+
 type Tone = "accent" | "success" | "warning" | "danger";
 type Size = "sm" | "md" | "lg";
 type ShowValue = boolean | "percent" | "value" | "fraction";
@@ -26,11 +28,25 @@ interface SharedProps {
     className?: string;
 }
 
-const NUMBER = new Intl.NumberFormat("pl-PL", { maximumFractionDigits: 1 });
-const PERCENT = new Intl.NumberFormat("pl-PL", {
-    style: "percent",
-    maximumFractionDigits: 0,
-});
+const formats = new Map<
+    string,
+    { number: Intl.NumberFormat; percent: Intl.NumberFormat }
+>();
+
+function formatsFor(locale: string) {
+    let f = formats.get(locale);
+    if (!f) {
+        f = {
+            number: new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }),
+            percent: new Intl.NumberFormat(locale, {
+                style: "percent",
+                maximumFractionDigits: 0,
+            }),
+        };
+        formats.set(locale, f);
+    }
+    return f;
+}
 
 function ratio(value: number, min: number, max: number) {
     return max > min
@@ -38,11 +54,18 @@ function ratio(value: number, min: number, max: number) {
         : 0;
 }
 
-function valueText(show: ShowValue, value: number, min: number, max: number) {
-    if (show === "value") return NUMBER.format(value);
+function valueText(
+    locale: string,
+    show: ShowValue,
+    value: number,
+    min: number,
+    max: number,
+) {
+    const { number, percent } = formatsFor(locale);
+    if (show === "value") return number.format(value);
     if (show === "fraction")
-        return `${NUMBER.format(value)} / ${NUMBER.format(max)}`;
-    return PERCENT.format(ratio(value, min, max));
+        return `${number.format(value)} / ${number.format(max)}`;
+    return percent.format(ratio(value, min, max));
 }
 
 function Visual({
@@ -130,11 +153,12 @@ export function Progress({
     segments,
     className,
 }: ProgressProps) {
+    const t = useMessages();
     const indeterminate = value === null;
     const fill = indeterminate ? 0 : ratio(value, min, max);
     const text =
         showValue && !indeterminate
-            ? valueText(showValue, value, min, max)
+            ? valueText(t.locale, showValue, value, min, max)
             : null;
     const ringCenter = shape === "ring" && ringSize >= 36 ? text : null;
 
@@ -143,7 +167,7 @@ export function Progress({
             value={value}
             min={min}
             max={max}
-            locale="pl-PL"
+            locale={t.locale}
             className={["zse-progress", className].filter(Boolean).join(" ")}
             data-size={size}
             data-tone={tone}
@@ -221,8 +245,11 @@ export function Meter({
     optimum,
     className,
 }: MeterProps) {
+    const t = useMessages();
     const fill = ratio(value, min, max);
-    const text = showValue ? valueText(showValue, value, min, max) : null;
+    const text = showValue
+        ? valueText(t.locale, showValue, value, min, max)
+        : null;
     const resolved =
         tone ?? meterTone(value, min, max, low, high, optimum) ?? "accent";
 
@@ -231,7 +258,7 @@ export function Meter({
             value={value}
             min={min}
             max={max}
-            locale="pl-PL"
+            locale={t.locale}
             className={["zse-progress", className].filter(Boolean).join(" ")}
             data-size={size}
             data-tone={resolved}

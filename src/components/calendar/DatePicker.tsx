@@ -5,12 +5,13 @@ import { Popover } from "@base-ui/react/popover";
 import { Calendar03Icon } from "@hugeicons/core-free-icons";
 import { useState, type ReactNode } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { Button } from "../button/Button";
 import { FieldFooter } from "../field/FieldFooter";
 import { useFormValue } from "../form/context";
 import { Icon } from "../icon/Icon";
 import { Calendar, type CalendarMark, type DateRange } from "./Calendar";
-import { formatDate, formatRange, startOfDay } from "./dates";
+import { dateFormats, startOfDay } from "./dates";
 
 interface DatePickerBaseProps {
     label?: ReactNode;
@@ -59,6 +60,8 @@ export function DatePicker(props: DatePickerProps) {
         disabled = false,
         name,
     } = props;
+    const t = useMessages();
+    const formats = dateFormats(t.locale);
     const range = props.mode === "range";
     const [open, setOpen] = useState(false);
     const [internal, setInternal] = useState<Date | DateRange | null>(
@@ -79,14 +82,15 @@ export function DatePicker(props: DatePickerProps) {
     }
 
     const text = single
-        ? formatDate(single)
+        ? formats.date(single)
         : span
           ? span.to
-              ? formatRange(span.from, span.to)
-              : `${formatDate(span.from)} – …`
+              ? formats.range(span.from, span.to)
+              : `${formats.date(span.from)} – …`
           : null;
     const placeholder =
-        props.placeholder ?? (range ? "Wybierz zakres dat" : "Wybierz datę");
+        props.placeholder ??
+        (range ? t.datePicker.pickRange : t.datePicker.pick);
 
     const today = startOfDay(new Date());
     const todayBlocked =
@@ -113,7 +117,7 @@ export function DatePicker(props: DatePickerProps) {
                     setOpen(false);
                 }}
             >
-                Dziś
+                {t.datePicker.today}
             </Button>
             <Button
                 size="sm"
@@ -124,7 +128,7 @@ export function DatePicker(props: DatePickerProps) {
                     setOpen(false);
                 }}
             >
-                Wyczyść
+                {t.common.clear}
             </Button>
         </>
     );

@@ -1,6 +1,9 @@
+"use client";
+
 import { LoaderCircleIcon } from "@hugeicons/core-free-icons";
 import type { CSSProperties } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { Icon } from "../icon/Icon";
 
 export interface SpinnerProps {
@@ -17,10 +20,11 @@ const SIZES = { sm: 16, md: 20, lg: 32 } as const;
 // Ten sam kręcący się okrąg co w Button z loading, w kolorze tekstu.
 export function Spinner({
     size = "md",
-    label = "Ładowanie",
+    label,
     delay = 0,
     className,
 }: SpinnerProps) {
+    const t = useMessages();
     return (
         <output
             className={["zse-spinner", className].filter(Boolean).join(" ")}
@@ -37,7 +41,9 @@ export function Spinner({
                 className="zse-spinner-icon"
                 aria-hidden
             />
-            <span className="zse-spinner-label">{label}</span>
+            <span className="zse-spinner-label">
+                {label ?? t.common.loading}
+            </span>
         </output>
     );
 }

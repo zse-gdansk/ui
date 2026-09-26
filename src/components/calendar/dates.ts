@@ -45,48 +45,46 @@ export function monthGrid(month: Date) {
     return Array.from({ length: 42 }, (_, i) => addDays(start, i));
 }
 
-export const WEEKDAYS = ["pn", "wt", "śr", "cz", "pt", "sb", "nd"];
-export const WEEKDAY_NAMES = [
-    "poniedziałek",
-    "wtorek",
-    "środa",
-    "czwartek",
-    "piątek",
-    "sobota",
-    "niedziela",
-];
+const cache = new Map<string, ReturnType<typeof build>>();
 
-const format = (options: Intl.DateTimeFormatOptions) =>
-    new Intl.DateTimeFormat("pl-PL", options);
+function build(locale: string) {
+    const format = (options: Intl.DateTimeFormatOptions) =>
+        new Intl.DateTimeFormat(locale, options);
+    const monthYear = format({ month: "long", year: "numeric" });
+    const full = format({ day: "numeric", month: "long", year: "numeric" });
+    const weekday = format({ weekday: "long" });
+    const dayMonth = format({ day: "numeric", month: "long" });
+    const month = format({ month: "long" });
+    const capitalize = (text: string) =>
+        text.charAt(0).toLocaleUpperCase(locale) + text.slice(1);
 
-const MONTH_YEAR = format({ month: "long", year: "numeric" });
-const FULL = format({ day: "numeric", month: "long", year: "numeric" });
-const WEEKDAY = format({ weekday: "long" });
-const DAY_MONTH = format({ day: "numeric", month: "long" });
-const MONTH = format({ month: "long" });
+    const date = (value: Date) => full.format(value);
+    return {
+        // "Wrzesień 2026".
+        monthYear: (value: Date) => capitalize(monthYear.format(value)),
+        // "26 września 2026".
+        date,
+        // "26 września 2026, sobota" dla czytnika ekranu.
+        dayLabel: (value: Date) => `${date(value)}, ${weekday.format(value)}`,
+        // "Styczeń"..."Grudzień".
+        month: (value: Date) => capitalize(month.format(value)),
+        // Zakres: "12–19 września 2026", "28 września – 3 października 2026".
+        range(from: Date, to: Date) {
+            if (sameDay(from, to)) return date(from);
+            if (sameMonth(from, to)) return `${from.getDate()}–${date(to)}`;
+            if (from.getFullYear() === to.getFullYear())
+                return `${dayMonth.format(from)} – ${date(to)}`;
+            return `${date(from)} – ${date(to)}`;
+        },
+    };
+}
 
-const capitalize = (text: string) =>
-    text.charAt(0).toLocaleUpperCase("pl") + text.slice(1);
-
-// "Wrzesień 2026".
-export const formatMonthYear = (date: Date) =>
-    capitalize(MONTH_YEAR.format(date));
-
-// "26 września 2026".
-export const formatDate = (date: Date) => FULL.format(date);
-
-// "26 września 2026, sobota" dla czytnika ekranu.
-export const formatDayLabel = (date: Date) =>
-    `${FULL.format(date)}, ${WEEKDAY.format(date)}`;
-
-// "Styczeń"..."Grudzień".
-export const formatMonth = (date: Date) => capitalize(MONTH.format(date));
-
-// Zakres: "12–19 września 2026", "28 września – 3 października 2026".
-export function formatRange(from: Date, to: Date) {
-    if (sameDay(from, to)) return formatDate(from);
-    if (sameMonth(from, to)) return `${from.getDate()}–${formatDate(to)}`;
-    if (from.getFullYear() === to.getFullYear())
-        return `${DAY_MONTH.format(from)} – ${formatDate(to)}`;
-    return `${formatDate(from)} – ${formatDate(to)}`;
+// Formatowanie dat w danym języku, z pamięcią formaterów.
+export function dateFormats(locale: string) {
+    let formats = cache.get(locale);
+    if (!formats) {
+        formats = build(locale);
+        cache.set(locale, formats);
+    }
+    return formats;
 }

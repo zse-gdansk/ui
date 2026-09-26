@@ -13,6 +13,7 @@ import {
     type ReactNode,
 } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { Icon, type IconGlyph } from "../icon/Icon";
 import { Menu, MenuItem } from "../menu/Menu";
 
@@ -59,6 +60,7 @@ export function Breadcrumbs({
     renderLink,
     className,
 }: BreadcrumbsProps) {
+    const t = useMessages();
     const navRef = useRef<HTMLElement>(null);
     const measureRef = useRef<HTMLOListElement>(null);
     const [hidden, setHidden] = useState<number[]>([]);
@@ -157,7 +159,7 @@ export function Breadcrumbs({
     return (
         <nav
             ref={navRef}
-            aria-label="Ścieżka"
+            aria-label={t.breadcrumbs.label}
             className={["zse-breadcrumbs", className].filter(Boolean).join(" ")}
         >
             <ol className="zse-breadcrumbs-list">
@@ -170,7 +172,9 @@ export function Breadcrumbs({
                                         <button
                                             type="button"
                                             className="zse-crumb zse-crumb-more"
-                                            aria-label={`Pokaż ${hiddenItems.length} ukryte`}
+                                            aria-label={t.breadcrumbs.showHidden(
+                                                hiddenItems.length,
+                                            )}
                                         >
                                             <Icon
                                                 icon={MoreHorizontalIcon}

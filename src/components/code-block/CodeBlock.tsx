@@ -8,6 +8,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import { useEffect, useState, type CSSProperties } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { useCopy } from "../../utils/use-copy";
 import { Icon } from "../icon/Icon";
 import {
@@ -45,14 +46,6 @@ export interface CodeBlockProps {
     // Dłuższy blok zaczyna zwinięty do tylu linii, z przyciskiem rozwinięcia.
     maxLines?: number | false;
     className?: string;
-}
-
-const PLURAL = new Intl.PluralRules("pl-PL");
-
-function showAll(count: number) {
-    const form = PLURAL.select(count);
-    const word = form === "one" ? "linię" : form === "few" ? "linie" : "linii";
-    return `Pokaż wszystkie ${count} ${word}`;
 }
 
 const escape = (text: string) =>
@@ -112,6 +105,7 @@ export function CodeBlock({
 }: CodeBlockProps) {
     const language = languageProp ?? languageFromFilename(filename);
     const info = languageInfo(language);
+    const t = useMessages();
     const parsed = parseAnnotations(code.replace(/\n$/, ""));
     const source = parsed.source;
     const marks: Marks = {
@@ -175,10 +169,10 @@ export function CodeBlock({
             className="zse-code-copy"
             aria-label={
                 copyState === "copied"
-                    ? "Skopiowano"
+                    ? t.copy.copied
                     : copyState === "failed"
-                      ? "Nie udało się skopiować"
-                      : "Kopiuj kod"
+                      ? t.copy.failed
+                      : t.copy.copyCode
             }
             onClick={() => void copy()}
         >
@@ -222,7 +216,7 @@ export function CodeBlock({
                     <span className="zse-code-title">
                         <span
                             className="zse-code-lang"
-                            title={info.name}
+                            title={info.name || t.codeBlock.code}
                             data-bright={info.bright || undefined}
                             style={
                                 {
@@ -258,7 +252,7 @@ export function CodeBlock({
                         className="zse-code-more-button"
                         onClick={() => setExpanded(true)}
                     >
-                        {showAll(lineCount)}
+                        {t.codeBlock.showAll(lineCount)}
                         <Icon icon={ArrowDown01Icon} size={12} />
                     </button>
                 </div>

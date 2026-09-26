@@ -2,6 +2,9 @@
 
 import { useEffect, type RefObject } from "react";
 
+import { pl } from "../../i18n/pl";
+import type { Messages } from "../../i18n/types";
+
 export type Shortcut = string;
 
 interface Parsed {
@@ -25,13 +28,10 @@ const SYMBOLS: Record<string, string> = {
     arrowright: "→",
 };
 
+// Nazwy klawiszy poza Makiem; spacja, Backspace, Delete i Escape z katalogu.
 const NAMES: Record<string, string> = {
-    backspace: "Backspace",
-    delete: "Del",
     enter: "Enter",
-    escape: "Esc",
     tab: "Tab",
-    space: "Spacja",
     arrowup: "↑",
     arrowdown: "↓",
     arrowleft: "←",
@@ -76,7 +76,11 @@ const label = (key: string, names: Record<string, string>) =>
     names[key] ?? key.toUpperCase();
 
 // Klawisze osobno, np. ["⇧", "⌘", "A"] albo ["Ctrl", "Shift", "A"].
-export function shortcutKeys(shortcut: Shortcut, apple = isApple()) {
+export function shortcutKeys(
+    shortcut: Shortcut,
+    apple = isApple(),
+    names: Messages["kbd"] = pl.kbd,
+) {
     const { ctrl, meta, alt, shift, key } = parse(shortcut, apple);
     const keys = apple
         ? [
@@ -91,14 +95,18 @@ export function shortcutKeys(shortcut: Shortcut, apple = isApple()) {
               meta && "Win",
               alt && "Alt",
               shift && "Shift",
-              label(key, NAMES),
+              label(key, { ...NAMES, ...names }),
           ];
     return keys.filter((part): part is string => Boolean(part));
 }
 
 // Kolejność modyfikatorów jak w menu macOS: ⌃ ⌥ ⇧ ⌘.
-export function formatShortcut(shortcut: Shortcut, apple = isApple()) {
-    return shortcutKeys(shortcut, apple).join(apple ? "" : "+");
+export function formatShortcut(
+    shortcut: Shortcut,
+    apple = isApple(),
+    names: Messages["kbd"] = pl.kbd,
+) {
+    return shortcutKeys(shortcut, apple, names).join(apple ? "" : "+");
 }
 
 export function ariaShortcut(shortcut: Shortcut, apple = isApple()) {

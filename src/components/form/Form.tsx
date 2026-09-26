@@ -12,6 +12,7 @@ import {
     type ReactNode,
 } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { Alert } from "../alert/Alert";
 import { Button } from "../button/Button";
 import { FormContext, useFormState } from "./context";
@@ -92,6 +93,7 @@ export function Form<Schema extends StandardSchemaV1 | undefined = undefined>({
     children,
     ...props
 }: FormProps<Schema>) {
+    const t = useMessages();
     const formRef = useRef<HTMLFormElement>(null);
     const [errors, setErrors] = useState<FormErrors>({});
     const [message, setMessage] = useState<string | null>(null);
@@ -149,7 +151,7 @@ export function Form<Schema extends StandardSchemaV1 | undefined = undefined>({
             setMessage(
                 reason instanceof Error && reason.message
                     ? reason.message
-                    : "Nie udało się wysłać formularza. Spróbuj ponownie.",
+                    : t.form.submitFailed,
             );
         } finally {
             setSubmitting(false);

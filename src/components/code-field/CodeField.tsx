@@ -11,6 +11,7 @@ import {
     type ReactNode,
 } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { FieldFooter } from "../field/FieldFooter";
 import { Icon } from "../icon/Icon";
 
@@ -59,6 +60,7 @@ export function CodeField({
     id,
     autoFocus = false,
 }: CodeFieldProps) {
+    const t = useMessages();
     const rootRef = useRef<HTMLDivElement>(null);
     const [internal, setInternal] = useState(defaultValue);
     const [status, setStatus] = useState<Status>("idle");
@@ -83,7 +85,7 @@ export function CodeField({
             setMessage(
                 reason instanceof Error && reason.message
                     ? reason.message
-                    : "Nieprawidłowy kod",
+                    : t.codeField.invalid,
             );
             setTimeout(() => {
                 set("");
@@ -125,7 +127,7 @@ export function CodeField({
                     data-status={status}
                     {...(type !== "numeric" && {
                         normalizeValue: (text: string) =>
-                            text.toLocaleUpperCase("pl"),
+                            text.toLocaleUpperCase(t.locale),
                     })}
                     {...(name !== undefined && { name })}
                     {...(id !== undefined && { id })}
@@ -166,7 +168,10 @@ export function CodeField({
                                         aria-label={
                                             index === 0
                                                 ? undefined
-                                                : `Znak ${index + 1} z ${length}`
+                                                : t.codeField.character(
+                                                      index + 1,
+                                                      length,
+                                                  )
                                         }
                                     />
                                     {char && (
@@ -193,7 +198,7 @@ export function CodeField({
                         icon={LoaderCircleIcon}
                         size={18}
                         className="zse-code-spinner"
-                        aria-label="Sprawdzanie kodu"
+                        aria-label={t.codeField.verifying}
                     />
                 )}
             </div>

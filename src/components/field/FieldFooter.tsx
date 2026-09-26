@@ -1,27 +1,32 @@
 import { Field } from "@base-ui/react/field";
 import type { ReactNode } from "react";
 
+import { useMessages } from "../../i18n/context";
+import type { Messages } from "../../i18n/types";
+
 type Validity = Field.Validity.State["validity"];
 
-const MESSAGES: [keyof Validity, string][] = [
-    ["valueMissing", "To pole jest wymagane"],
-    ["typeMismatch", "Nieprawidłowy format"],
-    ["patternMismatch", "Nieprawidłowy format"],
-    ["tooShort", "Za mało znaków"],
-    ["tooLong", "Za dużo znaków"],
-    ["rangeUnderflow", "Wartość jest za mała"],
-    ["rangeOverflow", "Wartość jest za duża"],
-    ["stepMismatch", "Nieprawidłowa wartość"],
-    ["badInput", "Wpisz poprawną wartość"],
-];
+const KEYS = [
+    "valueMissing",
+    "typeMismatch",
+    "patternMismatch",
+    "tooShort",
+    "tooLong",
+    "rangeUnderflow",
+    "rangeOverflow",
+    "stepMismatch",
+    "badInput",
+] as const;
 
 function translate(
     message: ReactNode,
     validity: Validity,
     native: string | null,
+    messages: Messages["field"],
 ) {
     if (validity.customError || message !== native) return message;
-    return MESSAGES.find(([key]) => validity[key])?.[1] ?? message;
+    const key = KEYS.find((name) => validity[name]);
+    return key ? messages[key] : message;
 }
 
 // Stopka pola: błąd z propa error albo z walidacji (Form, schemat,
@@ -34,6 +39,7 @@ export function FieldFooter({
     error?: string | null | undefined;
     hint?: ReactNode;
 }) {
+    const t = useMessages();
     return (
         <>
             {error ? (
@@ -51,6 +57,7 @@ export function FieldFooter({
                                         children,
                                         state.validity,
                                         state.error,
+                                        t.field,
                                     )}
                                 </div>
                             )}

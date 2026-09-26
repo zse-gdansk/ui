@@ -10,6 +10,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { Highlight } from "../../search/Highlight";
 import { createSearch, type SearchKey } from "../../search/search";
 import { FieldFooter } from "../field/FieldFooter";
@@ -74,18 +75,19 @@ export function Combobox(props: ComboboxProps) {
         options = [],
         onSearch,
         placeholder,
-        emptyText = "Brak wyników",
+        emptyText,
         disabled = false,
         name,
         id,
     } = props;
+    const t = useMessages();
     const multiple = props.multiple === true;
 
     const [query, setQuery] = useState("");
     const [open, setOpen] = useState(false);
     const [results, setResults] = useState<ComboboxOption[]>([]);
     const [pending, setPending] = useState(false);
-    const [searchError, setSearchError] = useState<string | null>(null);
+    const [searchError, setSearchError] = useState(false);
     const [picked, setPicked] = useState(
         () => new Map<string, ComboboxOption>(),
     );
@@ -145,12 +147,12 @@ export function Combobox(props: ComboboxProps) {
                 (list) => {
                     if (controller.signal.aborted) return;
                     setResults(list);
-                    setSearchError(null);
+                    setSearchError(false);
                     setPending(false);
                 },
                 () => {
                     if (controller.signal.aborted) return;
-                    setSearchError("Nie udało się wyszukać");
+                    setSearchError(true);
                     setPending(false);
                 },
             );
@@ -206,7 +208,7 @@ export function Combobox(props: ComboboxProps) {
     const trigger = (
         <BaseCombobox.Trigger
             className="zse-combobox-button zse-combobox-trigger"
-            aria-label="Pokaż listę"
+            aria-label={t.combobox.showList}
         >
             <Icon icon={ArrowDown01Icon} />
         </BaseCombobox.Trigger>
@@ -278,7 +280,9 @@ export function Combobox(props: ComboboxProps) {
                                     </span>
                                     <BaseCombobox.ChipRemove
                                         className="zse-combobox-chip-remove"
-                                        aria-label={`Usuń ${option.label}`}
+                                        aria-label={t.common.remove(
+                                            option.label,
+                                        )}
                                     >
                                         <Icon icon={Cancel01Icon} size={12} />
                                     </BaseCombobox.ChipRemove>
@@ -293,7 +297,7 @@ export function Combobox(props: ComboboxProps) {
                         {!multiple && (
                             <BaseCombobox.Clear
                                 className="zse-combobox-button zse-combobox-clear"
-                                aria-label="Wyczyść"
+                                aria-label={t.common.clear}
                                 keepMounted
                             >
                                 <Icon icon={Cancel01Icon} size={14} />
@@ -320,19 +324,22 @@ export function Combobox(props: ComboboxProps) {
                                             size={14}
                                             className="zse-combobox-spinner"
                                         />
-                                        Szukanie…
+                                        {t.combobox.searching}
                                     </>
                                 )}
-                                {status === "error" && searchError}
-                                {status === "idle" &&
-                                    "Zacznij pisać, żeby wyszukać"}
+                                {status === "error" && t.combobox.searchFailed}
+                                {status === "idle" && t.combobox.startTyping}
                             </BaseCombobox.Status>
                             <ScrollArea maxHeight="min(var(--available-height), 18rem)">
                                 <BaseCombobox.Empty className="zse-combobox-empty">
                                     {status === null &&
                                         (search.trim()
-                                            ? `${emptyText} dla „${search.trim()}”`
-                                            : emptyText)}
+                                            ? emptyText
+                                                ? `${emptyText}: ${search.trim()}`
+                                                : t.combobox.emptyFor(
+                                                      search.trim(),
+                                                  )
+                                            : (emptyText ?? t.combobox.empty))}
                                 </BaseCombobox.Empty>
                                 <BaseCombobox.List className="zse-combobox-list">
                                     {(option: ComboboxOption) => (

@@ -4,6 +4,7 @@ import { Popover as BasePopover } from "@base-ui/react/popover";
 import { Cancel01Icon } from "@hugeicons/core-free-icons";
 import type { CSSProperties, ReactElement, ReactNode } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { Icon } from "../icon/Icon";
 
 type Side = "top" | "bottom" | "left" | "right";
@@ -41,8 +42,9 @@ export function Popover({
     closable = false,
     openOnHover = false,
     width,
-    closeLabel = "Zamknij",
+    closeLabel,
 }: PopoverProps) {
+    const t = useMessages();
     const hasHeader = title != null || closable;
 
     return (
@@ -82,7 +84,9 @@ export function Popover({
                                 {closable && (
                                     <BasePopover.Close
                                         className="zse-modal-close"
-                                        aria-label={closeLabel}
+                                        aria-label={
+                                            closeLabel ?? t.common.close
+                                        }
                                     >
                                         <Icon icon={Cancel01Icon} size={14} />
                                     </BasePopover.Close>

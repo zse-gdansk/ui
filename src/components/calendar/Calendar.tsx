@@ -13,22 +13,19 @@ import {
     type ReactNode,
 } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { Icon } from "../icon/Icon";
 import {
     addDays,
     addMonths,
     compareDays,
-    formatDayLabel,
-    formatMonth,
-    formatMonthYear,
+    dateFormats,
     monthGrid,
     sameDay,
     sameMonth,
     startOfDay,
     startOfMonth,
     startOfWeek,
-    WEEKDAY_NAMES,
-    WEEKDAYS,
 } from "./dates";
 
 export interface DateRange {
@@ -98,6 +95,8 @@ export function Calendar(props: CalendarProps) {
         footer,
         className,
     } = props;
+    const t = useMessages();
+    const formats = dateFormats(t.locale);
     const range = props.mode === "range";
 
     const [internal, setInternal] = useState<Date | DateRange | null>(
@@ -267,7 +266,7 @@ export function Calendar(props: CalendarProps) {
                                 setDirection(0);
                             }}
                         >
-                            {formatMonth(option)}
+                            {formats.month(option)}
                         </button>
                     );
                 })}
@@ -341,15 +340,19 @@ export function Calendar(props: CalendarProps) {
                 role="grid"
                 // Fokus trzymają dni (roving tabindex), nie tabela.
                 tabIndex={-1}
-                aria-label={formatMonthYear(shown)}
+                aria-label={formats.monthYear(shown)}
                 className="zse-calendar-grid"
                 data-direction={direction}
                 onMouseLeave={() => setHovered(null)}
             >
                 <thead>
                     <tr className="zse-calendar-weekdays">
-                        {WEEKDAYS.map((day, i) => (
-                            <th key={day} scope="col" abbr={WEEKDAY_NAMES[i]}>
+                        {t.calendar.weekdaysShort.map((day, i) => (
+                            <th
+                                key={day}
+                                scope="col"
+                                abbr={t.calendar.weekdaysLong[i]}
+                            >
                                 {day}
                             </th>
                         ))}
@@ -404,7 +407,7 @@ export function Calendar(props: CalendarProps) {
                                                     ? 0
                                                     : -1
                                             }
-                                            aria-label={formatDayLabel(date)}
+                                            aria-label={formats.dayLabel(date)}
                                             aria-current={
                                                 sameDay(date, today)
                                                     ? "date"
@@ -503,7 +506,7 @@ export function Calendar(props: CalendarProps) {
                     }}
                 >
                     {view === "days"
-                        ? formatMonthYear(month)
+                        ? formats.monthYear(month)
                         : view === "months"
                           ? month.getFullYear()
                           : `${pageStart(month.getFullYear())}–${pageStart(month.getFullYear()) + YEARS - 1}`}
@@ -519,10 +522,10 @@ export function Calendar(props: CalendarProps) {
                         className="zse-calendar-button"
                         aria-label={
                             view === "days"
-                                ? "Poprzedni miesiąc"
+                                ? t.calendar.previousMonth
                                 : view === "months"
-                                  ? "Poprzedni rok"
-                                  : "Poprzednie lata"
+                                  ? t.calendar.previousYear
+                                  : t.calendar.previousYears
                         }
                         disabled={view === "days" && !canPrev}
                         onClick={() => showMonth(addMonths(month, -STEP[view]))}
@@ -534,10 +537,10 @@ export function Calendar(props: CalendarProps) {
                         className="zse-calendar-button"
                         aria-label={
                             view === "days"
-                                ? "Następny miesiąc"
+                                ? t.calendar.nextMonth
                                 : view === "months"
-                                  ? "Następny rok"
-                                  : "Następne lata"
+                                  ? t.calendar.nextYear
+                                  : t.calendar.nextYears
                         }
                         disabled={view === "days" && !canNext}
                         onClick={() => showMonth(addMonths(month, STEP[view]))}

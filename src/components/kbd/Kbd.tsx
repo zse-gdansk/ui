@@ -2,6 +2,7 @@
 
 import { useSyncExternalStore, type ReactNode } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { isApple, shortcutKeys, type Shortcut } from "../menu/shortcut";
 
 export interface KbdProps {
@@ -17,8 +18,9 @@ const noop = () => () => {};
 const useApple = () => useSyncExternalStore(noop, isApple, () => false);
 
 export function Kbd({ shortcut, children, size = "md" }: KbdProps) {
+    const t = useMessages();
     const apple = useApple();
-    const keys = shortcut ? shortcutKeys(shortcut, apple) : [];
+    const keys = shortcut ? shortcutKeys(shortcut, apple, t.kbd) : [];
 
     if (!shortcut)
         return (

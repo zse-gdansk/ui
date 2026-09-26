@@ -10,6 +10,7 @@ import {
     type TextareaHTMLAttributes,
 } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { FieldFooter } from "../field/FieldFooter";
 
 export interface TextareaProps extends Omit<
@@ -29,18 +30,13 @@ export interface TextareaProps extends Omit<
     maxRows?: number | false;
 }
 
-const PLURAL = new Intl.PluralRules("pl-PL");
-const CHAR_WORDS: Partial<Record<Intl.LDMLPluralRule, string>> = {
-    one: "znak",
-    few: "znaki",
-};
-const charWord = (count: number) =>
-    CHAR_WORDS[PLURAL.select(count)] ?? "znaków";
-
-function tooLong(length: number, maxLength: number | undefined) {
+function tooLong(
+    length: number,
+    maxLength: number | undefined,
+    message: (extra: number) => string,
+) {
     if (maxLength === undefined || length <= maxLength) return null;
-    const extra = length - maxLength;
-    return `Za długie o ${extra} ${charWord(extra)}`;
+    return message(length - maxLength);
 }
 
 function fit(textarea: HTMLTextAreaElement) {
@@ -63,6 +59,7 @@ export function Textarea({
     style,
     ...props
 }: TextareaProps) {
+    const t = useMessages();
     const ref = useRef<HTMLTextAreaElement>(null);
     const autosize = maxRows !== false;
     const [length, setLength] = useState(
@@ -93,7 +90,7 @@ export function Textarea({
 
     const over = maxLength !== undefined && length > maxLength;
     const near = maxLength !== undefined && !over && length >= maxLength * 0.9;
-    const overMessage = tooLong(length, maxLength);
+    const overMessage = tooLong(length, maxLength, t.textarea.tooLong);
     const message = error ?? overMessage;
     const hasHint = hint != null && hint !== false;
 
@@ -106,7 +103,11 @@ export function Textarea({
             {...(maxLength !== undefined && {
                 validationMode: "onChange" as const,
                 validate: (text: unknown) =>
-                    tooLong(String(text ?? "").length, maxLength),
+                    tooLong(
+                        String(text ?? "").length,
+                        maxLength,
+                        t.textarea.tooLong,
+                    ),
             })}
         >
             {label != null && label !== false && (

@@ -23,4 +23,4 @@ Z tego wynika charakter:
 - **Działa na telefonie:** pola dotyku co najmniej około 40px, hover tylko tam, gdzie jest kursor, przytrzymanie zamiast prawego przycisku, wersje kompaktowe przez `@container`, gdy brakuje miejsca.
 - **Działa z klawiatury i z czytnikiem ekranu.**
 - **Szanuje `prefers-reduced-motion`:** bez przesuwania i skalowania, zostaje przenikanie.
-- **Mówi po polsku.** Domyślne teksty są po polsku, z możliwością nadpisania propsem (`closeLabel`, `emptyText`…).
+- **Mówi językiem aplikacji.** Teksty pochodzą z katalogu (domyślnie polskiego), zmienia się je propsem (`closeLabel`, `emptyText`…) albo przez `LocaleProvider`.

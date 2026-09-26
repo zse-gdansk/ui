@@ -5,6 +5,7 @@ import { Dialog } from "@base-ui/react/dialog";
 import { Cancel01Icon } from "@hugeicons/core-free-icons";
 import type { ReactElement, ReactNode } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { Icon } from "../icon/Icon";
 
 export interface ModalProps {
@@ -33,9 +34,10 @@ export function Modal({
     description,
     children,
     footer,
-    closeLabel = "Zamknij",
+    closeLabel,
     alert = false,
 }: ModalProps) {
+    const t = useMessages();
     const rootProps = {
         ...(open !== undefined && { open }),
         ...(onOpenChange && {
@@ -62,7 +64,7 @@ export function Modal({
                     {!alert && (
                         <Dialog.Close
                             className="zse-modal-close"
-                            aria-label={closeLabel}
+                            aria-label={closeLabel ?? t.common.close}
                         >
                             <Icon icon={Cancel01Icon} size={14} />
                         </Dialog.Close>

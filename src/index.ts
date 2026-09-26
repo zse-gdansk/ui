@@ -239,3 +239,13 @@ export {
     type PasswordRule,
     type PasswordStrengthProps,
 } from "./components/password-strength/PasswordStrength";
+export {
+    LocaleProvider,
+    pl,
+    plural,
+    useMessages,
+    type LocaleProviderProps,
+    type Messages,
+    type MessagesOverride,
+    type PluralForms,
+} from "./i18n";

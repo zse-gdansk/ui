@@ -5,6 +5,7 @@ import { Field } from "@base-ui/react/field";
 import { Fieldset } from "@base-ui/react/fieldset";
 import { useState, type CSSProperties, type ReactNode } from "react";
 
+import { useMessages } from "../../i18n/context";
 import { Checkbox } from "../checkbox/Checkbox";
 import { FieldFooter } from "../field/FieldFooter";
 
@@ -32,7 +33,6 @@ export interface CheckboxGroupProps {
     disabled?: boolean;
 }
 
-const NUMBER = new Intl.NumberFormat("pl-PL");
 const NONE: string[] = [];
 
 export function CheckboxGroup({
@@ -48,6 +48,8 @@ export function CheckboxGroup({
     name,
     disabled = false,
 }: CheckboxGroupProps) {
+    const t = useMessages();
+    const number = new Intl.NumberFormat(t.locale);
     const [internal, setInternal] = useState(defaultValue);
     const selected = value ?? internal;
     const selectable = options
@@ -87,12 +89,14 @@ export function CheckboxGroup({
                             label={
                                 typeof selectAll === "string"
                                     ? selectAll
-                                    : "Zaznacz wszystkie"
+                                    : t.checkboxGroup.selectAll
                             }
                         />
                         <span className="zse-checkbox-count" aria-live="polite">
-                            {NUMBER.format(selected.length)} z{" "}
-                            {NUMBER.format(selectable.length)}
+                            {t.checkboxGroup.count(
+                                number.format(selected.length),
+                                number.format(selectable.length),
+                            )}
                         </span>
                     </div>
                 )}
