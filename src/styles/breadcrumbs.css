@@ -68,7 +68,6 @@
 
 .zse-crumb[aria-current] {
     color: var(--color-text);
-    font-weight: 500;
 }
 
 .zse-crumb[aria-current] .zse-crumb-text {

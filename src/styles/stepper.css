@@ -182,7 +182,6 @@
 .zse-stepper-step:is([data-state="current"], [data-state="error"])
     .zse-stepper-title {
     color: var(--color-text);
-    font-weight: 600;
 }
 
 .zse-stepper-optional {
