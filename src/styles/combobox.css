@@ -275,13 +275,7 @@
     white-space: nowrap;
 }
 
-.zse-combobox-match {
-    background: none;
-    color: inherit;
-    font-weight: 600;
-}
-
-.zse-combobox-item-label .zse-combobox-match {
+.zse-combobox-item-label .zse-highlight {
     color: var(--color-text);
 }
 

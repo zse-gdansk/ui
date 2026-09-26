@@ -8,11 +8,12 @@ import {
     LoaderCircleIcon,
     Tick02Icon,
 } from "@hugeicons/core-free-icons";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 
+import { Highlight } from "../../search/Highlight";
+import { createSearch, type SearchKey } from "../../search/search";
 import { Icon } from "../icon/Icon";
 import { ScrollArea } from "../scroll-area/ScrollArea";
-import { fold, matchRange } from "./search";
 
 export interface ComboboxOption {
     value: string;
@@ -57,28 +58,11 @@ interface MultipleProps extends ComboboxBaseProps {
 
 export type ComboboxProps = SingleProps | MultipleProps;
 
-function filterOption(option: ComboboxOption, query: string) {
-    const needle = fold(query.trim());
-    if (!needle) return true;
-    return (
-        fold(option.label).includes(needle) ||
-        (option.description !== undefined &&
-            fold(option.description).includes(needle))
-    );
-}
-
-function Highlight({ text, query }: { text: string; query: string }) {
-    const range = matchRange(text, query);
-    if (!range) return text;
-    const [start, end] = range;
-    return (
-        <>
-            {text.slice(0, start)}
-            <mark className="zse-combobox-match">{text.slice(start, end)}</mark>
-            {text.slice(end)}
-        </>
-    );
-}
+// Nazwa ważniejsza od opisu: „3C” w opisie przegrywa z „3C” w nazwie.
+const KEYS: SearchKey<ComboboxOption>[] = [
+    "label",
+    { name: "description", get: (option) => option.description, weight: 0.5 },
+];
 
 export function Combobox(props: ComboboxProps) {
     const {
@@ -170,6 +154,20 @@ export function Combobox(props: ComboboxProps) {
         };
     }, [trimmed, onSearch]);
 
+    const search = !multiple && current[0]?.label === query ? "" : query;
+
+    // Lokalnie silnik filtruje i układa od najlepszego dopasowania. Wyniki
+    // z serwera zostają w jego kolejności, silnik daje im tylko podświetlenie.
+    const source = onSearch ? found : options;
+    const engine = useMemo(
+        () => createSearch(source, { keys: KEYS }),
+        [source],
+    );
+    const ranked = search.trim() ? engine(search) : null;
+    const ranges = new Map(
+        ranked?.map((result) => [result.item.value, result.ranges]),
+    );
+
     const items = onSearch
         ? [
               ...found,
@@ -178,9 +176,9 @@ export function Combobox(props: ComboboxProps) {
                       !found.some((result) => result.value === option.value),
               ),
           ]
-        : [...options];
-
-    const search = !multiple && current[0]?.label === query ? "" : query;
+        : ranked
+          ? ranked.map((result) => result.item)
+          : [...options];
 
     const status = !onSearch
         ? null
@@ -238,12 +236,7 @@ export function Combobox(props: ComboboxProps) {
                 itemToStringLabel={(option) => option.label}
                 itemToStringValue={(option) => option.value}
                 isItemEqualToValue={(a, b) => a.value === b.value}
-                filter={
-                    onSearch
-                        ? null
-                        : (option: ComboboxOption) =>
-                              filterOption(option, search)
-                }
+                filter={null}
                 {...(name !== undefined && { name })}
             >
                 <BaseCombobox.InputGroup
@@ -331,7 +324,11 @@ export function Combobox(props: ComboboxProps) {
                                                 <span className="zse-combobox-item-label">
                                                     <Highlight
                                                         text={option.label}
-                                                        query={search}
+                                                        ranges={
+                                                            ranges.get(
+                                                                option.value,
+                                                            )?.label
+                                                        }
                                                     />
                                                 </span>
                                                 {option.description && (
@@ -340,7 +337,11 @@ export function Combobox(props: ComboboxProps) {
                                                             text={
                                                                 option.description
                                                             }
-                                                            query={search}
+                                                            ranges={
+                                                                ranges.get(
+                                                                    option.value,
+                                                                )?.description
+                                                            }
                                                         />
                                                     </span>
                                                 )}

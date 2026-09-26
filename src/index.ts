@@ -111,3 +111,12 @@ export {
     ScrollArea,
     type ScrollAreaProps,
 } from "./components/scroll-area/ScrollArea";
+export { Highlight, type HighlightProps } from "./search/Highlight";
+export {
+    createSearch,
+    fold,
+    type Range,
+    type SearchKey,
+    type SearchOptions,
+    type SearchResult,
+} from "./search/search";
