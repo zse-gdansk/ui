@@ -1,9 +1,9 @@
 "use client";
 
 import {
-    ArrowDown01Icon,
-    ArrowUp01Icon,
     ArrowUpDownIcon,
+    SortByDown02Icon,
+    SortByUp02Icon,
 } from "@hugeicons/core-free-icons";
 import type {
     CSSProperties,
@@ -198,9 +198,9 @@ export function TableHead({
             <Icon
                 icon={
                     sort === "asc"
-                        ? ArrowUp01Icon
+                        ? SortByUp02Icon
                         : sort === "desc"
-                          ? ArrowDown01Icon
+                          ? SortByDown02Icon
                           : ArrowUpDownIcon
                 }
                 size={14}
