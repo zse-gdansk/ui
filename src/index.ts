@@ -539,3 +539,8 @@ export {
     type TextProps,
     type TextTone,
 } from "./components/typography/Typography";
+export {
+    MaskedInput,
+    type MaskedInputProps,
+} from "./components/masked-input/MaskedInput";
+export { createMask, studentIdMask } from "./components/masked-input/masks";

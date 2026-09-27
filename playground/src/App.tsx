@@ -58,6 +58,7 @@ import { HoverCardDemo } from "./HoverCardDemo";
 import { InputGroupDemo } from "./InputGroupDemo";
 import { LinkDemo } from "./LinkDemo";
 import { LocaleDemo } from "./LocaleDemo";
+import { MaskedDemo } from "./MaskedDemo";
 import { MenuDemo } from "./MenuDemo";
 import { MiscDemo } from "./MiscDemo";
 import { NumberDemo } from "./NumberDemo";
@@ -486,6 +487,8 @@ export function App() {
             <CopyDemo />
 
             <InputGroupDemo />
+
+            <MaskedDemo />
 
             <ToggleDemo />
 

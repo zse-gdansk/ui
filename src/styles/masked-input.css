@@ -1,0 +1,68 @@
+.zse-mask-field {
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+.zse-mask-field:disabled {
+    -webkit-text-fill-color: transparent;
+}
+
+.zse-mask-mirror {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding-inline: var(--input-pad);
+    border: 1px solid transparent;
+    overflow: hidden;
+    color: var(--color-text);
+    font-size: 1rem;
+    line-height: 1;
+    white-space: pre;
+    pointer-events: none;
+}
+
+@media (min-width: 640px) {
+    .zse-mask:not([data-size="lg"]) .zse-mask-mirror {
+        font-size: 0.875rem;
+    }
+}
+
+/* Nowy separator wchodzi jak podmiana ikon w bibliotece. inline-block,
+   bo skala nie działa na elementach w linii; szerokość jest od razu, więc
+   znaki za nim nie przeskakują. */
+.zse-mask-separator {
+    display: inline-block;
+    color: var(--color-text-secondary);
+    transition-property: opacity, scale, filter;
+    transition-duration: 300ms;
+    transition-timing-function: var(--ease-standard);
+
+    @starting-style {
+        opacity: 0;
+        scale: 0.25;
+        filter: blur(4px);
+    }
+}
+
+/* Autouzupełnianie potrafi wpisać wartość bez zdarzenia zmiany: wtedy
+   widać zwykły tekst pola, a kopia się chowa. */
+.zse-mask-field:-webkit-autofill {
+    -webkit-text-fill-color: var(--color-text);
+}
+
+.zse-mask-field:-webkit-autofill + .zse-mask-mirror {
+    visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-mask-separator {
+        transition-property: opacity;
+
+        @starting-style {
+            scale: 1;
+            filter: none;
+        }
+    }
+}

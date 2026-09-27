@@ -589,3 +589,7 @@ body {
     gap: 8px;
     max-width: 280px;
 }
+
+.masked-demo {
+    max-width: 320px;
+}
