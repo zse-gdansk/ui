@@ -71,6 +71,7 @@ import { TimeDemo } from "./TimeDemo";
 import { TimelineDemo } from "./TimelineDemo";
 import { ToggleDemo } from "./ToggleDemo";
 import { UploadDemo } from "./UploadDemo";
+import { VoteDemo } from "./VoteDemo";
 
 const RAMPS = ["gray", "blue", "green", "orange", "red", "violet"] as const;
 const STEPS = Array.from({ length: 12 }, (_, i) => i + 1);
@@ -501,6 +502,8 @@ export function App() {
             <TimelineDemo />
 
             <ChartsDemo />
+
+            <VoteDemo />
 
             <CodeDemo />
 

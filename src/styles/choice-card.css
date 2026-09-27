@@ -1,0 +1,173 @@
+.zse-choice-fieldset {
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.zse-choice-grid {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(min(100%, var(--choice-min, 240px)), 1fr)
+    );
+    gap: 8px;
+}
+
+.zse-choice-card {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-surface);
+    box-shadow: inset 0 0 0 1px var(--color-border-subtle);
+    color: var(--color-text);
+    cursor: pointer;
+    user-select: none;
+    transition: scale 160ms var(--ease-out);
+}
+
+@media (hover: hover) {
+    .zse-choice-card:not([data-disabled], :has([data-checked])):hover {
+        box-shadow: inset 0 0 0 1px var(--color-border-hover);
+    }
+}
+
+.zse-choice-card:not([data-disabled]):active {
+    scale: 0.98;
+}
+
+.zse-choice-card:has([data-checked]) {
+    background: color-mix(
+        in oklab,
+        var(--color-accent-solid) 6%,
+        var(--color-bg-surface)
+    );
+    box-shadow: inset 0 0 0 1.5px var(--color-accent-solid);
+}
+
+/* Fokus z klawiatury na kontrolce, obrys na całej karcie. */
+.zse-choice-card:has(:focus-visible) {
+    box-shadow:
+        inset 0 0 0 1.5px var(--color-accent-solid),
+        var(--focus-ring);
+}
+
+.zse-choice-card:has(:focus-visible) :focus-visible {
+    outline: none;
+}
+
+.zse-check-field[data-invalid] .zse-choice-card:not(:has([data-checked])) {
+    box-shadow: inset 0 0 0 1px var(--color-danger-solid);
+}
+
+.zse-choice-card[data-disabled] {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.zse-choice-media {
+    display: grid;
+    flex: none;
+    place-items: center;
+}
+
+.zse-choice-icon {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    border-radius: var(--radius-full);
+    background: var(--color-bg-tint);
+    color: var(--color-text-secondary);
+}
+
+.zse-choice-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    padding-top: 1px;
+}
+
+.zse-choice-title {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.35;
+    text-wrap: balance;
+}
+
+.zse-choice-description {
+    color: var(--color-text-secondary);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    text-wrap: pretty;
+}
+
+.zse-choice-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+}
+
+.zse-choice-control {
+    display: flex;
+    flex: none;
+    padding-top: 2px;
+}
+
+.zse-choice-card[data-layout="stack"] {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px 16px;
+    text-align: center;
+}
+
+.zse-choice-card[data-layout="stack"] .zse-choice-text {
+    align-items: center;
+}
+
+.zse-choice-card[data-layout="stack"] .zse-choice-control {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+}
+
+.zse-choice-card[data-layout="stack"]:has(.zse-choice-image) {
+    padding-top: 12px;
+}
+
+.zse-choice-card[data-layout="stack"] .zse-choice-media:has(.zse-choice-image) {
+    align-self: stretch;
+}
+
+.zse-choice-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-md);
+    object-fit: cover;
+    outline: 1px solid var(--color-image-outline);
+    outline-offset: -1px;
+}
+
+.zse-choice-count {
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-choice-card:not([data-disabled]):active {
+        scale: 1;
+    }
+}

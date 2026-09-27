@@ -187,6 +187,9 @@ export const pl: Messages = {
         moreActions: "Więcej akcji",
     },
     userMenu: { label: (name) => `Konto: ${name}` },
+    choiceCard: {
+        count: (selected, max) => `Wybrano ${selected} z ${max}`,
+    },
     chart: {
         empty: "Brak danych do wykresu",
         total: "Razem",

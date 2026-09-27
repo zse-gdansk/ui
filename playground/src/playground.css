@@ -377,3 +377,8 @@ body {
     font-size: 0.875rem;
     font-weight: 600;
 }
+
+.vote-demo {
+    display: grid;
+    gap: 24px;
+}
