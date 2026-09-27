@@ -1,5 +1,43 @@
 # Changelog
 
+## [1.2.0](https://github.com/zse-gdansk/ui/compare/v1.1.0...v1.2.0) (2026-09-27)
+
+
+### Nowe funkcje
+
+* **banner:** dodano komponent Banner z obsługą ogłoszeń i powiadomień ([f930876](https://github.com/zse-gdansk/ui/commit/f930876f91c55b9139437b9c73e87c433de28c3b))
+* **charts:** dodano komponenty LikertChart i HeatmapChart oraz zaktualizowano dokumentację wykresów ([442bbd3](https://github.com/zse-gdansk/ui/commit/442bbd35c6605da4aff56e5c5d84e5d02b64d98b))
+* **charts:** dodano komponenty wykresów BarChart, LineChart i DonutChart oraz integrację z ECharts ([8fc5c08](https://github.com/zse-gdansk/ui/commit/8fc5c08fcd4ad999d98db8122bd12406b2251836))
+* **choice-card:** karty wyboru do głosowań i ankiet ([49848b4](https://github.com/zse-gdansk/ui/commit/49848b4ae2d8d7c4fe54203d238aa3b18ba9e5b1))
+* **command:** dodano okno skrótów klawiszowych z grupowaniem i podpowiedziami ([54e9ec6](https://github.com/zse-gdansk/ui/commit/54e9ec6d74897b0f62249eb09c6364727c336027))
+* **command:** paleta poleceń z podmenu, akcjami z krokami i skrótami sekwencyjnymi ([7ddd1d6](https://github.com/zse-gdansk/ui/commit/7ddd1d6f24ed3aca82eb10fe3fdf2948cf55542f))
+* **deadline, people-picker:** dodano komponenty Deadline i PeoplePicker z przykładowymi danymi oraz stylem ([cc28ce9](https://github.com/zse-gdansk/ui/commit/cc28ce9a477375f860736cf151bbc0b0bcaad668))
+* **error-page:** strony 404, 403, błędu, przerwy i braku internetu ([761aa29](https://github.com/zse-gdansk/ui/commit/761aa29e1a01659f623979a3c874ef3bb106abd1))
+* **event-calendar:** kalendarz wydarzeń szkolnych z paskami, listą i rodzajami ([7de311d](https://github.com/zse-gdansk/ui/commit/7de311da9c53148934ea99d915a31a84836f086a))
+* **grade:** dodano komponenty Grade, GradeAverage, GradeField, GradeThresholds oraz kontekst GradesProvider z obsługą ocen i progów ([0d12328](https://github.com/zse-gdansk/ui/commit/0d123285234a6ec1d877a722a4f614df8e6c22af))
+* **hover-card:** dodano komponent HoverCard z podglądem profilu i stylem ([0383201](https://github.com/zse-gdansk/ui/commit/0383201b650c3c79e4193d343cce76caf07d7d8b))
+* **notifications:** dodano komponent powiadomień z przykładowymi danymi i stylem ([30597a3](https://github.com/zse-gdansk/ui/commit/30597a3c6013c320a509ee4a575bdd73dc5a3ecb))
+* RankList do układania preferencji oraz QRCode i QRScanner w wejściu qr ([b0fce49](https://github.com/zse-gdansk/ui/commit/b0fce4981cf581bba600df448d6a607b10d2cebe))
+* **scroll-gutter:** dodano obsługę marginesów dla przewijania w komponentach menu, tabeli i obszaru przewijania ([3db0e85](https://github.com/zse-gdansk/ui/commit/3db0e8536962389e19d0abd1eafe367805408ec6))
+* **signup:** dodano zapisy z limitem miejsc i listą rezerwową ([f6f92ad](https://github.com/zse-gdansk/ui/commit/f6f92ad8a56d5680135829adc6ff609d70e3149b))
+* **survey:** LikertScale i SurveyMatrix do ankiet ([30c80c8](https://github.com/zse-gdansk/ui/commit/30c80c8e358498641e7e4135723cc4e07ef97f77))
+* **tag-input:** dodano komponent TagInput do obsługi wielu wartości jako znaczników ([b5a6651](https://github.com/zse-gdansk/ui/commit/b5a66515e34019411eacbeaa466150d5cf033381))
+* **timeline:** historia zmian z grupami dni, czasem względnym i zmianami wartości ([af8323c](https://github.com/zse-gdansk/ui/commit/af8323cf68870595bc7ebacce41aef2255af3e23))
+* **timetable:** plan lekcji z zastępstwami, grupami i widokiem dnia ([2a26377](https://github.com/zse-gdansk/ui/commit/2a26377d53877461de752bfb710c5c0cb87a0a26))
+* **toolbar:** dodano komponent Toolbar z przyciskami, grupami i menu ([9dbe96b](https://github.com/zse-gdansk/ui/commit/9dbe96b87c0c90a77f737b9219be28c2e429f30f))
+* **typography:** dodano dokumentację dla komponentów typograficznych oraz nowy plik typography.md ([dc11312](https://github.com/zse-gdansk/ui/commit/dc11312678b6dc4f9dfd0da3a518e4b7855b1856))
+* **typography:** dodano komponenty Text, Heading, Strong, Code i Prose z odpowiednimi stylami oraz przykładem użycia w TypographyDemo ([b5ec623](https://github.com/zse-gdansk/ui/commit/b5ec623c2992a56c2e2833b0026a71af90111a42))
+* wirtualizacja długich list w Table i PhotoField z kadrowaniem zdjęć ([a727b58](https://github.com/zse-gdansk/ui/commit/a727b58f10632d0497e98f042e336e8f2dd0b26a))
+
+
+### Poprawki
+
+* **input:** fokus pól i przycisków jako ramka zamiast poświaty ([53bfc70](https://github.com/zse-gdansk/ui/commit/53bfc7074f7b2ab3e7a3f9f324ab0ba4f70606b8))
+* **input:** jeden styl fokusu pól z poświatą zamiast podwójnego obrysu ([28c0d94](https://github.com/zse-gdansk/ui/commit/28c0d9401781f7bbcbf7975f10df18b1376ba74f))
+* **input:** poprawiono migotanie poświaty przy otwieraniu listy w polach formularza ([2c9d464](https://github.com/zse-gdansk/ui/commit/2c9d464cb1d276cc2d2fee93230de432807e51a4))
+* **segmented:** szyna i suwak widoczne na każdym tle w ciemnym motywie ([eb28e69](https://github.com/zse-gdansk/ui/commit/eb28e6974797e67b7c5a447e055ae4492c97392c))
+* **table-actions:** usunięto revealOnHover i poprawiono widoczność nagłówka akcji ([f7ccf68](https://github.com/zse-gdansk/ui/commit/f7ccf6842ea5c667794638d2512882ad0b33a2e9))
+
 ## [1.1.0](https://github.com/zse-gdansk/ui/compare/v1.0.0...v1.1.0) (2026-09-26)
 
 
