@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/zse-gdansk/ui/compare/v1.6.0...v1.7.0) (2026-09-27)
+
+
+### Nowe funkcje
+
+* **form, stepper, i18n:** dodano obsługę komunikatów błędów jako elementów, które tłumaczą się przy zmianie języka ([5a7694a](https://github.com/zse-gdansk/ui/commit/5a7694a44b949537d87acc6ce637a95c328e300c))
+
 ## [1.6.0](https://github.com/zse-gdansk/ui/compare/v1.5.0...v1.6.0) (2026-09-27)
 
 
