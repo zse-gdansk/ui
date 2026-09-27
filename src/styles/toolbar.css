@@ -1,0 +1,195 @@
+.zse-toolbar {
+    --toolbar-item: 36px;
+    --toolbar-pad: 4px;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+.zse-toolbar[data-size="sm"] {
+    --toolbar-item: 32px;
+}
+
+.zse-toolbar[data-orientation="vertical"] {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    width: max-content;
+}
+
+/* Ramka oznacza strukturę (pasek nad edytorem albo tabelą), więc zostaje.
+   Promień zewnętrzny = promień pozycji + odstęp + ramka. */
+.zse-toolbar[data-variant="outline"] {
+    padding: var(--toolbar-pad);
+    border: 1px solid var(--color-border);
+    border-radius: calc(var(--radius-md) + var(--toolbar-pad) + 1px);
+}
+
+.zse-toolbar[data-variant="floating"] {
+    width: max-content;
+    max-width: 100%;
+    padding: var(--toolbar-pad);
+    border-radius: calc(var(--radius-md) + var(--toolbar-pad));
+    background: var(--color-bg-raised);
+    background-clip: padding-box;
+    box-shadow: var(--shadow-popover);
+}
+
+.zse-toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.zse-toolbar[data-orientation="vertical"] .zse-toolbar-group {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.zse-toolbar-item {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    box-sizing: border-box;
+    height: var(--toolbar-item);
+    min-width: var(--toolbar-item);
+    padding: 0 10px;
+    border: 0;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--color-text-secondary);
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    /* Nie 1: ogonki ą, ę, y w napisach. */
+    line-height: 1.3;
+    white-space: nowrap;
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: scale 160ms var(--ease-out);
+}
+
+.zse-toolbar[data-size="sm"] .zse-toolbar-item {
+    padding: 0 8px;
+}
+
+.zse-toolbar-item[data-icon-only] {
+    width: var(--toolbar-item);
+    padding: 0;
+}
+
+.zse-toolbar[data-orientation="vertical"]
+    .zse-toolbar-item:not([data-icon-only]) {
+    justify-content: flex-start;
+}
+
+@media (hover: hover) {
+    .zse-toolbar-item:not(
+            [data-disabled],
+            [data-pressed],
+            [data-popup-open]
+        ):hover {
+        background: var(--color-bg-tint);
+        color: var(--color-text);
+    }
+}
+
+/* Wciśnięty przełącznik i otwarte menu: tło i pełny kolor tekstu, bez
+   zmiany grubości. */
+.zse-toolbar-item[data-pressed],
+.zse-toolbar-item[data-popup-open] {
+    background: var(--color-bg-active);
+    color: var(--color-text);
+}
+
+.zse-toolbar-item:not([data-disabled]):active {
+    scale: 0.96;
+}
+
+.zse-toolbar-item:focus-visible {
+    box-shadow: var(--focus-ring);
+}
+
+/* Wyłączony zostaje osiągalny strzałkami (Base UI), więc bez
+   pointer-events: none, tylko przygaszony. */
+.zse-toolbar-item[data-disabled] {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.zse-toolbar-icon {
+    flex: none;
+    width: 16px;
+    height: 16px;
+}
+
+.zse-toolbar-swap {
+    display: grid;
+}
+
+.zse-toolbar-swap > .zse-toolbar-icon {
+    grid-area: 1 / 1;
+    transition-property: opacity, scale, filter;
+    transition-duration: 300ms;
+    transition-timing-function: var(--ease-standard);
+}
+
+.zse-toolbar-item:not([data-pressed]) .zse-toolbar-icon[data-when="on"],
+.zse-toolbar-item[data-pressed] .zse-toolbar-icon[data-when="off"] {
+    opacity: 0;
+    scale: 0.25;
+    filter: blur(4px);
+}
+
+.zse-toolbar-separator {
+    flex: none;
+    align-self: center;
+    width: 1px;
+    height: 20px;
+    margin-inline: 2px;
+    background: var(--color-separator);
+}
+
+.zse-toolbar-separator[data-orientation="horizontal"] {
+    align-self: stretch;
+    width: auto;
+    height: 1px;
+    margin: 2px 0;
+}
+
+.zse-toolbar-spacer {
+    flex: 1;
+}
+
+/* Pola dotyku około 40px. Sąsiednie pozycje stoją 2px od siebie, więc
+   powiększone pole z ::before nachodziłoby na sąsiada. */
+@media (pointer: coarse) {
+    .zse-toolbar,
+    .zse-toolbar[data-size="sm"] {
+        --toolbar-item: 40px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-toolbar-item:not([data-disabled]):active {
+        scale: 1;
+    }
+
+    .zse-toolbar-swap > .zse-toolbar-icon {
+        transition-property: opacity;
+    }
+
+    .zse-toolbar-item .zse-toolbar-icon {
+        scale: 1 !important;
+        filter: none !important;
+    }
+}

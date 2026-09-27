@@ -79,6 +79,7 @@ import { TimeDemo } from "./TimeDemo";
 import { TimelineDemo } from "./TimelineDemo";
 import { TimetableDemo } from "./TimetableDemo";
 import { ToggleDemo } from "./ToggleDemo";
+import { ToolbarDemo } from "./ToolbarDemo";
 import { UploadDemo } from "./UploadDemo";
 import { VirtualTableDemo } from "./VirtualTableDemo";
 import { VoteDemo } from "./VoteDemo";
@@ -482,6 +483,8 @@ export function App() {
             <InputGroupDemo />
 
             <ToggleDemo />
+
+            <ToolbarDemo />
 
             <StepperDemo />
 

@@ -33,7 +33,8 @@ export interface MenuProps {
     align?: Align;
 }
 
-function Popup({
+// Wspólne okno menu, także dla ToolbarMenu (poza eksportem paczki).
+export function MenuPopup({
     children,
     side,
     align,
@@ -79,9 +80,9 @@ export function Menu({
             })}
         >
             <BaseMenu.Trigger render={trigger} />
-            <Popup side={side} align={align} sideOffset={6} alignOffset={0}>
+            <MenuPopup side={side} align={align} sideOffset={6} alignOffset={0}>
                 {children}
-            </Popup>
+            </MenuPopup>
         </BaseMenu.Root>
     );
 }
@@ -340,14 +341,14 @@ export function MenuSub({
                     className="zse-menu-chevron"
                 />
             </BaseMenu.SubmenuTrigger>
-            <Popup
+            <MenuPopup
                 side="inline-end"
                 align="start"
                 sideOffset={9}
                 alignOffset={-5}
             >
                 {children}
-            </Popup>
+            </MenuPopup>
         </BaseMenu.SubmenuRoot>
     );
 }

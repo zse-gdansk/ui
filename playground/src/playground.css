@@ -486,3 +486,16 @@ body {
 .hovercard-demo-event span {
     color: var(--color-text-secondary);
 }
+
+.toolbar-demo {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.toolbar-demo-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 24px;
+}
