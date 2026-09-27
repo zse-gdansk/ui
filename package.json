@@ -30,6 +30,10 @@
             "types": "./dist/code-block.d.ts",
             "default": "./dist/code-block.js"
         },
+        "./charts": {
+            "types": "./dist/charts.d.ts",
+            "default": "./dist/charts.js"
+        },
         "./styles.css": {
             "types": "./dist/styles/index.d.css.ts",
             "default": "./dist/styles/index.css"
@@ -67,6 +71,7 @@
         "@types/react": "^19.3.0",
         "@types/react-dom": "^19.3.0",
         "culori": "^4.0.2",
+        "echarts": "^6.1.0",
         "lefthook": "^2.1.14",
         "oxfmt": "^0.70.0",
         "oxlint": "^1.85.0",
@@ -76,12 +81,16 @@
         "typescript": "^7.0.2"
     },
     "peerDependencies": {
+        "echarts": "^6.1.0",
         "react": "^19.3.0",
         "react-dom": "^19.3.0",
         "shiki": "^4.4.3"
     },
     "peerDependenciesMeta": {
         "shiki": {
+            "optional": true
+        },
+        "echarts": {
             "optional": true
         }
     }

@@ -351,3 +351,29 @@ body {
     gap: 16px;
     max-width: 640px;
 }
+
+.charts-demo {
+    display: grid;
+    gap: 16px;
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 16px;
+}
+
+.chart-card {
+    display: grid;
+    gap: 12px;
+    padding: 16px 20px 20px;
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-surface);
+    box-shadow: var(--shadow-card);
+}
+
+.chart-card h3 {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+}

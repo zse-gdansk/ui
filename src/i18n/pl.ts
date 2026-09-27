@@ -187,6 +187,10 @@ export const pl: Messages = {
         moreActions: "Więcej akcji",
     },
     userMenu: { label: (name) => `Konto: ${name}` },
+    chart: {
+        empty: "Brak danych do wykresu",
+        total: "Razem",
+    },
     timeline: {
         today: "Dziś",
         yesterday: "Wczoraj",

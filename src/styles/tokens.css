@@ -57,6 +57,27 @@
 :root,
 [data-theme="light"] {
     --color-bg-raised: var(--gray-1);
+    /* Kolory serii wykresów w stałej kolejności (nigdy cyklicznie),
+       sprawdzone skryptem dataviz na tle --color-bg-surface: sąsiednie pary
+       rozróżnialne przy daltonizmie (ΔE ≥ 8,4) i bez niego (ΔE ≥ 19,3).
+       W jasnym motywie 3, 4 i 5 mają kontrast < 3:1, więc wykres zawsze
+       ma tabelę danych. */
+    --chart-1: oklch(57.5% 0.163 255.5);
+    --chart-2: oklch(67.1% 0.175 40.6);
+    --chart-3: oklch(66.9% 0.141 162.1);
+    --chart-4: oklch(76.4% 0.161 75.1);
+    --chart-5: oklch(71.6% 0.141 357.4);
+    --chart-6: oklch(52.9% 0.18 142.5);
+    --chart-7: oklch(43.3% 0.167 283.6);
+    --chart-8: oklch(62.3% 0.191 24.9);
+    /* Skala z biegunami (tak ↔ nie): niebieski i pomarańczowy, bo zieleń
+       z czerwienią dla deuteranopii ma ΔE 1,2. Mocny na krańcu, jasny
+       przy środku, neutralny środek szary. Sprawdzone (all pairs) na tle. */
+    --chart-positive-strong: oklch(48% 0.15 255);
+    --chart-positive-light: oklch(71% 0.11 255);
+    --chart-negative-light: oklch(75% 0.12 55);
+    --chart-negative-strong: oklch(60% 0.17 45);
+    --chart-neutral: var(--gray-8);
     --color-bg-surface: var(--gray-1);
     --color-bg-elevated: var(--gray-4);
     --color-bg-tint: oklch(0% 0 0 / 6%);
@@ -75,6 +96,19 @@
 
 [data-theme="dark"] {
     --color-bg-raised: var(--gray-3);
+    --chart-1: oklch(62.2% 0.161 255.1);
+    --chart-2: oklch(62.2% 0.173 40.1);
+    --chart-3: oklch(62.1% 0.128 163.1);
+    --chart-4: oklch(67% 0.143 73.2);
+    --chart-5: oklch(62.2% 0.171 0.8);
+    --chart-6: oklch(52.9% 0.18 142.5);
+    --chart-7: oklch(67% 0.145 286.8);
+    --chart-8: oklch(66.9% 0.159 22.3);
+    --chart-positive-strong: oklch(50% 0.15 255);
+    --chart-positive-light: oklch(65% 0.12 255);
+    --chart-negative-light: oklch(66% 0.13 58);
+    --chart-negative-strong: oklch(52% 0.17 40);
+    --chart-neutral: var(--gray-8);
     --color-bg-surface: var(--gray-2);
     --color-bg-elevated: var(--gray-4);
     --color-bg-tint: oklch(100% 0 0 / 8%);

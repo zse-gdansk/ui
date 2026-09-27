@@ -155,6 +155,23 @@ Części panelu czytają `useAppShell()`: `collapsed` i `inDrawer` (w wysuwanym 
 | `Icon`                                            | –                      | owijka Hugeicons                                                                                                                                                                                                                                                                                                                                       |
 | `LocaleSwitcher`, `LocaleSubmenu`                 | Menu                   | nazwy języków z `Intl.DisplayNames` (własna + w języku interfejsu), spinner do końca obietnicy `onValueChange`, flagi z `flags` (np. country-flag-icons), bez zależności od i18next; `LocaleSubmenu` to samo jako podmenu (np. w `UserMenu`) z bieżącym językiem obok etykiety, stan wczytywania przeżywa zamknięcie menu                              |
 
+## Wykresy
+
+Osobne wejście `@zse-gdansk/ui/charts`, na ECharts 6 (opcjonalna zależność peer: aplikacja bez wykresów go nie instaluje). Kolory serii to tokeny `--chart-1` do `--chart-8`, w stałej kolejności i sprawdzone skryptem dataviz w obu motywach. Motyw i akcent wykres czyta z tokenów na nowo przy każdej zmianie `data-theme`. Każdy wykres ma tabelę danych dla czytnika, pusty stan, szkielet przy pierwszym `loading` i przygaszenie przy odświeżaniu, a przy `prefers-reduced-motion` rysuje się bez animacji.
+
+| Komponent    | Najważniejsze                                                                                                                                                                                                                                                                                                          |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `BarChart`   | słupki najwyżej 24px, zaokrąglony koniec danych, oś od zera; `horizontal` (głosowania z długimi nazwami), `stacked` z 2px przerwy tła między segmentami                                                                                                                                                                |
+| `LineChart`  | linie 2px, znaczniki 8px z pierścieniem w kolorze tła przy najechaniu, ciągły celownik i tooltip ze wszystkimi seriami; oś dopasowana do danych, a z `area` (wypełnienie 10%) od zera; `curve` bez przestrzelenia wartości                                                                                             |
+| `DonutChart` | udział w całości, suma na środku, kawałki rozdzielone 2px, legenda zawsze; najwyżej kilka kawałków, resztę złóż w „Inne”; `palette="diverging"` dla odpowiedzi z biegunami (Tak → Nie): niebieski i pomarańczowy, mocne na krańcach, szary środek przy nieparzystej liczbie; `color` na kawałku (także `var(--token)`) |
+| `Chart`      | rdzeń: własne opcje ECharts budowane z motywu (`option={(theme) => …}`), dla typów spoza gotowych; `renderer` canvas albo svg, `texture` do druku i dla daltonistów                                                                                                                                                    |
+
+Wspólne propsy gotowych wykresów: `data`, `x` (kolumna kategorii), `series` (`{ key, label }` w stałej kolejności, kolor idzie za serią), `format` i `formatX`, `xLabel` (nagłówek w tabeli danych), `label` (nazwa dla czytnika), `height`, `loading`.
+
+Zieleń z czerwienią nie nadaje się na bieguny: przy deuteranopii ΔE 1,2, dlatego skala z biegunami to niebieski i pomarańczowy (tokeny `--chart-positive-*`, `--chart-negative-*`, `--chart-neutral`, sprawdzone na wszystkich parach w obu motywach).
+
+W jasnym motywie kolory 3, 4 i 5 mają kontrast z tłem poniżej 3:1, dlatego tożsamość serii nigdy nie opiera się tylko na kolorze: legenda przy dwóch i więcej seriach, tooltip i tabela danych.
+
 ## Narzędzia
 
 | Eksport                                         | Co robi                                                              |

@@ -1,7 +1,7 @@
 import { defineConfig } from "tsdown";
 
 export default defineConfig({
-    entry: ["src/index.ts", "src/code-block.ts"],
+    entry: ["src/index.ts", "src/code-block.ts", "src/charts.ts"],
     format: "esm",
     platform: "browser",
     unbundle: true,

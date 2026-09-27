@@ -33,7 +33,7 @@ export function Save() {
 }
 ```
 
-Motyw ustawia atrybut `data-theme="light"` albo `"dark"` na `<html>`. `CodeBlock` jest w osobnym wejściu `@zse-gdansk/ui/code-block` i wymaga zainstalowanego `shiki`.
+Motyw ustawia atrybut `data-theme="light"` albo `"dark"` na `<html>`. `CodeBlock` jest w osobnym wejściu `@zse-gdansk/ui/code-block` i wymaga zainstalowanego `shiki`. Wykresy są w wejściu `@zse-gdansk/ui/charts` i wymagają `echarts` (`bun add echarts`).
 
 ## Zmiany
 

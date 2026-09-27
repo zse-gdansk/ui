@@ -41,6 +41,7 @@ import { AvatarDemo } from "./AvatarDemo";
 import { BadgeDemo } from "./BadgeDemo";
 import { BreadcrumbsDemo } from "./BreadcrumbsDemo";
 import { CalendarDemo } from "./CalendarDemo";
+import { ChartsDemo } from "./ChartsDemo";
 import { CodeDemo } from "./CodeDemo";
 import { CodeBlockDemo } from "./CodeDemo2";
 import { ComboboxDemo } from "./ComboboxDemo";
@@ -498,6 +499,8 @@ export function App() {
             <TagDemo />
 
             <TimelineDemo />
+
+            <ChartsDemo />
 
             <CodeDemo />
 
