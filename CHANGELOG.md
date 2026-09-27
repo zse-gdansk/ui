@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/zse-gdansk/ui/compare/v1.5.0...v1.6.0) (2026-09-27)
+
+
+### Nowe funkcje
+
+* **i18n:** dodano wsparcie dla języka angielskiego oraz zaktualizowano dokumentację ([cf86e7f](https://github.com/zse-gdansk/ui/commit/cf86e7ff284b0888a92f7fe3e2068db91dc48af8))
+
 ## [1.5.0](https://github.com/zse-gdansk/ui/compare/v1.4.0...v1.5.0) (2026-09-27)
 
 
