@@ -69,6 +69,7 @@ import { SkeletonDemo } from "./SkeletonDemo";
 import { SliderDemo } from "./SliderDemo";
 import { StatDemo } from "./StatDemo";
 import { StepperDemo } from "./StepperDemo";
+import { SurveyDemo } from "./SurveyDemo";
 import { TableDemo } from "./TableDemo";
 import { TagDemo } from "./TagDemo";
 import { TimeDemo } from "./TimeDemo";
@@ -505,6 +506,8 @@ export function App() {
             <EventsDemo />
 
             <RankDemo />
+
+            <SurveyDemo />
 
             <QRDemo />
 

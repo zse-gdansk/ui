@@ -37,6 +37,15 @@ export interface Messages {
         empty: string;
         emptyFor: (query: string) => string;
     };
+    survey: {
+        // Gotowe skale, od najbardziej pozytywnej.
+        agreement: readonly string[];
+        yesNo: readonly string[];
+        frequency: readonly string[];
+        // Błąd pytania bez odpowiedzi w SurveyMatrix.
+        missing: string;
+        question: string;
+    };
     rankList: {
         // Dla czytnika: jak przestawiać z klawiatury.
         instructions: string;

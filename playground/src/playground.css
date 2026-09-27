@@ -442,3 +442,9 @@ body {
     list-style: none;
     word-break: break-all;
 }
+
+.survey-demo {
+    display: grid;
+    gap: 28px;
+    max-width: 760px;
+}

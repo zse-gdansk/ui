@@ -413,3 +413,14 @@ export {
     type CalendarEventType,
     type EventCalendarProps,
 } from "./components/event-calendar/EventCalendar";
+export {
+    LikertScale,
+    type LikertScaleProps,
+} from "./components/survey/LikertScale";
+export {
+    SurveyMatrix,
+    type SurveyAnswers,
+    type SurveyMatrixProps,
+    type SurveyQuestion,
+} from "./components/survey/SurveyMatrix";
+export type { SurveyOption, SurveyScale } from "./components/survey/scale";

@@ -44,6 +44,19 @@ export const pl: Messages = {
         empty: "Brak wyników",
         emptyFor: (query) => `Brak wyników dla „${query}”`,
     },
+    survey: {
+        agreement: [
+            "Zdecydowanie tak",
+            "Raczej tak",
+            "Nie wiem",
+            "Raczej nie",
+            "Zdecydowanie nie",
+        ],
+        yesNo: ["Tak", "Nie"],
+        frequency: ["Zawsze", "Często", "Czasami", "Rzadko", "Nigdy"],
+        missing: "Odpowiedz na to pytanie",
+        question: "Pytanie",
+    },
     rankList: {
         instructions:
             "Spacja podnosi pozycję, strzałki w górę i w dół ją przesuwają, Spacja upuszcza, Escape anuluje.",
