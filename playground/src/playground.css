@@ -7,6 +7,9 @@ body {
 
 .page {
     display: grid;
+    /* Kolumna na szerokość ekranu: bez minmax rosła do najszerszego demo
+       (894 px na telefonie) i rozpychała całą stronę. */
+    grid-template-columns: minmax(0, 1fr);
     gap: 32px;
     max-width: 960px;
     margin: 0 auto;
