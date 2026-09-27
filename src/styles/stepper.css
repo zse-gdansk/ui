@@ -301,6 +301,11 @@
     gap: 8px;
 }
 
+/* visibility zabiera też z kolejności Tab i z drzewa dostępności. */
+.zse-stepper-back[data-first] {
+    visibility: hidden;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .zse-stepper-line::after,
     .zse-stepper-segments > span::after,

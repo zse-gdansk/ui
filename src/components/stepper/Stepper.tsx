@@ -41,6 +41,9 @@ export interface StepperProps {
     backLabel?: string;
     nextLabel?: string;
     finishLabel?: string;
+    // Wstecz na pierwszym kroku: hidden niewidoczny (trzyma miejsce, Dalej
+    // nie przeskakuje), disabled widoczny i wyłączony.
+    firstStepBack?: "hidden" | "disabled";
 }
 
 // Krok, na który się weszło, ma od razu kawałek paska: widać, że trwa.
@@ -130,6 +133,7 @@ export function Stepper({
     backLabel,
     nextLabel,
     finishLabel,
+    firstStepBack = "hidden",
 }: StepperProps) {
     const t = useMessages();
     const [internal, setInternal] = useState(defaultStep);
@@ -403,8 +407,14 @@ export function Stepper({
                     </p>
                 )}
                 <div className="zse-stepper-actions">
+                    {/* Na pierwszym kroku nie ma dokąd wrócić (firstStepBack). */}
                     <Button
                         variant="ghost"
+                        className="zse-stepper-back"
+                        data-first={
+                            (firstStepBack === "hidden" && current === 0) ||
+                            undefined
+                        }
                         disabled={current === 0 || busy || done}
                         onClick={() => go(current - 1)}
                     >
