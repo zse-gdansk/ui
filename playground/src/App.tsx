@@ -59,6 +59,7 @@ import { MenuDemo } from "./MenuDemo";
 import { MiscDemo } from "./MiscDemo";
 import { NumberDemo } from "./NumberDemo";
 import { PaginationDemo } from "./PaginationDemo";
+import { PhotoDemo } from "./PhotoDemo";
 import { PopoverDemo } from "./PopoverDemo";
 import { ProgressDemo } from "./ProgressDemo";
 import { QRDemo } from "./QRDemo";
@@ -78,6 +79,7 @@ import { TimelineDemo } from "./TimelineDemo";
 import { TimetableDemo } from "./TimetableDemo";
 import { ToggleDemo } from "./ToggleDemo";
 import { UploadDemo } from "./UploadDemo";
+import { VirtualTableDemo } from "./VirtualTableDemo";
 import { VoteDemo } from "./VoteDemo";
 
 const RAMPS = ["gray", "blue", "green", "orange", "red", "violet"] as const;
@@ -504,9 +506,13 @@ export function App() {
 
             <TimetableDemo />
 
+            <VirtualTableDemo />
+
             <EventsDemo />
 
             <RankDemo />
+
+            <PhotoDemo />
 
             <SurveyDemo />
 

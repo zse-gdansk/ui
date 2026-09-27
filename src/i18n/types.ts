@@ -37,6 +37,21 @@ export interface Messages {
         empty: string;
         emptyFor: (query: string) => string;
     };
+    photo: {
+        choose: string;
+        change: string;
+        remove: string;
+        // Tytuł okna kadrowania.
+        crop: string;
+        // Nazwa kadru dla czytnika, z instrukcją klawiszy.
+        frame: string;
+        hint: string;
+        zoom: string;
+        rotate: string;
+        save: string;
+        notImage: string;
+        drop: string;
+    };
     notifications: {
         label: string;
         // Nazwa dzwonka dla czytnika z liczbą nieprzeczytanych.

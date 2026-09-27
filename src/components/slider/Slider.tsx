@@ -2,9 +2,10 @@
 
 import { Field } from "@base-ui/react/field";
 import { Slider as BaseSlider } from "@base-ui/react/slider";
-import { useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { useDomEffect, useResizeObserver } from "../../utils/effects";
 import { FieldFooter } from "../field/FieldFooter";
 
 export interface SliderMark {
@@ -32,6 +33,9 @@ export interface SliderProps {
     format?: Intl.NumberFormatOptions;
     // Wartość w nagłówku obok etykiety.
     showValue?: boolean;
+    // Dymek z wartością nad uchwytem przy przeciąganiu i najechaniu; false,
+    // gdy wartość i tak stoi obok etykiety, a dymek by ją zasłaniał.
+    bubble?: boolean;
     name?: string;
     disabled?: boolean;
 }
@@ -51,6 +55,7 @@ export function Slider({
     marks,
     format,
     showValue = true,
+    bubble = true,
     name,
     disabled = false,
 }: SliderProps) {
@@ -62,6 +67,34 @@ export function Slider({
     const values = Array.isArray(current) ? current : [current];
     const formatter = new Intl.NumberFormat(t.locale, format);
     const text = values.map((item) => formatter.format(item)).join("–");
+    const controlRef = useRef<HTMLDivElement>(null);
+
+    // Dymek nad uchwytem nie wychodzi poza suwak: przy krańcach przesuwa się
+    // do środka, więc karta albo okno z overflow go nie ucina.
+    const fitBubbles = () => {
+        const control = controlRef.current;
+        if (!control) return;
+        const bounds = control.getBoundingClientRect();
+        for (const tip of control.querySelectorAll<HTMLElement>(
+            ".zse-slider-bubble",
+        )) {
+            const thumb = tip.parentElement?.getBoundingClientRect();
+            if (!thumb) continue;
+            const width = tip.offsetWidth;
+            const center = thumb.left + thumb.width / 2;
+            const left = Math.min(
+                Math.max(center - width / 2, bounds.left),
+                bounds.right - width,
+            );
+            tip.style.setProperty(
+                "--bubble-shift",
+                `${left - (center - width / 2)}px`,
+            );
+        }
+    };
+    useDomEffect(fitBubbles);
+    useResizeObserver(controlRef, fitBubbles);
+
     const position = (item: number) =>
         `${((item - min) / (max - min || 1)) * 100}%`;
 
@@ -103,7 +136,10 @@ export function Slider({
                         )}
                     </div>
                 )}
-                <BaseSlider.Control className="zse-slider-control">
+                <BaseSlider.Control
+                    ref={controlRef}
+                    className="zse-slider-control"
+                >
                     <BaseSlider.Track className="zse-slider-track">
                         <BaseSlider.Indicator className="zse-slider-indicator" />
                         {values.map((item, thumb) => (
@@ -128,9 +164,14 @@ export function Slider({
                                         : null
                                 }
                             >
-                                <span className="zse-slider-bubble" aria-hidden>
-                                    {formatter.format(item)}
-                                </span>
+                                {bubble && (
+                                    <span
+                                        className="zse-slider-bubble"
+                                        aria-hidden
+                                    >
+                                        {formatter.format(item)}
+                                    </span>
+                                )}
                             </BaseSlider.Thumb>
                         ))}
                     </BaseSlider.Track>

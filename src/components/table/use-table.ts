@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type ReactNode } from "react";
+import { useDeferredValue, useMemo, useState, type ReactNode } from "react";
 
 import { useMessages } from "../../i18n/context";
 import { createSearch, type Range, type SearchKey } from "../../search/search";
@@ -60,6 +60,9 @@ export interface UseTableOptions<Row> {
     // Klucz wiersza do zaznaczania. Bez niego liczy się obiekt, więc
     // zaznaczenie znika, gdy wiersz dostaje nowy obiekt po edycji.
     getRowId?: (row: Row) => string | number;
+    // false: wszystkie pasujące wiersze naraz, bez stron, np. do długiej
+    // listy z useVirtualRows.
+    paginate?: boolean;
 }
 
 export interface TableFilterFacet {
@@ -136,6 +139,7 @@ export function useTable<Row>({
     manual = false,
     total: manualTotal,
     getRowId,
+    paginate = true,
 }: UseTableOptions<Row>) {
     const t = useMessages();
     const [inner, setInner] = useState<TableState>(() => ({
@@ -153,13 +157,30 @@ export function useTable<Row>({
         onStateChange?.(next);
     };
 
+    // Indeks wyszukiwania raz na dane i klucze, nie przy każdym znaku.
+    // Klucze po nazwach, więc tablica pisana w miejscu nie przebudowuje go
+    // przy każdym renderze.
+    const keysSignature = search
+        ?.map((key) => (typeof key === "string" ? key : key.name))
+        .join("\u0000");
+    const searcher = useMemo(
+        () =>
+            !manual && search?.length
+                ? createSearch(data, { keys: search })
+                : null,
+        // oxlint-disable-next-line react-hooks/exhaustive-deps -- klucze po nazwach
+        [data, keysSignature, manual],
+    );
+    // Dopasowanie z opóźnieniem względem pisania: pole reaguje od razu, a
+    // przy tysiącach wierszy lista dogania w następnym renderze.
+    const deferredQuery = useDeferredValue(state.query);
+
     // Wyszukiwanie: zbiór pasujących wierszy z wynikiem i zakresami.
     const matches = useMemo(() => {
-        const query = state.query.trim();
-        if (manual || !search || !query) return null;
-        const results = createSearch(data, { keys: search })(query);
-        return new Map(results.map((result) => [result.item, result]));
-    }, [data, search, state.query, manual]);
+        const query = deferredQuery.trim();
+        if (!searcher || !query) return null;
+        return new Map(searcher(query).map((result) => [result.item, result]));
+    }, [searcher, deferredQuery]);
 
     const filterEntries = Object.entries(filters);
 
@@ -201,12 +222,16 @@ export function useTable<Row>({
     }
 
     const total = manual ? (manualTotal ?? data.length) : sorted.length;
-    const pageCount = Math.max(1, Math.ceil(total / state.pageSize));
+    const pageCount = paginate
+        ? Math.max(1, Math.ceil(total / state.pageSize))
+        : 1;
     // Strona poza zakresem (np. po odfiltrowaniu) pokazuje ostatnią.
     const page = Math.min(Math.max(state.page, 1), pageCount);
     const rows = manual
         ? data
-        : sorted.slice((page - 1) * state.pageSize, page * state.pageSize);
+        : paginate
+          ? sorted.slice((page - 1) * state.pageSize, page * state.pageSize)
+          : sorted;
 
     // Zaznaczone liczą się tylko wśród pasujących, więc akcja zbiorcza nie
     // obejmie wiersza ukrytego filtrem.

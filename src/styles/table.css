@@ -97,9 +97,19 @@
 }
 
 /* :where, żeby hover i zaznaczenie zawsze wygrywały z pasem. */
-.zse-table[data-striped]
-    :where(.zse-table-body .zse-table-row:nth-child(even)) {
+.zse-table[data-striped]:not([data-virtual])
+    :where(.zse-table-body .zse-table-row:nth-child(even)),
+.zse-table[data-striped][data-virtual]
+    :where(.zse-table-body .zse-table-row[data-stripe]) {
     --table-row-bg: var(--table-stripe-bg);
+}
+
+/* Puste wiersze wirtualnej listy: tylko wysokość, bez ramek i tła. */
+.zse-table-spacer,
+.zse-table-spacer > td {
+    padding: 0;
+    border: 0;
+    background: transparent;
 }
 
 @media (hover: hover) {

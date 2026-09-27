@@ -7,6 +7,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import {
     useState,
+    type ComponentProps,
     type CSSProperties,
     type HTMLAttributes,
     type KeyboardEvent,
@@ -162,10 +163,8 @@ export function TableHeader({
     return <thead {...props} className={cx("zse-table-header", className)} />;
 }
 
-export function TableBody({
-    className,
-    ...props
-}: HTMLAttributes<HTMLTableSectionElement>) {
+// ComponentProps z ref: useVirtualRows mierzy tbody.
+export function TableBody({ className, ...props }: ComponentProps<"tbody">) {
     return <tbody {...props} className={cx("zse-table-body", className)} />;
 }
 

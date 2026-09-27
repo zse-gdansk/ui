@@ -105,7 +105,7 @@
     opacity: 0;
     pointer-events: none;
     scale: 0.9;
-    translate: -50% 4px;
+    translate: calc(-50% + var(--bubble-shift, 0px)) 4px;
     transform-origin: bottom center;
     transition:
         opacity 150ms var(--ease-out),
@@ -117,14 +117,14 @@
 .zse-slider-thumb:has(:focus-visible) .zse-slider-bubble {
     opacity: 1;
     scale: 1;
-    translate: -50% 0;
+    translate: calc(-50% + var(--bubble-shift, 0px)) 0;
 }
 
 @media (hover: hover) {
     .zse-slider-thumb:hover .zse-slider-bubble {
         opacity: 1;
         scale: 1;
-        translate: -50% 0;
+        translate: calc(-50% + var(--bubble-shift, 0px)) 0;
     }
 }
 

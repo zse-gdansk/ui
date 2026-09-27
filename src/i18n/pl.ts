@@ -44,6 +44,19 @@ export const pl: Messages = {
         empty: "Brak wyników",
         emptyFor: (query) => `Brak wyników dla „${query}”`,
     },
+    photo: {
+        choose: "Wybierz zdjęcie",
+        change: "Zmień zdjęcie",
+        remove: "Usuń",
+        crop: "Kadrowanie zdjęcia",
+        frame: "Kadr zdjęcia. Strzałki przesuwają, plus i minus powiększają.",
+        hint: "Przeciągnij, żeby ustawić kadr",
+        zoom: "Powiększenie",
+        rotate: "Obróć",
+        save: "Zapisz",
+        notImage: "To nie jest plik obrazu",
+        drop: "Upuść zdjęcie",
+    },
     notifications: {
         label: "Powiadomienia",
         trigger: (unread) =>

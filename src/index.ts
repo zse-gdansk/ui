@@ -433,3 +433,17 @@ export {
     type NotificationCenterProps,
     type NotificationItem,
 } from "./components/notifications/NotificationCenter";
+export {
+    useVirtualRows,
+    type VirtualRows,
+    type VirtualRowsOptions,
+} from "./components/table/use-virtual-rows";
+export {
+    PhotoField,
+    type PhotoFieldProps,
+} from "./components/photo-field/PhotoField";
+export {
+    ImageCropper,
+    type CropHandle,
+    type ImageCropperProps,
+} from "./components/photo-field/ImageCropper";
