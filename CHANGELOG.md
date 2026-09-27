@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/zse-gdansk/ui/compare/v1.2.0...v1.2.1) (2026-09-27)
+
+
+### Poprawki
+
+* **typography:** poprawiono nazwę klasy z zse-code na zse-inline-code w komponencie Code ([fd8a4e7](https://github.com/zse-gdansk/ui/commit/fd8a4e7f3c5eeeae4b8632ea805071419bc7a94f))
+
 ## [1.2.0](https://github.com/zse-gdansk/ui/compare/v1.1.0...v1.2.0) (2026-09-27)
 
 
