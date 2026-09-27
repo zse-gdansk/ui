@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.0](https://github.com/zse-gdansk/ui/compare/v1.2.2...v1.3.0) (2026-09-27)
+
+
+### Nowe funkcje
+
+* **masked-input:** dodano komponent MaskedInput z obsługą masek dla pól tekstowych ([0f325a8](https://github.com/zse-gdansk/ui/commit/0f325a862102edc7a34c956b217aec1320bb5a27))
+* **masked-input:** uproszczono interfejs MaskedInput poprzez wprowadzenie obiektu mask ([68afe56](https://github.com/zse-gdansk/ui/commit/68afe568f98afc9e481efe8d2e461ec0629fb498))
+
 ## [1.2.2](https://github.com/zse-gdansk/ui/compare/v1.2.1...v1.2.2) (2026-09-27)
 
 
