@@ -24,9 +24,10 @@ import {
 
 import { useMessages } from "../../i18n/context";
 import { AppShellContext, SHORTCUT } from "../app-shell/AppShell";
+import { useHrefShortcut } from "../command/context";
 import { Icon, type IconGlyph } from "../icon/Icon";
 import { Menu, MenuGroup, MenuItem } from "../menu/Menu";
-import { formatShortcut } from "../menu/shortcut";
+import { formatSequence, formatShortcut } from "../menu/shortcut";
 import { ScrollArea } from "../scroll-area/ScrollArea";
 import { Tooltip, TooltipProvider } from "../tooltip/Tooltip";
 
@@ -353,8 +354,11 @@ export function SidebarItem({
     external = false,
     disabled = false,
 }: SidebarItemProps) {
+    const t = useMessages();
     const { rail } = useRail();
     const inMenu = useContext(InMenuContext);
+    // Skrót z palety poleceń dla tego adresu, w tooltipie zwiniętego panelu.
+    const shortcut = useHrefShortcut(href);
     const back = useContext(BackContext);
     const hint = external
         ? LinkSquare02Icon
@@ -435,7 +439,18 @@ export function SidebarItem({
     return (
         <li className="zse-sidebar-row">
             <Tooltip
-                content={children}
+                content={
+                    shortcut ? (
+                        <>
+                            {children}
+                            <kbd className="zse-shell-kbd">
+                                {formatSequence(shortcut, undefined, t.kbd)}
+                            </kbd>
+                        </>
+                    ) : (
+                        children
+                    )
+                }
                 side="right"
                 disabled={!rail}
                 touch="none"

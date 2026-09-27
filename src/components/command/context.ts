@@ -1,8 +1,9 @@
 "use client";
 
-import { createContext, useContext } from "react";
+import { createContext, useContext, useSyncExternalStore } from "react";
 
-import type { CommandStore } from "./store";
+import type { Shortcut } from "../menu/shortcut";
+import { flatten, type CommandStore } from "./store";
 import type { Command, CommandValues } from "./types";
 
 export type CommandPage =
@@ -28,6 +29,9 @@ export interface CommandState {
     navigate: (href: string) => void;
     recent: readonly string[];
     remember: (id: string) => void;
+    // Po animacji zamknięcia palety, np. żeby otworzyć okno skrótów bez
+    // walki dwóch okien o fokus.
+    onClosed: () => void;
 }
 
 export const CommandStateContext = createContext<CommandState | null>(null);
@@ -62,4 +66,27 @@ export function stepPage(
 export function pageFor(command: Command): CommandPage | null {
     if (command.children) return { kind: "list", command, query: "" };
     return stepPage(command, 0, {}, {});
+}
+
+const noStore = () => () => {};
+
+// Skrót polecenia prowadzącego pod ten adres, np. „g u” dla /uczniowie.
+// Panel pokazuje go w tooltipie bez powtarzania skrótów w dwóch miejscach.
+// Poza CommandProvider nic.
+export function useHrefShortcut(href: string | undefined) {
+    const store = useContext(CommandStateContext)?.store;
+    return useSyncExternalStore<Shortcut | undefined>(
+        store?.subscribe ?? noStore,
+        () => {
+            if (!store || href === undefined) return undefined;
+            const found = flatten(store.getSnapshot().commands).find(
+                ({ command }) =>
+                    command.href === href &&
+                    !command.disabled &&
+                    command.shortcut !== undefined,
+            )?.command.shortcut;
+            return typeof found === "string" ? found : found?.[0];
+        },
+        () => undefined,
+    );
 }

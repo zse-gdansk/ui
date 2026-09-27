@@ -19,7 +19,7 @@ import { useMessages } from "../../i18n/context";
 import { Breadcrumbs, type BreadcrumbsProps } from "../breadcrumbs/Breadcrumbs";
 import { Icon, type IconGlyph } from "../icon/Icon";
 import { Menu, MenuItem } from "../menu/Menu";
-import { formatShortcut, useShortcut, type Shortcut } from "../menu/shortcut";
+import { formatSequence, useShortcut, type Shortcut } from "../menu/shortcut";
 import { Tooltip } from "../tooltip/Tooltip";
 import { AppShellTrigger, HeaderSlotContext } from "./AppShell";
 
@@ -159,7 +159,8 @@ export interface HeaderActionProps {
     href?: string;
     // Link z routera, np. <Link href="/powiadomienia" />.
     render?: ReactElement<Record<string, unknown>>;
-    // Np. "mod+k": działa globalnie i jest pokazany w tooltipie.
+    // Np. "mod+k": działa globalnie i jest pokazany w tooltipie. Sekwencje
+    // („g p”) rejestruj jako polecenie w useCommands; tu tylko akordy.
     shortcut?: Shortcut;
     // secondary: na telefonie znika z paska i trafia do menu „⋯”, np. motyw.
     // Domyślnie primary, zostaje zawsze (szukaj, powiadomienia).
@@ -242,7 +243,7 @@ export function HeaderAction({
                     {label}
                     {shortcut && (
                         <kbd className="zse-shell-kbd">
-                            {formatShortcut(shortcut, undefined, t.kbd)}
+                            {formatSequence(shortcut, undefined, t.kbd)}
                         </kbd>
                     )}
                 </>

@@ -334,6 +334,7 @@ export function CommandPalette({ placeholder }: CommandPaletteProps) {
         navigate,
         recent,
         remember,
+        onClosed,
     } = useCommandState();
     const { commands, sources } = useSyncExternalStore(
         store.subscribe,
@@ -743,6 +744,7 @@ export function CommandPalette({ placeholder }: CommandPaletteProps) {
                 setStack([ROOT]);
                 setError(null);
                 setBusy(null);
+                onClosed();
             }}
         >
             <Dialog.Portal>

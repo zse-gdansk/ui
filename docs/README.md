@@ -9,4 +9,5 @@ Punkt wejścia dla agentów i ludzi jest w [`AGENTS.md`](../AGENTS.md) w katalog
 - [forms.md](forms.md): `Form`, walidacja, jak pole trafia do formularza
 - [pitfalls.md](pitfalls.md): błędy, które już popełniliśmy
 - [components.md](components.md): spis komponentów
+- [commands.md](commands.md): paleta poleceń, akcje z krokami, skróty i ich umowa
 - [workflow.md](workflow.md): komendy, zależności, commity, sprawdzanie

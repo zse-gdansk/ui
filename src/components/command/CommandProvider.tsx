@@ -1,5 +1,6 @@
 "use client";
 
+import { KeyboardIcon } from "@hugeicons/core-free-icons";
 import {
     useEffect,
     useEffectEvent,
@@ -24,6 +25,7 @@ import {
     type CommandState,
 } from "./context";
 import { createSequencer, type Pending } from "./keys";
+import { ShortcutsDialog } from "./ShortcutsDialog";
 import { createCommandStore, emptySnapshot, flatten } from "./store";
 import type { Command, CommandContext, CommandSource } from "./types";
 
@@ -35,6 +37,8 @@ export interface CommandProviderProps {
     shortcut?: Shortcut | false;
     // Klucz localStorage ostatnio użytych poleceń; false bez pamiętania.
     recent?: string | false;
+    // Okno ze wszystkimi skrótami, też jako polecenie w palecie; false bez.
+    help?: Shortcut | false;
     placeholder?: string;
 }
 
@@ -62,6 +66,7 @@ export function CommandProvider({
     navigate = defaultNavigate,
     shortcut = "mod+k",
     recent: recentKey = "zse-command-recent",
+    help = "?",
     placeholder,
 }: CommandProviderProps) {
     const t = useMessages();
@@ -74,6 +79,38 @@ export function CommandProvider({
         readRecent(recentKey),
     );
     const [pending, setPending] = useState<Pending | null>(null);
+    const [helpOpen, setHelpOpen] = useState(false);
+    // Okno skrótów wybrane w palecie otwiera się dopiero po jej zamknięciu.
+    const helpQueued = useRef(false);
+    const paletteOpen = useRef(open);
+    useLayoutEffect(() => {
+        paletteOpen.current = open;
+    });
+
+    // Wbudowane polecenie „Skróty klawiszowe”, na końcu listy.
+    const [helpOwner] = useState(() => Symbol("help"));
+    useEffect(() => {
+        store.setCommands(
+            helpOwner,
+            help
+                ? [
+                      {
+                          id: "zse.shortcuts",
+                          title: t.command.shortcuts,
+                          icon: KeyboardIcon,
+                          group: t.command.help,
+                          shortcut: help,
+                          perform: () => {
+                              if (paletteOpen.current)
+                                  helpQueued.current = true;
+                              else setHelpOpen(true);
+                          },
+                      },
+                  ]
+                : null,
+        );
+        return () => store.setCommands(helpOwner, null);
+    }, [store, helpOwner, help, t.command.shortcuts, t.command.help]);
     const { commands } = useSyncExternalStore(
         store.subscribe,
         store.getSnapshot,
@@ -165,6 +202,11 @@ export function CommandProvider({
         navigate,
         recent,
         remember,
+        onClosed() {
+            if (!helpQueued.current) return;
+            helpQueued.current = false;
+            setHelpOpen(true);
+        },
     };
 
     return (
@@ -174,6 +216,11 @@ export function CommandProvider({
                 {...(placeholder !== undefined && { placeholder })}
             />
             <SequenceHint pending={pending} />
+            <ShortcutsDialog
+                open={helpOpen}
+                onOpenChange={setHelpOpen}
+                palette={shortcut}
+            />
         </CommandStateContext>
     );
 }

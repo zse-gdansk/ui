@@ -109,6 +109,19 @@ export function formatShortcut(
     return shortcutKeys(shortcut, apple, names).join(apple ? "" : "+");
 }
 
+// Skrót z sekwencją jako tekst, np. „G potem U” albo „⌘K”, do tooltipów.
+export function formatSequence(
+    shortcut: Shortcut,
+    apple = isApple(),
+    names: Messages["kbd"] = pl.kbd,
+) {
+    return shortcut
+        .trim()
+        .split(/\s+/)
+        .map((step) => formatShortcut(step, apple, names))
+        .join(` ${names.sequence} `);
+}
+
 export function ariaShortcut(shortcut: Shortcut, apple = isApple()) {
     const { ctrl, meta, alt, shift, key } = parse(shortcut, apple);
     return [

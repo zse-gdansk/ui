@@ -293,5 +293,10 @@ export const pl: Messages = {
         typeValue: (label) => `Wpisz: ${label.toLowerCase()}`,
         required: "To pole jest wymagane",
         sequence: "Dalej",
+        shortcuts: "Skróty klawiszowe",
+        shortcutsHint:
+            "Skróty z samych liter nie działają, gdy piszesz w polu tekstowym.",
+        help: "Pomoc",
+        or: "lub",
     },
 };

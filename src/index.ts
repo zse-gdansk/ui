@@ -75,6 +75,7 @@ export {
     type MenuSubProps,
 } from "./components/menu/Menu";
 export {
+    formatSequence,
     formatShortcut,
     shortcutKeys,
     type Shortcut,

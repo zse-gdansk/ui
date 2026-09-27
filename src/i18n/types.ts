@@ -258,6 +258,12 @@ export interface Messages {
         required: string;
         // Podpowiedź po pierwszym klawiszu sekwencji.
         sequence: string;
+        // Okno skrótów (?) i jego grupa w palecie.
+        shortcuts: string;
+        shortcutsHint: string;
+        help: string;
+        // Między kilkoma skrótami jednego polecenia.
+        or: string;
     };
 }
 
