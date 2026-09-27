@@ -391,3 +391,12 @@ body {
 .banner-demo {
     --banner-gap: 8px;
 }
+
+.timetable-demo {
+    display: grid;
+    gap: 16px;
+}
+
+.timetable-demo-frame[data-narrow] {
+    max-width: 380px;
+}

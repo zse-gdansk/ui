@@ -1,0 +1,294 @@
+.zse-timetable {
+    container-type: inline-size;
+}
+
+.zse-timetable-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+/* Przerywana linia między lekcjami przez całą szerokość, razem z kolumną
+   godzin; podwójna lekcja leży na niej jako jedna karta. */
+.zse-timetable-table tbody tr > * {
+    border-top: 1px dashed var(--color-border);
+}
+
+/* Ta sama wysokość wiersza z lekcją i bez, linie w równych odstępach. */
+.zse-timetable-table tbody tr {
+    height: 72px;
+}
+
+.zse-timetable-corner {
+    width: 76px;
+}
+
+.zse-timetable-day {
+    padding: 0 10px 6px;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-align: start;
+    vertical-align: bottom;
+}
+
+.zse-timetable-day[data-today] {
+    color: var(--color-accent-text);
+}
+
+.zse-timetable-day-name {
+    display: block;
+}
+
+.zse-timetable-day-date {
+    display: block;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 400;
+}
+
+.zse-timetable-slot {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 4px 0 0;
+    font-weight: 400;
+    text-align: start;
+    vertical-align: top;
+}
+
+th.zse-timetable-slot {
+    display: table-cell;
+}
+
+.zse-timetable-slot-label {
+    display: block;
+    color: var(--color-text);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.zse-timetable-slot[data-current] .zse-timetable-slot-label {
+    color: var(--color-accent-text);
+}
+
+.zse-timetable-slot-time {
+    display: block;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+/* height: 1px pozwala karcie wypełnić komórkę, także przez dwa wiersze. */
+.zse-timetable-cell {
+    height: 1px;
+    padding: 4px 2px;
+    vertical-align: top;
+}
+
+.zse-timetable-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    height: 100%;
+}
+
+.zse-lesson {
+    --lesson-color: var(--color-text-secondary);
+
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 2px;
+    box-sizing: border-box;
+    min-width: 0;
+    margin: 0;
+    padding: 8px 10px;
+    border: 0;
+    border-radius: var(--radius-md);
+    /* Przedmiot rozpoznaje się po tle, bez paska przy krawędzi. */
+    background: color-mix(
+        in oklab,
+        var(--lesson-color) var(--lesson-tint),
+        var(--color-bg-surface)
+    );
+    color: var(--color-text);
+    font: inherit;
+    text-align: start;
+    text-decoration: none;
+}
+
+:is(a, button).zse-lesson {
+    cursor: pointer;
+    transition: scale 150ms var(--ease-out);
+}
+
+@media (hover: hover) {
+    :is(a, button).zse-lesson:hover {
+        background: color-mix(
+            in oklab,
+            var(--lesson-color) calc(var(--lesson-tint) + 6%),
+            var(--color-bg-surface)
+        );
+    }
+}
+
+:is(a, button).zse-lesson:active {
+    scale: 0.98;
+}
+
+:is(a, button).zse-lesson:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+}
+
+.zse-lesson[data-current] {
+    box-shadow: 0 0 0 1.5px var(--color-accent-solid);
+}
+
+/* Odwołana: sama ramka, przekreślony przedmiot, bez koloru przedmiotu. */
+.zse-lesson[data-status="cancelled"] {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--color-border);
+    color: var(--color-text-secondary);
+}
+
+.zse-lesson[data-status="cancelled"] .zse-lesson-subject {
+    text-decoration: line-through;
+}
+
+.zse-lesson-head {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    min-width: 0;
+}
+
+.zse-lesson-subject {
+    min-width: 0;
+    overflow: hidden;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.zse-lesson-group {
+    flex: none;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+}
+
+.zse-lesson-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 8px;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+/* Co zmienia zastępstwo: nowa sala albo nauczyciel w kolorze ostrzeżenia. */
+.zse-lesson-meta [data-changed] {
+    color: var(--color-warning-text);
+}
+
+.zse-lesson-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+.zse-lesson-note {
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+}
+
+.zse-timetable-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* Widok dnia. */
+.zse-timetable-dayview {
+    display: none;
+}
+
+.zse-timetable-dayview-title {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 4px 0 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.zse-timetable-dayview-title .zse-timetable-day-date {
+    display: inline;
+}
+
+.zse-timetable-list {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.zse-timetable-row {
+    display: grid;
+    grid-template-columns: 84px minmax(0, 1fr);
+    gap: 8px;
+    padding: 4px 0;
+    border-top: 1px dashed var(--color-border);
+}
+
+.zse-timetable-row .zse-timetable-slot {
+    padding-top: 6px;
+}
+
+.zse-timetable-row .zse-timetable-stack {
+    min-height: 0;
+}
+
+.zse-timetable-free {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 10px;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+}
+
+.zse-timetable-empty {
+    margin: 0;
+    padding: 24px 0;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+@container (max-width: 600px) {
+    .zse-timetable-table {
+        display: none;
+    }
+
+    .zse-timetable-dayview {
+        display: grid;
+        gap: 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :is(a, button).zse-lesson:active {
+        scale: 1;
+    }
+}

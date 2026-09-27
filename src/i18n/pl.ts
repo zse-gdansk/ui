@@ -44,6 +44,16 @@ export const pl: Messages = {
         empty: "Brak wyników",
         emptyFor: (query) => `Brak wyników dla „${query}”`,
     },
+    timetable: {
+        lesson: "Lekcja",
+        day: "Dzień",
+        now: "Teraz",
+        cancelled: "Odwołana",
+        substitute: "Zastępstwo",
+        instead: (value) => `zamiast: ${value}`,
+        free: "Okienko",
+        empty: "Brak lekcji",
+    },
     timePicker: {
         pick: "Wybierz godzinę",
         now: "Teraz",

@@ -37,6 +37,19 @@ export interface Messages {
         empty: string;
         emptyFor: (query: string) => string;
     };
+    timetable: {
+        // Nagłówek kolumny z godzinami.
+        lesson: string;
+        day: string;
+        now: string;
+        cancelled: string;
+        substitute: string;
+        // Poprzednia wartość przy zastępstwie, dla czytnika i podpowiedzi.
+        instead: (value: string) => string;
+        // Wolna lekcja między zajęciami.
+        free: string;
+        empty: string;
+    };
     timePicker: {
         pick: string;
         now: string;

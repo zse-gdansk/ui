@@ -70,6 +70,7 @@ import { TableDemo } from "./TableDemo";
 import { TagDemo } from "./TagDemo";
 import { TimeDemo } from "./TimeDemo";
 import { TimelineDemo } from "./TimelineDemo";
+import { TimetableDemo } from "./TimetableDemo";
 import { ToggleDemo } from "./ToggleDemo";
 import { UploadDemo } from "./UploadDemo";
 import { VoteDemo } from "./VoteDemo";
@@ -495,6 +496,8 @@ export function App() {
             <CalendarDemo />
 
             <TimeDemo />
+
+            <TimetableDemo />
 
             <SecretDemo />
 

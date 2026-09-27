@@ -397,3 +397,8 @@ export type {
     CommandTextStep,
     CommandValues,
 } from "./components/command/types";
+export {
+    Timetable,
+    type TimetableLesson,
+    type TimetableProps,
+} from "./components/timetable/Timetable";
