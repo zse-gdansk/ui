@@ -289,6 +289,7 @@ export {
     type LocaleSwitcherProps,
 } from "./components/locale-switcher/LocaleSwitcher";
 export {
+    en,
     LocaleProvider,
     pl,
     plural,
