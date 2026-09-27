@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.0](https://github.com/zse-gdansk/ui/compare/v1.3.0...v1.4.0) (2026-09-27)
+
+
+### Nowe funkcje
+
+* **alert:** dodano obsługę odstępu w animacji zwijania alertu ([697d385](https://github.com/zse-gdansk/ui/commit/697d3859efb80e29ceab603a3bb996821f0a90c9))
+* **button:** dodano możliwość renderowania przycisku jako link z użyciem render prop ([b61396b](https://github.com/zse-gdansk/ui/commit/b61396b90bf81f16c042aa890ad79edeae8a9fc1))
+
 ## [1.3.0](https://github.com/zse-gdansk/ui/compare/v1.2.2...v1.3.0) (2026-09-27)
 
 
