@@ -1,0 +1,384 @@
+/* Typografia: Text, Heading, Strong, Code i Prose. Prose (surowy HTML)
+   dzieli reguły z komponentami przez listy selektorów, więc h2 z edytora
+   wygląda jak <Heading level={2}>, a nie jak druga, podobna typografia.
+   Elementy Prose są w :where(), żeby aplikacja nadpisywała je bez walki
+   o specyficzność. */
+
+/* Tekst */
+
+.zse-text,
+:where(.zse-prose) {
+    --text-color: var(--color-text);
+
+    margin: 0;
+    color: var(--text-color);
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.zse-text[data-size="sm"] {
+    font-size: 0.75rem;
+}
+
+/* Treść w wąskim miejscu: o stopień mniejsza, ale nie podpis. */
+:where(.zse-prose[data-size="sm"]) {
+    font-size: 0.8125rem;
+}
+
+.zse-text[data-size="lg"] {
+    font-size: 1rem;
+    line-height: 1.55;
+}
+
+.zse-text[data-tone="secondary"] {
+    --text-color: var(--color-text-secondary);
+}
+
+.zse-text[data-tone="accent"] {
+    --text-color: var(--color-accent-text);
+}
+
+.zse-text[data-tone="success"] {
+    --text-color: var(--color-success-text);
+}
+
+.zse-text[data-tone="warning"] {
+    --text-color: var(--color-warning-text);
+}
+
+.zse-text[data-tone="danger"] {
+    --text-color: var(--color-danger-text);
+}
+
+.zse-text[data-weight="medium"] {
+    font-weight: 500;
+}
+
+.zse-text[data-tabular] {
+    font-variant-numeric: tabular-nums;
+}
+
+p.zse-text,
+:where(.zse-prose) :where(p, li) {
+    text-wrap: pretty;
+}
+
+/* Ucinanie: line-height zostaje 1.5, więc overflow nie tnie ogonków. */
+:is(.zse-text, .zse-heading)[data-truncate="line"] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.zse-text[data-truncate="lines"] {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: var(--text-lines);
+    line-clamp: var(--text-lines);
+}
+
+/* Nagłówki */
+
+.zse-heading,
+:where(.zse-prose) :where(h1, h2, h3, h4, h5, h6) {
+    margin: 0;
+    color: var(--color-text);
+    font-weight: 600;
+    line-height: 1.4;
+    text-wrap: balance;
+}
+
+.zse-heading[data-tone="secondary"] {
+    color: var(--color-text-secondary);
+}
+
+.zse-heading[data-size="xl"] {
+    font-size: 1.5rem;
+    line-height: 1.25;
+}
+
+.zse-heading[data-size="lg"],
+:where(.zse-prose) :where(h1) {
+    font-size: 1.25rem;
+    line-height: 1.3;
+}
+
+.zse-heading[data-size="md"],
+:where(.zse-prose) :where(h2) {
+    font-size: 1rem;
+}
+
+.zse-heading[data-size="sm"],
+:where(.zse-prose) :where(h3, h4, h5, h6) {
+    font-size: 0.875rem;
+}
+
+/* Wyróżnienie i kod w zdaniu */
+
+.zse-strong,
+:where(.zse-prose) :where(strong, b) {
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+/* Monospace obok zwykłych liter wygląda na większy (mono-in-text). */
+.zse-code,
+:where(.zse-prose) :where(code, kbd, samp) {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+}
+
+.zse-code,
+:where(.zse-prose) :where(:not(pre) > code) {
+    padding: 0.1em 0.35em;
+    border-radius: calc(var(--radius-sm) - 2px);
+    background: var(--color-bg-muted);
+    box-shadow: inset 0 0 0 1px var(--color-border-subtle);
+    overflow-wrap: anywhere;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+}
+
+/* Prose: rytm i elementy, których nie ma jako komponentów */
+
+:where(.zse-prose) {
+    overflow-wrap: break-word;
+}
+
+:where(.zse-prose) > :where(*) {
+    margin-block: 0;
+}
+
+:where(.zse-prose) > :where(* + *) {
+    margin-top: 0.85em;
+}
+
+/* Nagłówek bliżej tekstu pod nim niż nad nim (grouped-text). */
+:where(.zse-prose) > :where(* + :is(h1, h2, h3, h4, h5, h6)) {
+    margin-top: 1.7em;
+}
+
+:where(.zse-prose) > :where(:is(h1, h2, h3, h4, h5, h6) + *) {
+    margin-top: 0.5em;
+}
+
+:where(.zse-prose) :where(a) {
+    border-radius: 2px;
+    color: var(--color-accent-text);
+    font-weight: 500;
+    text-decoration-line: underline;
+    text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
+    text-decoration-thickness: from-font;
+    text-underline-offset: 0.2em;
+    -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+    :where(.zse-prose) :where(a:hover) {
+        text-decoration-color: currentColor;
+    }
+}
+
+:where(.zse-prose) :where(a:focus-visible) {
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: 2px;
+}
+
+:where(.zse-prose) :where(ul, ol) {
+    padding-inline-start: 1.4em;
+}
+
+:where(.zse-prose) :where(li + li, li > :is(ul, ol)) {
+    margin-top: 0.3em;
+}
+
+:where(.zse-prose) :where(li)::marker {
+    color: var(--color-text-secondary);
+}
+
+:where(.zse-prose) :where(ol > li)::marker {
+    font-variant-numeric: tabular-nums;
+}
+
+/* Lista zadań z markdownu (- [x]): pole jak Checkbox, bez punktora.
+   Znacznik to ta sama ikona co w Checkbox (maska z Prose), 12px na
+   środku pola. */
+:where(.zse-prose) :where(li:has(> input[type="checkbox"])) {
+    margin-inline-start: -1.4em;
+    list-style: none;
+}
+
+:where(.zse-prose) :where(input[type="checkbox"]) {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    width: 18px;
+    height: 18px;
+    margin: 0 0.5em 0 0;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-muted);
+    vertical-align: -0.28em;
+    appearance: none;
+    outline: 1.5px solid transparent;
+    outline-offset: 1.5px;
+}
+
+:where(.zse-prose) :where(input[type="checkbox"])::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 12px;
+    height: 12px;
+    margin: auto;
+    background: var(--color-text-on-accent);
+    mask: var(--zse-prose-tick) center / 12px 12px no-repeat;
+    opacity: 0;
+    scale: 0.25;
+    filter: blur(4px);
+    transition-property: opacity, scale, filter;
+    transition-duration: 300ms;
+    transition-timing-function: var(--ease-standard);
+}
+
+:where(.zse-prose) :where(input[type="checkbox"]:checked) {
+    border-color: var(--color-accent-solid);
+    background: var(--color-accent-solid);
+}
+
+:where(.zse-prose) :where(input[type="checkbox"]:checked)::before {
+    opacity: 1;
+    scale: 1;
+    filter: none;
+}
+
+:where(.zse-prose) :where(input[type="checkbox"]:focus-visible) {
+    outline-color: var(--color-focus-ring);
+}
+
+:where(.zse-prose) :where(blockquote) {
+    padding-inline-start: 1em;
+    border-inline-start: 2px solid var(--color-border-strong);
+    color: var(--color-text-secondary);
+}
+
+:where(.zse-prose) :where(kbd) {
+    padding: 0.1em 0.4em;
+    border: 1px solid var(--color-border);
+    border-radius: calc(var(--radius-sm) - 2px);
+    background: var(--color-bg-surface);
+    box-shadow: inset 0 -1px 0 var(--color-border);
+    color: var(--color-text-secondary);
+}
+
+:where(.zse-prose) :where(pre) {
+    padding: 0.85em 1em;
+    overflow-x: auto;
+    border-radius: var(--radius-md);
+    background: var(--color-bg-muted);
+    box-shadow: inset 0 0 0 1px var(--color-border-subtle);
+    font-size: 0.9286em;
+    line-height: 1.55;
+}
+
+/* Blok jest cały monospace: bez zmniejszenia drugi raz. */
+:where(.zse-prose) :where(pre > code) {
+    font-size: 1em;
+}
+
+:where(.zse-prose) :where(mark) {
+    padding: 0 0.15em;
+    border-radius: 2px;
+    background: color-mix(
+        in oklab,
+        var(--color-warning-solid) 28%,
+        transparent
+    );
+    color: inherit;
+}
+
+:where(.zse-prose) :where(small) {
+    font-size: 0.8571em;
+}
+
+:where(.zse-prose) :where(sub, sup) {
+    line-height: 0;
+}
+
+:where(.zse-prose) :where(hr) {
+    height: 1px;
+    border: 0;
+    background: var(--color-separator);
+}
+
+:where(.zse-prose) > :where(hr, * + hr, hr + *) {
+    margin-block: 1.7em;
+}
+
+:where(.zse-prose) :where(img, video) {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    outline: 1px solid var(--color-image-outline);
+    outline-offset: -1px;
+}
+
+:where(.zse-prose) :where(figcaption) {
+    margin-top: 0.6em;
+    color: var(--color-text-secondary);
+    font-size: 0.8571em;
+    text-wrap: pretty;
+}
+
+/* Szeroka tabela przewija się w poziomie zamiast rozpychać stronę. */
+:where(.zse-prose) :where(table) {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+}
+
+:where(.zse-prose) :where(th, td) {
+    padding: 0.5em 0.85em;
+    border-bottom: 1px solid var(--color-separator);
+    text-align: start;
+    vertical-align: top;
+}
+
+:where(.zse-prose) :where(:is(th, td):first-child) {
+    padding-inline-start: 0;
+}
+
+:where(.zse-prose) :where(th) {
+    color: var(--color-text-secondary);
+    font-size: 0.8571em;
+    font-weight: 500;
+    vertical-align: bottom;
+}
+
+:where(.zse-prose) :where(details) {
+    padding: 0.6em 0.85em;
+    border-radius: var(--radius-md);
+    box-shadow: inset 0 0 0 1px var(--color-border);
+}
+
+:where(.zse-prose) :where(summary) {
+    font-weight: 500;
+    cursor: pointer;
+}
+
+:where(.zse-prose) :where(details[open] > summary) {
+    margin-bottom: 0.5em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :where(.zse-prose) :where(input[type="checkbox"])::before {
+        transition-property: opacity;
+        scale: 1;
+        filter: none;
+    }
+}

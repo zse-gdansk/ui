@@ -563,3 +563,29 @@ body {
     grid-column: 1 / -1;
     max-width: 360px;
 }
+
+.typography-demo {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.typography-demo-pair {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    align-items: start;
+    gap: 16px;
+}
+
+.typography-demo-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.typography-demo-narrow {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 280px;
+}

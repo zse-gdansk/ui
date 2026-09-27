@@ -526,3 +526,16 @@ export {
     type SignupCardProps,
     type SignupStatus,
 } from "./components/signup/SignupCard";
+export {
+    Code,
+    Heading,
+    Prose,
+    Strong,
+    Text,
+    type CodeProps,
+    type HeadingProps,
+    type ProseProps,
+    type StrongProps,
+    type TextProps,
+    type TextTone,
+} from "./components/typography/Typography";
