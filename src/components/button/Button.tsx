@@ -1,7 +1,7 @@
 "use client";
 
 import { Button as BaseButton } from "@base-ui/react/button";
-import type { ComponentProps } from "react";
+import { type ComponentProps, isValidElement } from "react";
 
 import { Icon, type IconGlyph } from "../icon/Icon";
 import { Spokes } from "../spinner/Spinner";
@@ -29,8 +29,15 @@ export function Button({
     disabled = false,
     className,
     children,
+    render,
+    nativeButton,
     ...props
 }: ButtonProps) {
+    const native =
+        nativeButton ??
+        (render === undefined ||
+            (isValidElement(render) && render.type === "button"));
+
     const slot = (
         <span
             className="zse-button-icon"
@@ -59,6 +66,8 @@ export function Button({
     return (
         <BaseButton
             {...props}
+            {...(render !== undefined && { render })}
+            nativeButton={native}
             disabled={disabled || loading}
             // Podczas ładowania fokus zostaje na przycisku.
             focusableWhenDisabled={loading || props.focusableWhenDisabled}
