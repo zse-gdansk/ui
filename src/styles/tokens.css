@@ -80,6 +80,8 @@
     --chart-neutral: var(--gray-8);
     /* Podbarwienie karty przedmiotu w planie lekcji. */
     --lesson-tint: 10%;
+    /* Tło paska wydarzenia w kalendarzu. */
+    --event-tint: 16%;
     --color-bg-surface: var(--gray-1);
     --color-bg-elevated: var(--gray-4);
     --color-bg-tint: oklch(0% 0 0 / 6%);
@@ -112,6 +114,7 @@
     --chart-negative-strong: oklch(52% 0.17 40);
     --chart-neutral: var(--gray-8);
     --lesson-tint: 20%;
+    --event-tint: 28%;
     --color-bg-surface: var(--gray-2);
     --color-bg-elevated: var(--gray-4);
     --color-bg-tint: oklch(100% 0 0 / 8%);

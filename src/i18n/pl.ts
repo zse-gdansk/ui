@@ -77,6 +77,18 @@ export const pl: Messages = {
         switchCamera: "Przełącz aparat",
         scanned: "Zeskanowano",
     },
+    eventCalendar: {
+        today: "Dziś",
+        month: "Miesiąc",
+        list: "Lista",
+        view: "Widok",
+        types: "Rodzaje wydarzeń",
+        more: (hidden) => `+${hidden} więcej`,
+        allDay: "Cały dzień",
+        empty: "Brak wydarzeń w tym miesiącu",
+        events: (n) =>
+            `${n} ${plural("pl-PL", n, { one: "wydarzenie", few: "wydarzenia", other: "wydarzeń" })}`,
+    },
     timetable: {
         lesson: "Lekcja",
         day: "Dzień",

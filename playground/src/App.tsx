@@ -48,6 +48,7 @@ import { CodeBlockDemo } from "./CodeDemo2";
 import { ComboboxDemo } from "./ComboboxDemo";
 import { CopyDemo } from "./CopyDemo";
 import { EmptyDemo } from "./EmptyDemo";
+import { EventsDemo } from "./EventsDemo";
 import { FormDemo } from "./FormDemo";
 import { GradesDemo } from "./GradesDemo";
 import { InputGroupDemo } from "./InputGroupDemo";
@@ -500,6 +501,8 @@ export function App() {
             <TimeDemo />
 
             <TimetableDemo />
+
+            <EventsDemo />
 
             <RankDemo />
 

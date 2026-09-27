@@ -66,6 +66,19 @@ export interface Messages {
         switchCamera: string;
         scanned: string;
     };
+    eventCalendar: {
+        today: string;
+        month: string;
+        list: string;
+        view: string;
+        types: string;
+        // „+2 więcej” w dniu z nadmiarem wydarzeń.
+        more: (count: number) => string;
+        allDay: string;
+        empty: string;
+        // Liczba wydarzeń dnia dla czytnika.
+        events: (count: number) => string;
+    };
     timetable: {
         // Nagłówek kolumny z godzinami.
         lesson: string;

@@ -407,3 +407,9 @@ export {
     type RankItem,
     type RankListProps,
 } from "./components/rank-list/RankList";
+export {
+    EventCalendar,
+    type CalendarEvent,
+    type CalendarEventType,
+    type EventCalendarProps,
+} from "./components/event-calendar/EventCalendar";
