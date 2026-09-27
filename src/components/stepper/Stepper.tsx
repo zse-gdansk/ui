@@ -41,10 +41,41 @@ export interface StepperProps {
     finishLabel?: string;
 }
 
-// Wypełnienie bieżącego kroku z pól w nim: wymagane liczą się w całości,
-// opcjonalne od startu w połowie (krok z samym opcjonalnym polem ma pół,
-// po wypełnieniu całość). Stan z data-filled, które Base UI ustawia na
-// każdym Field.Root, i z zaznaczonych checkboxów.
+// Krok, na który się weszło, ma od razu kawałek paska: widać, że trwa.
+const STEP_START = 0.15;
+
+const CHOICE =
+    "input[type='checkbox'], input[type='radio'], [role='checkbox'], [role='radio']";
+
+// Czy pole jest już dobrze wypełnione. Nie wystarczy jeden znak: wartość
+// musi spełniać reguły pola (required, pattern, minLength, type…) według
+// validity, które niczego nie wyświetla. Kod (CodeField) liczy się po
+// wpisaniu całego, wybór po zaznaczeniu. Błąd z walidacji Base UI
+// (data-invalid) cofa pole.
+function isComplete(field: HTMLElement) {
+    if (field.hasAttribute("data-invalid")) return false;
+    const code = field.querySelector(".zse-code-slots");
+    if (code) return code.hasAttribute("data-complete");
+    if (field.querySelector(CHOICE))
+        return (
+            field.querySelector("[data-checked]:not([data-parent])") !== null
+        );
+    const controls = [
+        ...field.querySelectorAll<
+            HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+        >("input, textarea, select"),
+    ].filter((control) => control.type !== "hidden");
+    return (
+        controls.length > 0 &&
+        controls.every(
+            (control) => control.value !== "" && control.validity.valid,
+        )
+    );
+}
+
+// Wypełnienie bieżącego kroku z pól w nim: wymagane liczą się w całości
+// dopiero, gdy są poprawne; opcjonalne puste mają połowę (nie trzeba ich
+// wypełniać), poprawne całość, błędne nic.
 function measureFill(panel: HTMLElement) {
     const fields = [
         ...panel.querySelectorAll<HTMLElement>(".zse-input"),
@@ -52,13 +83,15 @@ function measureFill(panel: HTMLElement) {
     if (fields.length === 0) return null;
     let score = 0;
     for (const field of fields) {
-        const filled =
-            field.hasAttribute("data-filled") ||
-            field.querySelector("[data-checked]:not([data-parent])") !== null;
+        if (isComplete(field)) {
+            score += 1;
+            continue;
+        }
         const required = field.querySelector(
             "[required], [aria-required='true']",
         );
-        score += filled ? 1 : required ? 0 : 0.5;
+        const empty = !field.hasAttribute("data-filled");
+        if (!required && empty) score += 0.5;
     }
     return score / fields.length;
 }
@@ -113,7 +146,11 @@ export function Stepper({
 
     const last = current === steps.length - 1;
     const active = steps[current];
-    const stepFill = done ? 1 : (active?.progress ?? fill ?? 0);
+    // Własne progress z kroku jest dokładne; zmierzone zaczyna od
+    // STEP_START, żeby bieżący krok był od razu trochę zamalowany.
+    const stepFill = done
+        ? 1
+        : (active?.progress ?? STEP_START + (1 - STEP_START) * (fill ?? 0));
 
     // Najnowsze next dla nasłuchu w panelu (ref callback działa raz na krok).
     const advance = useLatest(next);
@@ -124,12 +161,25 @@ export function Stepper({
         (panel: HTMLDivElement | null) => {
             if (!panel) return;
             const update = () => setFill(measureFill(panel));
+            // Po klatce: nasłuch na panelu odpala się przed Reactem, a pola
+            // z formatem (MaskedInput) układają wartość dopiero w nim.
+            let frame = 0;
+            const later = () => {
+                cancelAnimationFrame(frame);
+                frame = requestAnimationFrame(update);
+            };
             update();
             const observer = new MutationObserver(update);
             observer.observe(panel, {
                 subtree: true,
                 attributes: true,
-                attributeFilter: ["data-filled", "data-checked"],
+                attributeFilter: [
+                    "data-filled",
+                    "data-checked",
+                    "data-complete",
+                    "data-invalid",
+                    "data-valid",
+                ],
             });
             const submit = (event: KeyboardEvent) => {
                 const target = event.target;
@@ -145,11 +195,12 @@ export function Stepper({
                 event.preventDefault();
                 void advance.current();
             };
-            panel.addEventListener("input", update);
+            panel.addEventListener("input", later);
             panel.addEventListener("keydown", submit);
             return () => {
+                cancelAnimationFrame(frame);
                 observer.disconnect();
-                panel.removeEventListener("input", update);
+                panel.removeEventListener("input", later);
                 panel.removeEventListener("keydown", submit);
             };
         },
