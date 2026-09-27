@@ -14,6 +14,8 @@ Błędy, które już raz popełniliśmy. Przejrzyj przed oddaniem pracy.
 
 ## Układ
 
+- **Aplikacje z Tailwindem mają `box-sizing: border-box` na wszystkim** (preflight), a playground ma domyślne `content-box`. Element z wysokością albo szerokością z JS i z paddingiem musi mieć `box-sizing` jawnie. Bez tego w `voting-app` `Stepper` ucinał 8px z dołu kroku, bo padding viewportu (miejsce na obrys fokusu) zjadał zmierzoną wysokość.
+
 - **Zwijany element z paddingiem albo ramką nie zwinie się do zera** przez `grid-template-rows: 0fr`. Zatrzymuje się na sumie paddingu i ramki, a po odmontowaniu treść pod nim skacze. Padding i ramka idą do elementu w środku.
 - **Odstęp liczony od sąsiada** (`element + element { margin-top }`) zmienia się, gdy usuwasz pierwszy element, i kolejny podskakuje. Daj odstęp każdemu elementowi i cofnij pierwszy marginesem rodzica.
 - **Odmontowanie pustej listy zabiera odstęp** (`gap`) rodzica. Lista zostaje w DOM także pusta.

@@ -248,6 +248,7 @@
 }
 
 .zse-stepper-viewport {
+    box-sizing: content-box;
     margin: -4px;
     padding: 4px;
     overflow: hidden;
