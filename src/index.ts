@@ -402,3 +402,8 @@ export {
     type TimetableLesson,
     type TimetableProps,
 } from "./components/timetable/Timetable";
+export {
+    RankList,
+    type RankItem,
+    type RankListProps,
+} from "./components/rank-list/RankList";

@@ -44,6 +44,39 @@ export const pl: Messages = {
         empty: "Brak wyników",
         emptyFor: (query) => `Brak wyników dla „${query}”`,
     },
+    rankList: {
+        instructions:
+            "Spacja podnosi pozycję, strzałki w górę i w dół ją przesuwają, Spacja upuszcza, Escape anuluje.",
+        handle: (label) => `Przesuń: ${label}`,
+        // Nazwa w mianowniku na początku, bo pozycji nie da się odmienić.
+        picked: (label, position, total) =>
+            `${label}: podniesiono, pozycja ${position} z ${total}.`,
+        moved: (label, position, total) =>
+            `${label}: pozycja ${position} z ${total}.`,
+        dropped: (label, position, total) =>
+            `${label}: upuszczono na pozycji ${position} z ${total}.`,
+        cancelled: (label) => `${label}: anulowano, wraca na swoje miejsce.`,
+        moveUp: "Wyżej",
+        moveDown: "Niżej",
+        beyond: "Poza wyborem",
+    },
+    qr: {
+        label: "Kod QR",
+        scanner: "Skaner kodów QR",
+        starting: "Włączanie aparatu…",
+        hint: "Nakieruj aparat na kod QR",
+        denied: "Brak dostępu do aparatu",
+        deniedHint:
+            "Zezwól na aparat w ustawieniach przeglądarki i spróbuj ponownie.",
+        noCamera: "Nie znaleziono aparatu",
+        unsupported: "Ta przeglądarka nie odczyta kodu z aparatu",
+        failed: "Nie udało się włączyć aparatu",
+        retry: "Spróbuj ponownie",
+        torchOn: "Włącz latarkę",
+        torchOff: "Wyłącz latarkę",
+        switchCamera: "Przełącz aparat",
+        scanned: "Zeskanowano",
+    },
     timetable: {
         lesson: "Lekcja",
         day: "Dzień",

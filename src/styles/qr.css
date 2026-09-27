@@ -1,0 +1,167 @@
+/* Kod zawsze ciemny na jasnym, niezależnie od motywu. */
+.zse-qr {
+    display: block;
+    border-radius: var(--radius-md);
+}
+
+.zse-qr-bg {
+    fill: #fff;
+}
+
+.zse-qr-modules {
+    fill: #111;
+}
+
+.zse-qr-scanner {
+    position: relative;
+    display: grid;
+    overflow: hidden;
+    aspect-ratio: 1;
+    border-radius: var(--radius-xl);
+    background: #0b0b0c;
+    color: #fff;
+    isolation: isolate;
+}
+
+.zse-qr-scanner > * {
+    grid-area: 1 / 1;
+}
+
+.zse-qr-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 300ms var(--ease-out);
+}
+
+.zse-qr-scanner[data-status="scanning"] .zse-qr-video {
+    opacity: 1;
+}
+
+/* Przedni aparat jak lustro, tak jak w aparacie telefonu. */
+.zse-qr-video[data-mirror] {
+    scale: -1 1;
+}
+
+/* Celownik: jasna ramka, reszta obrazu przygaszona. */
+.zse-qr-frame {
+    place-self: center;
+    width: 62%;
+    aspect-ratio: 1;
+    border-radius: 20px;
+    box-shadow:
+        0 0 0 2px oklch(100% 0 0 / 90%),
+        0 0 0 100vmax oklch(0% 0 0 / 38%);
+    pointer-events: none;
+    transition:
+        box-shadow 200ms var(--ease-out),
+        scale 200ms var(--ease-out);
+}
+
+.zse-qr-scanner[data-scanned] .zse-qr-frame {
+    box-shadow:
+        0 0 0 3px var(--color-success-solid),
+        0 0 0 100vmax oklch(0% 0 0 / 38%);
+    scale: 0.97;
+}
+
+.zse-qr-scanner[data-paused] .zse-qr-frame {
+    box-shadow:
+        0 0 0 2px oklch(100% 0 0 / 40%),
+        0 0 0 100vmax oklch(0% 0 0 / 55%);
+}
+
+.zse-qr-hint {
+    align-self: end;
+    justify-self: center;
+    margin: 0 0 16px;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    background: oklch(0% 0 0 / 45%);
+    font-size: 0.75rem;
+    pointer-events: none;
+}
+
+.zse-qr-controls {
+    display: flex;
+    align-self: start;
+    justify-self: end;
+    gap: 8px;
+    padding: 12px;
+}
+
+.zse-qr-control {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    place-items: center;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: oklch(0% 0 0 / 45%);
+    color: #fff;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: scale 150ms var(--ease-out);
+}
+
+.zse-qr-control[aria-pressed="true"] {
+    background: oklch(100% 0 0 / 90%);
+    color: #111;
+}
+
+.zse-qr-control:active {
+    scale: 0.94;
+}
+
+.zse-qr-control:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+.zse-qr-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    place-self: center;
+    gap: 8px;
+    max-width: 16rem;
+    padding: 16px;
+    color: oklch(100% 0 0 / 80%);
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+.zse-qr-state-title {
+    color: #fff;
+    font-weight: 500;
+}
+
+.zse-qr-state-hint {
+    font-size: 0.75rem;
+    line-height: 1.5;
+}
+
+.zse-qr-state .zse-button {
+    margin-top: 4px;
+}
+
+.zse-qr-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-qr-scanner[data-scanned] .zse-qr-frame {
+        scale: 1;
+    }
+
+    .zse-qr-control:active {
+        scale: 1;
+    }
+}

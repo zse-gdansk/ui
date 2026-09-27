@@ -5,7 +5,8 @@
         "paths": {
             "@zse-gdansk/ui": ["../src/index.ts"],
             "@zse-gdansk/ui/code-block": ["../src/code-block.ts"],
-            "@zse-gdansk/ui/charts": ["../src/charts.ts"]
+            "@zse-gdansk/ui/charts": ["../src/charts.ts"],
+            "@zse-gdansk/ui/qr": ["../src/qr.ts"]
         }
     },
     "include": ["src", "vite.config.ts"]

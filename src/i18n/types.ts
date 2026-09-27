@@ -37,6 +37,35 @@ export interface Messages {
         empty: string;
         emptyFor: (query: string) => string;
     };
+    rankList: {
+        // Dla czytnika: jak przestawiać z klawiatury.
+        instructions: string;
+        handle: (label: string) => string;
+        picked: (label: string, position: number, total: number) => string;
+        moved: (label: string, position: number, total: number) => string;
+        dropped: (label: string, position: number, total: number) => string;
+        cancelled: (label: string) => string;
+        moveUp: string;
+        moveDown: string;
+        // Linia pod ostatnią liczoną pozycją przy max.
+        beyond: string;
+    };
+    qr: {
+        label: string;
+        scanner: string;
+        starting: string;
+        hint: string;
+        denied: string;
+        deniedHint: string;
+        noCamera: string;
+        unsupported: string;
+        failed: string;
+        retry: string;
+        torchOn: string;
+        torchOff: string;
+        switchCamera: string;
+        scanned: string;
+    };
     timetable: {
         // Nagłówek kolumny z godzinami.
         lesson: string;
