@@ -77,9 +77,10 @@ export function Sidebar({ children, className }: SidebarProps) {
     const { rail, shell } = useRail();
 
     return (
-        // Pierwszy tooltip z opóźnieniem, kolejne od razu przy przesuwaniu
-        // po ikonach.
-        <TooltipProvider delay={300} closeDelay={0}>
+        // Po zwinięciu tooltip to jedyna nazwa ikony, więc szybko: 100 ms,
+        // tyle żeby przejechanie kursorem przez panel nic nie zapalało.
+        // Kolejne od razu przy przesuwaniu po ikonach.
+        <TooltipProvider delay={100} closeDelay={0}>
             <div
                 className={cx("zse-sidebar", className)}
                 data-collapsed={rail || undefined}
