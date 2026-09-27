@@ -56,6 +56,25 @@ export interface Messages {
         pointsFrom: (points: string) => string;
         thresholdOrder: string;
     };
+    capacity: {
+        of: (taken: number, limit: number) => string;
+        left: (free: number) => string;
+        full: string;
+        waitlist: (count: number) => string;
+        signedUp: (count: number) => string;
+    };
+    signup: {
+        join: string;
+        joinWaitlist: string;
+        leave: string;
+        leaveWaitlist: string;
+        joined: string;
+        waitlisted: (position: number | undefined) => string;
+        closed: string;
+        full: string;
+        closes: string;
+        failed: string;
+    };
     peoplePicker: {
         groups: string;
         people: string;

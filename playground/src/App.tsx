@@ -71,6 +71,7 @@ import { RankDemo } from "./RankDemo";
 import { SecretDemo } from "./SecretDemo";
 import { SegmentedDemo } from "./SegmentedDemo";
 import { SheetDemo } from "./SheetDemo";
+import { SignupDemo } from "./SignupDemo";
 import { SkeletonDemo } from "./SkeletonDemo";
 import { SliderDemo } from "./SliderDemo";
 import { StatDemo } from "./StatDemo";
@@ -494,6 +495,8 @@ export function App() {
             <PeopleDemo />
 
             <GradeDemo />
+
+            <SignupDemo />
 
             <StepperDemo />
 

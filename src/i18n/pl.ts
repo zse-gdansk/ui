@@ -68,6 +68,35 @@ export const pl: Messages = {
         pointsFrom: (points) => `od ${points} pkt`,
         thresholdOrder: "Próg musi być wyższy niż dla niższej oceny",
     },
+    capacity: {
+        of: (taken, limit) =>
+            `${taken} z ${limit} ${plural("pl-PL", limit, { one: "miejsca", few: "miejsc", many: "miejsc", other: "miejsca" })}`,
+        left: (n) =>
+            plural("pl-PL", n, {
+                one: `Zostało ${n} miejsce`,
+                few: `Zostały ${n} miejsca`,
+                many: `Zostało ${n} miejsc`,
+                other: `Zostało ${n} miejsca`,
+            }),
+        full: "Brak wolnych miejsc",
+        waitlist: (n) => `${count(n, PEOPLE)} na liście rezerwowej`,
+        signedUp: (n) => `Zapisanych: ${n}`,
+    },
+    signup: {
+        join: "Zapisz się",
+        joinWaitlist: "Zapisz się na listę rezerwową",
+        leave: "Wypisz się",
+        leaveWaitlist: "Zrezygnuj",
+        joined: "Zapisano",
+        waitlisted: (position) =>
+            position === undefined
+                ? "Na liście rezerwowej"
+                : `Lista rezerwowa, miejsce ${position}`,
+        closed: "Zapisy zamknięte",
+        full: "Brak miejsc",
+        closes: "Koniec zapisów:",
+        failed: "Nie udało się. Spróbuj ponownie.",
+    },
     peoplePicker: {
         groups: "Grupy",
         people: "Osoby",

@@ -202,6 +202,8 @@ export interface MeterProps extends SharedProps {
     low?: number;
     high?: number;
     optimum?: number;
+    // Wartość dla czytnika zamiast procentu, np. „12 z 20 miejsc”.
+    valueText?: string;
 }
 
 type Region = "low" | "mid" | "high";
@@ -243,6 +245,7 @@ export function Meter({
     low,
     high,
     optimum,
+    valueText: spoken,
     className,
 }: MeterProps) {
     const t = useMessages();
@@ -259,6 +262,9 @@ export function Meter({
             min={min}
             max={max}
             locale={t.locale}
+            {...(spoken !== undefined && {
+                getAriaValueText: () => spoken,
+            })}
             className={["zse-progress", className].filter(Boolean).join(" ")}
             data-size={size}
             data-tone={resolved}

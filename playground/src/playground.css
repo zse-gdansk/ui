@@ -548,3 +548,18 @@ body {
 .grade-demo-points {
     align-items: flex-end;
 }
+
+.signup-demo {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    align-items: start;
+    gap: 16px;
+}
+
+.signup-demo-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    grid-column: 1 / -1;
+    max-width: 360px;
+}
