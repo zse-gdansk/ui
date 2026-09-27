@@ -125,7 +125,7 @@ export function Code({ render, className, ...props }: CodeProps) {
     return useRender({
         render,
         defaultTagName: "code",
-        props: { ...props, className: cx("zse-code", className) },
+        props: { ...props, className: cx("zse-inline-code", className) },
     });
 }
 

@@ -43,6 +43,8 @@ Błędy, które już raz popełniliśmy. Przejrzyj przed oddaniem pracy.
 
 ## Narzędzia i proces
 
+- **Nowa klasa zderzyła się z korzeniem innego komponentu.** `Code` z typografii dostał `zse-code`, a to od dawna korzeń `CodeField` (jego części to `zse-code-*`). Style kodu w tekście (monospace, tło, obrys) trafiły na całe pole kodu. Przed nazwaniem klasy przeszukaj `src/styles` pod kątem `.zse-nazwa` i prefiksu `.zse-nazwa-`; kod w tekście to teraz `zse-inline-code`.
+
 - **Zamiana nazw wyrażeniem regularnym z `\b`** złapała koniec nazwy klasy (`zse-calendar-month` → `zse-calendar-shown`, bo myślnik to granica słowa). Po takiej zamianie przeszukaj plik pod kątem skutków ubocznych.
 - **`position: absolute` na strzałce popovera** trzeba dać samemu. Base UI podaje tylko współrzędne.
 - **Import CSS przez `url()` w bibliotece:** ścieżki względne do `src/fonts`, bundler aplikacji je rozwiązuje.

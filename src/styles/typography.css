@@ -123,13 +123,13 @@ p.zse-text,
 }
 
 /* Monospace obok zwykłych liter wygląda na większy (mono-in-text). */
-.zse-code,
+.zse-inline-code,
 :where(.zse-prose) :where(code, kbd, samp) {
     font-family: var(--font-mono);
     font-size: 0.9em;
 }
 
-.zse-code,
+.zse-inline-code,
 :where(.zse-prose) :where(:not(pre) > code) {
     padding: 0.1em 0.35em;
     border-radius: calc(var(--radius-sm) - 2px);
