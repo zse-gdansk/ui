@@ -1,21 +1,42 @@
 .zse-alert-frame {
     display: grid;
     grid-template-rows: 1fr;
-    transition-property: grid-template-rows, opacity;
-    transition-duration: 250ms, 200ms;
+    transition-property:
+        grid-template-rows, opacity, margin-block-start, margin-block-end;
+    transition-duration: 250ms, 200ms, 250ms, 250ms;
     transition-timing-function: var(--ease-out);
 }
 
 .zse-alert-frame[data-closing] {
     grid-template-rows: 0fr;
     opacity: 0;
-    transition-duration: 200ms, 150ms;
+    transition-duration: 200ms, 150ms, 200ms, 200ms;
+}
+
+.zse-alert-frame[data-closing][data-gap="end"] {
+    margin-block-end: calc(-1 * var(--alert-gap));
+}
+
+.zse-alert-frame[data-closing][data-gap="start"] {
+    margin-block-start: calc(-1 * var(--alert-gap));
 }
 
 .zse-alert-frame[data-enter] {
     @starting-style {
         grid-template-rows: 0fr;
         opacity: 0;
+    }
+}
+
+.zse-alert-frame[data-enter][data-gap="end"] {
+    @starting-style {
+        margin-block-end: calc(-1 * var(--alert-gap));
+    }
+}
+
+.zse-alert-frame[data-enter][data-gap="start"] {
+    @starting-style {
+        margin-block-start: calc(-1 * var(--alert-gap));
     }
 }
 
@@ -26,13 +47,15 @@
 
     min-height: 0;
     overflow: hidden;
-    border: 1px solid
+    /* Obrys cieniem, nie ramką: zwijany wiersz siatki nie ściśnie ramki
+       poniżej 2px i na końcu zwijania byłby skok (pitfalls). */
+    border-radius: var(--radius-lg);
+    box-shadow: inset 0 0 0 1px
         color-mix(
             in oklab,
             var(--color-bg-surface),
             var(--alert-tone) var(--alert-border-mix)
         );
-    border-radius: var(--radius-lg);
     background: color-mix(
         in oklab,
         var(--color-bg-surface),

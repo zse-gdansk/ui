@@ -16,6 +16,34 @@ import { Spokes } from "../spinner/Spinner";
 
 type AlertVariant = "info" | "success" | "warning" | "danger";
 
+function measureGap(frame: HTMLElement) {
+    const parent = frame.parentElement;
+    if (!parent) return;
+    const style = getComputedStyle(parent);
+    const column = style.display.includes("grid")
+        ? true
+        : style.display.includes("flex") &&
+          style.flexDirection.startsWith("column");
+    const gap = Number.parseFloat(style.rowGap);
+    const side = frame.nextElementSibling
+        ? "end"
+        : frame.previousElementSibling
+          ? "start"
+          : null;
+    if (!column || !gap || !side) {
+        delete frame.dataset.gap;
+        return;
+    }
+    frame.style.setProperty("--alert-gap", `${gap}px`);
+    frame.dataset.gap = side;
+}
+
+function trackFrame(frame: HTMLDivElement | null) {
+    if (!frame) return;
+    markEnter(frame);
+    measureGap(frame);
+}
+
 const ICONS: Record<AlertVariant, IconGlyph> = {
     info: InformationCircleIcon,
     success: CheckmarkCircle02Icon,
@@ -80,7 +108,7 @@ export function Alert({
 
     return (
         <div
-            ref={markEnter}
+            ref={trackFrame}
             className="zse-alert-frame"
             data-closing={closing || undefined}
             inert={closing}
@@ -140,14 +168,21 @@ export function Alert({
                             type="button"
                             className="zse-alert-close"
                             aria-label={dismissLabel ?? t.common.close}
-                            onClick={() => {
+                            onClick={(event) => {
                                 if (
                                     matchMedia(
                                         "(prefers-reduced-motion: reduce)",
                                     ).matches
                                 )
                                     onDismiss();
-                                else setClosing(true);
+                                else {
+                                    const frame =
+                                        event.currentTarget.closest<HTMLElement>(
+                                            ".zse-alert-frame",
+                                        );
+                                    if (frame) measureGap(frame);
+                                    setClosing(true);
+                                }
                             }}
                         >
                             <Icon icon={Cancel01Icon} size={14} />
