@@ -85,7 +85,9 @@ export function Deadline({
     const content = (
         <>
             {tone === "neutral" || tone === "warning" ? (
-                <span className="zse-deadline-sr">{t.deadline.dueLabel}</span>
+                <span className="zse-visually-hidden">
+                    {t.deadline.dueLabel}
+                </span>
             ) : null}
             <span className="zse-deadline-text" suppressHydrationWarning>
                 {text}

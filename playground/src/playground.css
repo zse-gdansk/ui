@@ -528,3 +528,23 @@ body {
 .people-demo {
     max-width: 480px;
 }
+
+.grades-demo-sum {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.grade-demo {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.grade-demo-fields {
+    max-width: 320px;
+}
+
+.grade-demo-points {
+    align-items: flex-end;
+}

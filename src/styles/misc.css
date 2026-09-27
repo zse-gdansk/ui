@@ -150,3 +150,14 @@
         --spokes-duration: 1.6s;
     }
 }
+
+/* Tekst tylko dla czytnika ekranu, np. „Termin:” przed czasem albo pełna
+   nazwa oceny. */
+.zse-visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}

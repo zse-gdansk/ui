@@ -1,0 +1,210 @@
+/* Znaczek oceny: kolor ze skali jak w Badge (półprzezroczysty, więc pasuje
+   na kartę i wiersz tabeli), ale kwadratowy, żeby kolumna ocen była równa. */
+.zse-grade {
+    --grade-tone: var(--color-text);
+    --grade-text: var(--color-text);
+    --grade-size: 24px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    box-sizing: border-box;
+    height: var(--grade-size);
+    min-width: var(--grade-size);
+    padding: 0 6px;
+    border-radius: var(--radius-sm);
+    background: color-mix(in oklab, var(--grade-tone) 8%, transparent);
+    box-shadow: inset 0 0 0 1px
+        color-mix(in oklab, var(--grade-tone) 16%, transparent);
+    color: var(--grade-text);
+    font-size: 0.875rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    white-space: nowrap;
+    vertical-align: middle;
+    outline: none;
+}
+
+.zse-grade[data-size="sm"] {
+    --grade-size: 20px;
+
+    padding: 0 4px;
+    font-size: 0.75rem;
+}
+
+.zse-grade[data-tone="success"] {
+    --grade-tone: var(--color-success-text);
+    --grade-text: var(--color-success-text);
+}
+
+.zse-grade[data-tone="warning"] {
+    --grade-tone: var(--color-warning-text);
+    --grade-text: var(--color-warning-text);
+}
+
+.zse-grade[data-tone="danger"] {
+    --grade-tone: var(--color-danger-text);
+    --grade-text: var(--color-danger-text);
+}
+
+.zse-grade[data-mark] {
+    --grade-text: var(--color-text-secondary);
+}
+
+.zse-grade:focus-visible {
+    box-shadow: var(--focus-ring);
+}
+
+.zse-grade-previous {
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-decoration-thickness: 1px;
+}
+
+.zse-grade-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.zse-grade-details-name {
+    font-weight: 500;
+}
+
+.zse-grade-details-comment {
+    color: var(--color-text-secondary);
+    text-wrap: pretty;
+}
+
+/* Przycisk siatki przy otwartej siatce. */
+.zse-grade-field .zse-number-button[data-popup-open] {
+    background: var(--color-bg-tint);
+    color: var(--color-text);
+}
+
+/* Siatka pod polem oceny, na jego szerokość jak lista Select: kolumny to
+   oceny, wiersze to plus, bez znaku i minus, pod kreską np i bz. */
+.zse-grade-popup {
+    min-width: 240px;
+}
+
+.zse-grade-keys {
+    display: grid;
+    gap: 2px;
+}
+
+.zse-grade-keys-separator {
+    grid-column: 1 / -1;
+    height: 1px;
+    margin: 3px 4px;
+    background: var(--color-separator);
+}
+
+.zse-grade-key {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    /* Współśrodkowo z oknem o paddingu 4px, jak pozycja w Select. */
+    border-radius: calc(var(--radius-md) - 4px);
+    background: transparent;
+    color: var(--color-text);
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: scale 160ms var(--ease-out);
+}
+
+.zse-grade-key[data-tone="success"] {
+    color: var(--color-success-text);
+}
+
+.zse-grade-key[data-tone="warning"] {
+    color: var(--color-warning-text);
+}
+
+.zse-grade-key[data-tone="danger"] {
+    color: var(--color-danger-text);
+}
+
+@media (hover: hover) {
+    .zse-grade-key:hover {
+        background: var(--color-bg-hover);
+    }
+}
+
+.zse-grade-key[aria-pressed="true"] {
+    background: color-mix(in oklab, var(--color-accent-solid) 14%, transparent);
+}
+
+.zse-grade-key:active {
+    scale: 0.94;
+}
+
+.zse-grade-key:focus-visible {
+    box-shadow: inset 0 0 0 1.5px var(--color-focus-ring);
+}
+
+@media (pointer: coarse) {
+    .zse-grade-key {
+        height: 44px;
+    }
+}
+
+.zse-grade-average {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+}
+
+.zse-grade-average[data-size="sm"] {
+    gap: 6px;
+    font-size: 0.75rem;
+}
+
+.zse-grade-average-label {
+    color: var(--color-text-secondary);
+}
+
+.zse-grade-average-value {
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+}
+
+.zse-grade-thresholds {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.zse-grade-thresholds-label {
+    margin-bottom: 12px;
+    padding: 0;
+    color: var(--color-text);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.zse-grade-thresholds-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px 16px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-grade-key:active {
+        scale: 1;
+    }
+}

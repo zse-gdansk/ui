@@ -41,13 +41,3 @@
 .zse-deadline-text {
     font-variant-numeric: tabular-nums;
 }
-
-/* „Termin:” tylko dla czytnika; na ekranie mówi to ikona zegara. */
-.zse-deadline-sr {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-}

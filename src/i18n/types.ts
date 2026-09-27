@@ -37,6 +37,25 @@ export interface Messages {
         empty: string;
         emptyFor: (query: string) => string;
     };
+    grade: {
+        // Nazwy ocen domyślnej skali po wartości: 4 → „dobry”.
+        steps: Record<number, string>;
+        // Po symbolu modyfikatora: "+" → „plus”.
+        modifiers: Record<string, string>;
+        // Po zapisie znaku: "np" → „nieprzygotowany”.
+        marks: Record<string, string>;
+        weight: (weight: string) => string;
+        improvedFrom: (previous: string) => string;
+        invalid: string;
+        pick: string;
+        average: string;
+        noAverage: string;
+        predicted: (grade: string) => string;
+        from: (grade: string) => string;
+        range: (from: string, to: string) => string;
+        pointsFrom: (points: string) => string;
+        thresholdOrder: string;
+    };
     peoplePicker: {
         groups: string;
         people: string;

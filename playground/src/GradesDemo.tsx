@@ -7,6 +7,8 @@ import {
 import {
     Button,
     ContextMenu,
+    Grade,
+    gradeFromPoints,
     createSearch,
     Input,
     MenuItem,
@@ -260,7 +262,16 @@ export function GradesDemo() {
                                 );
                             })}
                             <TableCell sticky="right" numeric>
-                                {format(student.sum)}
+                                <span className="grades-demo-sum">
+                                    {format(student.sum)}
+                                    <Grade
+                                        size="sm"
+                                        value={
+                                            gradeFromPoints(student.sum, MAX)
+                                                ?.grade ?? ""
+                                        }
+                                    />
+                                </span>
                             </TableCell>
                         </TableRow>
                     ))}

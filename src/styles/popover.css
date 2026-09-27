@@ -59,8 +59,12 @@
     margin-inline-start: auto;
 }
 
+/* overflow ucina też w poziomie, a z nim obrys fokusu elementów przy
+   krawędzi; padding z ujemnym marginesem daje mu miejsce. */
 .zse-popover-body {
     min-height: 0;
+    margin: -4px;
+    padding: 4px;
     overflow-y: auto;
 }
 

@@ -478,3 +478,40 @@ export {
     type PeoplePickerProps,
     type Person,
 } from "./components/people-picker/PeoplePicker";
+export {
+    defaultGradeConfig,
+    gradeAverage,
+    gradeFromPoints,
+    gradeFromThresholds,
+    gradeOptions,
+    parseGrade,
+    polishScale,
+    predictGrade,
+    type GradeConfig,
+    type GradeEntry,
+    type GradeMark,
+    type GradeModifier,
+    type GradeScale,
+    type GradeStep,
+    type GradeThreshold,
+    type GradeTone,
+    type ParsedGrade,
+} from "./grades/grades";
+export {
+    GradesProvider,
+    gradeName,
+    type GradesProviderProps,
+} from "./components/grade/context";
+export { Grade, type GradeProps } from "./components/grade/Grade";
+export {
+    GradeAverage,
+    type GradeAverageProps,
+} from "./components/grade/GradeAverage";
+export {
+    GradeField,
+    type GradeFieldProps,
+} from "./components/grade/GradeField";
+export {
+    GradeThresholds,
+    type GradeThresholdsProps,
+} from "./components/grade/GradeThresholds";

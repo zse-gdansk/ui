@@ -52,6 +52,7 @@ import { EmptyDemo } from "./EmptyDemo";
 import { ErrorsDemo } from "./ErrorsDemo";
 import { EventsDemo } from "./EventsDemo";
 import { FormDemo } from "./FormDemo";
+import { GradeDemo } from "./GradeDemo";
 import { GradesDemo } from "./GradesDemo";
 import { HoverCardDemo } from "./HoverCardDemo";
 import { InputGroupDemo } from "./InputGroupDemo";
@@ -491,6 +492,8 @@ export function App() {
             <DeadlineDemo />
 
             <PeopleDemo />
+
+            <GradeDemo />
 
             <StepperDemo />
 
