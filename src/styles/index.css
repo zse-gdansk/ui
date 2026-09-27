@@ -22,6 +22,7 @@
 @import "./stepper.css";
 @import "./segmented.css";
 @import "./toggle.css";
+@import "./theme-button.css";
 @import "./toolbar.css";
 @import "./pagination.css";
 @import "./tooltip.css";

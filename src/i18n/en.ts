@@ -437,6 +437,7 @@ export const en: Messages = {
         retry: "Try again",
     },
     localeSwitcher: { label: "Language" },
+    themeButton: { label: "Change theme" },
     table: {
         search: "Search…",
         clearFilters: "Clear filters",

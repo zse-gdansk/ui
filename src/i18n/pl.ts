@@ -449,6 +449,7 @@ export const pl: Messages = {
         retry: "Spróbuj ponownie",
     },
     localeSwitcher: { label: "Język" },
+    themeButton: { label: "Zmień motyw" },
     table: {
         search: "Szukaj…",
         clearFilters: "Wyczyść filtry",

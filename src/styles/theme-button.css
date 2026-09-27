@@ -1,0 +1,96 @@
+.zse-theme-button {
+    --theme-button-size: 36px;
+
+    display: inline-grid;
+    flex: none;
+    place-items: center;
+    box-sizing: border-box;
+    width: var(--theme-button-size);
+    height: var(--theme-button-size);
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: scale 160ms var(--ease-out);
+}
+
+.zse-theme-button[data-size="sm"] {
+    --theme-button-size: 32px;
+}
+
+.zse-theme-button[data-variant="outline"] {
+    border-color: var(--color-border-strong);
+}
+
+@media (pointer: coarse) {
+    .zse-theme-button {
+        --theme-button-size: 40px;
+    }
+}
+
+@media (hover: hover) {
+    .zse-theme-button:not([data-disabled]):hover {
+        background: var(--color-bg-tint);
+        color: var(--color-text);
+    }
+
+    .zse-theme-button[data-variant="outline"]:not([data-disabled]):hover {
+        border-color: var(--color-border-hover);
+    }
+}
+
+.zse-theme-button:not([data-disabled]):active {
+    scale: 0.96;
+}
+
+.zse-theme-button:focus-visible {
+    box-shadow: var(--focus-ring);
+}
+
+.zse-theme-button[data-disabled] {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.zse-theme-button-icons {
+    display: grid;
+}
+
+.zse-theme-button-icons > svg {
+    grid-area: 1 / 1;
+    width: 16px;
+    height: 16px;
+    transition-property: opacity, scale, filter;
+    transition-duration: 300ms;
+    transition-timing-function: var(--ease-standard);
+}
+
+/* Ikona z data-theme na <html>: bez motywu albo w jasnym słońce. */
+.zse-theme-button [data-icon="dark"],
+:root[data-theme="dark"] .zse-theme-button [data-icon="light"] {
+    opacity: 0;
+    scale: 0.25;
+    filter: blur(4px);
+}
+
+:root[data-theme="dark"] .zse-theme-button [data-icon="dark"] {
+    opacity: 1;
+    scale: 1;
+    filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-theme-button:not([data-disabled]):active {
+        scale: 1;
+    }
+
+    .zse-theme-button-icons > svg {
+        transition-property: opacity;
+        scale: 1 !important;
+        filter: none !important;
+    }
+}

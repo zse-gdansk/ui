@@ -21,7 +21,8 @@ body {
     gap: 8px;
 }
 
-.toolbar button {
+/* Tylko surowe przyciski playgroundu, nie komponenty z biblioteki. */
+.toolbar button:not([class]) {
     padding: 6px 12px;
     border: 1px solid var(--color-border);
     border-radius: 8px;

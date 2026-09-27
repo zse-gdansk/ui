@@ -314,6 +314,7 @@ export interface Messages {
         sequence: string;
     };
     localeSwitcher: { label: string };
+    themeButton: { label: string };
     userMenu: { label: (name: string) => string };
     deadline: {
         // Dopisek dla czytnika przed czasem („Termin: jutro o 15:00”).

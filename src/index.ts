@@ -549,3 +549,7 @@ export {
     studentIdMask,
     type Mask,
 } from "./components/masked-input/masks";
+export {
+    ThemeButton,
+    type ThemeButtonProps,
+} from "./components/theme-button/ThemeButton";

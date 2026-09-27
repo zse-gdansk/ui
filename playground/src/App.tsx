@@ -26,6 +26,7 @@ import {
     Switch,
     Tabs,
     Textarea,
+    ThemeButton,
     toast,
     Toaster,
     Tooltip,
@@ -119,6 +120,12 @@ export function App() {
                 <button type="button" onClick={toggleTheme}>
                     Motyw: {theme}
                 </button>
+                <ThemeButton onClick={toggleTheme} size="sm" />
+                <ThemeButton
+                    onClick={toggleTheme}
+                    size="sm"
+                    variant="outline"
+                />
             </header>
 
             <section className="ramps">
