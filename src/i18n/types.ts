@@ -146,6 +146,13 @@ export interface Messages {
     kbd: { space: string; backspace: string; delete: string; escape: string };
     localeSwitcher: { label: string };
     userMenu: { label: (name: string) => string };
+    tagInput: {
+        invalid: string;
+        duplicate: (tag: string) => string;
+        limit: (max: string) => string;
+        skipped: (count: number, formatted: string) => string;
+        armed: (tag: string) => string;
+    };
     secretField: {
         show: string;
         hide: string;

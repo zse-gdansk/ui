@@ -356,3 +356,4 @@ export {
     SecretField,
     type SecretFieldProps,
 } from "./components/secret-field/SecretField";
+export { TagInput, type TagInputProps } from "./components/tag-input/TagInput";

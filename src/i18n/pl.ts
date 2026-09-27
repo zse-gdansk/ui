@@ -187,6 +187,18 @@ export const pl: Messages = {
         moreActions: "Więcej akcji",
     },
     userMenu: { label: (name) => `Konto: ${name}` },
+    tagInput: {
+        invalid: "Nieprawidłowa wartość.",
+        duplicate: (tag) => `„${tag}” już jest na liście.`,
+        limit: (max) => `Limit: ${max}.`,
+        skipped: (n, formatted) =>
+            `Pominięto ${formatted} ${plural("pl-PL", n, {
+                one: "nieprawidłową wartość",
+                few: "nieprawidłowe wartości",
+                other: "nieprawidłowych wartości",
+            })}.`,
+        armed: (tag) => `Backspace jeszcze raz usunie: ${tag}`,
+    },
     secretField: {
         show: "Pokaż",
         hide: "Ukryj",
