@@ -6,9 +6,10 @@ import {
     Copy01Icon,
     Tick02Icon,
 } from "@hugeicons/core-free-icons";
-import { useEffect, useState, type CSSProperties } from "react";
+import { useState, type CSSProperties } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { useAbortableTask } from "../../utils/effects";
 import { useCopy } from "../../utils/use-copy";
 import { Icon } from "../icon/Icon";
 import {
@@ -129,30 +130,32 @@ export function CodeBlock({
     const lineCount = source.split("\n").length;
     const collapsible = maxLines !== false && lineCount > maxLines + 2;
 
-    useEffect(() => {
-        if (highlightedHtml || !language) return;
-        let cancelled = false;
-        const [lit, plus, minus, picked, faults] = JSON.parse(marksKey) as [
-            number[],
-            number[],
-            number[],
-            string[],
-            CodeError[],
-        ];
-        const current: Marks = {
-            highlight: new Set(lit),
-            added: new Set(plus),
-            removed: new Set(minus),
-            words: picked,
-            errors: faults,
-        };
-        void highlight(source, language, current).then((result) => {
-            if (!cancelled && result) setColored(result);
-        });
-        return () => {
-            cancelled = true;
-        };
-    }, [source, language, highlightedHtml, marksKey]);
+    // Kolorowanie Shiki w tle; zmiana kodu, języka albo znaczników zaczyna
+    // od nowa, a spóźniony wynik starej wersji przepada.
+    useAbortableTask(
+        highlightedHtml || !language
+            ? null
+            : `${language}\u0000${marksKey}\u0000${source}`,
+        async (signal) => {
+            if (!language) return;
+            const [lit, plus, minus, picked, faults] = JSON.parse(marksKey) as [
+                number[],
+                number[],
+                number[],
+                string[],
+                CodeError[],
+            ];
+            const current: Marks = {
+                highlight: new Set(lit),
+                added: new Set(plus),
+                removed: new Set(minus),
+                words: picked,
+                errors: faults,
+            };
+            const result = await highlight(source, language, current);
+            if (!signal.aborted && result) setColored(result);
+        },
+    );
 
     // Tylko wyjście Shiki / escapeHtml: surowy tekst kodu nigdy nie trafia
     // do sinka jako HTML.

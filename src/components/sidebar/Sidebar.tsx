@@ -13,9 +13,7 @@ import {
 import {
     createContext,
     useContext,
-    useEffect,
     useId,
-    useLayoutEffect,
     useRef,
     useState,
     type ReactElement,
@@ -23,6 +21,7 @@ import {
 } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { useDomEffect, useTimeout } from "../../utils/effects";
 import { AppShellContext, SHORTCUT } from "../app-shell/AppShell";
 import { useHrefShortcut } from "../command/context";
 import { Icon, type IconGlyph } from "../icon/Icon";
@@ -217,13 +216,14 @@ export function SidebarContent({
         setShown({ view, level, children });
     }
 
-    useEffect(() => {
-        if (!leaving) return;
-        const timer = setTimeout(() => setLeaving(null), VIEW_SWAP + 80);
-        return () => clearTimeout(timer);
-    }, [leaving]);
+    // Wychodząca kopia widoku znika po animacji.
+    useTimeout(
+        () => setLeaving(null),
+        leaving ? VIEW_SWAP + 80 : null,
+        leaving,
+    );
 
-    useLayoutEffect(() => {
+    useDomEffect(() => {
         const nav = navRef.current;
         const viewport = nav?.closest<HTMLElement>(".zse-scroll-viewport");
         if (!viewport) return;

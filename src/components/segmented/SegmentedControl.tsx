@@ -2,8 +2,9 @@
 
 import { Radio } from "@base-ui/react/radio";
 import { RadioGroup } from "@base-ui/react/radio-group";
-import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 
+import { useDomEffect, useResizeObserver } from "../../utils/effects";
 import { Icon, type IconGlyph } from "../icon/Icon";
 
 export interface SegmentedOption {
@@ -68,16 +69,12 @@ export function SegmentedControl({
     );
     const current = value ?? internal;
 
-    useLayoutEffect(() => {
-        const root = rootRef.current;
-        if (!root) return;
-        place(root, current);
-        // Zmiana szerokości (font, zawijanie rodzica) przestawia suwak.
-        const observer = new ResizeObserver(() => place(root, current));
-        observer.observe(root);
-        for (const item of root.children) observer.observe(item);
-        return () => observer.disconnect();
-    }, [current]);
+    const placeThumb = () => {
+        if (rootRef.current) place(rootRef.current, current);
+    };
+    useDomEffect(placeThumb, [current]);
+    // Zmiana szerokości (font, zawijanie rodzica) przestawia suwak.
+    useResizeObserver(rootRef, placeThumb, { children: true });
 
     return (
         <RadioGroup

@@ -5,10 +5,11 @@ import {
     Cancel01Icon,
     Search01Icon,
 } from "@hugeicons/core-free-icons";
-import { useLayoutEffect, useRef, type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 
 import { useMessages } from "../../i18n/context";
 import type { Messages } from "../../i18n/types";
+import { useDomEffect } from "../../utils/effects";
 import { Button } from "../button/Button";
 import { Icon } from "../icon/Icon";
 import { Input } from "../input/Input";
@@ -143,7 +144,7 @@ export function TableToolbar({
 
     // Znikający pasek akcji nie zabiera fokusu w próżnię: wraca na pasek,
     // skąd Tab prowadzi dalej.
-    useLayoutEffect(() => {
+    useDomEffect(() => {
         if (!selecting && bulkRef.current?.contains(document.activeElement))
             rootRef.current?.focus();
     }, [selecting]);

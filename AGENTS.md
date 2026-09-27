@@ -16,6 +16,7 @@ Zanim cokolwiek zmienisz, przeczytaj plik z `docs/` dotyczący tego, co robisz. 
 | [docs/forms.md](docs/forms.md)                         | pola formularzy, walidacja, `Form`                                                        |
 | [docs/i18n.md](docs/i18n.md)                           | każdy tekst widoczny w interfejsie albo dla czytnika                                      |
 | [docs/pitfalls.md](docs/pitfalls.md)                   | przed oddaniem pracy: błędy, które już raz popełniliśmy                                   |
+| [docs/effects.md](docs/effects.md)                     | zanim sięgniesz po efekt: czym go zastąpić, nazwane hooki z `src/utils/effects.ts`        |
 | [docs/components.md](docs/components.md)               | spis komponentów i tego, co już potrafią                                                  |
 | [docs/commands.md](docs/commands.md)                   | polecenia w palecie (⌘K), akcje z krokami, skróty klawiszowe                              |
 | [docs/workflow.md](docs/workflow.md)                   | komendy, commity, sprawdzanie pracy                                                       |

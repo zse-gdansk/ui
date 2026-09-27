@@ -7,8 +7,6 @@ import {
 } from "@hugeicons/core-free-icons";
 import {
     useCallback,
-    useEffect,
-    useLayoutEffect,
     useRef,
     useState,
     type ComponentProps,
@@ -16,6 +14,11 @@ import {
 } from "react";
 
 import { useMessages } from "../../i18n/context";
+import {
+    useAbortableTask,
+    useDomEffect,
+    useResizeObserver,
+} from "../../utils/effects";
 import { FieldFooter } from "../field/FieldFooter";
 import { Icon, type IconGlyph } from "../icon/Icon";
 import { Spokes } from "../spinner/Spinner";
@@ -84,7 +87,6 @@ export function InputGroup({
         status: Status;
         message?: string;
     }>({ status: "idle" });
-    const latest = useRef(0);
     const shown = props.value !== undefined ? String(props.value) : value;
     const placeholder =
         typeof props.placeholder === "string" ? props.placeholder : "";
@@ -98,45 +100,33 @@ export function InputGroup({
         input.style.width = `${mirror.getBoundingClientRect().width + 1}px`;
     }, []);
 
-    useLayoutEffect(() => {
-        if (suffix == null) return;
-        fit();
-        const observer = new ResizeObserver(fit);
-        if (mirrorRef.current) observer.observe(mirrorRef.current);
-        return () => observer.disconnect();
+    // Pole z dopiskiem ma szerokość wpisanego tekstu (z niewidocznej kopii).
+    useDomEffect(() => {
+        if (suffix != null) fit();
     });
+    useResizeObserver(mirrorRef, fit, { enabled: suffix != null });
 
-    useEffect(() => {
-        if (!check) return;
-        const text = value.trim();
-        if (!text) return;
-        const controller = new AbortController();
-        const id = (latest.current += 1);
-        const timer = setTimeout(() => {
-            check(text, controller.signal).then(
-                (result) => {
-                    if (controller.signal.aborted || id !== latest.current)
-                        return;
-                    setChecked(
-                        result === true
-                            ? { status: "success" }
-                            : { status: "error", message: result },
-                    );
-                },
-                () => {
-                    if (controller.signal.aborted) return;
-                    setChecked({
-                        status: "error",
-                        message: failedText,
-                    });
-                },
-            );
-        }, checkDelay);
-        return () => {
-            clearTimeout(timer);
-            controller.abort();
-        };
-    }, [value, check, checkDelay, failedText]);
+    // Sprawdzenie na serwerze po checkDelay od ostatniego znaku.
+    const text = value.trim();
+    useAbortableTask(
+        check && text ? text : null,
+        async (signal) => {
+            if (!check) return;
+            try {
+                const result = await check(text, signal);
+                if (signal.aborted) return;
+                setChecked(
+                    result === true
+                        ? { status: "success" }
+                        : { status: "error", message: result },
+                );
+            } catch {
+                if (signal.aborted) return;
+                setChecked({ status: "error", message: failedText });
+            }
+        },
+        checkDelay,
+    );
 
     const status = statusProp ?? checked.status;
     const message =

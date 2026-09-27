@@ -1,13 +1,9 @@
 "use client";
 
 import { useRender } from "@base-ui/react/use-render";
-import {
-    useLayoutEffect,
-    useRef,
-    type ReactElement,
-    type ReactNode,
-} from "react";
+import { useRef, type ReactElement, type ReactNode } from "react";
 
+import { useDomEffect, useResizeObserver } from "../../utils/effects";
 import { ScrollArea } from "../scroll-area/ScrollArea";
 
 export interface PageTabsProps {
@@ -44,18 +40,14 @@ function place(list: HTMLElement, first: boolean) {
 export function PageTabs({ label, children }: PageTabsProps) {
     const listRef = useRef<HTMLUListElement>(null);
 
-    useLayoutEffect(() => {
+    // Po każdym renderze, bo aktywna zakładka wynika z dzieci (adresu).
+    useDomEffect(() => {
         const list = listRef.current;
-        if (!list) return;
-        place(list, !list.hasAttribute("data-ready"));
+        if (list) place(list, !list.hasAttribute("data-ready"));
     });
-    useLayoutEffect(() => {
-        const list = listRef.current;
-        if (!list) return;
-        const observer = new ResizeObserver(() => place(list, false));
-        observer.observe(list);
-        return () => observer.disconnect();
-    }, []);
+    useResizeObserver(listRef, () => {
+        if (listRef.current) place(listRef.current, false);
+    });
 
     return (
         <nav className="zse-page-tabs" aria-label={label}>

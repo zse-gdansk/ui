@@ -4,7 +4,6 @@ import { Fieldset as BaseFieldset } from "@base-ui/react/fieldset";
 import { Form as BaseForm } from "@base-ui/react/form";
 import {
     useCallback,
-    useEffect,
     useMemo,
     useRef,
     useState,
@@ -13,6 +12,7 @@ import {
 } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { useEventListener } from "../../utils/effects";
 import { Alert } from "../alert/Alert";
 import { Button } from "../button/Button";
 import { FormContext, useFormState } from "./context";
@@ -111,12 +111,12 @@ export function Form<Schema extends StandardSchemaV1 | undefined = undefined>({
         [submitting, register],
     );
 
-    useEffect(() => {
-        if (!warnOnLeave || !dirty) return;
-        const warn = (event: BeforeUnloadEvent) => event.preventDefault();
-        window.addEventListener("beforeunload", warn);
-        return () => window.removeEventListener("beforeunload", warn);
-    }, [warnOnLeave, dirty]);
+    useEventListener(
+        "window",
+        "beforeunload",
+        (event) => event.preventDefault(),
+        { enabled: warnOnLeave && dirty },
+    );
 
     async function submit(raw: Record<string, unknown>) {
         // Drugie kliknięcie w trakcie wysyłania nic nie robi.

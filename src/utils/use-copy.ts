@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
+
+import { useMountEffect } from "./effects";
 
 export type CopyState = "idle" | "copied" | "failed";
 
@@ -10,7 +12,7 @@ export function useCopy(duration = 2000) {
     const [state, setState] = useState<CopyState>("idle");
     const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
-    useEffect(() => () => clearTimeout(timer.current), []);
+    useMountEffect(() => () => clearTimeout(timer.current));
 
     async function copy(source: Source) {
         let next: CopyState = "copied";

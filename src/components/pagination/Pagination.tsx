@@ -7,7 +7,6 @@ import {
     ArrowRightDoubleIcon,
 } from "@hugeicons/core-free-icons";
 import {
-    useLayoutEffect,
     useRef,
     useState,
     type KeyboardEvent,
@@ -16,6 +15,7 @@ import {
 } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { useDomEffect, useResizeObserver } from "../../utils/effects";
 import { Icon, type IconGlyph } from "../icon/Icon";
 import { Select } from "../select/Select";
 import { pageRange } from "./range";
@@ -96,14 +96,8 @@ export function Pagination({
         null,
     );
 
-    useLayoutEffect(() => {
-        const list = listRef.current;
-        place(list, current);
-        if (!list) return;
-        const observer = new ResizeObserver(() => place(list, current));
-        observer.observe(list);
-        return () => observer.disconnect();
-    }, [current]);
+    useDomEffect(() => place(listRef.current, current), [current]);
+    useResizeObserver(listRef, () => place(listRef.current, current));
 
     function go(next: number, event?: MouseEvent) {
         const target = Math.min(Math.max(next, 1), count);

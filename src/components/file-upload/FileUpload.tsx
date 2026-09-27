@@ -9,7 +9,6 @@ import {
     RefreshIcon,
 } from "@hugeicons/core-free-icons";
 import {
-    useEffect,
     useId,
     useRef,
     useState,
@@ -20,6 +19,12 @@ import {
 } from "react";
 
 import { useMessages } from "../../i18n/context";
+import {
+    useEventListener,
+    useExternalEffect,
+    useLatest,
+    useMountEffect,
+} from "../../utils/effects";
 import { FieldFooter } from "../field/FieldFooter";
 import { useFormValue } from "../form/context";
 import { Icon } from "../icon/Icon";
@@ -108,6 +113,9 @@ async function thumbnail(file: File) {
 
 const sameFile = (a: File, b: File) =>
     a.name === b.name && a.size === b.size && a.lastModified === b.lastModified;
+
+const hasFiles = (event: globalThis.DragEvent) =>
+    event.dataTransfer?.types.includes("Files") ?? false;
 
 export function FileUpload({
     label,
@@ -270,8 +278,10 @@ export function FileUpload({
         valid.map((item) => item.file),
     );
     const validKey = valid.map((item) => item.id).join();
-    const reported = useRef("");
-    useEffect(() => {
+    // Rodzic i ukryty input dostają pliki po każdej zmianie listy poprawnych
+    // (dodanie, usunięcie, koniec wysyłania), nie przy pierwszym renderze.
+    const reported = useRef(validKey);
+    useExternalEffect(() => {
         if (validKey === reported.current) return;
         reported.current = validKey;
         const files = valid.map((item) => item.file);
@@ -281,56 +291,52 @@ export function FileUpload({
             for (const file of files) transfer.items.add(file);
             inputRef.current.files = transfer.files;
         }
-    });
+    }, [validKey]);
 
-    useEffect(() => {
-        if (disabled) return;
-        let depth = 0;
-        const hasFiles = (event: globalThis.DragEvent) =>
-            event.dataTransfer?.types.includes("Files") ?? false;
-        const enter = (event: globalThis.DragEvent) => {
+    // Pliki przeciągane nad okno: podświetlenie strefy i brak otwierania
+    // pliku w karcie po upuszczeniu obok niej. depth liczy wejścia w
+    // zagnieżdżone elementy.
+    const depth = useRef(0);
+    const dragOptions = { enabled: !disabled };
+    useEventListener<globalThis.DragEvent>(
+        "window",
+        "dragenter",
+        (event) => {
             if (!hasFiles(event)) return;
-            depth += 1;
+            depth.current += 1;
             setDragging(true);
-        };
-        const leave = (event: globalThis.DragEvent) => {
-            if (!hasFiles(event)) return;
-            depth = Math.max(depth - 1, 0);
-            if (depth === 0) setDragging(false);
-        };
-        const stop = (event: globalThis.DragEvent) => {
-            if (!hasFiles(event)) return;
-            event.preventDefault();
-            if (event.type === "drop") {
-                depth = 0;
-                setDragging(false);
-            }
-        };
-        window.addEventListener("dragenter", enter);
-        window.addEventListener("dragleave", leave);
-        window.addEventListener("dragover", stop);
-        window.addEventListener("drop", stop);
-        return () => {
-            window.removeEventListener("dragenter", enter);
-            window.removeEventListener("dragleave", leave);
-            window.removeEventListener("dragover", stop);
-            window.removeEventListener("drop", stop);
-        };
-    }, [disabled]);
-
-    const itemsRef = useRef(items);
-    useEffect(() => {
-        itemsRef.current = items;
-    });
-    useEffect(
-        () => () => {
-            for (const controller of controllers.current.values())
-                controller.abort();
-            for (const item of itemsRef.current)
-                if (item.preview) URL.revokeObjectURL(item.preview);
         },
-        [controllers, itemsRef],
+        dragOptions,
     );
+    useEventListener<globalThis.DragEvent>(
+        "window",
+        "dragleave",
+        (event) => {
+            if (!hasFiles(event)) return;
+            depth.current = Math.max(depth.current - 1, 0);
+            if (depth.current === 0) setDragging(false);
+        },
+        dragOptions,
+    );
+    const stop = (event: globalThis.DragEvent) => {
+        if (!hasFiles(event)) return;
+        event.preventDefault();
+        if (event.type === "drop") {
+            depth.current = 0;
+            setDragging(false);
+        }
+    };
+    useEventListener("window", "dragover", stop, dragOptions);
+    useEventListener("window", "drop", stop, dragOptions);
+
+    // Przy odmontowaniu: przerwane wysyłki i zwolnione podglądy.
+    const latestItems = useLatest(items);
+    useMountEffect(() => () => {
+        for (const controller of controllers.current.values())
+            controller.abort();
+        for (const item of latestItems.current)
+            if (item.preview) URL.revokeObjectURL(item.preview);
+    });
 
     const description =
         hint ??

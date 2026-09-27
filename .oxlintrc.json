@@ -20,5 +20,34 @@
         "builtin": true,
         "browser": true
     },
-    "ignorePatterns": ["dist/**"]
+    "ignorePatterns": ["dist/**"],
+    "overrides": [
+        {
+            "files": ["src/**/*.ts", "src/**/*.tsx"],
+            "rules": {
+                "no-restricted-imports": [
+                    "error",
+                    {
+                        "paths": [
+                            {
+                                "name": "react",
+                                "importNames": [
+                                    "useEffect",
+                                    "useLayoutEffect",
+                                    "useInsertionEffect"
+                                ],
+                                "message": "Bez gołych efektów w bibliotece: hook z src/utils/effects.ts (useMountEffect, useEventListener, useDomEffect…) albo w ogóle bez efektu. Zasady w docs/effects.md."
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "files": ["src/utils/effects.ts"],
+            "rules": {
+                "no-restricted-imports": "off"
+            }
+        }
+    ]
 }

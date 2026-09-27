@@ -5,7 +5,6 @@ import { SidebarLeftIcon } from "@hugeicons/core-free-icons";
 import {
     createContext,
     useContext,
-    useEffect,
     useId,
     useMemo,
     useRef,
@@ -14,6 +13,7 @@ import {
 } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { useDomEffect, useEventListener } from "../../utils/effects";
 import { Icon } from "../icon/Icon";
 import { matchesShortcut } from "../menu/shortcut";
 
@@ -130,13 +130,10 @@ export function AppShell({
 
     // Skrót z klawiatury przełącza bez animacji: powtarzany często, animacja
     // tylko by opóźniała.
-    const latest = useRef(state.toggle);
-    useEffect(() => {
-        latest.current = state.toggle;
-    });
-    useEffect(() => {
-        if (!shortcut || !hasSidebar) return;
-        const onKeyDown = (event: KeyboardEvent) => {
+    useEventListener<KeyboardEvent>(
+        "window",
+        "keydown",
+        (event) => {
             if (event.repeat || !matchesShortcut(event, SHORTCUT)) return;
             const target = event.target;
             if (target instanceof HTMLElement && target.isContentEditable)
@@ -144,42 +141,42 @@ export function AppShell({
             event.preventDefault();
             const root = rootRef.current;
             root?.setAttribute("data-instant", "");
-            latest.current();
+            state.toggle();
             requestAnimationFrame(() =>
                 requestAnimationFrame(() =>
                     root?.removeAttribute("data-instant"),
                 ),
             );
-        };
-        window.addEventListener("keydown", onKeyDown);
-        return () => window.removeEventListener("keydown", onKeyDown);
-    }, [shortcut, hasSidebar]);
+        },
+        { enabled: Boolean(shortcut) && hasSidebar },
+    );
 
     // Kreska pod paskiem, gdy treść jest przewinięta. Atrybut zamiast
     // stanu, żeby przewijanie nie renderowało strony.
     const headerRef = useRef<HTMLElement>(null);
     const mainRef = useRef<HTMLElement>(null);
-    useEffect(() => {
-        const bar = headerRef.current;
-        const main = mainRef.current;
-        if (!hasHeader || !bar || !main) return;
-        const update = () =>
-            bar.toggleAttribute("data-scrolled", main.scrollTop > 0);
-        update();
-        main.addEventListener("scroll", update, { passive: true });
-        return () => main.removeEventListener("scroll", update);
+    const markScrolled = () =>
+        headerRef.current?.toggleAttribute(
+            "data-scrolled",
+            (mainRef.current?.scrollTop ?? 0) > 0,
+        );
+    useDomEffect(() => {
+        if (hasHeader) markScrolled();
     }, [hasHeader]);
+    useEventListener(mainRef, "scroll", markScrolled, {
+        enabled: hasHeader,
+        passive: true,
+    });
 
     // Po poszerzeniu okna wysunięty panel nie ma już sensu.
-    useEffect(() => {
-        if (!mobileOpen) return;
-        const query = matchMedia(DESKTOP);
-        const close = () => {
-            if (query.matches) setMobileOpen(false);
-        };
-        query.addEventListener("change", close);
-        return () => query.removeEventListener("change", close);
-    }, [mobileOpen]);
+    useEventListener<MediaQueryListEvent>(
+        () => matchMedia(DESKTOP),
+        "change",
+        (event) => {
+            if (event.matches) setMobileOpen(false);
+        },
+        { enabled: mobileOpen },
+    );
 
     return (
         <HeaderSlotContext value={slotValue}>

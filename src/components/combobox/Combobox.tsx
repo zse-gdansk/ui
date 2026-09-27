@@ -7,11 +7,12 @@ import {
     Cancel01Icon,
     Tick02Icon,
 } from "@hugeicons/core-free-icons";
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 
 import { useMessages } from "../../i18n/context";
 import { Highlight } from "../../search/Highlight";
 import { createSearch, type SearchKey } from "../../search/search";
+import { useAbortableTask } from "../../utils/effects";
 import { FieldFooter } from "../field/FieldFooter";
 import { Icon } from "../icon/Icon";
 import { ScrollArea } from "../scroll-area/ScrollArea";
@@ -139,29 +140,24 @@ export function Combobox(props: ComboboxProps) {
         if (onSearch) setPending(next.trim() !== "");
     }
 
-    useEffect(() => {
-        if (!onSearch || !trimmed) return;
-        const controller = new AbortController();
-        const timer = setTimeout(() => {
-            onSearch(trimmed, controller.signal).then(
-                (list) => {
-                    if (controller.signal.aborted) return;
-                    setResults(list);
-                    setSearchError(false);
-                    setPending(false);
-                },
-                () => {
-                    if (controller.signal.aborted) return;
-                    setSearchError(true);
-                    setPending(false);
-                },
-            );
-        }, 200);
-        return () => {
-            clearTimeout(timer);
-            controller.abort();
-        };
-    }, [trimmed, onSearch]);
+    // Wyszukiwanie na serwerze 200 ms po ostatnim znaku.
+    useAbortableTask(
+        onSearch && trimmed ? trimmed : null,
+        async (signal) => {
+            if (!onSearch) return;
+            try {
+                const list = await onSearch(trimmed, signal);
+                if (signal.aborted) return;
+                setResults(list);
+                setSearchError(false);
+            } catch {
+                if (signal.aborted) return;
+                setSearchError(true);
+            }
+            setPending(false);
+        },
+        200,
+    );
 
     const search = query;
     const chosen = multiple ? undefined : current[0];

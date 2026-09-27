@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, type RefObject } from "react";
+import { type RefObject } from "react";
 
 import { pl } from "../../i18n/pl";
 import type { Messages } from "../../i18n/types";
+import { useEventListener } from "../../utils/effects";
 
 export type Shortcut = string;
 
@@ -162,20 +163,21 @@ export function useShortcut(
     ref: RefObject<HTMLElement | null>,
     disabled: boolean,
 ) {
-    useEffect(() => {
-        if (!shortcut || disabled) return;
-        const parsed = parse(shortcut, isApple());
-        const onKeyDown = (event: KeyboardEvent) => {
+    useEventListener<KeyboardEvent>(
+        "window",
+        "keydown",
+        (event) => {
             // Skrót obsłużył już ktoś inny, np. paleta poleceń.
-            if (event.defaultPrevented || !matches(event, parsed)) return;
+            if (
+                !shortcut ||
+                event.defaultPrevented ||
+                !matchesShortcut(event, shortcut)
+            )
+                return;
             event.preventDefault();
             event.stopPropagation();
             if (!event.repeat) ref.current?.click();
-        };
-        window.addEventListener("keydown", onKeyDown, { capture: true });
-        return () =>
-            window.removeEventListener("keydown", onKeyDown, {
-                capture: true,
-            });
-    }, [shortcut, disabled, ref]);
+        },
+        { enabled: Boolean(shortcut) && !disabled, capture: true },
+    );
 }

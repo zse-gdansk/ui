@@ -3,7 +3,6 @@
 import { Field } from "@base-ui/react/field";
 import { Cancel01Icon } from "@hugeicons/core-free-icons";
 import {
-    useEffect,
     useRef,
     useState,
     type ClipboardEvent,
@@ -12,6 +11,7 @@ import {
 } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { useTimeout } from "../../utils/effects";
 import { FieldFooter } from "../field/FieldFooter";
 import { useFormValue } from "../form/context";
 import { Icon } from "../icon/Icon";
@@ -78,11 +78,8 @@ export function TagInput({
     const listRef = useRef<HTMLUListElement>(null);
     useFormValue(name, tags);
 
-    useEffect(() => {
-        if (flash === null) return;
-        const timer = setTimeout(() => setFlash(null), 450);
-        return () => clearTimeout(timer);
-    }, [flash]);
+    // Mrugnięcie duplikatu gaśnie samo.
+    useTimeout(() => setFlash(null), flash === null ? null : 450, flash);
 
     function commit(next: readonly string[]) {
         if (controlled === undefined) setInner(next);

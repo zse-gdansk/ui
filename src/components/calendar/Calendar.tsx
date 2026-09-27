@@ -5,15 +5,11 @@ import {
     ArrowLeft01Icon,
     ArrowRight01Icon,
 } from "@hugeicons/core-free-icons";
-import {
-    useEffect,
-    useRef,
-    useState,
-    type KeyboardEvent,
-    type ReactNode,
-} from "react";
+import { useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { flushSync } from "react-dom";
 
 import { useMessages } from "../../i18n/context";
+import { useMountEffect } from "../../utils/effects";
 import { Icon } from "../icon/Icon";
 import {
     addDays,
@@ -125,7 +121,16 @@ export function Calendar(props: CalendarProps) {
     const leaveId = useRef(0);
     const [hovered, setHovered] = useState<Date | null>(null);
     const gridRef = useRef<HTMLTableElement>(null);
-    const moveFocus = useRef(autoFocus);
+
+    function focusDay(date: Date) {
+        gridRef.current
+            ?.querySelector<HTMLElement>(`[data-date="${dateKey(date)}"]`)
+            ?.focus();
+    }
+
+    useMountEffect(() => {
+        if (autoFocus) focusDay(focused);
+    });
 
     const outOfBounds = (date: Date) =>
         (min !== undefined && compareDays(date, min) < 0) ||
@@ -175,16 +180,6 @@ export function Calendar(props: CalendarProps) {
         }
     }
 
-    // Po ruchu klawiaturą fokus idzie za wybranym dniem, także do
-    // nowego miesiąca.
-    useEffect(() => {
-        if (!moveFocus.current) return;
-        moveFocus.current = false;
-        gridRef.current
-            ?.querySelector<HTMLElement>(`[data-date="${dateKey(focused)}"]`)
-            ?.focus();
-    });
-
     function onKeyDown(event: KeyboardEvent<HTMLButtonElement>, date: Date) {
         const moves: Record<string, () => Date> = {
             ArrowLeft: () => addDays(date, -1),
@@ -202,9 +197,13 @@ export function Calendar(props: CalendarProps) {
         let next = move();
         if (min && compareDays(next, min) < 0) next = min;
         if (max && compareDays(next, max) > 0) next = max;
-        moveFocus.current = true;
-        setFocused(next);
-        showMonth(next);
+        // Fokus idzie za wybranym dniem, także do nowego miesiąca: render
+        // od razu, żeby jego przycisk już istniał.
+        flushSync(() => {
+            setFocused(next);
+            showMonth(next);
+        });
+        focusDay(next);
     }
 
     // Podgląd zakresu: od początku do dnia pod kursorem, zanim wybierzesz

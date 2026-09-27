@@ -2,7 +2,6 @@
 
 import { Field } from "@base-ui/react/field";
 import {
-    useLayoutEffect,
     useRef,
     useState,
     type CSSProperties,
@@ -11,6 +10,7 @@ import {
 } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { useDomEffect, useResizeObserver } from "../../utils/effects";
 import { FieldFooter } from "../field/FieldFooter";
 
 export interface TextareaProps extends Omit<
@@ -62,31 +62,30 @@ export function Textarea({
     const t = useMessages();
     const ref = useRef<HTMLTextAreaElement>(null);
     const autosize = maxRows !== false;
-    const [length, setLength] = useState(
-        () => String(value ?? defaultValue ?? "").length,
+    // Długość z wartości sterowanej wprost, bez kopii w stanie; pole bez
+    // value liczy z wpisywania.
+    const [typed, setLength] = useState(
+        () => String(defaultValue ?? "").length,
     );
+    const length = value !== undefined ? String(value).length : typed;
 
     // Zmiana wartości z zewnątrz (reset formularza, wstawienie szablonu).
-    useLayoutEffect(() => {
-        const textarea = ref.current;
-        if (!textarea) return;
-        setLength(String(value ?? textarea.value).length);
-        if (autosize) fit(textarea);
+    useDomEffect(() => {
+        if (autosize && ref.current) fit(ref.current);
     }, [value, autosize]);
 
     // Węższe pole to więcej wierszy.
-    useLayoutEffect(() => {
-        const textarea = ref.current;
-        if (!textarea || !autosize) return;
-        let width = textarea.offsetWidth;
-        const observer = new ResizeObserver(() => {
-            if (textarea.offsetWidth === width) return;
-            width = textarea.offsetWidth;
+    const width = useRef(0);
+    useResizeObserver(
+        ref,
+        () => {
+            const textarea = ref.current;
+            if (!textarea || textarea.offsetWidth === width.current) return;
+            width.current = textarea.offsetWidth;
             fit(textarea);
-        });
-        observer.observe(textarea);
-        return () => observer.disconnect();
-    }, [autosize]);
+        },
+        { enabled: autosize },
+    );
 
     const over = maxLength !== undefined && length > maxLength;
     const near = maxLength !== undefined && !over && length >= maxLength * 0.9;

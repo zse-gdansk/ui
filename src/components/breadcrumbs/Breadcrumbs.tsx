@@ -6,7 +6,6 @@ import {
 } from "@hugeicons/core-free-icons";
 import {
     isValidElement,
-    useLayoutEffect,
     useRef,
     useState,
     type ReactElement,
@@ -14,6 +13,7 @@ import {
 } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { useResizeObserver } from "../../utils/effects";
 import { Icon, type IconGlyph } from "../icon/Icon";
 import { Menu, MenuItem } from "../menu/Menu";
 
@@ -67,34 +67,23 @@ export function Breadcrumbs({
 
     // Szerokości z niewidocznej kopii z pełnymi nazwami. Przeliczane, gdy
     // zmienia się miejsce (kontener) albo treść (kopia zmienia szerokość).
-    useLayoutEffect(() => {
+    useResizeObserver([navRef, measureRef], () => {
         const nav = navRef.current;
         const measure = measureRef.current;
         if (!nav || !measure) return;
-        const update = () => {
-            const crumbs = [
-                ...measure.querySelectorAll<HTMLElement>("[data-measure-item]"),
-            ];
-            const more = measure.querySelector<HTMLElement>(
-                "[data-measure-more]",
-            );
-            const result = fit(
-                crumbs.map((crumb) => crumb.offsetWidth),
-                more?.offsetWidth ?? 32,
-                nav.clientWidth,
-            );
-            setHidden((previous) =>
-                previous.join() === result.hidden.join()
-                    ? previous
-                    : result.hidden,
-            );
-        };
-        update();
-        const observer = new ResizeObserver(update);
-        observer.observe(nav);
-        observer.observe(measure);
-        return () => observer.disconnect();
-    }, []);
+        const crumbs = [
+            ...measure.querySelectorAll<HTMLElement>("[data-measure-item]"),
+        ];
+        const more = measure.querySelector<HTMLElement>("[data-measure-more]");
+        const result = fit(
+            crumbs.map((crumb) => crumb.offsetWidth),
+            more?.offsetWidth ?? 32,
+            nav.clientWidth,
+        );
+        setHidden((previous) =>
+            previous.join() === result.hidden.join() ? previous : result.hidden,
+        );
+    });
 
     const link = (item: BreadcrumbItem, current: boolean) => {
         const content = (

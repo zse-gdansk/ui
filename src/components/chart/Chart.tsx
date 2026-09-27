@@ -2,16 +2,10 @@
 
 import { ChartLineData01Icon } from "@hugeicons/core-free-icons";
 import type { EChartsType } from "echarts/core";
-import {
-    useEffect,
-    useLayoutEffect,
-    useRef,
-    useState,
-    type CSSProperties,
-    type ReactNode,
-} from "react";
+import { useRef, useState, type CSSProperties, type ReactNode } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { useExternalEffect } from "../../utils/effects";
 import { EmptyState } from "../empty-state/EmptyState";
 import { Skeleton } from "../skeleton/Skeleton";
 import { initChart, type ChartOption } from "./echarts";
@@ -68,7 +62,8 @@ export function Chart({
     // motywie, nie przy każdym renderze rodzica (bez powtórnej animacji).
     const lastRef = useRef("");
 
-    useLayoutEffect(() => {
+    // Instancja ECharts na czas życia wykresu, nowa przy zmianie renderera.
+    useExternalEffect(() => {
         const container = containerRef.current;
         if (!container) return;
         const chart = initChart(container, renderer);
@@ -91,7 +86,8 @@ export function Chart({
         };
     }, [renderer]);
 
-    useEffect(() => {
+    // Opcje do instancji przy zmianie danych, motywu albo faktury.
+    useExternalEffect(() => {
         const chart = chartRef.current;
         if (!chart || !theme || empty) return;
         const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;

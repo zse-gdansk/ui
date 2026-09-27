@@ -1,9 +1,10 @@
 "use client";
 
 import { AlertCircleIcon } from "@hugeicons/core-free-icons";
-import { useEffect, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { useInterval, useTimeout } from "../../utils/effects";
 import { Button } from "../button/Button";
 import { Icon } from "../icon/Icon";
 import { Spinner } from "../spinner/Spinner";
@@ -55,34 +56,26 @@ export function AppLoader({
     const [{ current, previous }, setSlow] = useState(NO_HINT);
     const hints = t.appLoader.slow;
 
+    // Stan poprawiany w renderze: nowe wczytywanie od razu montuje ekran,
+    // koniec wczytywania gasi dopiski.
     if (active && !mounted) setMounted(true);
+    if (!active && current !== NO_HINT.current) setSlow(NO_HINT);
 
-    useEffect(() => {
-        if (!active) return;
-        let interval: ReturnType<typeof setInterval> | undefined;
-        const timer = setTimeout(() => {
-            setSlow({ current: 0, previous: -1 });
-            interval = setInterval(
-                () =>
-                    setSlow(({ current: shown }) => ({
-                        current: nextHint(shown, hints.length),
-                        previous: shown,
-                    })),
-                ROTATE,
-            );
-        }, SLOW);
-        return () => {
-            clearTimeout(timer);
-            clearInterval(interval);
-            setSlow(NO_HINT);
-        };
-    }, [active, hints.length]);
-
-    useEffect(() => {
-        if (active || !mounted) return;
-        const timer = setTimeout(() => setMounted(false), EXIT);
-        return () => clearTimeout(timer);
-    }, [active, mounted]);
+    // Po SLOW pierwszy dopisek, potem co ROTATE kolejny.
+    useTimeout(
+        () => setSlow({ current: 0, previous: -1 }),
+        active ? SLOW : null,
+    );
+    useInterval(
+        () =>
+            setSlow(({ current: shown }) => ({
+                current: nextHint(shown, hints.length),
+                previous: shown,
+            })),
+        active && current !== NO_HINT.current ? ROTATE : null,
+    );
+    // Ekran znika z drzewa po animacji wyjścia.
+    useTimeout(() => setMounted(false), !active && mounted ? EXIT : null);
 
     return (
         <>

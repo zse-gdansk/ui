@@ -8,6 +8,7 @@ Punkt wejścia dla agentów i ludzi jest w [`AGENTS.md`](../AGENTS.md) w katalog
 - [tokens.md](tokens.md): kolory, akcent, motyw, promienie, cienie, warstwy, fonty
 - [forms.md](forms.md): `Form`, walidacja, jak pole trafia do formularza
 - [pitfalls.md](pitfalls.md): błędy, które już popełniliśmy
+- [effects.md](effects.md): bez gołych efektów, czym je zastąpić i nazwane hooki
 - [components.md](components.md): spis komponentów
 - [commands.md](commands.md): paleta poleceń, akcje z krokami, skróty i ich umowa
 - [workflow.md](workflow.md): komendy, zależności, commity, sprawdzanie

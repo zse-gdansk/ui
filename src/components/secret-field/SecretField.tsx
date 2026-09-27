@@ -7,9 +7,10 @@ import {
     ViewIcon,
     ViewOffIcon,
 } from "@hugeicons/core-free-icons";
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { useId, useRef, useState, type ReactNode } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { useEventListener, useTimeout } from "../../utils/effects";
 import { useCopy } from "../../utils/use-copy";
 import { Icon } from "../icon/Icon";
 import { Spokes } from "../spinner/Spinner";
@@ -127,21 +128,18 @@ export function SecretField({
     }
 
     // Odkryty sekret sam się chowa po czasie i przy przejściu na inną kartę.
-    useEffect(() => {
-        if (!revealed) return;
-        const timer =
-            autoHide > 0
-                ? setTimeout(() => setRevealed(false), autoHide)
-                : undefined;
-        const onVisibility = () => {
+    useTimeout(
+        () => setRevealed(false),
+        revealed && autoHide > 0 ? autoHide : null,
+    );
+    useEventListener(
+        "document",
+        "visibilitychange",
+        () => {
             if (document.hidden) setRevealed(false);
-        };
-        document.addEventListener("visibilitychange", onVisibility);
-        return () => {
-            clearTimeout(timer);
-            document.removeEventListener("visibilitychange", onVisibility);
-        };
-    }, [revealed, autoHide]);
+        },
+        { enabled: revealed },
+    );
 
     return (
         <div className="zse-input zse-secret" data-size={size}>

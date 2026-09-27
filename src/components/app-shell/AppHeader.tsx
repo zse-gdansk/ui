@@ -5,7 +5,6 @@ import { MoreHorizontalIcon } from "@hugeicons/core-free-icons";
 import {
     createContext,
     useContext,
-    useEffect,
     useId,
     useRef,
     useState,
@@ -16,6 +15,7 @@ import {
 import { createPortal } from "react-dom";
 
 import { useMessages } from "../../i18n/context";
+import { useExternalEffect } from "../../utils/effects";
 import { Breadcrumbs, type BreadcrumbsProps } from "../breadcrumbs/Breadcrumbs";
 import { Icon, type IconGlyph } from "../icon/Icon";
 import { Menu, MenuItem } from "../menu/Menu";
@@ -193,7 +193,9 @@ export function HeaderAction({
     const overflow = useContext(OverflowContext);
     const id = useId();
     const secondary = priority === "secondary" && overflow !== null;
-    useEffect(() => {
+    // Akcja drugorzędna na telefonie trafia do menu „⋯”: wpis odświeżany
+    // po każdym renderze (nowe handlery), usuwany przy odmontowaniu.
+    useExternalEffect(() => {
         if (!secondary || !overflow) return;
         overflow.set(id, {
             icon,
@@ -205,7 +207,7 @@ export function HeaderAction({
             disabled,
         });
     });
-    useEffect(() => {
+    useExternalEffect(() => {
         if (!secondary || !overflow) return;
         return () => overflow.remove(id);
     }, [secondary, overflow, id]);

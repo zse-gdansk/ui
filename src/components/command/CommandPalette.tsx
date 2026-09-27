@@ -8,9 +8,6 @@ import {
     Search01Icon,
 } from "@hugeicons/core-free-icons";
 import {
-    useEffect,
-    useEffectEvent,
-    useLayoutEffect,
     useMemo,
     useRef,
     useState,
@@ -21,6 +18,7 @@ import {
 import { useMessages } from "../../i18n/context";
 import { Highlight } from "../../search/Highlight";
 import { createSearch, type Range, type SearchKey } from "../../search/search";
+import { useAbortableTask, useDomEffect } from "../../utils/effects";
 import { Avatar } from "../avatar/Avatar";
 import { Icon } from "../icon/Icon";
 import { Kbd } from "../kbd/Kbd";
@@ -242,33 +240,31 @@ function useRemote<T>(jobs: readonly Job<T>[]) {
     const signature = jobs
         .map((job) => `${job.id}\u0000${job.query}`)
         .join("\u0001");
-    const current = useEffectEvent(() => jobs);
+    // Pierwsze wczytanie podmenu bez czekania, pisanie z opóźnieniem.
+    const delay = jobs.every((job) => job.query === "") ? 0 : DELAY;
 
-    useEffect(() => {
-        if (!signature) return;
-        const list = current();
-        const controller = new AbortController();
-        const settle = (job: Job<T>, items: readonly T[], failed: boolean) => {
-            if (controller.signal.aborted) return;
-            setResults((previous) => ({
-                ...previous,
-                [job.id]: { query: job.query, items, failed },
-            }));
-        };
-        // Pierwsze wczytanie podmenu bez czekania, pisanie z opóźnieniem.
-        const delay = list.every((job) => job.query === "") ? 0 : DELAY;
-        const timer = setTimeout(() => {
-            for (const job of list)
-                job.run(controller.signal).then(
+    useAbortableTask(
+        signature || null,
+        (signal) => {
+            const settle = (
+                job: Job<T>,
+                items: readonly T[],
+                failed: boolean,
+            ) => {
+                if (signal.aborted) return;
+                setResults((previous) => ({
+                    ...previous,
+                    [job.id]: { query: job.query, items, failed },
+                }));
+            };
+            for (const job of jobs)
+                job.run(signal).then(
                     (items) => settle(job, items, false),
                     () => settle(job, [], true),
                 );
-        }, delay);
-        return () => {
-            clearTimeout(timer);
-            controller.abort();
-        };
-    }, [signature]);
+        },
+        delay,
+    );
 
     return jobs.map((job) => {
         const result = results[job.id];
@@ -667,7 +663,7 @@ export function CommandPalette({ placeholder }: CommandPaletteProps) {
     // wstecz z lewej.
     const depth = stack.length;
     const previousDepth = useRef(depth);
-    useLayoutEffect(() => {
+    useDomEffect(() => {
         const from = previousDepth.current;
         previousDepth.current = depth;
         const viewport = bodyRef.current?.querySelector(".zse-scroll-viewport");

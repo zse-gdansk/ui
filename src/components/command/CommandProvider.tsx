@@ -2,9 +2,7 @@
 
 import { KeyboardIcon } from "@hugeicons/core-free-icons";
 import {
-    useEffect,
     useEffectEvent,
-    useLayoutEffect,
     useRef,
     useState,
     useSyncExternalStore,
@@ -12,6 +10,11 @@ import {
 } from "react";
 
 import { useMessages } from "../../i18n/context";
+import {
+    useExternalEffect,
+    useLatest,
+    useMountEffect,
+} from "../../utils/effects";
 import { Kbd } from "../kbd/Kbd";
 import { matchesShortcut, type Shortcut } from "../menu/shortcut";
 import { toast } from "../toast/toast";
@@ -82,14 +85,11 @@ export function CommandProvider({
     const [helpOpen, setHelpOpen] = useState(false);
     // Okno skrótów wybrane w palecie otwiera się dopiero po jej zamknięciu.
     const helpQueued = useRef(false);
-    const paletteOpen = useRef(open);
-    useLayoutEffect(() => {
-        paletteOpen.current = open;
-    });
+    const paletteOpen = useLatest(open);
 
     // Wbudowane polecenie „Skróty klawiszowe”, na końcu listy.
     const [helpOwner] = useState(() => Symbol("help"));
-    useEffect(() => {
+    useExternalEffect(() => {
         store.setCommands(
             helpOwner,
             help
@@ -110,7 +110,14 @@ export function CommandProvider({
                 : null,
         );
         return () => store.setCommands(helpOwner, null);
-    }, [store, helpOwner, help, t.command.shortcuts, t.command.help]);
+    }, [
+        store,
+        helpOwner,
+        help,
+        t.command.shortcuts,
+        t.command.help,
+        paletteOpen,
+    ]);
     const { commands } = useSyncExternalStore(
         store.subscribe,
         store.getSnapshot,
@@ -177,7 +184,7 @@ export function CommandProvider({
         },
     );
 
-    useEffect(() => {
+    useMountEffect(() => {
         const sequencer = createSequencer(fire, setPending);
         const listener = (event: KeyboardEvent) => onKeyDown(event, sequencer);
         // Kliknięcie gdziekolwiek albo wyjście z okna przerywa sekwencję.
@@ -191,7 +198,7 @@ export function CommandProvider({
             window.removeEventListener("blur", cancel);
             sequencer.reset();
         };
-    }, []);
+    });
 
     const state: CommandState = {
         store,
@@ -295,11 +302,16 @@ export function useCommandPalette(): CommandPaletteControls {
 export function useCommands(commands: readonly Command[]) {
     const { store } = useCommandState();
     const [owner] = useState(() => Symbol("commands"));
-    useEffect(
+    // Dwa kroki, żeby zmiana tablicy podmieniała wpis w miejscu, a nie
+    // przenosiła grupy na koniec listy.
+    useExternalEffect(
         () => store.setCommands(owner, commands),
         [store, owner, commands],
     );
-    useEffect(() => () => store.setCommands(owner, null), [store, owner]);
+    useExternalEffect(
+        () => () => store.setCommands(owner, null),
+        [store, owner],
+    );
 }
 
 // Wyniki z serwera w głównej liście, np. uczniowie po nazwisku. search może
@@ -308,12 +320,9 @@ export function useCommands(commands: readonly Command[]) {
 export function useCommandSource(source: CommandSource) {
     const { store } = useCommandState();
     const [owner] = useState(() => Symbol("source"));
-    const latest = useRef(source);
-    useLayoutEffect(() => {
-        latest.current = source;
-    });
+    const latest = useLatest(source);
     const { id, group, minLength } = source;
-    useEffect(
+    useExternalEffect(
         () =>
             store.setSource(owner, {
                 id,
@@ -321,7 +330,7 @@ export function useCommandSource(source: CommandSource) {
                 ...(minLength !== undefined && { minLength }),
                 search: (query, signal) => latest.current.search(query, signal),
             }),
-        [store, owner, id, group, minLength],
+        [store, owner, id, group, minLength, latest],
     );
-    useEffect(() => () => store.setSource(owner, null), [store, owner]);
+    useExternalEffect(() => () => store.setSource(owner, null), [store, owner]);
 }

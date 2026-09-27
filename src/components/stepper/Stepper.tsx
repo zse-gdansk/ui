@@ -3,7 +3,6 @@
 import { Tick02Icon } from "@hugeicons/core-free-icons";
 import {
     useCallback,
-    useLayoutEffect,
     useRef,
     useState,
     type CSSProperties,
@@ -11,6 +10,7 @@ import {
 } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { useResizeObserver } from "../../utils/effects";
 import { Button } from "../button/Button";
 import { Icon } from "../icon/Icon";
 
@@ -68,16 +68,10 @@ function measureFill(panel: HTMLElement) {
 function useAutoHeight() {
     const outer = useRef<HTMLDivElement>(null);
     const inner = useRef<HTMLDivElement>(null);
-    useLayoutEffect(() => {
-        const box = outer.current;
-        const content = inner.current;
-        if (!box || !content) return;
-        const observer = new ResizeObserver(() => {
-            box.style.height = `${content.offsetHeight}px`;
-        });
-        observer.observe(content);
-        return () => observer.disconnect();
-    }, []);
+    useResizeObserver(inner, () => {
+        if (outer.current && inner.current)
+            outer.current.style.height = `${inner.current.offsetHeight}px`;
+    });
     return { outer, inner };
 }
 

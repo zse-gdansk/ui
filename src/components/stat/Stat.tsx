@@ -9,7 +9,6 @@ import {
 import {
     useCallback,
     useId,
-    useLayoutEffect,
     useRef,
     useState,
     type CSSProperties,
@@ -18,6 +17,7 @@ import {
 } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { useDomEffect } from "../../utils/effects";
 import { Icon, type IconGlyph } from "../icon/Icon";
 import { Skeleton } from "../skeleton/Skeleton";
 
@@ -91,7 +91,7 @@ function useCountUp(
 ) {
     const shown = useRef(value);
 
-    useLayoutEffect(() => {
+    useDomEffect(() => {
         const node = ref.current?.firstChild;
         const from = shown.current;
         const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
