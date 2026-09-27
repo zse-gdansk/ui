@@ -357,3 +357,13 @@ export {
     type SecretFieldProps,
 } from "./components/secret-field/SecretField";
 export { TagInput, type TagInputProps } from "./components/tag-input/TagInput";
+export {
+    Timeline,
+    TimelineChange,
+    TimelineGroup,
+    TimelineItem,
+    type TimelineChangeProps,
+    type TimelineGroupProps,
+    type TimelineItemProps,
+    type TimelineProps,
+} from "./components/timeline/Timeline";

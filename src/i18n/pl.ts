@@ -187,6 +187,18 @@ export const pl: Messages = {
         moreActions: "Więcej akcji",
     },
     userMenu: { label: (name) => `Konto: ${name}` },
+    timeline: {
+        today: "Dziś",
+        yesterday: "Wczoraj",
+        justNow: "przed chwilą",
+        yesterdayAt: (time) => `wczoraj o ${time}`,
+        dayAt: (day, time) => `${day}, ${time}`,
+        showMore: (_, formatted) => `Pokaż jeszcze ${formatted}`,
+        showLess: "Zwiń",
+        change: (label, from, to) => `${label}: z ${from} na ${to}`,
+        added: (label, to) => `${label}: ${to}`,
+        removed: (label, from) => `${label}: usunięto ${from}`,
+    },
     tagInput: {
         invalid: "Nieprawidłowa wartość.",
         duplicate: (tag) => `„${tag}” już jest na liście.`,

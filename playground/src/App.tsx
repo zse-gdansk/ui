@@ -67,6 +67,7 @@ import { StepperDemo } from "./StepperDemo";
 import { TableDemo } from "./TableDemo";
 import { TagDemo } from "./TagDemo";
 import { TimeDemo } from "./TimeDemo";
+import { TimelineDemo } from "./TimelineDemo";
 import { ToggleDemo } from "./ToggleDemo";
 import { UploadDemo } from "./UploadDemo";
 
@@ -495,6 +496,8 @@ export function App() {
             <SecretDemo />
 
             <TagDemo />
+
+            <TimelineDemo />
 
             <CodeDemo />
 

@@ -345,3 +345,9 @@ body {
     display: grid;
     gap: 12px;
 }
+
+.timeline-demo {
+    display: grid;
+    gap: 16px;
+    max-width: 640px;
+}

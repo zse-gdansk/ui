@@ -1,0 +1,293 @@
+.zse-tl {
+    --tl-marker: 24px;
+    --tl-gap: 12px;
+    --tl-item-gap: 16px;
+
+    container-type: inline-size;
+    color: var(--color-text);
+}
+
+.zse-tl[data-size="sm"] {
+    --tl-marker: 20px;
+    --tl-gap: 10px;
+    --tl-item-gap: 10px;
+}
+
+.zse-tl-list {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.zse-tl-item {
+    --tl-solid: var(--color-border-strong);
+    --tl-text: var(--color-text-secondary);
+
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--tl-marker) minmax(0, 1fr);
+    column-gap: var(--tl-gap);
+    padding-bottom: var(--tl-item-gap);
+}
+
+.zse-tl-item:last-child {
+    padding-bottom: 0;
+}
+
+.zse-tl-item[data-tone="accent"] {
+    --tl-solid: var(--color-accent-solid);
+    --tl-text: var(--color-accent-text);
+}
+
+.zse-tl-item[data-tone="success"] {
+    --tl-solid: var(--color-success-solid);
+    --tl-text: var(--color-success-text);
+}
+
+.zse-tl-item[data-tone="warning"] {
+    --tl-solid: var(--color-warning-solid);
+    --tl-text: var(--color-warning-text);
+}
+
+.zse-tl-item[data-tone="danger"] {
+    --tl-solid: var(--color-danger-solid);
+    --tl-text: var(--color-danger-text);
+}
+
+/* Linia od znacznika do następnego wpisu. */
+.zse-tl-item:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    top: calc(var(--tl-marker) + 4px);
+    bottom: 4px;
+    left: calc(var(--tl-marker) / 2 - 0.5px);
+    width: 1px;
+    background: var(--color-border-subtle);
+}
+
+.zse-tl-marker {
+    display: grid;
+    width: var(--tl-marker);
+    height: var(--tl-marker);
+    place-items: center;
+    border-radius: var(--radius-full);
+    color: var(--tl-text);
+}
+
+.zse-tl-marker[data-kind="icon"] {
+    background: color-mix(
+        in oklab,
+        var(--tl-solid) 14%,
+        var(--color-bg-surface)
+    );
+}
+
+.zse-tl-marker .zse-avatar {
+    --avatar-size: var(--tl-marker);
+}
+
+.zse-tl-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: var(--tl-solid);
+}
+
+/* Środek znacznika na wysokości pierwszej linii tytułu. */
+.zse-tl-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    padding-top: calc((var(--tl-marker) - 1.4 * 0.875rem) / 2);
+}
+
+.zse-tl-head {
+    display: flex;
+    align-items: baseline;
+    gap: 2px 12px;
+}
+
+.zse-tl-title {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    text-wrap: pretty;
+}
+
+.zse-tl-title strong {
+    font-weight: 500;
+}
+
+.zse-tl-time {
+    flex: none;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+/* Wąsko: czas pod tytułem, nie ściśnięty obok. */
+@container (max-width: 420px) {
+    .zse-tl-head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+.zse-tl-description {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    text-wrap: pretty;
+}
+
+.zse-tl-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 6px;
+}
+
+.zse-tl-change-visual {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 6px;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+}
+
+.zse-tl-change-label {
+    color: var(--color-text-secondary);
+}
+
+.zse-tl-from {
+    color: var(--color-text-secondary);
+    font-variant-numeric: tabular-nums;
+    text-decoration: line-through;
+    text-decoration-color: color-mix(in oklab, currentColor 60%, transparent);
+}
+
+.zse-tl-to {
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.zse-tl-arrow {
+    color: var(--color-text-secondary);
+}
+
+.zse-tl-delta {
+    padding: 0 5px;
+    border-radius: var(--radius-full);
+    background: var(--color-bg-tint);
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 18px;
+}
+
+.zse-tl-delta[data-good] {
+    background: color-mix(
+        in oklab,
+        var(--color-success-solid) 14%,
+        transparent
+    );
+    color: var(--color-success-text);
+}
+
+.zse-tl-delta[data-bad] {
+    background: var(--color-danger-bg);
+    color: var(--color-danger-text);
+}
+
+.zse-tl-group + .zse-tl-group {
+    margin-top: 20px;
+}
+
+/* Nagłówek dnia przyklejony przy przewijaniu długiej historii. */
+.zse-tl-group-label {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: 6px 0;
+    margin-bottom: 6px;
+    background: var(--color-bg);
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.zse-tl-more {
+    align-self: flex-start;
+    margin: 10px 0 0 calc(var(--tl-marker) + var(--tl-gap) - 6px);
+    padding: 4px 6px;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-accent-text);
+    font: inherit;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: scale 160ms var(--ease-out);
+}
+
+@media (hover: hover) {
+    .zse-tl-more:hover {
+        background: var(--color-bg-tint);
+    }
+}
+
+.zse-tl-more:active {
+    scale: 0.96;
+}
+
+.zse-tl-more:focus-visible {
+    box-shadow: var(--focus-ring);
+    outline: none;
+}
+
+.zse-tl-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.zse-tl-item[data-enter] {
+    animation: zse-tl-in 300ms var(--ease-out) both;
+}
+
+@keyframes zse-tl-in {
+    from {
+        opacity: 0;
+        translate: 0 -6px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-tl-item[data-enter] {
+        animation-name: zse-tl-fade;
+    }
+
+    .zse-tl-more:active {
+        scale: 1;
+    }
+}
+
+@keyframes zse-tl-fade {
+    from {
+        opacity: 0;
+    }
+}

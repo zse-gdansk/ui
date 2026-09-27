@@ -146,6 +146,18 @@ export interface Messages {
     kbd: { space: string; backspace: string; delete: string; escape: string };
     localeSwitcher: { label: string };
     userMenu: { label: (name: string) => string };
+    timeline: {
+        today: string;
+        yesterday: string;
+        justNow: string;
+        yesterdayAt: (time: string) => string;
+        dayAt: (day: string, time: string) => string;
+        showMore: (count: number, formatted: string) => string;
+        showLess: string;
+        change: (label: string, from: string, to: string) => string;
+        added: (label: string, to: string) => string;
+        removed: (label: string, from: string) => string;
+    };
     tagInput: {
         invalid: string;
         duplicate: (tag: string) => string;
