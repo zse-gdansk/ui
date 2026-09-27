@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.7.1](https://github.com/zse-gdansk/ui/compare/v1.7.0...v1.7.1) (2026-09-27)
+
+
+### Poprawki
+
+* **locale-switcher:** fix(locale-switcher):  ([a14bf87](https://github.com/zse-gdansk/ui/commit/a14bf8705ebce7455a6e7438a6f6cebbb4aa62e7))
+* **toggle:** ikona nie odtwarza animacji przy zmianie stanu z zewnątrz ([a14bf87](https://github.com/zse-gdansk/ui/commit/a14bf8705ebce7455a6e7438a6f6cebbb4aa62e7))
+
 ## [1.7.0](https://github.com/zse-gdansk/ui/compare/v1.6.0...v1.7.0) (2026-09-27)
 
 
