@@ -1,5 +1,20 @@
 // Gotowe maski dla MaskedInput.
 
+export interface Mask {
+    // Układa wpisany tekst na bieżąco, np. dopisuje separator. Dostaje też
+    // poprzednią wartość, żeby odróżnić pisanie od cofania.
+    format: (input: string, previous: string) => string;
+    // Poprawka po wyjściu z pola, gdy dopiero cała wartość rozstrzyga
+    // zapis (np. krótszy numer przed rokiem).
+    finalize?: (value: string) => string;
+    // Znaki wstawiane przez format; na ekranie wchodzą z animacją.
+    separators?: string;
+    // Wzór dla walidacji przeglądarki (atrybut pattern).
+    pattern?: string;
+    inputMode?: "numeric" | "text" | "decimal" | "tel";
+    isValid?: (value: string) => boolean;
+}
+
 const DIGIT = "9";
 const isDigit = (char: string) => char >= "0" && char <= "9";
 
@@ -7,12 +22,14 @@ const isDigit = (char: string) => char >= "0" && char <= "9";
 // swoim miejscu, np. createMask("99-999") dla kodu pocztowego albo
 // createMask("99.99.9999") dla daty. Separator można wpisać ręcznie albo
 // pominąć: cyfra na jego miejscu dopisuje go sama.
-export function createMask(template: string) {
+export function createMask(template: string): Mask & {
+    isValid: (value: string) => boolean;
+} {
     const separators = [...new Set(template.replaceAll(DIGIT, ""))].join("");
 
     return {
         separators,
-        inputMode: "numeric" as const,
+        inputMode: "numeric",
         // Atrybut pattern działa z flagą v: escapujemy tylko znaki
         // specjalne wyrażeń („\-” byłby błędem składni).
         pattern: [...template]
@@ -104,9 +121,13 @@ const join = (number: string, year: string) =>
     year ? `${number}/${year}` : number;
 
 // Numer legitymacji szkolnej: numer i rok wydania, np. 123/2023.
-export const studentIdMask = {
+export const studentIdMask: Mask & {
+    pattern: string;
+    isValid: (value: string) => boolean;
+} = {
     pattern: String.raw`\d{1,4}/(19|20)\d{2}`,
-    inputMode: "numeric" as const,
+    separators: "/",
+    inputMode: "numeric",
 
     // Ukośnik pojawia się sam, gdy wiadomo, gdzie się kończy numer.
     // Spacja, myślnik albo kropka od razu ustalają podział.

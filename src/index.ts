@@ -543,4 +543,8 @@ export {
     MaskedInput,
     type MaskedInputProps,
 } from "./components/masked-input/MaskedInput";
-export { createMask, studentIdMask } from "./components/masked-input/masks";
+export {
+    createMask,
+    studentIdMask,
+    type Mask,
+} from "./components/masked-input/masks";

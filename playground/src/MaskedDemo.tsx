@@ -12,10 +12,7 @@ export function MaskedDemo() {
             <MaskedInput
                 label="Numer legitymacji"
                 placeholder="np. 123/2023"
-                format={studentIdMask.format}
-                finalize={studentIdMask.finalize}
-                inputMode={studentIdMask.inputMode}
-                pattern={studentIdMask.pattern}
+                mask={studentIdMask}
                 value={id}
                 onValueChange={setId}
                 hint={`Wartość: ${id || "pusta"} · poprawna: ${studentIdMask.isValid(id) ? "tak" : "nie"}`}
@@ -23,18 +20,18 @@ export function MaskedDemo() {
             <MaskedInput
                 label="Kod pocztowy"
                 placeholder="80-000"
-                {...postalCode}
+                mask={postalCode}
             />
             <MaskedInput
                 label="Data urodzenia"
                 placeholder="DD.MM.RRRR"
-                {...date}
+                mask={date}
                 size="sm"
             />
             <MaskedInput
                 label="Wyłączone"
                 defaultValue="1234/2019"
-                format={studentIdMask.format}
+                mask={studentIdMask}
                 disabled
             />
         </section>

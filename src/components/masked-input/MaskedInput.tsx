@@ -11,6 +11,7 @@ import {
 import { flushSync } from "react-dom";
 
 import { FieldFooter } from "../field/FieldFooter";
+import type { Mask } from "./masks";
 
 type InputSize = "sm" | "md" | "lg";
 
@@ -25,14 +26,8 @@ export interface MaskedInputProps extends Omit<
     value?: string;
     defaultValue?: string;
     onValueChange?: (value: string) => void;
-    // Układa wpisany tekst na bieżąco, np. dopisuje ukośnik. Dostaje też
-    // poprzednią wartość, żeby odróżnić pisanie od cofania.
-    format: (input: string, previous: string) => string;
-    // Poprawka po wyjściu z pola, gdy dopiero cała wartość rozstrzyga
-    // zapis (np. krótszy numer przed rokiem).
-    finalize?: (value: string) => string;
-    // Znaki wstawiane przez format; na ekranie wchodzą z animacją.
-    separators?: string;
+    // createMask("99-999"), studentIdMask albo własny obiekt z format.
+    mask: Mask;
 }
 
 const DEFAULT_SEPARATORS = "/-.: ";
@@ -78,15 +73,14 @@ export function MaskedInput({
     value,
     defaultValue,
     onValueChange,
-    format,
-    finalize,
-    separators = DEFAULT_SEPARATORS,
+    mask,
     disabled = false,
     className,
     onBlur,
     onScroll,
     ...props
 }: MaskedInputProps) {
+    const { format, finalize, separators = DEFAULT_SEPARATORS } = mask;
     const [own, setOwn] = useState(() =>
         format(value ?? defaultValue ?? "", ""),
     );
@@ -151,6 +145,12 @@ export function MaskedInput({
 
             <div className="zse-input-control">
                 <Field.Control
+                    {...(mask.pattern !== undefined && {
+                        pattern: mask.pattern,
+                    })}
+                    {...(mask.inputMode !== undefined && {
+                        inputMode: mask.inputMode,
+                    })}
                     {...props}
                     value={current}
                     disabled={disabled}
