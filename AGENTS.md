@@ -6,20 +6,21 @@ Zanim cokolwiek zmienisz, przeczytaj plik z `docs/` dotyczący tego, co robisz. 
 
 ## Mapa dokumentacji
 
-| Plik                                                   | Kiedy czytać                                                                              |
-| ------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
-| [docs/principles.md](docs/principles.md)               | zawsze: charakter biblioteki, czego nie robimy                                            |
-| [docs/design.md](docs/design.md)                       | każdy komponent i ekran: reguły typografii, odstępów, powierzchni, stanów (z przykładami) |
-| [docs/adding-components.md](docs/adding-components.md) | nowy komponent albo większa zmiana w istniejącym                                          |
-| [docs/motion.md](docs/motion.md)                       | każda animacja, przejście, hover, stan wciśnięcia                                         |
-| [docs/tokens.md](docs/tokens.md)                       | kolory, promienie, cienie, warstwy, fonty                                                 |
-| [docs/forms.md](docs/forms.md)                         | pola formularzy, walidacja, `Form`                                                        |
-| [docs/i18n.md](docs/i18n.md)                           | każdy tekst widoczny w interfejsie albo dla czytnika                                      |
-| [docs/pitfalls.md](docs/pitfalls.md)                   | przed oddaniem pracy: błędy, które już raz popełniliśmy                                   |
-| [docs/effects.md](docs/effects.md)                     | zanim sięgniesz po efekt: czym go zastąpić, nazwane hooki z `src/utils/effects.ts`        |
-| [docs/components.md](docs/components.md)               | spis komponentów i tego, co już potrafią                                                  |
-| [docs/commands.md](docs/commands.md)                   | polecenia w palecie (⌘K), akcje z krokami, skróty klawiszowe                              |
-| [docs/workflow.md](docs/workflow.md)                   | komendy, commity, sprawdzanie pracy                                                       |
+| Plik                                                   | Kiedy czytać                                                                                    |
+| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| [docs/principles.md](docs/principles.md)               | zawsze: charakter biblioteki, czego nie robimy                                                  |
+| [docs/design.md](docs/design.md)                       | każdy komponent i ekran: reguły typografii, odstępów, powierzchni, stanów (z przykładami)       |
+| [docs/adding-components.md](docs/adding-components.md) | nowy komponent albo większa zmiana w istniejącym                                                |
+| [docs/motion.md](docs/motion.md)                       | każda animacja, przejście, hover, stan wciśnięcia                                               |
+| [docs/typography.md](docs/typography.md)               | każdy tekst w aplikacji: `Text`, `Heading`, `Strong`, `Code`, `Prose` zamiast gołych `p`/`span` |
+| [docs/tokens.md](docs/tokens.md)                       | kolory, promienie, cienie, warstwy, fonty                                                       |
+| [docs/forms.md](docs/forms.md)                         | pola formularzy, walidacja, `Form`                                                              |
+| [docs/i18n.md](docs/i18n.md)                           | każdy tekst widoczny w interfejsie albo dla czytnika                                            |
+| [docs/pitfalls.md](docs/pitfalls.md)                   | przed oddaniem pracy: błędy, które już raz popełniliśmy                                         |
+| [docs/effects.md](docs/effects.md)                     | zanim sięgniesz po efekt: czym go zastąpić, nazwane hooki z `src/utils/effects.ts`              |
+| [docs/components.md](docs/components.md)               | spis komponentów i tego, co już potrafią                                                        |
+| [docs/commands.md](docs/commands.md)                   | polecenia w palecie (⌘K), akcje z krokami, skróty klawiszowe                                    |
+| [docs/workflow.md](docs/workflow.md)                   | komendy, commity, sprawdzanie pracy                                                             |
 
 ## Zasady bez wyjątków
 
