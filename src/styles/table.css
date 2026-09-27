@@ -30,6 +30,15 @@
     --table-shadow: oklch(0% 0 0 / 55%);
 }
 
+/* Pasek nakładany na treść nie leży na ostatnim wierszu ani kolumnie. */
+.zse-table-scroller[data-gutter-x] {
+    padding-bottom: 10px;
+}
+
+.zse-table-scroller[data-gutter-y] {
+    padding-inline-end: 10px;
+}
+
 .zse-table-scroller:focus-visible {
     outline: 1.5px solid var(--color-focus-ring);
     outline-offset: 2px;

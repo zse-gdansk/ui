@@ -10,6 +10,7 @@ import {
 } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { watchGutters } from "../../utils/scroll-gutter";
 import { useMediaQuery } from "../../utils/use-media-query";
 import { Icon, type IconGlyph } from "../icon/Icon";
 import {
@@ -54,7 +55,9 @@ function Popup({
                 sideOffset={sideOffset}
                 alignOffset={alignOffset}
             >
-                <BaseMenu.Popup className="zse-menu">{children}</BaseMenu.Popup>
+                <BaseMenu.Popup className="zse-menu" ref={watchGutters}>
+                    {children}
+                </BaseMenu.Popup>
             </BaseMenu.Positioner>
         </BaseMenu.Portal>
     );

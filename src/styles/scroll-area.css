@@ -71,6 +71,19 @@
     overflow-x: auto;
 }
 
+/* Miejsce na pasek nakładany na treść (utils/scroll-gutter.ts). */
+.zse-scroll {
+    --scroll-gutter: 10px;
+}
+
+.zse-scroll[data-gutter-y] > .zse-scroll-viewport {
+    padding-inline-end: var(--scroll-gutter);
+}
+
+.zse-scroll[data-gutter-x] > .zse-scroll-viewport {
+    padding-bottom: var(--scroll-gutter);
+}
+
 .zse-scroll[data-scroll-top] > .zse-scroll-viewport {
     --zse-fade-top: var(--scroll-fade);
 }

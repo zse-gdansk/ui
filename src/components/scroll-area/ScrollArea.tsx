@@ -8,6 +8,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import type { CSSProperties, HTMLAttributes, PointerEvent } from "react";
 
+import { markGutters } from "../../utils/scroll-gutter";
 import { Icon } from "../icon/Icon";
 
 type Axis = "vertical" | "horizontal" | "both";
@@ -57,6 +58,7 @@ function track(viewport: HTMLDivElement | null) {
             "data-scroll-right",
             Math.ceil(x) + viewport.clientWidth < scrollWidth - 0.5,
         );
+        markGutters(root, viewport);
     };
     const resize = new ResizeObserver(update);
     const watch = () => {

@@ -24,6 +24,10 @@
     transition-timing-function: var(--ease-out);
 }
 
+.zse-menu[data-gutter-y] {
+    padding-inline-end: 12px;
+}
+
 .zse-menu[data-starting-style],
 .zse-menu[data-ending-style] {
     opacity: 0;

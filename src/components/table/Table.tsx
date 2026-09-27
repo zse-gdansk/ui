@@ -16,6 +16,7 @@ import {
 } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { markGutters } from "../../utils/scroll-gutter";
 import { EmptyState } from "../empty-state/EmptyState";
 import { Icon, type IconGlyph } from "../icon/Icon";
 
@@ -61,6 +62,7 @@ function trackScroll(scroller: HTMLElement | null) {
         );
         scroller.toggleAttribute("data-scroll-left", x > 0);
         scroller.toggleAttribute("data-scroll-right", x < maxX - 1);
+        markGutters(scroller, scroller);
 
         // Komórka, do której przechodzi fokus, nie chowa się pod
         // przyklejonym nagłówkiem, stopką ani kolumną.
