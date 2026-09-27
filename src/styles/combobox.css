@@ -26,7 +26,7 @@
 
 .zse-combobox-group:focus-within {
     border-color: var(--color-focus-ring);
-    box-shadow: var(--field-halo);
+    box-shadow: var(--focus-field);
 }
 
 .zse-combobox[data-invalid] .zse-combobox-group {
@@ -34,7 +34,7 @@
 }
 
 .zse-combobox[data-invalid] .zse-combobox-group:focus-within {
-    box-shadow: var(--field-halo-danger);
+    box-shadow: var(--focus-field-danger);
 }
 
 .zse-combobox-input {

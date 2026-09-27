@@ -26,7 +26,7 @@
 
 .zse-input-group-box:focus-within {
     border-color: var(--color-focus-ring);
-    box-shadow: var(--field-halo);
+    box-shadow: var(--focus-field);
 }
 
 .zse-input-group[data-invalid] .zse-input-group-box {
@@ -34,7 +34,7 @@
 }
 
 .zse-input-group[data-invalid] .zse-input-group-box:focus-within {
-    box-shadow: var(--field-halo-danger);
+    box-shadow: var(--focus-field-danger);
 }
 
 .zse-input-group-input {

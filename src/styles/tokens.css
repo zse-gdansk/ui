@@ -21,12 +21,14 @@
     --color-border-hover: var(--gray-9);
     --color-separator: var(--gray-6);
     --color-focus-ring: var(--accent-8);
-    /* Aktywne pole: ramka w kolorze fokusu i miękka poświata dookoła, bez
-       szczeliny. Wspólne dla wszystkich pól formularza. */
-    --field-halo: 0 0 0 3px
-        color-mix(in oklab, var(--color-focus-ring) 25%, transparent);
-    --field-halo-danger: 0 0 0 3px
-        color-mix(in oklab, var(--color-danger-solid) 22%, transparent);
+    /* Fokus (reguła field-focus): pole kliknięte albo z klawiatury ma ramkę
+       w kolorze fokusu pogrubioną do 1,5px (ramka 1px + 0,5px cienia), bez
+       poświaty i szczeliny. Przyciski i wyzwalacze list z klawiatury: obrys
+       2px przy krawędzi. */
+    --focus-field: 0 0 0 0.5px var(--color-focus-ring);
+    --focus-field-danger: 0 0 0 0.5px var(--color-danger-solid);
+    --focus-ring: 0 0 0 2px var(--color-focus-ring);
+    --focus-ring-danger: 0 0 0 2px var(--color-danger-solid);
 
     --color-accent-bg: var(--accent-3);
     --color-accent-bg-hover: var(--accent-4);

@@ -32,7 +32,7 @@
 
 .zse-number-group:focus-within {
     border-color: var(--color-focus-ring);
-    box-shadow: var(--field-halo);
+    box-shadow: var(--focus-field);
 }
 
 .zse-number[data-invalid] .zse-number-group {
@@ -40,7 +40,7 @@
 }
 
 .zse-number[data-invalid] .zse-number-group:focus-within {
-    box-shadow: var(--field-halo-danger);
+    box-shadow: var(--focus-field-danger);
 }
 
 .zse-number-input {

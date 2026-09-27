@@ -106,7 +106,7 @@
 }
 
 .zse-button:focus-visible {
-    box-shadow: var(--field-halo);
+    box-shadow: var(--focus-ring);
     outline: none;
 }
 
@@ -115,7 +115,7 @@
 }
 
 .zse-button[data-variant="danger"]:focus-visible {
-    box-shadow: var(--field-halo-danger);
+    box-shadow: var(--focus-ring-danger);
 }
 
 .zse-button[data-disabled]:not([data-loading]) {

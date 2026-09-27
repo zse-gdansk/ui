@@ -333,16 +333,20 @@ Akcent to „interaktywne albo wybrane”, zielony sukces, pomarańczowy ostrze�
 
 ## Ruch i stany
 
-### `field-focus` Aktywne pole: ramka i poświata
+### `field-focus` Fokus: ramka, nie poświata
 
-Pole formularza na fokusie dostaje ramkę w kolorze fokusu i miękką poświatę 3px dookoła (`--field-halo`), bez szczeliny i bez zmiany tła. Pole z listą (Select, DatePicker, TimePicker) przy otwartej liście jest zwykłe, bo fokus jest w liście; po zamknięciu fokus wraca na pole i wtedy pojawia się poświata. Kliknięcie daje polu fokus wcześniej, niż lista się otworzy (Select oznacza otwarcie klatkę po fokusie, kalendarz i godzina otwierają się dopiero po puszczeniu przycisku), więc na czas wciśnięcia pole ma `data-pressing` i poświata nie miga. Przy błędzie ramka i poświata są czerwone (`--field-halo-danger`). `Button` i `CopyButton` mają tę samą poświatę, ale tylko z klawiatury (`:focus-visible`); obrysowany przycisk przejmuje też kolor ramki, a niebezpieczny ma poświatę czerwoną.
+Pole formularza na fokusie (kliknięte albo z klawiatury) ma ramkę w kolorze fokusu pogrubioną do 1,5px (`--focus-field`), bez poświaty na zewnątrz, bez szczeliny i bez zmiany tła. Tak samo wyzwalacze list (Select, DatePicker, TimePicker): przy kliknięciu zmienia się tylko odcień ramki, więc przy otwieraniu listy nic nie wyskakuje. Z klawiatury wyzwalacz listy dostaje obrys 2px wewnątrz ramki. Przycisk ma obrys 2px przy krawędzi (`--focus-ring`) tylko z klawiatury (`:focus-visible`), obrysowany przejmuje też kolor ramki, niebezpieczny ma czerwony. Przy błędzie w polu ramka jest czerwona (`--focus-field-danger`).
 
 **Tak**
 
 ```css
-.zse-input-field:focus:not([data-popup-open], [data-pressing]) {
+.zse-input-field:focus {
     border-color: var(--color-focus-ring);
-    box-shadow: var(--field-halo);
+    box-shadow: var(--focus-field);
+}
+
+.zse-button:focus-visible {
+    box-shadow: var(--focus-ring);
 }
 ```
 
@@ -355,7 +359,7 @@ Pole formularza na fokusie dostaje ramkę w kolorze fokusu i miękką poświatę
 }
 ```
 
-Podwójna cienka linia ze szczeliną wygląda jak błąd renderowania.
+Podwójna linia ze szczeliną wygląda jak błąd renderowania, a szeroka poświata pojawia się i znika przy każdym otwarciu listy.
 
 ### `hover-instant` Hover bez przejść koloru
 

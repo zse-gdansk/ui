@@ -39,7 +39,6 @@ Błędy, które już raz popełniliśmy. Przejrzyj przed oddaniem pracy.
 - **Base UI Form nie zbiera dat ani plików.** Rejestruj je przez `useFormValue`.
 - **`<fieldset>` z `display: flex` nie centruje w pionie.** Treść leży w anonimowym pudełku bez wysokości fieldsetu, więc `align-items: center` przy stałej wysokości nic nie daje i wszystko siedzi u góry (`SecretField`). Grupa o stałej wysokości to `<div role="group">`.
 - **`FieldFooter` tylko w `Field.Root`.** Używa `Field.Error` i `Field.Validity`, które poza polem rzucają błąd przy renderze i biała strona zostaje dla całej aplikacji (`SecretField`). Komponent, który nie jest polem formularza, pisze podpowiedź i błąd zwykłym `<p className="zse-input-hint">`.
-- **Poświata miga przy otwieraniu listy.** Pole dostaje fokus w chwili wciśnięcia, a `data-popup-open` później (Select klatkę po fokusie, DatePicker i TimePicker dopiero na kliknięciu). Samo `:not([data-popup-open])` nie wystarcza: na `pointerdown` wyzwalacz dostaje `data-pressing` (`markPress`), zdejmowany gdy fokus przejdzie do listy.
 
 ## Narzędzia i proces
 

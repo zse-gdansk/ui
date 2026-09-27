@@ -73,7 +73,7 @@
 
 .zse-code-input:focus {
     border-color: var(--color-focus-ring);
-    box-shadow: var(--field-halo);
+    box-shadow: var(--focus-field);
 }
 
 .zse-code-input:disabled {
@@ -163,7 +163,7 @@
 }
 
 .zse-code[data-invalid] .zse-code-input:focus {
-    box-shadow: var(--field-halo-danger);
+    box-shadow: var(--focus-field-danger);
 }
 
 .zse-code-slots[data-status="error"] {
