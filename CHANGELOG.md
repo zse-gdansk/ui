@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/zse-gdansk/ui/compare/v1.8.0...v1.9.0) (2026-09-27)
+
+
+### Nowe funkcje
+
+* **stepper:** dodano opcje firstStepBack do zarządzania widocznością przycisku Wstecz na pierwszym kroku ([b1d9687](https://github.com/zse-gdansk/ui/commit/b1d9687f74f26f222c71ae6b001778b2765f7879))
+
 ## [1.8.0](https://github.com/zse-gdansk/ui/compare/v1.7.1...v1.8.0) (2026-09-27)
 
 
