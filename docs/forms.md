@@ -6,7 +6,7 @@
 
 - **Walidację przez Standard Schema** (`schema`): działa z Zodem 4, Valibotem, ArkType. Typy interfejsu są skopiowane w `src/components/form/standard-schema.ts`, biblioteka nie zależy od żadnej z tych paczek. `onSubmit` dostaje wynik schematu z pełnymi typami.
 - **Błędy pod polami po `name`**, także zagnieżdżone (`adres.miasto`).
-- **Błędy z serwera:** `onSubmit` zwraca `{ errors: { pole: "komunikat" } }` albo `{ message }`. Rzucony `Error` pokazuje `Alert` nad formularzem.
+- **Błędy z serwera:** `onSubmit` zwraca `{ errors: { pole: "komunikat" } }` albo `{ message }`; `message` może być elementem z tłumaczeniem (zmiana języka, patrz `i18n.md`). Rzucony `Error` pokazuje `Alert` nad formularzem.
 - **Fokus i przewinięcie do pierwszego błędnego pola** po nieudanym wysłaniu.
 - **Blokadę podwójnego wysłania** i spinner w `FormSubmit`.
 - **`warnOnLeave`:** pytanie przy zamykaniu karty z niezapisanymi zmianami.

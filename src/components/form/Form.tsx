@@ -26,10 +26,17 @@ export type FormErrors = Record<string, string | string[]>;
 
 // Co może zwrócić onSubmit: błędy pól z serwera („login zajęty”) i/lub
 // komunikat dla całego formularza.
+// `message` może być elementem, np. komponentem z tłumaczeniem aplikacji:
+// wtedy po zmianie języka komunikat w oknie też się zmienia. Napis zostaje
+// w języku, w którym go wyliczono.
 export interface FormResult {
     errors?: FormErrors;
-    message?: string;
+    message?: ReactNode;
 }
+
+// Komunikat nad formularzem: własny z biblioteki zapisany jako rodzaj
+// (tłumaczony przy renderze, więc idzie za zmianą języka) albo treść.
+type Message = { kind: "failed" } | { kind: "custom"; content: ReactNode };
 
 type Values<Schema> = [Schema] extends [StandardSchemaV1]
     ? InferOutput<Schema>
@@ -96,7 +103,7 @@ export function Form<Schema extends StandardSchemaV1 | undefined = undefined>({
     const t = useMessages();
     const formRef = useRef<HTMLFormElement>(null);
     const [errors, setErrors] = useState<FormErrors>({});
-    const [message, setMessage] = useState<string | null>(null);
+    const [message, setMessage] = useState<Message | null>(null);
     const [submitting, setSubmitting] = useState(false);
     const [dirty, setDirty] = useState(false);
     const extras = useRef(new Map<string, () => unknown>());
@@ -145,13 +152,14 @@ export function Form<Schema extends StandardSchemaV1 | undefined = undefined>({
                 setErrors(result.errors);
                 focusFirstError(formRef.current);
             }
-            if (result?.message) setMessage(result.message);
+            if (result?.message != null && result.message !== false)
+                setMessage({ kind: "custom", content: result.message });
             if (!result?.errors) setDirty(false);
         } catch (reason) {
             setMessage(
                 reason instanceof Error && reason.message
-                    ? reason.message
-                    : t.form.submitFailed,
+                    ? { kind: "custom", content: reason.message }
+                    : { kind: "failed" },
             );
         } finally {
             setSubmitting(false);
@@ -172,7 +180,9 @@ export function Form<Schema extends StandardSchemaV1 | undefined = undefined>({
             >
                 {message && (
                     <Alert variant="danger" onDismiss={() => setMessage(null)}>
-                        {message}
+                        {message.kind === "failed"
+                            ? t.form.submitFailed
+                            : message.content}
                     </Alert>
                 )}
                 {children}

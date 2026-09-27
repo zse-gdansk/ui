@@ -19,8 +19,10 @@ export interface StepperStep {
     description?: ReactNode;
     content: ReactNode;
     // Sprawdzenie przed przejściem dalej: false albo komunikat zatrzymuje,
-    // Promise pokazuje ładowanie na przycisku.
-    validate?: () => boolean | string | Promise<boolean | string>;
+    // Promise pokazuje ładowanie na przycisku. Komunikat może być elementem
+    // (np. komponentem z tłumaczeniem aplikacji): wtedy po zmianie języka
+    // zmienia się też widoczny błąd, a napis zostaje w dawnym języku.
+    validate?: () => boolean | ReactNode | Promise<boolean | ReactNode>;
     optional?: boolean;
     // Własne wypełnienie kroku (0–1), gdy nie ma w nim zwykłych pól.
     progress?: number;
@@ -136,9 +138,11 @@ export function Stepper({
     const [reached, setReached] = useState(current);
     const [direction, setDirection] = useState(0);
     const [busy, setBusy] = useState(false);
+    // Własne błędy jako rodzaj, tłumaczone przy renderze, żeby szły za
+    // zmianą języka; treść od aplikacji bez zmian.
     const [error, setError] = useState<{
         step: number;
-        message: string;
+        message: "incomplete" | "failed" | { content: ReactNode };
     } | null>(null);
     const [done, setDone] = useState(false);
     const [fill, setFill] = useState<number | null>(null);
@@ -216,7 +220,7 @@ export function Stepper({
         onStepChange?.(target);
     }
 
-    async function run(task: () => unknown) {
+    async function run<T>(task: () => T | Promise<T>): Promise<T> {
         setBusy(true);
         try {
             return await task();
@@ -232,9 +236,11 @@ export function Stepper({
             setError({
                 step: current,
                 message:
-                    typeof verdict === "string"
-                        ? verdict
-                        : t.stepper.incomplete,
+                    typeof verdict === "boolean" ||
+                    verdict == null ||
+                    verdict === ""
+                        ? "incomplete"
+                        : { content: verdict },
             });
             return;
         }
@@ -250,8 +256,8 @@ export function Stepper({
                 step: current,
                 message:
                     reason instanceof Error && reason.message
-                        ? reason.message
-                        : t.stepper.finishFailed,
+                        ? { content: reason.message }
+                        : "failed",
             });
         }
     }
@@ -389,7 +395,11 @@ export function Stepper({
             <div className="zse-stepper-footer">
                 {error && (
                     <p className="zse-stepper-error" role="alert">
-                        {error.message}
+                        {error.message === "incomplete"
+                            ? t.stepper.incomplete
+                            : error.message === "failed"
+                              ? t.stepper.finishFailed
+                              : error.message.content}
                     </p>
                 )}
                 <div className="zse-stepper-actions">
