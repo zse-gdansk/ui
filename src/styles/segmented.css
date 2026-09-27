@@ -11,13 +11,18 @@
     height: var(--segmented-height);
     padding: var(--segmented-pad);
     border-radius: var(--radius-md);
-    background: var(--color-bg-muted);
+    /* Przezroczysty odcień zamiast stałego szarego: szyna odcina się od
+       każdego tła (strona, karta, okno), także w ciemnym motywie, gdzie
+       muted i raised to ten sam kolor. */
+    background: var(--color-bg-tint);
     isolation: isolate;
     user-select: none;
 }
 
+/* Suwak jaśniejszy od szyny na każdym tle: biel nałożona na odcień szyny,
+   a nie stały szary, który na jaśniejszym oknie wyglądał na wklęsły. */
 [data-theme="dark"] .zse-segmented {
-    --segmented-thumb: var(--color-bg-elevated);
+    --segmented-thumb: oklch(100% 0 0 / 12%);
     --segmented-thumb-shadow:
         0 1px 2px oklch(0% 0 0 / 30%), inset 0 0 0 0.5px oklch(100% 0 0 / 8%);
 }
