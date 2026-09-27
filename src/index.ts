@@ -376,3 +376,4 @@ export {
     type ChoiceCardProps,
     type RadioCardGroupProps,
 } from "./components/choice-card/ChoiceCard";
+export { Banner, type BannerProps } from "./components/banner/Banner";

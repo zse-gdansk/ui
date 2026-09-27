@@ -382,3 +382,8 @@ body {
     display: grid;
     gap: 24px;
 }
+
+/* Bez gap: odstęp daje sam baner (--banner-gap) i zwija się z nim. */
+.banner-demo {
+    --banner-gap: 8px;
+}

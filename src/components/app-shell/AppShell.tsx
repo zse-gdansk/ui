@@ -58,6 +58,8 @@ export interface AppShellProps {
     sidebar?: ReactNode;
     // Pasek nad treścią, na prawo od panelu.
     header?: ReactNode;
+    // Ogłoszenie na całą szerokość nad panelem i paskiem, np. <Banner>.
+    banner?: ReactNode;
     children: ReactNode;
     collapsed?: boolean;
     defaultCollapsed?: boolean;
@@ -75,6 +77,7 @@ export interface AppShellProps {
 export function AppShell({
     sidebar,
     header,
+    banner,
     children,
     collapsed: controlled,
     defaultCollapsed = false,
@@ -186,10 +189,14 @@ export function AppShell({
                     className="zse-shell"
                     data-collapsed={collapsed || undefined}
                     data-sidebar={sidebar ? "" : undefined}
+                    data-banner={banner != null || undefined}
                 >
                     <a className="zse-shell-skip" href={`#${mainId}`}>
                         {t.appShell.skip}
                     </a>
+                    {banner != null && (
+                        <div className="zse-shell-banner">{banner}</div>
+                    )}
                     {sidebar != null && (
                         <aside
                             id={sidebarId}

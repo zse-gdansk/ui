@@ -130,3 +130,36 @@ export function formatRelative(t: Messages, date: Date, reference: number) {
     }
     return formatFull(t.locale, date);
 }
+
+// Czas do terminu: „za 20 min”, „za 5 godz.”, „jutro o 15:00”, dzień
+// tygodnia z godziną, a dalej pełna data.
+export function formatUntil(t: Messages, date: Date, reference: number) {
+    const seconds = Math.round((date.getTime() - reference) / 1000);
+    const relative = formatter(
+        `rel:${t.locale}`,
+        () =>
+            new Intl.RelativeTimeFormat(t.locale, {
+                style: "short",
+                numeric: "auto",
+            }),
+    ) as Intl.RelativeTimeFormat;
+    const days = -daysAgo(date, reference);
+    if (days === 0) {
+        if (seconds < 3600)
+            return relative.format(
+                Math.max(1, Math.round(seconds / 60)),
+                "minute",
+            );
+        return relative.format(Math.round(seconds / 3600), "hour");
+    }
+    const clock = formatClock(t.locale, date);
+    if (days === 1) return t.banner.tomorrowAt(clock);
+    if (days < 7) {
+        const weekday = formatter(
+            `wd:${t.locale}`,
+            () => new Intl.DateTimeFormat(t.locale, { weekday: "long" }),
+        ).format(date);
+        return t.timeline.dayAt(weekday, clock);
+    }
+    return formatFull(t.locale, date);
+}

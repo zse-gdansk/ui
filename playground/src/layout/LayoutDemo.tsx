@@ -36,6 +36,7 @@ import {
 import {
     AppHeader,
     AppLoader,
+    Banner,
     AppShell,
     Badge,
     Button,
@@ -70,6 +71,19 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import { TableDemo } from "../TableDemo";
 
 const COOKIE = "zse-sidebar";
+
+// W Next.js to samo czyta serwer z cookies().
+const bannerDismissed = document.cookie
+    .split("; ")
+    .includes("zse-banner-glosowanie-demo=1");
+
+// Koniec głosowania w demo: jutro o 15:00.
+const VOTE_ENDS = (() => {
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+    date.setHours(15, 0, 0, 0);
+    return date;
+})();
 
 // W Next.js to samo czyta serwer: (await cookies()).get(COOKIE).
 const savedCollapsed = document.cookie
@@ -522,6 +536,16 @@ export function LayoutDemo() {
             }}
         >
             <AppShell
+                banner={
+                    <Banner
+                        endsAt={VOTE_ENDS}
+                        persist="glosowanie-demo"
+                        defaultDismissed={bannerDismissed}
+                        action={<a href="#/glosowania">Zagłosuj</a>}
+                    >
+                        Trwają wybory do samorządu uczniowskiego.
+                    </Banner>
+                }
                 sidebar={<Nav pathname={pathname} />}
                 header={<Header />}
                 cookie={COOKIE}

@@ -187,6 +187,12 @@ export const pl: Messages = {
         moreActions: "Więcej akcji",
     },
     userMenu: { label: (name) => `Konto: ${name}` },
+    banner: {
+        label: "Ogłoszenie",
+        dismiss: "Zamknij ogłoszenie",
+        ends: (when) => `Koniec ${when}`,
+        tomorrowAt: (time) => `jutro o ${time}`,
+    },
     choiceCard: {
         count: (selected, max) => `Wybrano ${selected} z ${max}`,
     },

@@ -146,6 +146,12 @@ export interface Messages {
     kbd: { space: string; backspace: string; delete: string; escape: string };
     localeSwitcher: { label: string };
     userMenu: { label: (name: string) => string };
+    banner: {
+        label: string;
+        dismiss: string;
+        ends: (when: string) => string;
+        tomorrowAt: (time: string) => string;
+    };
     choiceCard: {
         count: (selected: string, max: string) => string;
     };

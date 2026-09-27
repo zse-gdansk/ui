@@ -39,6 +39,7 @@ import { AccordionDemo } from "./AccordionDemo";
 import { AlertDemo } from "./AlertDemo";
 import { AvatarDemo } from "./AvatarDemo";
 import { BadgeDemo } from "./BadgeDemo";
+import { BannerDemo } from "./BannerDemo";
 import { BreadcrumbsDemo } from "./BreadcrumbsDemo";
 import { CalendarDemo } from "./CalendarDemo";
 import { ChartsDemo } from "./ChartsDemo";
@@ -504,6 +505,8 @@ export function App() {
             <ChartsDemo />
 
             <VoteDemo />
+
+            <BannerDemo />
 
             <CodeDemo />
 
