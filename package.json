@@ -15,7 +15,8 @@
         "playground"
     ],
     "files": [
-        "dist"
+        "dist",
+        "docs"
     ],
     "type": "module",
     "sideEffects": [
