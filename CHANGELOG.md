@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/zse-gdansk/ui/compare/v1.7.1...v1.8.0) (2026-09-27)
+
+
+### Nowe funkcje
+
+* **theme-button:** dodano przycisk zmiany motywu z ikoną z data-theme ([de26fdd](https://github.com/zse-gdansk/ui/commit/de26fdd790a9dac50f82d4fe2f597994abb952a9))
+
 ## [1.7.1](https://github.com/zse-gdansk/ui/compare/v1.7.0...v1.7.1) (2026-09-27)
 
 
