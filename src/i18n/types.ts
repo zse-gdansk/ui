@@ -143,7 +143,14 @@ export interface Messages {
         count: (selected: string, total: string) => string;
     };
     accordion: { showDetails: string };
-    kbd: { space: string; backspace: string; delete: string; escape: string };
+    kbd: {
+        space: string;
+        backspace: string;
+        delete: string;
+        escape: string;
+        // Między klawiszami sekwencji: „G potem U”.
+        sequence: string;
+    };
     localeSwitcher: { label: string };
     userMenu: { label: (name: string) => string };
     banner: {
@@ -225,6 +232,32 @@ export interface Messages {
         increase: (delta: string) => string;
         decrease: (delta: string) => string;
         unchanged: string;
+    };
+    command: {
+        label: string;
+        search: string;
+        placeholder: string;
+        back: string;
+        commands: string;
+        recent: string;
+        searching: string;
+        failed: string;
+        searchFailed: string;
+        empty: string;
+        emptyFor: (query: string) => string;
+        // Stopka: co zrobi Enter i Escape.
+        open: string;
+        go: string;
+        run: string;
+        pick: string;
+        next: string;
+        save: string;
+        close: string;
+        // Wiersz kroku z tekstem, zanim coś się wpisze.
+        typeValue: (label: string) => string;
+        required: string;
+        // Podpowiedź po pierwszym klawiszu sekwencji.
+        sequence: string;
     };
 }
 

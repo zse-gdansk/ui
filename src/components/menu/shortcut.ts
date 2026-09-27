@@ -123,14 +123,17 @@ export function ariaShortcut(shortcut: Shortcut, apple = isApple()) {
 }
 
 function matches(event: KeyboardEvent, parsed: Parsed) {
+    const { key } = parsed;
+    // Znaki jak „?” albo „/” wpisuje się z Shiftem na części układów, więc
+    // przy nich Shift nie jest częścią skrótu.
+    const symbol = key.length === 1 && !/^[a-z\d]$/.test(key);
     if (
         event.ctrlKey !== parsed.ctrl ||
         event.metaKey !== parsed.meta ||
         event.altKey !== parsed.alt ||
-        event.shiftKey !== parsed.shift
+        (!symbol && event.shiftKey !== parsed.shift)
     )
         return false;
-    const { key } = parsed;
     if (/^[a-z]$/.test(key)) return event.code === `Key${key.toUpperCase()}`;
     if (/^\d$/.test(key)) return event.code === `Digit${key}`;
     if (key === "space") return event.code === "Space";
@@ -150,7 +153,8 @@ export function useShortcut(
         if (!shortcut || disabled) return;
         const parsed = parse(shortcut, isApple());
         const onKeyDown = (event: KeyboardEvent) => {
-            if (!matches(event, parsed)) return;
+            // Skrót obsłużył już ktoś inny, np. paleta poleceń.
+            if (event.defaultPrevented || !matches(event, parsed)) return;
             event.preventDefault();
             event.stopPropagation();
             if (!event.repeat) ref.current?.click();

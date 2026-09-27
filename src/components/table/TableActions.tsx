@@ -51,7 +51,11 @@ export function TableActions({
         >
             <div className="zse-table-actions-row">
                 {quick.map((action) => (
-                    <Tooltip key={action.label} content={action.label}>
+                    <Tooltip
+                        key={action.label}
+                        content={action.label}
+                        touch="none"
+                    >
                         <button
                             type="button"
                             className="zse-table-action"

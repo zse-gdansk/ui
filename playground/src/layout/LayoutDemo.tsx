@@ -62,13 +62,16 @@ import {
     SidebarItem,
     SidebarSub,
     Toaster,
+    CommandProvider,
     isActivePath,
     toast,
+    useCommandPalette,
 } from "@zse-gdansk/ui";
 import { GB, PL, UA } from "country-flag-icons/react/3x2";
 import { useEffect, useState, useSyncExternalStore } from "react";
 
 import { TableDemo } from "../TableDemo";
+import { AppCommands, StudentsPageCommands } from "./commands";
 
 const COOKIE = "zse-sidebar";
 
@@ -454,6 +457,7 @@ function useTheme() {
 
 function Header() {
     const theme = useTheme();
+    const palette = useCommandPalette();
     const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
 
     return (
@@ -465,7 +469,7 @@ function Header() {
                         icon={Search01Icon}
                         label="Szukaj"
                         shortcut="mod+k"
-                        onClick={() => toast("Paleta poleceń będzie później")}
+                        onClick={palette.toggle}
                     />
                     <HeaderAction
                         icon={Notification01Icon}
@@ -535,60 +539,66 @@ export function LayoutDemo() {
                 setAttempt((value) => value + 1);
             }}
         >
-            <AppShell
-                banner={
-                    <Banner
-                        endsAt={VOTE_ENDS}
-                        persist="glosowanie-demo"
-                        defaultDismissed={bannerDismissed}
-                        action={<a href="#/glosowania">Zagłosuj</a>}
-                    >
-                        Trwają wybory do samorządu uczniowskiego.
-                    </Banner>
-                }
-                sidebar={<Nav pathname={pathname} />}
-                header={<Header />}
-                cookie={COOKIE}
-                defaultCollapsed={savedCollapsed}
-            >
-                <HeaderBreadcrumbs items={crumbsFor(pathname)} />
-                <div className="demo-page">
-                    <PageHeader
-                        title={pageTitle(pathname)}
-                        description="Zwiń panel przyciskiem obok nazwy albo ⌘B / Ctrl+B."
-                        meta={
-                            <>
-                                <Badge tone="success" size="sm">
-                                    64 uczniów
-                                </Badge>
-                                <span>Rok szkolny 2026/27</span>
-                            </>
-                        }
-                        actions={
-                            <>
-                                <Button
-                                    variant="outline"
-                                    icon={Download04Icon}
-                                    onClick={() => toast("Eksport do CSV")}
-                                >
-                                    Eksport
-                                </Button>
-                                <Button
-                                    icon={Add01Icon}
-                                    onClick={() => toast("Nowy uczeń")}
-                                >
-                                    Dodaj ucznia
-                                </Button>
-                            </>
-                        }
-                    />
-                    <ClassTabs pathname={pathname} />
-                    <TableDemo />
-                    <TableDemo />
-                </div>
-                <Toaster />
-                <Confirmer />
-            </AppShell>
+            <CommandProvider>
+                <AppShell
+                    banner={
+                        <Banner
+                            endsAt={VOTE_ENDS}
+                            persist="glosowanie-demo"
+                            defaultDismissed={bannerDismissed}
+                            action={<a href="#/glosowania">Zagłosuj</a>}
+                        >
+                            Trwają wybory do samorządu uczniowskiego.
+                        </Banner>
+                    }
+                    sidebar={<Nav pathname={pathname} />}
+                    header={<Header />}
+                    cookie={COOKIE}
+                    defaultCollapsed={savedCollapsed}
+                >
+                    <HeaderBreadcrumbs items={crumbsFor(pathname)} />
+                    <div className="demo-page">
+                        <PageHeader
+                            title={pageTitle(pathname)}
+                            description="Zwiń panel przyciskiem obok nazwy albo ⌘B / Ctrl+B."
+                            meta={
+                                <>
+                                    <Badge tone="success" size="sm">
+                                        64 uczniów
+                                    </Badge>
+                                    <span>Rok szkolny 2026/27</span>
+                                </>
+                            }
+                            actions={
+                                <>
+                                    <Button
+                                        variant="outline"
+                                        icon={Download04Icon}
+                                        onClick={() => toast("Eksport do CSV")}
+                                    >
+                                        Eksport
+                                    </Button>
+                                    <Button
+                                        icon={Add01Icon}
+                                        onClick={() => toast("Nowy uczeń")}
+                                    >
+                                        Dodaj ucznia
+                                    </Button>
+                                </>
+                            }
+                        />
+                        <ClassTabs pathname={pathname} />
+                        <TableDemo />
+                        <TableDemo />
+                    </div>
+                    <Toaster />
+                    <Confirmer />
+                    <AppCommands />
+                    {isActivePath(pathname, "/uczniowie") && (
+                        <StudentsPageCommands />
+                    )}
+                </AppShell>
+            </CommandProvider>
         </AppLoader>
     );
 }

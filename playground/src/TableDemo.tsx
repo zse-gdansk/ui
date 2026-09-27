@@ -35,37 +35,47 @@ import {
 } from "@zse-gdansk/ui";
 import { useState } from "react";
 
+// Imię z rodzajem, nazwisko w obu formach: bez „Mikołaja Zielińskiej”.
 const FIRST = [
-    "Anna",
-    "Jakub",
-    "Zofia",
-    "Szymon",
-    "Łucja",
-    "Mikołaj",
-    "Julia",
-    "Franciszek",
-    "Maja",
-    "Antoni",
-    "Hanna",
-    "Stanisław",
-];
+    ["Anna", "f"],
+    ["Jakub", "m"],
+    ["Zofia", "f"],
+    ["Szymon", "m"],
+    ["Łucja", "f"],
+    ["Mikołaj", "m"],
+    ["Julia", "f"],
+    ["Franciszek", "m"],
+    ["Maja", "f"],
+    ["Antoni", "m"],
+    ["Hanna", "f"],
+    ["Stanisław", "m"],
+] as const;
 const LAST = [
-    "Nowak",
-    "Kowalska",
-    "Wiśniewski",
-    "Zając",
-    "Wójcik",
-    "Kamińska",
-    "Lewandowski",
-    "Zielińska",
-    "Szymański",
-    "Dąbrowska",
-    "Kozłowski",
-    "Jankowska",
-];
+    ["Nowak", "Nowak"],
+    ["Kowalski", "Kowalska"],
+    ["Wiśniewski", "Wiśniewska"],
+    ["Zając", "Zając"],
+    ["Wójcik", "Wójcik"],
+    ["Kamiński", "Kamińska"],
+    ["Lewandowski", "Lewandowska"],
+    ["Zieliński", "Zielińska"],
+    ["Szymański", "Szymańska"],
+    ["Dąbrowski", "Dąbrowska"],
+    ["Kozłowski", "Kozłowska"],
+    ["Jankowski", "Jankowska"],
+] as const;
+
+// Każdy indeks daje inną parę imię i nazwisko (12 × 12 kombinacji).
+function nameFor(index: number) {
+    const [first, gender] = FIRST[index % FIRST.length] ?? FIRST[0];
+    const [male, female] =
+        LAST[(index * 7 + Math.floor(index / FIRST.length)) % LAST.length] ??
+        LAST[0];
+    return `${first} ${gender === "f" ? female : male}`;
+}
 const CLASSES = ["1A", "1B", "2A", "2C", "3C", "4B"];
 
-interface Student {
+export interface Student {
     id: number;
     name: string;
     className: string;
@@ -75,9 +85,9 @@ interface Student {
 }
 
 // Stałe dane do demo, liczone z indeksu, żeby się nie zmieniały.
-const STUDENTS: Student[] = Array.from({ length: 64 }, (_, index) => ({
+export const STUDENTS: Student[] = Array.from({ length: 64 }, (_, index) => ({
     id: index + 1,
-    name: `${FIRST[(index * 5) % FIRST.length]} ${LAST[(index * 7) % LAST.length]}`,
+    name: nameFor(index),
     className: CLASSES[index % CLASSES.length] ?? "1A",
     points: index % 11 === 0 ? null : (index * 37) % 101,
     attendance: 70 + ((index * 13) % 31),

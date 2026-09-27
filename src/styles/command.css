@@ -1,0 +1,430 @@
+.zse-command-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    background: var(--color-bg-overlay);
+    transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.zse-command-backdrop[data-starting-style],
+.zse-command-backdrop[data-ending-style] {
+    opacity: 0;
+}
+
+.zse-command-viewport {
+    position: fixed;
+    inset: 0;
+    z-index: 91;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 8px 8px 16px;
+}
+
+@media (min-width: 640px) {
+    .zse-command-viewport {
+        padding: min(14vh, 120px) 16px 16px;
+    }
+}
+
+.zse-command {
+    --command-radius: var(--radius-xl);
+    --command-pad: 6px;
+    --command-max: min(22rem, 55dvh);
+
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: min(640px, 100%);
+    overflow: hidden;
+    border-radius: var(--command-radius);
+    background: var(--color-bg-raised);
+    box-shadow: var(--shadow-modal);
+    color: var(--color-text);
+    outline: none;
+    transform-origin: 50% 0;
+    transition-property: opacity, scale;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out);
+}
+
+.zse-command[data-starting-style],
+.zse-command[data-ending-style] {
+    opacity: 0;
+    scale: 0.98;
+}
+
+.zse-command[data-ending-style] {
+    transition-duration: 100ms;
+}
+
+.zse-command-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 52px;
+    padding: 0 12px;
+    border-bottom: 1px solid var(--color-separator);
+}
+
+.zse-command-search-icon,
+.zse-command-back {
+    display: grid;
+    flex: none;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    color: var(--color-text-secondary);
+}
+
+.zse-command-back {
+    margin-inline-start: -2px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    cursor: pointer;
+    transition: scale 200ms var(--ease-out);
+}
+
+@media (hover: hover) {
+    .zse-command-back:hover {
+        background: var(--color-bg-tint);
+        color: var(--color-text);
+    }
+}
+
+.zse-command-back:active {
+    scale: 0.96;
+}
+
+.zse-command-back:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+}
+
+/* Ścieżka: polecenie i wybrane wartości kroków, np. Dodaj uwagę › Jan. */
+.zse-command-trail {
+    display: flex;
+    flex: 0 1 auto;
+    gap: 4px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.zse-command-trail li {
+    flex: 0 1 auto;
+    min-width: 2.5rem;
+    max-width: 12rem;
+    padding: 3px 8px;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-tint);
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.zse-command-trail li:last-child {
+    color: var(--color-text);
+}
+
+.zse-command-input {
+    flex: 1 1 8rem;
+    min-width: 6rem;
+    height: 48px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-text);
+    caret-color: var(--color-text);
+    font: inherit;
+    font-size: 1rem;
+    outline: none;
+}
+
+.zse-command-input::placeholder {
+    color: var(--color-text-secondary);
+    opacity: 1;
+}
+
+/* Wskaźnik wyszukiwania na serwerze; z opóźnieniem, szybka odpowiedź
+   nie mignie. */
+.zse-command-status {
+    display: grid;
+    flex: none;
+    place-items: center;
+    color: var(--color-text-secondary);
+    opacity: 0;
+    transition: opacity 120ms var(--ease-out);
+}
+
+.zse-command-status[data-visible] {
+    opacity: 1;
+    transition-delay: 250ms;
+}
+
+.zse-command-close {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* Wysokość płynnie za treścią (--command-content mierzy ResizeObserver). */
+.zse-command-body {
+    display: flex;
+    flex-direction: column;
+    height: min(var(--command-content, var(--command-max)), var(--command-max));
+    min-height: 0;
+}
+
+.zse-command-body[data-ready] {
+    transition: height 180ms var(--ease-out);
+}
+
+.zse-command-scroll {
+    flex: 1;
+    height: 100%;
+}
+
+.zse-command-content {
+    padding: var(--command-pad);
+}
+
+.zse-command-list:empty {
+    display: none;
+}
+
+.zse-command-group + .zse-command-group {
+    margin-top: 4px;
+}
+
+.zse-command-group-label {
+    display: flex;
+    align-items: center;
+    height: 28px;
+    padding: 0 10px;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    user-select: none;
+}
+
+.zse-command-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 40px;
+    padding: 0 10px;
+    border-radius: calc(var(--command-radius) - var(--command-pad));
+    color: var(--color-text);
+    font-size: 0.875rem;
+    line-height: 1.3;
+    cursor: pointer;
+    outline: none;
+    scroll-margin-block: var(--command-pad);
+    user-select: none;
+}
+
+@media (pointer: coarse) {
+    .zse-command-item {
+        min-height: 44px;
+    }
+}
+
+.zse-command-item[data-highlighted] {
+    background: var(--color-bg-hover);
+}
+
+.zse-command-item[data-variant="danger"][data-highlighted] {
+    background: var(--color-danger-bg);
+    color: var(--color-danger-text);
+}
+
+.zse-command-item[data-disabled] {
+    cursor: not-allowed;
+}
+
+.zse-command-item[data-disabled]:not([data-kind="submit"]) {
+    opacity: 0.45;
+}
+
+.zse-command-icon {
+    display: grid;
+    flex: none;
+    width: 20px;
+    height: 20px;
+    place-items: center;
+    color: var(--color-text-secondary);
+}
+
+.zse-command-item[data-highlighted] .zse-command-icon {
+    color: inherit;
+}
+
+.zse-command-text {
+    display: flex;
+    flex: 1;
+    align-items: baseline;
+    gap: 8px;
+    min-width: 0;
+}
+
+.zse-command-title {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Wiersz kroku z tekstem, zanim coś się wpisze: podpowiedź, nie wartość. */
+.zse-command-item[data-kind="submit"][data-disabled]:not([data-invalid])
+    .zse-command-title {
+    color: var(--color-text-secondary);
+}
+
+.zse-command-subtitle {
+    flex: 0 10 auto;
+    min-width: 0;
+    overflow: hidden;
+    color: var(--color-text-secondary);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.zse-command-item[data-invalid] .zse-command-subtitle {
+    color: var(--color-danger-text);
+}
+
+.zse-command-chevron {
+    display: grid;
+    flex: none;
+    margin-inline-end: -2px;
+    place-items: center;
+    color: var(--color-text-secondary);
+}
+
+.zse-command-busy {
+    flex: none;
+    color: var(--color-text-secondary);
+}
+
+.zse-command-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 96px;
+    padding: 0 16px;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+.zse-command-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 40px;
+    padding: 0 12px;
+    border-top: 1px solid var(--color-separator);
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+}
+
+.zse-command-footer-hint {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+
+.zse-command-footer-hint[data-error] {
+    color: var(--color-danger-text);
+}
+
+/* Bez klawiatury podpowiedzi klawiszy nic nie mówią; błąd zostaje. */
+@media (hover: none) and (pointer: coarse) {
+    .zse-command-footer:not(:has([data-error])),
+    .zse-command-item .zse-kbd-group {
+        display: none;
+    }
+}
+
+/* Podpowiedź sekwencji: po G widać, co może być dalej. Pojawia się, gdy
+   ktoś się zawaha, szybkie sekwencje jej nie wywołują. */
+.zse-command-hint {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    z-index: 96;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: calc(100vw - 32px);
+    padding: 6px 12px 6px 6px;
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-raised);
+    box-shadow: var(--shadow-popover);
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    opacity: 0;
+    pointer-events: none;
+    translate: -50% 4px;
+    transition-property: opacity, translate;
+    transition-duration: 120ms;
+    transition-timing-function: var(--ease-out);
+}
+
+.zse-command-hint[data-visible] {
+    opacity: 1;
+    translate: -50% 0;
+    transition-duration: 200ms;
+    transition-delay: 500ms;
+}
+
+.zse-command-hint:empty {
+    display: none;
+}
+
+.zse-command-hint-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.zse-command-hint-list li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-command[data-starting-style],
+    .zse-command[data-ending-style] {
+        scale: 1;
+    }
+
+    .zse-command-body[data-ready] {
+        transition: none;
+    }
+
+    .zse-command-back:active {
+        scale: 1;
+    }
+
+    .zse-command-hint {
+        translate: -50% 0;
+    }
+}

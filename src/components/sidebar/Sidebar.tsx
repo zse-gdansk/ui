@@ -123,6 +123,7 @@ export function SidebarHeader({ logo, title }: SidebarHeaderProps) {
                         content={hint(t.appShell.expand)}
                         side="right"
                         disabled={!rail}
+                        touch="none"
                     >
                         <button
                             type="button"
@@ -142,7 +143,11 @@ export function SidebarHeader({ logo, title }: SidebarHeaderProps) {
                 <span className="zse-sidebar-title">{title}</span>
             )}
             {toggleable && (
-                <Tooltip content={hint(t.appShell.collapse)} side="bottom">
+                <Tooltip
+                    content={hint(t.appShell.collapse)}
+                    side="bottom"
+                    touch="none"
+                >
                     <button
                         type="button"
                         className="zse-sidebar-collapse"
@@ -429,7 +434,12 @@ export function SidebarItem({
 
     return (
         <li className="zse-sidebar-row">
-            <Tooltip content={children} side="right" disabled={!rail}>
+            <Tooltip
+                content={children}
+                side="right"
+                disabled={!rail}
+                touch="none"
+            >
                 {element as ReactElement<Record<string, unknown>>}
             </Tooltip>
         </li>

@@ -15,6 +15,10 @@ export interface TooltipProps {
     side?: "top" | "bottom" | "left" | "right";
     delay?: number;
     disabled?: boolean;
+    // Dotyk: toggle, tapnięcie pokazuje tooltip (ikona z informacją);
+    // none, bez tooltipa, tapnięcie wykonuje akcję przycisku, a nazwa
+    // jest w aria-label.
+    touch?: "toggle" | "none";
 }
 
 export function Tooltip({
@@ -23,6 +27,7 @@ export function Tooltip({
     side = "top",
     delay,
     disabled,
+    touch: touchMode = "toggle",
 }: TooltipProps) {
     const [open, setOpen] = useState(false);
     const touch = useRef(false);
@@ -42,6 +47,7 @@ export function Tooltip({
                 if (touch.current && details.reason.startsWith("trigger")) {
                     return;
                 }
+                if (touch.current && next && touchMode === "none") return;
                 setOpen(next);
             }}
         >
@@ -51,7 +57,8 @@ export function Tooltip({
                 onPointerEnter={trackPointer}
                 onPointerDown={(event) => {
                     trackPointer(event);
-                    if (touch.current) setOpen((value) => !value);
+                    if (touch.current && touchMode === "toggle")
+                        setOpen((value) => !value);
                 }}
             />
             <BaseTooltip.Portal>

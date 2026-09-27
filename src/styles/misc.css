@@ -35,6 +35,13 @@
     vertical-align: baseline;
 }
 
+.zse-kbd-then {
+    align-self: center;
+    padding-inline: 1px;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+}
+
 .zse-separator {
     flex: none;
     border: 0;

@@ -236,6 +236,7 @@ export function HeaderAction({
     return (
         <Tooltip
             side="bottom"
+            touch="none"
             content={
                 <>
                     {label}

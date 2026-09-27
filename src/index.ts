@@ -377,3 +377,22 @@ export {
     type RadioCardGroupProps,
 } from "./components/choice-card/ChoiceCard";
 export { Banner, type BannerProps } from "./components/banner/Banner";
+export {
+    CommandProvider,
+    useCommandPalette,
+    useCommands,
+    useCommandSource,
+    type CommandPaletteControls,
+    type CommandProviderProps,
+} from "./components/command/CommandProvider";
+export type {
+    Command,
+    CommandChoiceStep,
+    CommandContext,
+    CommandOption,
+    CommandSearch,
+    CommandSource,
+    CommandStep,
+    CommandTextStep,
+    CommandValues,
+} from "./components/command/types";
