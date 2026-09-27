@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.0](https://github.com/zse-gdansk/ui/compare/v1.4.0...v1.5.0) (2026-09-27)
+
+
+### Nowe funkcje
+
+* **stepper:** dodano dokładne obliczanie postępu kroku oraz walidację pól w kroku ([c0a9cdc](https://github.com/zse-gdansk/ui/commit/c0a9cdc2f5018c0f888ffa9e10f8d48f3d8a87aa))
+* **stepper:** dodano obsługę Enter w polu kroku jako Dalej, z wyjątkiem pól w formularzu ([b927fea](https://github.com/zse-gdansk/ui/commit/b927feac4cc264ec8dcaa9bb3e57b04882d20853))
+
 ## [1.4.0](https://github.com/zse-gdansk/ui/compare/v1.3.0...v1.4.0) (2026-09-27)
 
 
