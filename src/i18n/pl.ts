@@ -6,6 +6,7 @@ const count = (n: number, forms: Parameters<typeof plural>[2]) =>
 
 const CHARS = { one: "znak", few: "znaki", other: "znaków" };
 const FILES = { one: "plik", few: "pliki", other: "plików" };
+const PEOPLE = { one: "osoba", few: "osoby", other: "osób" };
 
 export const pl: Messages = {
     locale: "pl-PL",
@@ -43,6 +44,13 @@ export const pl: Messages = {
         startTyping: "Zacznij pisać, żeby wyszukać",
         empty: "Brak wyników",
         emptyFor: (query) => `Brak wyników dla „${query}”`,
+    },
+    peoplePicker: {
+        groups: "Grupy",
+        people: "Osoby",
+        members: (n) => count(n, PEOPLE),
+        groupChip: (label, n) => `${label}, ${count(n, PEOPLE)}`,
+        inGroup: (group) => `w grupie ${group}`,
     },
     hoverCard: {
         failed: "Nie udało się wczytać podglądu",
@@ -324,6 +332,12 @@ export const pl: Messages = {
         moreActions: "Więcej akcji",
     },
     userMenu: { label: (name) => `Konto: ${name}` },
+    deadline: {
+        dueLabel: "Termin: ",
+        due: (when) => `Termin: ${when}`,
+        overdue: (when) => `Po terminie: ${when}`,
+        done: "Gotowe",
+    },
     banner: {
         label: "Ogłoszenie",
         dismiss: "Zamknij ogłoszenie",

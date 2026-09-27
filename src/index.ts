@@ -471,3 +471,10 @@ export {
     type ToolbarToggleGroupProps,
     type ToolbarToggleProps,
 } from "./components/toolbar/Toolbar";
+export { Deadline, type DeadlineProps } from "./components/deadline/Deadline";
+export {
+    PeoplePicker,
+    type PeopleGroup,
+    type PeoplePickerProps,
+    type Person,
+} from "./components/people-picker/PeoplePicker";

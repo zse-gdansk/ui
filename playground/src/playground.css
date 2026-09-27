@@ -499,3 +499,32 @@ body {
     align-items: flex-start;
     gap: 24px;
 }
+
+.deadline-demo {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.deadline-demo-list {
+    display: flex;
+    flex-direction: column;
+    max-width: 560px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.deadline-demo-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--color-separator);
+    font-size: 0.875rem;
+}
+
+.people-demo {
+    max-width: 480px;
+}

@@ -1,0 +1,53 @@
+/* Wersja bez tła: sam kolor tekstu i ikona, np. w wierszu listy zadań.
+   Pigułkę rysuje Badge. */
+.zse-deadline[data-variant="text"] {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.zse-deadline[data-variant="text"][data-size="sm"] {
+    gap: 4px;
+    font-size: 0.75rem;
+}
+
+.zse-deadline[data-variant="text"][data-tone="warning"] {
+    color: var(--color-warning-text);
+}
+
+.zse-deadline[data-variant="text"][data-tone="danger"] {
+    color: var(--color-danger-text);
+}
+
+.zse-deadline[data-variant="text"][data-tone="success"] {
+    color: var(--color-success-text);
+}
+
+.zse-deadline-icon {
+    flex: none;
+    width: 14px;
+    height: 14px;
+}
+
+.zse-deadline[data-size="sm"] .zse-deadline-icon {
+    width: 12px;
+    height: 12px;
+}
+
+.zse-deadline-text {
+    font-variant-numeric: tabular-nums;
+}
+
+/* „Termin:” tylko dla czytnika; na ekranie mówi to ikona zegara. */
+.zse-deadline-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}

@@ -47,6 +47,7 @@ import { CodeDemo } from "./CodeDemo";
 import { CodeBlockDemo } from "./CodeDemo2";
 import { ComboboxDemo } from "./ComboboxDemo";
 import { CopyDemo } from "./CopyDemo";
+import { DeadlineDemo } from "./DeadlineDemo";
 import { EmptyDemo } from "./EmptyDemo";
 import { ErrorsDemo } from "./ErrorsDemo";
 import { EventsDemo } from "./EventsDemo";
@@ -60,6 +61,7 @@ import { MenuDemo } from "./MenuDemo";
 import { MiscDemo } from "./MiscDemo";
 import { NumberDemo } from "./NumberDemo";
 import { PaginationDemo } from "./PaginationDemo";
+import { PeopleDemo } from "./PeopleDemo";
 import { PhotoDemo } from "./PhotoDemo";
 import { PopoverDemo } from "./PopoverDemo";
 import { ProgressDemo } from "./ProgressDemo";
@@ -485,6 +487,10 @@ export function App() {
             <ToggleDemo />
 
             <ToolbarDemo />
+
+            <DeadlineDemo />
+
+            <PeopleDemo />
 
             <StepperDemo />
 

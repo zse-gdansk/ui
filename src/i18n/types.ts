@@ -37,6 +37,14 @@ export interface Messages {
         empty: string;
         emptyFor: (query: string) => string;
     };
+    peoplePicker: {
+        groups: string;
+        people: string;
+        members: (count: number) => string;
+        // Nazwa chipu grupy dla czytnika, np. „3C, 28 osób”.
+        groupChip: (label: string, count: number) => string;
+        inGroup: (group: string) => string;
+    };
     hoverCard: {
         failed: string;
     };
@@ -269,6 +277,13 @@ export interface Messages {
     };
     localeSwitcher: { label: string };
     userMenu: { label: (name: string) => string };
+    deadline: {
+        // Dopisek dla czytnika przed czasem („Termin: jutro o 15:00”).
+        dueLabel: string;
+        due: (when: string) => string;
+        overdue: (when: string) => string;
+        done: string;
+    };
     banner: {
         label: string;
         dismiss: string;
