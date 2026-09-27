@@ -25,9 +25,6 @@ export interface TableActionsProps {
     // Nazwa przycisku menu z kontekstem wiersza, np. „Akcje: Anna Nowak”.
     // Bez niej czytnik słyszy w każdym wierszu to samo „Więcej akcji”.
     label?: string;
-    // Przyciski widać dopiero po najechaniu na wiersz albo fokusie w nim.
-    // Na dotyku są zawsze widoczne.
-    revealOnHover?: boolean;
     // Kolumna przyklejona do prawej krawędzi przy przewijaniu w poziomie.
     sticky?: boolean;
 }
@@ -40,7 +37,6 @@ export function TableActions({
     children,
     quick = NO_ACTIONS,
     label,
-    revealOnHover = false,
     sticky = false,
 }: TableActionsProps) {
     const t = useMessages();
@@ -51,7 +47,6 @@ export function TableActions({
         <td
             className="zse-table-cell zse-table-actions"
             data-sticky={sticky ? "right" : undefined}
-            data-reveal={revealOnHover || undefined}
             onClick={(event) => event.stopPropagation()}
         >
             <div className="zse-table-actions-row">
@@ -96,8 +91,7 @@ export interface TableActionsHeadProps {
     children?: ReactNode;
 }
 
-// Nagłówek kolumny akcji. Tekst jest widoczny, bo przy revealOnHover
-// kolumna bez niego wygląda na pustą.
+// Nagłówek kolumny akcji z widocznym „Akcje”.
 export function TableActionsHead({
     sticky = false,
     children,

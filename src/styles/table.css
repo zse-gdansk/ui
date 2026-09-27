@@ -377,18 +377,6 @@
     outline-offset: -1.5px;
 }
 
-@media (hover: hover) {
-    .zse-table-actions[data-reveal] .zse-table-action {
-        opacity: 0;
-    }
-
-    tr:hover > .zse-table-actions[data-reveal] .zse-table-action,
-    tr:has(:focus-visible) > .zse-table-actions[data-reveal] .zse-table-action,
-    .zse-table-actions[data-reveal] .zse-table-action[data-popup-open] {
-        opacity: 1;
-    }
-}
-
 @media (prefers-reduced-motion: reduce) {
     .zse-table-action:active {
         scale: 1;
