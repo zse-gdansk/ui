@@ -37,6 +37,9 @@ export interface Messages {
         empty: string;
         emptyFor: (query: string) => string;
     };
+    hoverCard: {
+        failed: string;
+    };
     photo: {
         choose: string;
         change: string;

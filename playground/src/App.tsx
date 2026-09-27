@@ -52,6 +52,7 @@ import { ErrorsDemo } from "./ErrorsDemo";
 import { EventsDemo } from "./EventsDemo";
 import { FormDemo } from "./FormDemo";
 import { GradesDemo } from "./GradesDemo";
+import { HoverCardDemo } from "./HoverCardDemo";
 import { InputGroupDemo } from "./InputGroupDemo";
 import { LinkDemo } from "./LinkDemo";
 import { LocaleDemo } from "./LocaleDemo";
@@ -511,6 +512,8 @@ export function App() {
             <EventsDemo />
 
             <RankDemo />
+
+            <HoverCardDemo />
 
             <PhotoDemo />
 

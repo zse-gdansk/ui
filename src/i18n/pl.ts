@@ -44,6 +44,9 @@ export const pl: Messages = {
         empty: "Brak wyników",
         emptyFor: (query) => `Brak wyników dla „${query}”`,
     },
+    hoverCard: {
+        failed: "Nie udało się wczytać podglądu",
+    },
     photo: {
         choose: "Wybierz zdjęcie",
         change: "Zmień zdjęcie",

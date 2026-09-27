@@ -464,3 +464,22 @@ body {
     gap: 24px;
     max-width: 460px;
 }
+
+.hovercard-demo {
+    max-width: 560px;
+    font-size: 0.875rem;
+    line-height: 1.7;
+}
+
+.hovercard-demo p {
+    margin: 0;
+}
+
+.hovercard-demo-event {
+    display: grid;
+    gap: 2px;
+}
+
+.hovercard-demo-event span {
+    color: var(--color-text-secondary);
+}

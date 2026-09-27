@@ -447,3 +447,9 @@ export {
     type CropHandle,
     type ImageCropperProps,
 } from "./components/photo-field/ImageCropper";
+export {
+    HoverCard,
+    ProfilePreview,
+    type HoverCardProps,
+    type ProfilePreviewProps,
+} from "./components/hover-card/HoverCard";
