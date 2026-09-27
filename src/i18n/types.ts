@@ -37,6 +37,26 @@ export interface Messages {
         empty: string;
         emptyFor: (query: string) => string;
     };
+    errorPage: {
+        notFound: { title: string; description: string };
+        forbidden: { title: string; description: string };
+        error: { title: string; description: string };
+        maintenance: { title: string; description: string };
+        offline: { title: string; description: string };
+        back: string;
+        home: string;
+        retry: string;
+        reload: string;
+        // Kod do zgłoszenia, np. digest błędu z serwera.
+        code: string;
+        // Konto, na którym brakuje uprawnień: „Zalogowano jako Jan (uczeń)”.
+        signedInAs: (who: string) => string;
+        switchAccount: string;
+        // Koniec przerwy: „Wracamy o 15:00, za 2 godz.”.
+        returns: (when: string) => string;
+        returnsToday: (clock: string, relative: string) => string;
+        overdue: string;
+    };
     survey: {
         // Gotowe skale, od najbardziej pozytywnej.
         agreement: readonly string[];

@@ -48,6 +48,7 @@ import { CodeBlockDemo } from "./CodeDemo2";
 import { ComboboxDemo } from "./ComboboxDemo";
 import { CopyDemo } from "./CopyDemo";
 import { EmptyDemo } from "./EmptyDemo";
+import { ErrorsDemo } from "./ErrorsDemo";
 import { EventsDemo } from "./EventsDemo";
 import { FormDemo } from "./FormDemo";
 import { GradesDemo } from "./GradesDemo";
@@ -508,6 +509,8 @@ export function App() {
             <RankDemo />
 
             <SurveyDemo />
+
+            <ErrorsDemo />
 
             <QRDemo />
 

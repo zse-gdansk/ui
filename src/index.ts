@@ -424,3 +424,7 @@ export {
     type SurveyQuestion,
 } from "./components/survey/SurveyMatrix";
 export type { SurveyOption, SurveyScale } from "./components/survey/scale";
+export {
+    ErrorPage,
+    type ErrorPageProps,
+} from "./components/error-page/ErrorPage";

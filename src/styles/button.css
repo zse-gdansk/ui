@@ -5,6 +5,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    /* Przycisk jako link (<a>) ma domyślnie content-box i byłby o ramkę
+       wyższy od zwykłego. */
+    box-sizing: border-box;
     min-width: 0;
     height: 40px;
     padding: 0 20px;

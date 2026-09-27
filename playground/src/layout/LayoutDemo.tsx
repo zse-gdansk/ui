@@ -63,6 +63,7 @@ import {
     SidebarSub,
     Toaster,
     CommandProvider,
+    ErrorPage,
     isActivePath,
     toast,
     useCommandPalette,
@@ -497,6 +498,8 @@ function Header() {
     );
 }
 
+const ADMIN_ONLY = new Set(["/uzytkownicy", "/uprawnienia", "/kopie"]);
+
 const subscribeHash = (onChange: () => void) => {
     window.addEventListener("hashchange", onChange);
     return () => window.removeEventListener("hashchange", onChange);
@@ -509,6 +512,14 @@ const LOADER_MODE = new URLSearchParams(location.search).get("loader");
 
 export function LayoutDemo() {
     const pathname = useSyncExternalStore(subscribeHash, readHash);
+    // Administracja tylko dla dyrekcji: nauczyciel dostaje 403, nieznany
+    // adres 404.
+    const section = `/${pathname.split("/")[1] ?? ""}`;
+    const access = ADMIN_ONLY.has(section)
+        ? "forbidden"
+        : section in TITLES
+          ? "ok"
+          : "missing";
     const [status, setStatus] = useState<"loading" | "ready" | "error">(
         "loading",
     );
@@ -557,40 +568,53 @@ export function LayoutDemo() {
                     defaultCollapsed={savedCollapsed}
                 >
                     <HeaderBreadcrumbs items={crumbsFor(pathname)} />
-                    <div className="demo-page">
-                        <PageHeader
-                            title={pageTitle(pathname)}
-                            description="Zwiń panel przyciskiem obok nazwy albo ⌘B / Ctrl+B."
-                            meta={
-                                <>
-                                    <Badge tone="success" size="sm">
-                                        64 uczniów
-                                    </Badge>
-                                    <span>Rok szkolny 2026/27</span>
-                                </>
-                            }
-                            actions={
-                                <>
-                                    <Button
-                                        variant="outline"
-                                        icon={Download04Icon}
-                                        onClick={() => toast("Eksport do CSV")}
-                                    >
-                                        Eksport
-                                    </Button>
-                                    <Button
-                                        icon={Add01Icon}
-                                        onClick={() => toast("Nowy uczeń")}
-                                    >
-                                        Dodaj ucznia
-                                    </Button>
-                                </>
-                            }
+                    {access === "forbidden" ? (
+                        <ErrorPage
+                            kind="forbidden"
+                            account="Anna Kowalska (nauczycielka)"
+                            homeHref="#/"
+                            onSwitchAccount={() => toast("Wylogowano")}
                         />
-                        <ClassTabs pathname={pathname} />
-                        <TableDemo />
-                        <TableDemo />
-                    </div>
+                    ) : access === "missing" ? (
+                        <ErrorPage kind="not-found" homeHref="#/" />
+                    ) : (
+                        <div className="demo-page">
+                            <PageHeader
+                                title={pageTitle(pathname)}
+                                description="Zwiń panel przyciskiem obok nazwy albo ⌘B / Ctrl+B."
+                                meta={
+                                    <>
+                                        <Badge tone="success" size="sm">
+                                            64 uczniów
+                                        </Badge>
+                                        <span>Rok szkolny 2026/27</span>
+                                    </>
+                                }
+                                actions={
+                                    <>
+                                        <Button
+                                            variant="outline"
+                                            icon={Download04Icon}
+                                            onClick={() =>
+                                                toast("Eksport do CSV")
+                                            }
+                                        >
+                                            Eksport
+                                        </Button>
+                                        <Button
+                                            icon={Add01Icon}
+                                            onClick={() => toast("Nowy uczeń")}
+                                        >
+                                            Dodaj ucznia
+                                        </Button>
+                                    </>
+                                }
+                            />
+                            <ClassTabs pathname={pathname} />
+                            <TableDemo />
+                            <TableDemo />
+                        </div>
+                    )}
                     <Toaster />
                     <Confirmer />
                     <AppCommands />

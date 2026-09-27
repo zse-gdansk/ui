@@ -44,6 +44,43 @@ export const pl: Messages = {
         empty: "Brak wyników",
         emptyFor: (query) => `Brak wyników dla „${query}”`,
     },
+    errorPage: {
+        notFound: {
+            title: "Nie ma takiej strony",
+            description:
+                "Adres jest błędny albo strona została przeniesiona lub usunięta.",
+        },
+        forbidden: {
+            title: "Brak dostępu",
+            description:
+                "Nie masz uprawnień do tej strony. Jeśli to pomyłka, poproś administratora o dostęp.",
+        },
+        error: {
+            title: "Coś poszło nie tak",
+            description:
+                "To błąd po naszej stronie, nie Twoja wina. Spróbuj ponownie za chwilę.",
+        },
+        maintenance: {
+            title: "Przerwa techniczna",
+            description:
+                "Aktualizujemy system. Twoje dane są bezpieczne, nic nie trzeba robić.",
+        },
+        offline: {
+            title: "Brak połączenia z internetem",
+            description:
+                "Sprawdź Wi-Fi albo dane komórkowe. Strona odświeży się sama, gdy połączenie wróci.",
+        },
+        back: "Wróć",
+        home: "Strona główna",
+        retry: "Spróbuj ponownie",
+        reload: "Odśwież stronę",
+        code: "Kod błędu",
+        signedInAs: (who) => `Zalogowano jako ${who}`,
+        switchAccount: "Zaloguj się na inne konto",
+        returns: (when) => `Wracamy ${when}`,
+        returnsToday: (clock, relative) => `Wracamy o ${clock}, ${relative}`,
+        overdue: "Powinniśmy już wrócić. Odśwież stronę.",
+    },
     survey: {
         agreement: [
             "Zdecydowanie tak",
