@@ -8,6 +8,7 @@ import {
 } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { useExternalEffect } from "../../utils/effects";
 import { Button } from "../button/Button";
 import { Menu, MenuRadioGroup, MenuRadioItem, MenuSub } from "../menu/Menu";
 import { Spinner } from "../spinner/Spinner";
@@ -83,8 +84,15 @@ const subscribePending = (listener: () => void) => {
     };
 };
 
+// Ile czekać po spełnionej obietnicy, aż aplikacja faktycznie zmieni
+// value; potem przełącznik wraca do value, żeby spinner nie wisiał.
+const SETTLE_TIMEOUT = 5000;
+
 // Wspólne dla przycisku i podmenu: zwrócona obietnica (np.
-// i18n.changeLanguage) trzyma wybrany język jako oczekujący do końca.
+// i18n.changeLanguage, server action) trzyma wybrany język jako oczekujący,
+// aż value się na niego zmieni. Sam koniec obietnicy nie wystarczy: w Next
+// akcja kończy się przed wyrenderowaniem strony w nowym języku i przez
+// chwilę widać by stary.
 function useLocaleChange(
     value: string,
     onValueChange: (locale: string) => unknown,
@@ -95,18 +103,24 @@ function useLocaleChange(
         () => null,
     );
 
+    // Aplikacja dogoniła wybór: koniec czekania.
+    useExternalEffect(() => {
+        if (pending !== null && pending === value) setPendingLocale(null);
+    }, [pending, value]);
+
     const select = (next: string) => {
         if (next === value) return;
         const result = onValueChange(next);
         if (!isPromise(result)) return;
         setPendingLocale(next);
-        const done = () => {
+        const clear = () => {
             if (pendingLocale === next) setPendingLocale(null);
         };
-        result.then(done, done);
+        result.then(() => setTimeout(clear, SETTLE_TIMEOUT), clear);
     };
 
-    return { pending, shown: pending ?? value, select };
+    const waiting = pending !== null && pending !== value ? pending : null;
+    return { pending: waiting, shown: waiting ?? value, select };
 }
 
 // Języki jako pozycje radio: flaga, nazwa własna i nazwa w bieżącym

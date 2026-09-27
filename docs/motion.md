@@ -41,7 +41,7 @@ Wejście z `opacity: 0` i `scale: 0.97`, `transform-origin: var(--transform-orig
 
 ### Podmiana ikon i warstw
 
-Dwie (lub więcej) warstwy w jednej komórce siatki (`grid-area: 1 / 1`), ukryta ma `opacity: 0; scale: 0.25; filter: blur(4px)`, przejście `300ms var(--ease-standard)` na `opacity, scale, filter`. Wszystkie warstwy są w DOM, więc przejście działa w obie strony i jest przerywalne. Tak działają: spinner w przycisku, pokaż/ukryj hasło, kopiuj → znacznik, checkbox ✓ ↔ −, status w `InputGroup`, znacznik w stepperze. Napisy podmieniane tak samo trzymają szerokość dłuższego (nic nie skacze).
+Dwie (lub więcej) warstwy w jednej komórce siatki (`grid-area: 1 / 1`), ukryta ma `opacity: 0; scale: 0.25; filter: blur(4px)`, przejście `300ms var(--ease-standard)` na `opacity, scale, filter`. Wszystkie warstwy są w DOM, więc przejście działa w obie strony i jest przerywalne. Stan, który przychodzi z zewnątrz, a nie od użytkownika (hydracja z zapisanym motywem, synchronizacja z inną kartą), przestawia się bez animacji: `Toggle` włącza przejście dopiero po naciśnięciu (`data-animate`), inaczej przy każdym wejściu na stronę ikona odtwarzałaby podmianę. Tak działają: spinner w przycisku, pokaż/ukryj hasło, kopiuj → znacznik, checkbox ✓ ↔ −, status w `InputGroup`, znacznik w stepperze. Napisy podmieniane tak samo trzymają szerokość dłuższego (nic nie skacze).
 
 ### Zwijanie i rozwijanie wysokości
 

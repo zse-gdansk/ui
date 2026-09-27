@@ -82,6 +82,11 @@
 
 .zse-toggle-swap > .zse-toggle-icon {
     grid-area: 1 / 1;
+}
+
+/* Animacja tylko po naciśnięciu (data-animate z armSwap), nie przy zmianie
+   z zewnątrz, np. hydracji z zapisanym motywem. */
+.zse-toggle[data-animate] .zse-toggle-swap > .zse-toggle-icon {
     transition-property: opacity, scale, filter;
     transition-duration: 300ms;
     transition-timing-function: var(--ease-standard);
@@ -128,7 +133,7 @@
         scale: 1;
     }
 
-    .zse-toggle-swap > .zse-toggle-icon {
+    .zse-toggle[data-animate] .zse-toggle-swap > .zse-toggle-icon {
         transition-property: opacity;
     }
 

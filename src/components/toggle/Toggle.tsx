@@ -7,6 +7,15 @@ import type { ReactNode } from "react";
 import { Icon, type IconGlyph } from "../icon/Icon";
 
 type Size = "sm" | "md";
+
+// Ikona podmienia się z animacją tylko po działaniu użytkownika. Zmiana
+// stanu z zewnątrz (hydracja z zapisanym motywem, inna karta, kod) ma od
+// razu stać w nowym stanie, bez odtwarzania animacji przy wejściu na stronę.
+export function armSwap(event: { currentTarget: HTMLElement; key?: string }) {
+    if (event.key !== undefined && event.key !== "Enter" && event.key !== " ")
+        return;
+    event.currentTarget.dataset.animate = "";
+}
 type Variant = "ghost" | "outline";
 
 function Glyph({
@@ -60,6 +69,8 @@ export function Toggle({
     return (
         <BaseToggle
             className="zse-toggle"
+            onPointerDown={armSwap}
+            onKeyDown={armSwap}
             data-size={size}
             data-variant={variant}
             data-icon-only={children == null || undefined}
@@ -129,6 +140,8 @@ export function ToggleGroup({
             {items.map((item) => (
                 <BaseToggle
                     key={item.value}
+                    onPointerDown={armSwap}
+                    onKeyDown={armSwap}
                     value={item.value}
                     disabled={item.disabled ?? false}
                     className="zse-toggle"

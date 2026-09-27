@@ -138,6 +138,10 @@
 
 .zse-toolbar-swap > .zse-toolbar-icon {
     grid-area: 1 / 1;
+}
+
+/* Jak w Toggle: animacja tylko po naciśnięciu, nie przy zmianie z zewnątrz. */
+.zse-toolbar-item[data-animate] .zse-toolbar-swap > .zse-toolbar-icon {
     transition-property: opacity, scale, filter;
     transition-duration: 300ms;
     transition-timing-function: var(--ease-standard);
@@ -184,7 +188,7 @@
         scale: 1;
     }
 
-    .zse-toolbar-swap > .zse-toolbar-icon {
+    .zse-toolbar-item[data-animate] .zse-toolbar-swap > .zse-toolbar-icon {
         transition-property: opacity;
     }
 

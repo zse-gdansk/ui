@@ -15,6 +15,7 @@ import {
 
 import { Icon, type IconGlyph } from "../icon/Icon";
 import { MenuPopup } from "../menu/Menu";
+import { armSwap } from "../toggle/Toggle";
 import { Tooltip } from "../tooltip/Tooltip";
 
 type Orientation = "horizontal" | "vertical";
@@ -221,6 +222,8 @@ export function ToolbarToggle({
     return (
         <WithTooltip item={item} iconOnly={children == null}>
             <BaseToolbar.Button
+                onPointerDown={armSwap}
+                onKeyDown={armSwap}
                 disabled={disabled || groupDisabled}
                 {...itemProps(item, children, className)}
                 render={
