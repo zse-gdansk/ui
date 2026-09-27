@@ -73,6 +73,7 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 
 import { TableDemo } from "../TableDemo";
 import { AppCommands, StudentsPageCommands } from "./commands";
+import { Notifications } from "./notifications";
 
 const COOKIE = "zse-sidebar";
 
@@ -472,12 +473,7 @@ function Header() {
                         shortcut="mod+k"
                         onClick={palette.toggle}
                     />
-                    <HeaderAction
-                        icon={Notification01Icon}
-                        label="Powiadomienia"
-                        badge
-                        onClick={() => toast("3 nowe zgłoszenia")}
-                    />
+                    <Notifications />
                     <HeaderAction
                         icon={theme === "light" ? Moon02Icon : Sun03Icon}
                         label={

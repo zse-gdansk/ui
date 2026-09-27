@@ -428,3 +428,8 @@ export {
     ErrorPage,
     type ErrorPageProps,
 } from "./components/error-page/ErrorPage";
+export {
+    NotificationCenter,
+    type NotificationCenterProps,
+    type NotificationItem,
+} from "./components/notifications/NotificationCenter";

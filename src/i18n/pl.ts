@@ -44,6 +44,21 @@ export const pl: Messages = {
         empty: "Brak wyników",
         emptyFor: (query) => `Brak wyników dla „${query}”`,
     },
+    notifications: {
+        label: "Powiadomienia",
+        trigger: (unread) =>
+            unread
+                ? `Powiadomienia, ${unread} ${plural("pl-PL", unread, { one: "nieprzeczytane", few: "nieprzeczytane", other: "nieprzeczytanych" })}`
+                : "Powiadomienia",
+        markAll: "Oznacz wszystkie jako przeczytane",
+        markAllShort: "Oznacz wszystkie",
+        markRead: "Oznacz jako przeczytane",
+        all: "Wszystkie",
+        unread: "Nieprzeczytane",
+        empty: "Nie masz powiadomień",
+        emptyUnread: "Wszystko przeczytane",
+        showAll: "Zobacz wszystkie",
+    },
     errorPage: {
         notFound: {
             title: "Nie ma takiej strony",

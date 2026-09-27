@@ -37,6 +37,20 @@ export interface Messages {
         empty: string;
         emptyFor: (query: string) => string;
     };
+    notifications: {
+        label: string;
+        // Nazwa dzwonka dla czytnika z liczbą nieprzeczytanych.
+        trigger: (unread: number) => string;
+        markAll: string;
+        // Krótko na przycisku; pełna nazwa (markAll) dla czytnika.
+        markAllShort: string;
+        markRead: string;
+        all: string;
+        unread: string;
+        empty: string;
+        emptyUnread: string;
+        showAll: string;
+    };
     errorPage: {
         notFound: { title: string; description: string };
         forbidden: { title: string; description: string };
