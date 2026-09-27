@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/zse-gdansk/ui/compare/v1.2.1...v1.2.2) (2026-09-27)
+
+
+### Poprawki
+
+* **stepper:** ustawiono box-sizing na content-box w stylach komponentu ([6f4ab36](https://github.com/zse-gdansk/ui/commit/6f4ab366083ba9bfe4d43ce2ca945941bea0eb29))
+
 ## [1.2.1](https://github.com/zse-gdansk/ui/compare/v1.2.0...v1.2.1) (2026-09-27)
 
 
