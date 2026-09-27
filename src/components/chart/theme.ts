@@ -77,6 +77,33 @@ export function mix(from: string, to: string, t: number) {
     return `rgba(${Math.round(at(0))}, ${Math.round(at(1))}, ${Math.round(at(2))}, ${at(3)})`;
 }
 
+const linear = (value: number) => {
+    const c = value / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+};
+
+// Luminancja względna WCAG z rgba().
+function luminance(rgba: string) {
+    const [r = 0, g = 0, b = 0] = channels(rgba);
+    return 0.2126 * linear(r) + 0.7152 * linear(g) + 0.0722 * linear(b);
+}
+
+const contrast = (a: string, b: string) => {
+    const [light, dark] = [luminance(a), luminance(b)].toSorted(
+        (x, y) => y - x,
+    );
+    return ((light ?? 0) + 0.05) / ((dark ?? 0) + 0.05);
+};
+
+// Kolor etykiety na wypełnieniu: biały albo tekst motywu, co ma większy
+// kontrast. Na jasnym segmencie ciemny tekst, na mocnym biały.
+export function readableOn(fill: string, theme: ChartTheme) {
+    const white = "rgba(255, 255, 255, 1)";
+    return contrast(fill, white) >= contrast(fill, theme.text)
+        ? white
+        : theme.text;
+}
+
 // Kolory dla wartości od najbardziej pozytywnej do najbardziej negatywnej:
 // mocny na krańcach, jasny przy środku, przy nieparzystej liczbie szary
 // środek.

@@ -15,7 +15,7 @@ export interface DonutSlice {
 
 export interface DonutChartProps extends Omit<
     ChartProps,
-    "option" | "table" | "center" | "empty"
+    "option" | "table" | "center" | "empty" | "footer"
 > {
     // Kawałki w stałej kolejności; najwyżej kilka, resztę złóż w „Inne”.
     data: readonly DonutSlice[];

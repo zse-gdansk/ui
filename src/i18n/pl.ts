@@ -200,6 +200,9 @@ export const pl: Messages = {
     chart: {
         empty: "Brak danych do wykresu",
         total: "Razem",
+        responses: (n, formatted) =>
+            `${formatted} ${plural("pl-PL", n, { one: "odpowiedź", other: "odpowiedzi" })}`,
+        noValue: "brak",
     },
     timeline: {
         today: "Dziś",

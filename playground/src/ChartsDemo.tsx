@@ -1,5 +1,11 @@
 import { Button } from "@zse-gdansk/ui";
-import { BarChart, DonutChart, LineChart } from "@zse-gdansk/ui/charts";
+import {
+    BarChart,
+    DonutChart,
+    HeatmapChart,
+    LikertChart,
+    LineChart,
+} from "@zse-gdansk/ui/charts";
 import { useState } from "react";
 
 // Dane przykładowe do demo, nie z prawdziwej szkoły.
@@ -34,6 +40,76 @@ const SURVEY = [
 ];
 
 const percent = (value: number) => `${value}%`;
+
+const LIKERT = [
+    {
+        question: "Lekcje są prowadzone ciekawie",
+        yes: 142,
+        rather: 188,
+        unsure: 96,
+        ratherNot: 61,
+        no: 23,
+    },
+    {
+        question: "Wiem, za co dostaję oceny",
+        yes: 231,
+        rather: 164,
+        unsure: 48,
+        ratherNot: 40,
+        no: 27,
+    },
+    {
+        question: "W szkole czuję się bezpiecznie",
+        yes: 305,
+        rather: 142,
+        unsure: 31,
+        ratherNot: 18,
+        no: 14,
+    },
+    {
+        question: "Mam za dużo zadań domowych",
+        yes: 118,
+        rather: 97,
+        unsure: 72,
+        ratherNot: 151,
+        no: 72,
+    },
+    {
+        question: "Chcę zajęć dodatkowych po lekcjach",
+        yes: 87,
+        rather: 124,
+        unsure: 139,
+        ratherNot: 0,
+        no: 0,
+    },
+];
+
+const DAYS = ["Pn", "Wt", "Śr", "Cz", "Pt"];
+const DAY_NAMES: Record<string, string> = {
+    Pn: "Poniedziałek",
+    Wt: "Wtorek",
+    Śr: "Środa",
+    Cz: "Czwartek",
+    Pt: "Piątek",
+};
+const LESSONS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+// Frekwencja liczona z indeksów: słabsze pierwsze lekcje w poniedziałek i
+// ostatnie w piątek; w piątek bez 9. lekcji.
+const PRESENCE = DAYS.flatMap((day, dayIndex) =>
+    LESSONS.filter((lesson) => !(day === "Pt" && lesson === 9)).map(
+        (lesson) => ({
+            day,
+            lesson,
+            value: Math.round(
+                94 -
+                    (dayIndex === 0 && lesson <= 2 ? 14 - lesson * 3 : 0) -
+                    (dayIndex === 4 ? lesson * 2 : 0) -
+                    ((dayIndex * 7 + lesson * 3) % 5),
+            ),
+        }),
+    ),
+);
 
 export function ChartsDemo() {
     const [loading, setLoading] = useState(false);
@@ -112,6 +188,47 @@ export function ChartsDemo() {
                         data={empty ? [] : SURVEY}
                         totalLabel="odpowiedzi"
                         palette="diverging"
+                        loading={loading}
+                    />
+                </div>
+
+                <div className="chart-card chart-card-wide">
+                    <h3>Ankieta uczniów</h3>
+                    <LikertChart
+                        label="Odpowiedzi uczniów w ankiecie szkolnej"
+                        data={empty ? [] : LIKERT}
+                        x="question"
+                        xLabel="Pytanie"
+                        series={[
+                            { key: "yes", label: "Tak" },
+                            { key: "rather", label: "Raczej tak" },
+                            { key: "unsure", label: "Nie wiem" },
+                            { key: "ratherNot", label: "Raczej nie" },
+                            { key: "no", label: "Nie" },
+                        ]}
+                        loading={loading}
+                    />
+                </div>
+
+                <div className="chart-card chart-card-wide">
+                    <h3>Frekwencja 3C: dni i lekcje</h3>
+                    <HeatmapChart
+                        label="Frekwencja klasy 3C według dnia tygodnia i lekcji"
+                        data={empty ? [] : PRESENCE}
+                        x="lesson"
+                        y="day"
+                        value="value"
+                        xCategories={LESSONS}
+                        yCategories={DAYS}
+                        formatX={(lesson) => `${lesson}.`}
+                        formatY={(day) => DAY_NAMES[day] ?? String(day)}
+                        tooltipTitle={(lesson, day) =>
+                            `${DAY_NAMES[day] ?? day}, ${lesson}. lekcja`
+                        }
+                        yLabel="Dzień"
+                        valueLabel="frekwencja"
+                        format={percent}
+                        emphasize="low"
                         loading={loading}
                     />
                 </div>

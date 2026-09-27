@@ -36,6 +36,8 @@ export interface ChartProps {
     texture?: boolean;
     // Treść na środku wykresu, np. suma w donucie.
     center?: ReactNode;
+    // Pod wykresem, np. legenda skali heatmapy.
+    footer?: ReactNode;
     className?: string;
 }
 
@@ -52,6 +54,7 @@ export function Chart({
     table,
     texture = false,
     center,
+    footer,
     className,
 }: ChartProps) {
     const t = useMessages();
@@ -133,6 +136,11 @@ export function Chart({
             />
             {center != null && !empty && !showSkeleton && (
                 <div className="zse-chart-center">{center}</div>
+            )}
+            {footer != null && !empty && (
+                <div className="zse-chart-footer" aria-hidden>
+                    {footer}
+                </div>
             )}
             {showSkeleton && (
                 <Skeleton

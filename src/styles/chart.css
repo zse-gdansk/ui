@@ -117,6 +117,32 @@
     color: var(--color-text-secondary);
 }
 
+.zse-chart-footer {
+    margin-top: 8px;
+}
+
+/* Legenda skali heatmapy: ten sam odcień co komórki (mieszanie w sRGB jak
+   w kodzie wykresu). */
+.zse-chart-scale {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.zse-chart-scale-bar {
+    width: 120px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(
+        to right,
+        color-mix(in srgb, var(--color-bg-surface) 90%, var(--scale-color)),
+        var(--scale-color)
+    );
+}
+
 @media (prefers-reduced-motion: reduce) {
     .zse-chart {
         transition: none;

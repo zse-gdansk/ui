@@ -23,7 +23,7 @@ export interface ChartSeries<Row> {
 
 export interface CartesianChartProps<Row> extends Omit<
     ChartProps,
-    "option" | "table" | "center" | "empty"
+    "option" | "table" | "center" | "empty" | "footer"
 > {
     data: readonly Row[];
     // Kolumna z kategorią albo czasem, np. "month".

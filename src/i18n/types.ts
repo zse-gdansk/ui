@@ -165,6 +165,10 @@ export interface Messages {
     chart: {
         empty: string;
         total: string;
+        // Liczba odpowiedzi w pytaniu ankiety (LikertChart).
+        responses: (count: number, formatted: string) => string;
+        // Komórka heatmapy bez wartości, np. dzień bez tej lekcji.
+        noValue: string;
     };
     timeline: {
         today: string;
