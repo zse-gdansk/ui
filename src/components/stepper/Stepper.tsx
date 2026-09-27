@@ -10,7 +10,7 @@ import {
 } from "react";
 
 import { useMessages } from "../../i18n/context";
-import { useResizeObserver } from "../../utils/effects";
+import { useLatest, useResizeObserver } from "../../utils/effects";
 import { Button } from "../button/Button";
 import { Icon } from "../icon/Icon";
 
@@ -63,6 +63,16 @@ function measureFill(panel: HTMLElement) {
     return score / fields.length;
 }
 
+// Pola, w których Enter nie oznacza wysłania.
+const NOT_TEXT = new Set([
+    "checkbox",
+    "radio",
+    "button",
+    "submit",
+    "reset",
+    "file",
+]);
+
 // Wysokość treści mierzona i ustawiana jawnie, żeby przejście między
 // krokami o różnej długości płynnie zmieniało wysokość zamiast skakać.
 function useAutoHeight() {
@@ -105,24 +115,46 @@ export function Stepper({
     const active = steps[current];
     const stepFill = done ? 1 : (active?.progress ?? fill ?? 0);
 
+    // Najnowsze next dla nasłuchu w panelu (ref callback działa raz na krok).
+    const advance = useLatest(next);
+
     // Na żywo przy każdej zmianie w polach bieżącego kroku. Ref callback,
     // bo panel montuje się od nowa przy każdym kroku (key).
-    const trackFill = useCallback((panel: HTMLDivElement | null) => {
-        if (!panel) return;
-        const update = () => setFill(measureFill(panel));
-        update();
-        const observer = new MutationObserver(update);
-        observer.observe(panel, {
-            subtree: true,
-            attributes: true,
-            attributeFilter: ["data-filled", "data-checked"],
-        });
-        panel.addEventListener("input", update);
-        return () => {
-            observer.disconnect();
-            panel.removeEventListener("input", update);
-        };
-    }, []);
+    const trackFill = useCallback(
+        (panel: HTMLDivElement | null) => {
+            if (!panel) return;
+            const update = () => setFill(measureFill(panel));
+            update();
+            const observer = new MutationObserver(update);
+            observer.observe(panel, {
+                subtree: true,
+                attributes: true,
+                attributeFilter: ["data-filled", "data-checked"],
+            });
+            const submit = (event: KeyboardEvent) => {
+                const target = event.target;
+                if (
+                    event.key !== "Enter" ||
+                    event.defaultPrevented ||
+                    event.isComposing ||
+                    !(target instanceof HTMLInputElement) ||
+                    NOT_TEXT.has(target.type) ||
+                    target.closest("form")
+                )
+                    return;
+                event.preventDefault();
+                void advance.current();
+            };
+            panel.addEventListener("input", update);
+            panel.addEventListener("keydown", submit);
+            return () => {
+                observer.disconnect();
+                panel.removeEventListener("input", update);
+                panel.removeEventListener("keydown", submit);
+            };
+        },
+        [advance],
+    );
 
     function go(target: number) {
         if (target === current) return;
