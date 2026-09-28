@@ -30,7 +30,7 @@ export function MaskedDemo() {
             />
             <MaskedInput
                 label="Wyłączone"
-                defaultValue="1234/2019"
+                defaultValue="123/2019"
                 mask={studentIdMask}
                 disabled
             />

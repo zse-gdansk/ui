@@ -90,82 +90,42 @@ export function createMask(template: string): Mask & {
     };
 }
 
-// Rok wydania zaczyna się od 19 albo 20: „2”, „20”, „202”, „2023”.
-const YEAR_PREFIX = /^(1(9\d{0,2})?|2(0\d{0,2})?)$/;
-const MAX_NUMBER = 4;
+const NUMBER = 3;
 const YEAR = 4;
 
-// Dopisuje do roku tylko cyfry, które dalej mogą dać poprawny rok.
-function takeYear(digits: string) {
-    let year = "";
-    for (const digit of digits) {
-        if (year.length === YEAR || !YEAR_PREFIX.test(year + digit)) break;
-        year += digit;
-    }
-    return year;
-}
-
-// Gdzie kończy się numer, gdy nie było ukośnika: najdłuższy numer, po
-// którym reszta może być początkiem roku. „24320” → 243 (bo „0” nie
-// zaczyna roku), „12342” → 1234.
-function inferSplit(digits: string) {
-    if (digits.length <= MAX_NUMBER) return null;
-    for (let split = MAX_NUMBER; split >= 1; split--) {
-        const rest = digits.slice(split);
-        if (rest.length <= YEAR && YEAR_PREFIX.test(rest)) return split;
-    }
-    return null;
-}
-
-const join = (number: string, year: string) =>
-    year ? `${number}/${year}` : number;
-
-// Numer legitymacji szkolnej: numer i rok wydania, np. 123/2023.
+// Numer legitymacji szkolnej: trzy cyfry i rok wydania, np. 243/2023.
 export const studentIdMask: Mask & {
     pattern: string;
     isValid: (value: string) => boolean;
 } = {
-    pattern: String.raw`\d{1,4}/(19|20)\d{2}`,
+    pattern: String.raw`\d{3}/\d{4}`,
     separators: "/",
     inputMode: "numeric",
 
-    // Ukośnik pojawia się sam, gdy wiadomo, gdzie się kończy numer.
-    // Spacja, myślnik albo kropka od razu ustalają podział.
+    // Ukośnik sam po trzeciej cyfrze. Wpisany ręcznie (albo spacja, myślnik,
+    // kropka) zostaje i trzyma rok, także gdy numer jest jeszcze krótszy.
     format(input: string, previous: string) {
         const separator = input.search(/[^\d]/);
         const digits = input.replace(/\D/g, "");
         const typed = input.length > previous.length;
+        const number = (
+            separator === -1
+                ? digits
+                : input.slice(0, separator).replace(/\D/g, "")
+        ).slice(0, NUMBER);
+        const year = (
+            separator === -1
+                ? digits.slice(NUMBER)
+                : input.slice(separator + 1).replace(/\D/g, "")
+        ).slice(0, YEAR);
 
-        if (separator !== -1) {
-            const number = input
-                .slice(0, separator)
-                .replace(/\D/g, "")
-                .slice(0, MAX_NUMBER);
-            if (!number) return "";
-            const year = takeYear(digits.slice(number.length));
-            // Ukośnik bez roku zostaje tylko zaraz po wpisaniu; przy
-            // cofaniu znika razem z ostatnią cyfrą roku.
-            if (!year) return typed ? `${number}/` : number;
-            return join(number, year);
-        }
-
-        const split = inferSplit(digits);
-        if (split === null) return digits.slice(0, MAX_NUMBER);
-        return join(digits.slice(0, split), takeYear(digits.slice(split)));
-    },
-
-    // Po wyjściu z pola: gdy rok jest niepełny, a inny podział daje pełny
-    // („520/20” → „5/2020”), bierze ten.
-    finalize(value: string) {
-        const digits = value.replace(/\D/g, "");
-        const [, year = ""] = value.split("/");
-        if (year.length === YEAR) return value;
-        for (let split = MAX_NUMBER; split >= 1; split--) {
-            const rest = digits.slice(split);
-            if (rest.length === YEAR && takeYear(rest) === rest)
-                return join(digits.slice(0, split), rest);
-        }
-        return value;
+        if (!number) return "";
+        // Ukośnik bez roku zostaje tylko zaraz po wpisaniu; przy cofaniu
+        // znika razem z ostatnią cyfrą roku.
+        const slash =
+            year || (typed && (separator !== -1 || number.length === NUMBER));
+        if (!slash) return number;
+        return year ? `${number}/${year}` : `${number}/`;
     },
 
     isValid(value: string) {
