@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.0](https://github.com/zse-gdansk/ui/compare/v1.9.3...v1.10.0) (2026-09-29)
+
+
+### Nowe funkcje
+
+* **app-header:** dodano obsługę breadcrumbs z layoutu w komponencie AppHeader ([f4b1af7](https://github.com/zse-gdansk/ui/commit/f4b1af73e42d0f75f93574e958a8ee59983fef26))
+
 ## [1.9.3](https://github.com/zse-gdansk/ui/compare/v1.9.2...v1.9.3) (2026-09-29)
 
 
