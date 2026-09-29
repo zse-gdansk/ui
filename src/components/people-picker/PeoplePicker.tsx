@@ -68,6 +68,9 @@ export interface PeoplePickerProps {
     value?: string[];
     defaultValue?: string[];
     onValueChange?: (value: string[]) => void;
+    // Jedna osoba, np. kto obejmuje miejsce: nowy wybór zastępuje poprzedni,
+    // a lista zamyka się po kliknięciu. Wartość dalej jest listą.
+    single?: boolean;
     placeholder?: string;
     emptyText?: string;
     disabled?: boolean;
@@ -181,6 +184,7 @@ export function PeoplePicker({
     value,
     defaultValue,
     onValueChange,
+    single = false,
     placeholder,
     emptyText,
     disabled = false,
@@ -188,6 +192,7 @@ export function PeoplePicker({
     id,
 }: PeoplePickerProps) {
     const t = useMessages();
+    const [open, setOpen] = useState(false);
     const [query, setQuery] = useState("");
     const [results, setResults] = useState<Entry[]>([]);
     const [pending, setPending] = useState(false);
@@ -224,7 +229,8 @@ export function PeoplePicker({
         chosenGroups.find((group) => group.members.includes(key));
 
     function change(next: Entry[]) {
-        const list = normalize(next);
+        const list = normalize(single ? next.slice(-1) : next);
+        if (single) setOpen(false);
         setPicked((prev) => {
             const map = new Map(prev);
             for (const entry of list) map.set(entry.value, entry);
@@ -319,14 +325,16 @@ export function PeoplePicker({
             <BaseCombobox.Root<Entry, true>
                 items={sections}
                 multiple
+                open={open}
+                onOpenChange={setOpen}
                 disabled={disabled}
                 value={current}
                 onValueChange={(next) => change(next)}
                 onInputValueChange={(next, details) =>
                     type(next, details.reason)
                 }
-                onOpenChangeComplete={(open) => {
-                    if (!open) setQuery("");
+                onOpenChangeComplete={(isOpen) => {
+                    if (!isOpen) setQuery("");
                 }}
                 itemToStringLabel={(entry) => entry.label}
                 itemToStringValue={(entry) => entry.value}
