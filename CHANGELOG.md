@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.14.0](https://github.com/zse-gdansk/ui/compare/v1.13.0...v1.14.0) (2026-09-29)
+
+
+### Nowe funkcje
+
+* **people-picker:** dodano wyświetlanie wybranej osoby z awatarem w polu dla trybu pojedynczego ([aa43992](https://github.com/zse-gdansk/ui/commit/aa43992b846d6dd7de22c83173b52b752bd9fe95))
+* **table:** dodano opcję fit dla kolumn, aby dostosować szerokość do treści ([ddcfee6](https://github.com/zse-gdansk/ui/commit/ddcfee6db2f680bf8581716ecdcd8efe3d2d7885))
+
 ## [1.13.0](https://github.com/zse-gdansk/ui/compare/v1.12.0...v1.13.0) (2026-09-29)
 
 
