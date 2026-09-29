@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.9.1](https://github.com/zse-gdansk/ui/compare/v1.9.0...v1.9.1) (2026-09-29)
+
+
+### Poprawki
+
+* **command:** poprawiono miejsce na pasek przewijania, zmniejszono wartość --scroll-gutter ([d685722](https://github.com/zse-gdansk/ui/commit/d685722b0b4c45c1de4cc9d1e64f42515cf2dd17))
+* **masked-input:** poprawiono maskę numeru legitymacji na trzy cyfry i cztery cyfry roku ([a8f5683](https://github.com/zse-gdansk/ui/commit/a8f5683d3121af1359dfd98587bbb789bb7c7ede))
+* **modal:** poprawiono z-index dla drugiego okna nad modalem ([b592fe0](https://github.com/zse-gdansk/ui/commit/b592fe0574317507c2478930aa8a65ccfb980190))
+* **sidebar:** poprawiono przypisanie href w elemencie SidebarItem ([6a37c06](https://github.com/zse-gdansk/ui/commit/6a37c060994d1dca9bd9cfa259aa2ab6750068ae))
+
 ## [1.9.0](https://github.com/zse-gdansk/ui/compare/v1.8.0...v1.9.0) (2026-09-27)
 
 
