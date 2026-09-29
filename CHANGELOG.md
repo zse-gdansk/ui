@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.1](https://github.com/zse-gdansk/ui/compare/v1.14.0...v1.14.1) (2026-09-29)
+
+
+### Poprawki
+
+* **button:** dodano obsługę przycisku z ikoną bez treści oraz poprawiono styl dla przycisku z samą ikoną ([e4f852e](https://github.com/zse-gdansk/ui/commit/e4f852ebd34eacb324efeeec8a8345d0b1ff9b78))
+
 ## [1.14.0](https://github.com/zse-gdansk/ui/compare/v1.13.0...v1.14.0) (2026-09-29)
 
 
