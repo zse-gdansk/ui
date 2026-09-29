@@ -338,6 +338,11 @@
     white-space: nowrap;
 }
 
+:is(.zse-table-head, .zse-table-cell)[data-fit] {
+    width: 1%;
+    white-space: nowrap;
+}
+
 .zse-table-actions {
     width: 1%;
     white-space: nowrap;

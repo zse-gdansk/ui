@@ -195,17 +195,21 @@ interface CellOptions {
     // Odstęp od krawędzi, gdy przyklejonych kolumn jest kilka.
     stickyOffset?: number | undefined;
     numeric?: boolean | undefined;
+    // Kolumna tak wąska, jak jej treść, np. numer albo data; nadmiar
+    // szerokości tabeli dostają pozostałe kolumny.
+    fit?: boolean | undefined;
 }
 
 function cellProps(
     base: string,
-    { sticky, stickyOffset, numeric }: CellOptions,
+    { sticky, stickyOffset, numeric, fit }: CellOptions,
     className: string | undefined,
     style: CSSProperties | undefined,
 ) {
     return {
         "data-sticky": sticky,
         "data-numeric": numeric || undefined,
+        "data-fit": fit || undefined,
         className: cx(base, className),
         style:
             sticky && stickyOffset !== undefined
@@ -230,6 +234,7 @@ export function TableHead({
     sticky,
     stickyOffset,
     numeric,
+    fit,
     sort,
     onSort,
     className,
@@ -271,7 +276,7 @@ export function TableHead({
             }
             {...cellProps(
                 "zse-table-head",
-                { sticky, stickyOffset, numeric },
+                { sticky, stickyOffset, numeric, fit },
                 className,
                 style,
             )}
@@ -288,6 +293,7 @@ export function TableCell({
     sticky,
     stickyOffset,
     numeric,
+    fit,
     className,
     style,
     ...props
@@ -297,7 +303,7 @@ export function TableCell({
             {...props}
             {...cellProps(
                 "zse-table-cell",
-                { sticky, stickyOffset, numeric },
+                { sticky, stickyOffset, numeric, fit },
                 className,
                 style,
             )}
