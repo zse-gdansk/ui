@@ -347,7 +347,7 @@ export function SidebarItem({
     icon,
     children,
     active = false,
-    href,
+    href: hrefProp,
     render,
     onClick,
     badge,
@@ -358,6 +358,8 @@ export function SidebarItem({
     const t = useMessages();
     const { rail } = useRail();
     const inMenu = useContext(InMenuContext);
+    const href =
+        hrefProp ?? (render?.props as { href?: string } | undefined)?.href;
     // Skrót z palety poleceń dla tego adresu, w tooltipie zwiniętego panelu.
     const shortcut = useHrefShortcut(href);
     const back = useContext(BackContext);
