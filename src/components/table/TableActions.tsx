@@ -1,7 +1,7 @@
 "use client";
 
 import { MoreHorizontalIcon } from "@hugeicons/core-free-icons";
-import type { ReactNode } from "react";
+import type { MouseEvent, ReactNode } from "react";
 
 import { useMessages } from "../../i18n/context";
 import { Icon, type IconGlyph } from "../icon/Icon";
@@ -12,7 +12,8 @@ export interface TableQuickAction {
     icon: IconGlyph;
     // Nazwa dla czytników i treść tooltipa, np. „Edytuj”.
     label: string;
-    onClick: () => void;
+    // event.currentTarget to przycisk, np. jako anchor dla confirm().
+    onClick: (event: MouseEvent<HTMLButtonElement>) => void;
     variant?: "default" | "danger";
     disabled?: boolean;
 }
