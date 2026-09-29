@@ -25,6 +25,9 @@ export interface ConfirmOptions {
 export interface ConfirmRequest {
     id: number;
     options: ConfirmOptions;
+    // Anchor to przycisk, który sam woła confirm(): ponowne kliknięcie
+    // zamyka dymek jak zwykły wyzwalacz. Nie dla przycisku menu.
+    toggle: boolean;
 }
 
 type Pending = ConfirmRequest & { resolve: (value: boolean) => void };
@@ -33,6 +36,12 @@ type Pending = ConfirmRequest & { resolve: (value: boolean) => void };
 // pierwszego czeka, zamiast je zasłonić.
 let queue: readonly Pending[] = [];
 let nextId = 0;
+// Pytanie, którego onConfirm właśnie trwa; ponowne kliknięcie go nie zamyka.
+let busyId: number | null = null;
+
+export function markConfirmBusy(id: number | null) {
+    busyId = id;
+}
 const listeners = new Set<() => void>();
 
 const emit = () => {
@@ -83,11 +92,25 @@ export function confirm(options: ConfirmOptions) {
         console.warn(
             "confirm(): brak <Confirmer /> w drzewie, okno się nie pokaże.",
         );
+    const anchor = options.anchor ? resolveAnchor(options.anchor) : null;
+    const open = queue[0];
+    if (
+        anchor &&
+        anchor === options.anchor &&
+        open?.options.anchor === anchor
+    ) {
+        if (busyId !== open.id) settleConfirm(open.id, false);
+        return Promise.resolve(false);
+    }
     return new Promise<boolean>((resolve) => {
-        const anchor = options.anchor ? resolveAnchor(options.anchor) : null;
         queue = [
             ...queue,
-            { id: nextId++, options: { ...options, anchor }, resolve },
+            {
+                id: nextId++,
+                options: { ...options, anchor },
+                toggle: anchor !== null && anchor === options.anchor,
+                resolve,
+            },
         ];
         emit();
     });

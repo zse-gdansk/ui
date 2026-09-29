@@ -9,6 +9,7 @@ import { useMediaQuery } from "../../utils/use-media-query";
 import { Button } from "../button/Button";
 import {
     currentConfirm,
+    markConfirmBusy,
     settleConfirm,
     subscribeConfirm,
     type ConfirmRequest,
@@ -53,6 +54,7 @@ export function Confirmer({ errorMessage }: ConfirmerProps) {
             return;
         }
         setPending(id);
+        markConfirmBusy(id);
         setFailed(null);
         try {
             await request.onConfirm();
@@ -62,6 +64,7 @@ export function Confirmer({ errorMessage }: ConfirmerProps) {
             setFailed({ id, message: format?.(error) ?? t.confirm.failed });
         } finally {
             setPending(null);
+            markConfirmBusy(null);
         }
     }
 
@@ -135,7 +138,21 @@ export function Confirmer({ errorMessage }: ConfirmerProps) {
             </AlertDialog.Root>
             <Popover.Root
                 open={current !== null && anchor !== null}
-                onOpenChange={close}
+                onOpenChange={(open, details) => {
+                    // Klik w sam przycisk obsłuży confirm() jako zamknięcie;
+                    // zamknięte tu, otworzyłoby się od nowa z animacją.
+                    if (
+                        !open &&
+                        details.reason === "outside-press" &&
+                        shown?.toggle &&
+                        details.event.target instanceof Node &&
+                        anchor?.contains(details.event.target)
+                    ) {
+                        details.cancel();
+                        return;
+                    }
+                    close(open, details);
+                }}
                 modal="trap-focus"
             >
                 <Popover.Portal>
