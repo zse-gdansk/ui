@@ -7,6 +7,17 @@
     --avatar-size: calc(var(--chip-height) - 2 * var(--chip-inset));
 }
 
+/* Wybrana osoba w trybie single: awatar przed tekstem, jak ikona w Select. */
+.zse-people-lead {
+    display: flex;
+    flex: none;
+    padding-inline-start: var(--input-pad);
+}
+
+.zse-people-lead + .zse-combobox-input {
+    padding-inline-start: 8px;
+}
+
 .zse-people-chip-count {
     color: var(--color-text-secondary);
     font-size: 0.75rem;

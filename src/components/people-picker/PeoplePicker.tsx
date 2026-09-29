@@ -68,8 +68,8 @@ export interface PeoplePickerProps {
     value?: string[];
     defaultValue?: string[];
     onValueChange?: (value: string[]) => void;
-    // Jedna osoba, np. kto obejmuje miejsce: nowy wybór zastępuje poprzedni,
-    // a lista zamyka się po kliknięciu. Wartość dalej jest listą.
+    // Jedna osoba, np. kto obejmuje miejsce: pole jak Select, wybrana osoba
+    // z awatarem w samym polu. Wartość dalej jest listą.
     single?: boolean;
     placeholder?: string;
     emptyText?: string;
@@ -310,6 +310,96 @@ export function PeoplePicker({
               ? "idle"
               : null;
 
+    const rootProps = {
+        open,
+        onOpenChange: setOpen,
+        disabled,
+        onInputValueChange: (next: string, details: { reason: string }) =>
+            type(next, details.reason),
+        onOpenChangeComplete: (isOpen: boolean) => {
+            if (!isOpen) setQuery("");
+        },
+        itemToStringLabel: (entry: Entry) => entry.label,
+        itemToStringValue: (entry: Entry) => entry.value,
+        isItemEqualToValue: (a: Entry, b: Entry) => a.value === b.value,
+        filter: null,
+        ...(name !== undefined && { name }),
+    };
+
+    const trigger = (
+        <BaseCombobox.Trigger
+            className="zse-combobox-button zse-combobox-trigger"
+            aria-label={t.combobox.showList}
+        >
+            <Icon icon={ArrowDown01Icon} />
+        </BaseCombobox.Trigger>
+    );
+
+    const popup = (
+        <BaseCombobox.Portal>
+            <BaseCombobox.Positioner
+                className="zse-select-positioner"
+                sideOffset={6}
+            >
+                <BaseCombobox.Popup
+                    className="zse-select-popup zse-combobox-popup"
+                    aria-busy={pending || undefined}
+                >
+                    <BaseCombobox.Status className="zse-combobox-status">
+                        {status === "searching" && (
+                            <>
+                                <Spokes
+                                    size={14}
+                                    className="zse-combobox-spinner"
+                                />
+                                {t.combobox.searching}
+                            </>
+                        )}
+                        {status === "error" && t.combobox.searchFailed}
+                        {status === "idle" && t.combobox.startTyping}
+                    </BaseCombobox.Status>
+                    <ScrollArea maxHeight="min(var(--available-height), 20rem)">
+                        <BaseCombobox.Empty className="zse-combobox-empty">
+                            {status === null &&
+                                (trimmed
+                                    ? emptyText
+                                        ? `${emptyText}: ${trimmed}`
+                                        : t.combobox.emptyFor(trimmed)
+                                    : (emptyText ?? t.combobox.empty))}
+                        </BaseCombobox.Empty>
+                        <BaseCombobox.List className="zse-combobox-list">
+                            {(section: Section) => (
+                                <BaseCombobox.Group
+                                    key={section.value}
+                                    items={section.items}
+                                    className="zse-people-section"
+                                >
+                                    <BaseCombobox.GroupLabel className="zse-people-section-label">
+                                        {section.value}
+                                    </BaseCombobox.GroupLabel>
+                                    <BaseCombobox.Collection>
+                                        {(entry: Entry) => (
+                                            <EntryItem
+                                                key={entry.value}
+                                                entry={entry}
+                                                coveredBy={
+                                                    entry.kind === "person"
+                                                        ? coveredBy(entry.value)
+                                                        : undefined
+                                                }
+                                                marks={ranges.get(entry.value)}
+                                            />
+                                        )}
+                                    </BaseCombobox.Collection>
+                                </BaseCombobox.Group>
+                            )}
+                        </BaseCombobox.List>
+                    </ScrollArea>
+                </BaseCombobox.Popup>
+            </BaseCombobox.Positioner>
+        </BaseCombobox.Portal>
+    );
+
     return (
         <Field.Root
             className="zse-input zse-combobox zse-people"
@@ -322,149 +412,88 @@ export function PeoplePicker({
                 <Field.Label className="zse-input-label">{label}</Field.Label>
             )}
 
-            <BaseCombobox.Root<Entry, true>
-                items={sections}
-                multiple
-                open={open}
-                onOpenChange={setOpen}
-                disabled={disabled}
-                value={current}
-                onValueChange={(next) => change(next)}
-                onInputValueChange={(next, details) =>
-                    type(next, details.reason)
-                }
-                onOpenChangeComplete={(isOpen) => {
-                    if (!isOpen) setQuery("");
-                }}
-                itemToStringLabel={(entry) => entry.label}
-                itemToStringValue={(entry) => entry.value}
-                isItemEqualToValue={(a, b) => a.value === b.value}
-                filter={null}
-                {...(name !== undefined && { name })}
-            >
-                <BaseCombobox.InputGroup
-                    className="zse-input-control zse-combobox-group"
-                    data-multiple
+            {single ? (
+                <BaseCombobox.Root<Entry>
+                    items={sections}
+                    value={current[0] ?? null}
+                    onValueChange={(entry) => change(entry ? [entry] : [])}
+                    {...rootProps}
                 >
-                    <BaseCombobox.Chips className="zse-combobox-chips">
-                        {current.map((entry) => (
-                            <BaseCombobox.Chip
-                                key={entry.value}
-                                className="zse-combobox-chip zse-people-chip"
-                                aria-label={
-                                    entry.kind === "group"
-                                        ? t.peoplePicker.groupChip(
-                                              entry.label,
-                                              entry.group.members.length,
-                                          )
-                                        : entry.label
-                                }
-                            >
-                                <EntryVisual entry={entry} />
-                                <span className="zse-combobox-chip-label">
-                                    {entry.label}
-                                </span>
-                                {entry.kind === "group" && (
-                                    <span
-                                        className="zse-people-chip-count"
-                                        aria-hidden
-                                    >
-                                        {entry.group.members.length}
-                                    </span>
-                                )}
-                                <BaseCombobox.ChipRemove
-                                    className="zse-combobox-chip-remove"
-                                    aria-label={t.common.remove(entry.label)}
-                                >
-                                    <Icon icon={Cancel01Icon} size={12} />
-                                </BaseCombobox.ChipRemove>
-                            </BaseCombobox.Chip>
-                        ))}
+                    <BaseCombobox.InputGroup className="zse-input-control zse-combobox-group">
+                        {current[0] && (
+                            <span className="zse-people-lead">
+                                <EntryVisual entry={current[0]} />
+                            </span>
+                        )}
                         <BaseCombobox.Input
                             className="zse-combobox-input"
                             {...(id !== undefined && { id })}
-                            {...(placeholder !== undefined &&
-                                current.length === 0 && { placeholder })}
+                            {...(placeholder !== undefined && { placeholder })}
                         />
-                    </BaseCombobox.Chips>
-                    <span className="zse-combobox-actions">
-                        <BaseCombobox.Trigger
-                            className="zse-combobox-button zse-combobox-trigger"
-                            aria-label={t.combobox.showList}
-                        >
-                            <Icon icon={ArrowDown01Icon} />
-                        </BaseCombobox.Trigger>
-                    </span>
-                </BaseCombobox.InputGroup>
-
-                <BaseCombobox.Portal>
-                    <BaseCombobox.Positioner
-                        className="zse-select-positioner"
-                        sideOffset={6}
+                        <span className="zse-combobox-actions">{trigger}</span>
+                    </BaseCombobox.InputGroup>
+                    {popup}
+                </BaseCombobox.Root>
+            ) : (
+                <BaseCombobox.Root<Entry, true>
+                    items={sections}
+                    multiple
+                    value={current}
+                    onValueChange={(next) => change(next)}
+                    {...rootProps}
+                >
+                    <BaseCombobox.InputGroup
+                        className="zse-input-control zse-combobox-group"
+                        data-multiple
                     >
-                        <BaseCombobox.Popup
-                            className="zse-select-popup zse-combobox-popup"
-                            aria-busy={pending || undefined}
-                        >
-                            <BaseCombobox.Status className="zse-combobox-status">
-                                {status === "searching" && (
-                                    <>
-                                        <Spokes
-                                            size={14}
-                                            className="zse-combobox-spinner"
-                                        />
-                                        {t.combobox.searching}
-                                    </>
-                                )}
-                                {status === "error" && t.combobox.searchFailed}
-                                {status === "idle" && t.combobox.startTyping}
-                            </BaseCombobox.Status>
-                            <ScrollArea maxHeight="min(var(--available-height), 20rem)">
-                                <BaseCombobox.Empty className="zse-combobox-empty">
-                                    {status === null &&
-                                        (trimmed
-                                            ? emptyText
-                                                ? `${emptyText}: ${trimmed}`
-                                                : t.combobox.emptyFor(trimmed)
-                                            : (emptyText ?? t.combobox.empty))}
-                                </BaseCombobox.Empty>
-                                <BaseCombobox.List className="zse-combobox-list">
-                                    {(section: Section) => (
-                                        <BaseCombobox.Group
-                                            key={section.value}
-                                            items={section.items}
-                                            className="zse-people-section"
+                        <BaseCombobox.Chips className="zse-combobox-chips">
+                            {current.map((entry) => (
+                                <BaseCombobox.Chip
+                                    key={entry.value}
+                                    className="zse-combobox-chip zse-people-chip"
+                                    aria-label={
+                                        entry.kind === "group"
+                                            ? t.peoplePicker.groupChip(
+                                                  entry.label,
+                                                  entry.group.members.length,
+                                              )
+                                            : entry.label
+                                    }
+                                >
+                                    <EntryVisual entry={entry} />
+                                    <span className="zse-combobox-chip-label">
+                                        {entry.label}
+                                    </span>
+                                    {entry.kind === "group" && (
+                                        <span
+                                            className="zse-people-chip-count"
+                                            aria-hidden
                                         >
-                                            <BaseCombobox.GroupLabel className="zse-people-section-label">
-                                                {section.value}
-                                            </BaseCombobox.GroupLabel>
-                                            <BaseCombobox.Collection>
-                                                {(entry: Entry) => (
-                                                    <EntryItem
-                                                        key={entry.value}
-                                                        entry={entry}
-                                                        coveredBy={
-                                                            entry.kind ===
-                                                            "person"
-                                                                ? coveredBy(
-                                                                      entry.value,
-                                                                  )
-                                                                : undefined
-                                                        }
-                                                        marks={ranges.get(
-                                                            entry.value,
-                                                        )}
-                                                    />
-                                                )}
-                                            </BaseCombobox.Collection>
-                                        </BaseCombobox.Group>
+                                            {entry.group.members.length}
+                                        </span>
                                     )}
-                                </BaseCombobox.List>
-                            </ScrollArea>
-                        </BaseCombobox.Popup>
-                    </BaseCombobox.Positioner>
-                </BaseCombobox.Portal>
-            </BaseCombobox.Root>
+                                    <BaseCombobox.ChipRemove
+                                        className="zse-combobox-chip-remove"
+                                        aria-label={t.common.remove(
+                                            entry.label,
+                                        )}
+                                    >
+                                        <Icon icon={Cancel01Icon} size={12} />
+                                    </BaseCombobox.ChipRemove>
+                                </BaseCombobox.Chip>
+                            ))}
+                            <BaseCombobox.Input
+                                className="zse-combobox-input"
+                                {...(id !== undefined && { id })}
+                                {...(placeholder !== undefined &&
+                                    current.length === 0 && { placeholder })}
+                            />
+                        </BaseCombobox.Chips>
+                        <span className="zse-combobox-actions">{trigger}</span>
+                    </BaseCombobox.InputGroup>
+                    {popup}
+                </BaseCombobox.Root>
+            )}
 
             <FieldFooter error={error} hint={hint} />
         </Field.Root>
