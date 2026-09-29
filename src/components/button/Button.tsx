@@ -11,7 +11,8 @@ const BUTTON_STROKE = 1.75;
 
 export interface ButtonProps extends ComponentProps<typeof BaseButton> {
     variant?: "primary" | "ghost" | "outline" | "danger";
-    size?: "sm" | "md" | "lg";
+    // xs: 28px jak akcje w wierszu tabeli.
+    size?: "xs" | "sm" | "md" | "lg";
     loading?: boolean;
     icon?: IconGlyph;
     iconPosition?: "left" | "right";

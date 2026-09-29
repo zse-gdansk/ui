@@ -30,6 +30,15 @@
         scale 200ms var(--ease-out);
 }
 
+.zse-button[data-size="xs"] {
+    --button-gap: 4px;
+    --button-icon-size: 14px;
+    height: 28px;
+    padding: 0 10px;
+    border-radius: var(--radius-sm);
+    font-size: 0.8125rem;
+}
+
 .zse-button[data-size="sm"] {
     --button-gap: 6px;
     --button-icon-size: 14px;
