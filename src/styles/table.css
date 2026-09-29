@@ -65,7 +65,9 @@
     text-align: start;
     white-space: nowrap;
     box-shadow: var(--edge-x, 0 0 #0000), var(--edge-y, 0 0 #0000);
-    transition-property: border-color, box-shadow;
+    /* Kolor ramki tylko w nagłówku (kreska przy przewijaniu). W treści
+       przejście koloru przy zmianie ostatniego wiersza maluje czarną kreskę. */
+    transition-property: box-shadow;
     transition-duration: var(--duration-fast);
     transition-timing-function: ease;
 }
@@ -126,8 +128,9 @@
     --table-row-bg: var(--table-selected-bg);
 }
 
+/* Szerokość, nie skrót: border-bottom: 0 ustawia kolor na currentcolor. */
 .zse-table-body .zse-table-row:last-child > .zse-table-cell {
-    border-bottom: 0;
+    border-bottom-width: 0;
 }
 
 [data-numeric] {
