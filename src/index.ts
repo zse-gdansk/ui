@@ -299,7 +299,7 @@ export {
     type MessagesOverride,
     type PluralForms,
 } from "./i18n";
-export { Confirmer } from "./components/confirm/Confirmer";
+export { Confirmer, type ConfirmerProps } from "./components/confirm/Confirmer";
 export { confirm, type ConfirmOptions } from "./components/confirm/confirm";
 export {
     TimePicker,

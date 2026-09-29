@@ -33,6 +33,9 @@ export interface SecretFieldProps {
     size?: "sm" | "md" | "lg";
     // Bez przycisku kopiowania, np. gdy sekretu nie wolno wklejać dalej.
     copyable?: boolean;
+    // false: wartość cały czas widoczna, bez „Pokaż”, np. jednorazowy kod
+    // do przepisania. Tylko z value jako tekstem.
+    masked?: boolean;
 }
 
 // Stała liczba kropek: maska nie zdradza długości sekretu.
@@ -49,10 +52,14 @@ export function SecretField({
     autoHide = 30000,
     size = "md",
     copyable = true,
+    masked = true,
 }: SecretFieldProps) {
     const t = useMessages();
     const labelId = useId();
-    const [revealed, setRevealed] = useState(false);
+    const plain = !masked && typeof value === "string";
+    const [hidden, setHidden] = useState(true);
+    const revealed = plain || !hidden;
+    const setRevealed = (next: boolean) => setHidden(!next);
     const [loaded, setLoaded] = useState<string | null>(
         typeof value === "string" ? value : null,
     );
@@ -130,7 +137,7 @@ export function SecretField({
     // Odkryty sekret sam się chowa po czasie i przy przejściu na inną kartę.
     useTimeout(
         () => setRevealed(false),
-        revealed && autoHide > 0 ? autoHide : null,
+        !hidden && autoHide > 0 ? autoHide : null,
     );
     useEventListener(
         "document",
@@ -138,7 +145,7 @@ export function SecretField({
         () => {
             if (document.hidden) setRevealed(false);
         },
-        { enabled: revealed },
+        { enabled: !hidden },
     );
 
     return (
@@ -155,21 +162,23 @@ export function SecretField({
                 aria-labelledby={label != null ? labelId : undefined}
             >
                 <span className="zse-secret-value">
-                    <span
-                        className="zse-secret-layer"
-                        data-hidden={revealed || undefined}
-                        aria-hidden={revealed || undefined}
-                    >
-                        <span aria-hidden>
-                            {MASK}
-                            {ending}
+                    {!plain && (
+                        <span
+                            className="zse-secret-layer"
+                            data-hidden={revealed || undefined}
+                            aria-hidden={revealed || undefined}
+                        >
+                            <span aria-hidden>
+                                {MASK}
+                                {ending}
+                            </span>
+                            <span className="zse-secret-sr">
+                                {ending
+                                    ? t.secretField.hiddenEnding(ending)
+                                    : t.secretField.hidden}
+                            </span>
                         </span>
-                        <span className="zse-secret-sr">
-                            {ending
-                                ? t.secretField.hiddenEnding(ending)
-                                : t.secretField.hidden}
-                        </span>
-                    </span>
+                    )}
                     <span
                         className="zse-secret-layer zse-secret-plain"
                         data-hidden={!revealed || undefined}
@@ -178,41 +187,47 @@ export function SecretField({
                         {revealed ? known : ""}
                     </span>
                 </span>
-                <button
-                    type="button"
-                    className="zse-secret-action"
-                    aria-label={
-                        revealed ? t.secretField.hide : t.secretField.show
-                    }
-                    aria-pressed={revealed}
-                    aria-busy={waiting === "reveal" || undefined}
-                    onClick={toggle}
-                >
-                    <span className="zse-input-toggle-icon">
-                        <span
-                            className="zse-input-toggle-layer"
-                            data-hidden={
-                                revealed || waiting === "reveal" || undefined
-                            }
-                        >
-                            <Icon icon={ViewIcon} />
+                {!plain && (
+                    <button
+                        type="button"
+                        className="zse-secret-action"
+                        aria-label={
+                            revealed ? t.secretField.hide : t.secretField.show
+                        }
+                        aria-pressed={revealed}
+                        aria-busy={waiting === "reveal" || undefined}
+                        onClick={toggle}
+                    >
+                        <span className="zse-input-toggle-icon">
+                            <span
+                                className="zse-input-toggle-layer"
+                                data-hidden={
+                                    revealed ||
+                                    waiting === "reveal" ||
+                                    undefined
+                                }
+                            >
+                                <Icon icon={ViewIcon} />
+                            </span>
+                            <span
+                                className="zse-input-toggle-layer"
+                                data-hidden={
+                                    !revealed ||
+                                    waiting === "reveal" ||
+                                    undefined
+                                }
+                            >
+                                <Icon icon={ViewOffIcon} />
+                            </span>
+                            <span
+                                className="zse-input-toggle-layer"
+                                data-hidden={waiting !== "reveal" || undefined}
+                            >
+                                <Spokes />
+                            </span>
                         </span>
-                        <span
-                            className="zse-input-toggle-layer"
-                            data-hidden={
-                                !revealed || waiting === "reveal" || undefined
-                            }
-                        >
-                            <Icon icon={ViewOffIcon} />
-                        </span>
-                        <span
-                            className="zse-input-toggle-layer"
-                            data-hidden={waiting !== "reveal" || undefined}
-                        >
-                            <Spokes />
-                        </span>
-                    </span>
-                </button>
+                    </button>
+                )}
                 {copyable && (
                     <button
                         type="button"

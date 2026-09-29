@@ -270,6 +270,8 @@ export interface MenuRadioItemProps {
     closeOnClick?: boolean;
     // Np. flaga; zaznaczenie przechodzi wtedy na znacznik po prawej.
     icon?: ReactNode;
+    // Tekst po prawej, np. liczba wierszy przy filtrze.
+    suffix?: ReactNode;
 }
 
 export function MenuRadioItem({
@@ -278,6 +280,7 @@ export function MenuRadioItem({
     disabled = false,
     closeOnClick = false,
     icon,
+    suffix,
 }: MenuRadioItemProps) {
     return (
         <BaseMenu.RadioItem
@@ -298,6 +301,9 @@ export function MenuRadioItem({
                     icon={Tick02Icon}
                     className="zse-menu-indicator zse-menu-trailing"
                 />
+            )}
+            {suffix != null && (
+                <span className="zse-menu-shortcut">{suffix}</span>
             )}
         </BaseMenu.RadioItem>
     );

@@ -6,6 +6,7 @@ import type { ReactElement, ReactNode } from "react";
 
 import { useMessages } from "../../i18n/context";
 import { useMediaQuery } from "../../utils/use-media-query";
+import { isConfirmOpen } from "../confirm/confirm";
 import { Icon } from "../icon/Icon";
 
 type Side = "right" | "left" | "bottom";
@@ -62,9 +63,13 @@ export function Sheet({
             swipeDirection={SWIPE[resolved]}
             {...(snaps && { snapPoints: snaps })}
             {...(open !== undefined && { open })}
-            {...(onOpenChange && {
-                onOpenChange: (next: boolean) => onOpenChange(next),
-            })}
+            onOpenChange={(next, details) => {
+                if (!next && isConfirmOpen()) {
+                    details.cancel();
+                    return;
+                }
+                onOpenChange?.(next);
+            }}
         >
             {trigger && <Drawer.Trigger render={trigger} />}
             <Drawer.Portal>

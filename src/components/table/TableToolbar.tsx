@@ -18,6 +18,8 @@ import {
     MenuCheckboxItem,
     MenuGroup,
     MenuItem,
+    MenuRadioGroup,
+    MenuRadioItem,
     MenuSeparator,
 } from "../menu/Menu";
 import type { TableFilterFacet, TableSelectionSummary } from "./use-table";
@@ -52,6 +54,7 @@ const NO_FILTERS: readonly TableFilterFacet[] = [];
 
 function FilterMenu({ facet }: { facet: TableFilterFacet }) {
     const t = useMessages();
+    const multiple = facet.multiple !== false;
     const count = facet.selected.length;
     const toggle = (value: string, checked: boolean) =>
         facet.onChange(
@@ -73,7 +76,7 @@ function FilterMenu({ facet }: { facet: TableFilterFacet }) {
                     data-active={count > 0 || undefined}
                 >
                     {facet.label}
-                    {count > 0 && (
+                    {multiple && count > 0 && (
                         <span className="zse-table-filter-count">{count}</span>
                     )}
                 </Button>
@@ -83,24 +86,48 @@ function FilterMenu({ facet }: { facet: TableFilterFacet }) {
                 {facet.options.length === 0 && (
                     <MenuItem disabled>{t.table.filterNoOptions}</MenuItem>
                 )}
-                {facet.options.map((option) => (
-                    <MenuCheckboxItem
-                        key={option.value}
-                        checked={facet.selected.includes(option.value)}
-                        onCheckedChange={(checked) =>
-                            toggle(option.value, checked)
-                        }
-                        disabled={
-                            option.count === 0 &&
-                            !facet.selected.includes(option.value)
-                        }
-                        {...(option.count !== undefined && {
-                            suffix: option.count,
-                        })}
+                {!multiple && (
+                    <MenuRadioGroup
+                        value={facet.selected[0] ?? ""}
+                        onValueChange={(value) => facet.onChange([value])}
                     >
-                        {option.label ?? option.value}
-                    </MenuCheckboxItem>
-                ))}
+                        {facet.options.map((option) => (
+                            <MenuRadioItem
+                                key={option.value}
+                                value={option.value}
+                                closeOnClick
+                                disabled={
+                                    option.count === 0 &&
+                                    !facet.selected.includes(option.value)
+                                }
+                                {...(option.count !== undefined && {
+                                    suffix: option.count,
+                                })}
+                            >
+                                {option.label ?? option.value}
+                            </MenuRadioItem>
+                        ))}
+                    </MenuRadioGroup>
+                )}
+                {multiple &&
+                    facet.options.map((option) => (
+                        <MenuCheckboxItem
+                            key={option.value}
+                            checked={facet.selected.includes(option.value)}
+                            onCheckedChange={(checked) =>
+                                toggle(option.value, checked)
+                            }
+                            disabled={
+                                option.count === 0 &&
+                                !facet.selected.includes(option.value)
+                            }
+                            {...(option.count !== undefined && {
+                                suffix: option.count,
+                            })}
+                        >
+                            {option.label ?? option.value}
+                        </MenuCheckboxItem>
+                    ))}
             </MenuGroup>
             {count > 0 && (
                 <>

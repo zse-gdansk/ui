@@ -6,6 +6,7 @@ import { Cancel01Icon } from "@hugeicons/core-free-icons";
 import type { ReactElement, ReactNode } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { isConfirmOpen } from "../confirm/confirm";
 import { Icon } from "../icon/Icon";
 
 export interface ModalProps {
@@ -40,9 +41,13 @@ export function Modal({
     const t = useMessages();
     const rootProps = {
         ...(open !== undefined && { open }),
-        ...(onOpenChange && {
-            onOpenChange: (next: boolean) => onOpenChange(next),
-        }),
+        onOpenChange: (next: boolean, details: { cancel: () => void }) => {
+            if (!next && isConfirmOpen()) {
+                details.cancel();
+                return;
+            }
+            onOpenChange?.(next);
+        },
         ...(onOpenChangeComplete && { onOpenChangeComplete }),
     };
 
@@ -85,7 +90,7 @@ export function Modal({
                         details.cancel();
                         return;
                     }
-                    onOpenChange?.(next);
+                    rootProps.onOpenChange(next, details);
                 }}
             >
                 {trigger && <AlertDialog.Trigger render={trigger} />}

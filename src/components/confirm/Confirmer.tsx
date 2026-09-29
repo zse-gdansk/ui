@@ -1,7 +1,7 @@
 "use client";
 
 import { AlertDialog } from "@base-ui/react/alert-dialog";
-import { useRef, useState, useSyncExternalStore } from "react";
+import { useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 
 import { useMessages } from "../../i18n/context";
 import { Button } from "../button/Button";
@@ -12,8 +12,14 @@ import {
     type ConfirmRequest,
 } from "./confirm";
 
+export interface ConfirmerProps {
+    // Komunikat dla błędu z onConfirm, np. z kodu błędu API. Bez niego
+    // ogólne „Nie udało się”.
+    errorMessage?: (error: unknown) => ReactNode;
+}
+
 // Okno dla confirm(). Montowane raz, np. obok <Toaster />.
-export function Confirmer() {
+export function Confirmer({ errorMessage }: ConfirmerProps) {
     const t = useMessages();
     const current = useSyncExternalStore(
         subscribeConfirm,
@@ -25,7 +31,10 @@ export function Confirmer() {
     const shown = current ?? last;
 
     const [pending, setPending] = useState<number | null>(null);
-    const [failed, setFailed] = useState<number | null>(null);
+    const [failed, setFailed] = useState<{
+        id: number;
+        message: ReactNode;
+    } | null>(null);
     const cancelRef = useRef<HTMLButtonElement>(null);
     const confirmRef = useRef<HTMLButtonElement>(null);
 
@@ -44,8 +53,9 @@ export function Confirmer() {
         try {
             await request.onConfirm();
             settleConfirm(id, true);
-        } catch {
-            setFailed(id);
+        } catch (error) {
+            const format = request.errorMessage ?? errorMessage;
+            setFailed({ id, message: format?.(error) ?? t.confirm.failed });
         } finally {
             setPending(null);
         }
@@ -80,9 +90,9 @@ export function Confirmer() {
                             </AlertDialog.Description>
                         )}
                     </div>
-                    {shown !== null && failed === shown.id && (
+                    {shown !== null && failed?.id === shown.id && (
                         <p className="zse-confirm-error" role="alert">
-                            {t.confirm.failed}
+                            {failed.message}
                         </p>
                     )}
                     <div className="zse-modal-footer">

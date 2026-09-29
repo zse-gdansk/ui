@@ -4,6 +4,7 @@ import { useDeferredValue, useMemo, useState, type ReactNode } from "react";
 
 import { useMessages } from "../../i18n/context";
 import { createSearch, type Range, type SearchKey } from "../../search/search";
+import { useTimeout } from "../../utils/effects";
 
 export type SortDirection = "asc" | "desc";
 
@@ -42,6 +43,8 @@ export interface TableFilter<Row> {
     value: (row: Row) => string | readonly string[] | null | undefined;
     // Bez opcji: unikalne wartości z danych, alfabetycznie.
     options?: readonly TableFilterOption[];
+    // false: najwyżej jedna wartość naraz, np. gdy API przyjmuje jeden status.
+    multiple?: boolean;
 }
 
 export interface UseTableOptions<Row> {
@@ -63,6 +66,9 @@ export interface UseTableOptions<Row> {
     // false: wszystkie pasujące wiersze naraz, bez stron, np. do długiej
     // listy z useVirtualRows.
     paginate?: boolean;
+    // Ms bez pisania, po których wyszukiwanie trafia do stanu, np. 300 przy
+    // zapytaniu do API z każdą zmianą. Pole reaguje od razu.
+    searchDelay?: number;
 }
 
 export interface TableFilterFacet {
@@ -71,6 +77,8 @@ export interface TableFilterFacet {
     // Liczba wierszy przy każdej opcji, z uwzględnieniem wyszukiwania
     // i pozostałych filtrów. Bez liczb w trybie manual.
     options: readonly (TableFilterOption & { count?: number })[];
+    // false: opcje jako wybór jednej (radio). Domyślnie wiele.
+    multiple?: boolean;
     selected: readonly string[];
     onChange: (selected: readonly string[]) => void;
 }
@@ -140,6 +148,7 @@ export function useTable<Row>({
     total: manualTotal,
     getRowId,
     paginate = true,
+    searchDelay = 0,
 }: UseTableOptions<Row>) {
     const t = useMessages();
     const [inner, setInner] = useState<TableState>(() => ({
@@ -156,6 +165,19 @@ export function useTable<Row>({
         if (!controlled) setInner(next);
         onStateChange?.(next);
     };
+
+    // Wpisany tekst, który jeszcze czeka na searchDelay.
+    const [draft, setDraft] = useState<string | null>(null);
+    const typed = draft ?? state.query;
+    useTimeout(
+        () => {
+            setDraft(null);
+            if (draft !== null && draft !== state.query)
+                update({ query: draft, page: 1 });
+        },
+        draft === null ? null : searchDelay,
+        draft,
+    );
 
     // Indeks wyszukiwania raz na dane i klucze, nie przy każdym znaku.
     // Klucze po nazwach, więc tablica pisana w miejscu nie przebudowuje go
@@ -270,14 +292,29 @@ export function useTable<Row>({
     };
 
     const isFiltered =
-        state.query.trim() !== "" ||
+        typed.trim() !== "" ||
         Object.values(state.filters).some((values) => values.length > 0);
 
     const setSort = (sort: TableSort | null) => update({ sort, page: 1 });
-    const setQuery = (query: string) => update({ query, page: 1 });
+    const setQuery = (query: string) => {
+        if (searchDelay > 0) setDraft(query);
+        else update({ query, page: 1 });
+    };
     const setFilter = (key: string, selected: readonly string[]) =>
-        update({ filters: { ...state.filters, [key]: selected }, page: 1 });
-    const clearFilters = () => update({ query: "", filters: {}, page: 1 });
+        update({
+            filters: {
+                ...state.filters,
+                [key]:
+                    filters[key]?.multiple === false
+                        ? selected.slice(-1)
+                        : selected,
+            },
+            page: 1,
+        });
+    const clearFilters = () => {
+        setDraft(null);
+        update({ query: "", filters: {}, page: 1 });
+    };
     const setPage = (next: number) => update({ page: next });
     // Pierwszy widoczny wiersz zostaje na ekranie po zmianie rozmiaru strony.
     const setPageSize = (pageSize: number) =>
@@ -320,6 +357,7 @@ export function useTable<Row>({
                           count: counts.get(option.value) ?? 0,
                       }),
             ),
+            multiple: filter.multiple !== false,
             selected: state.filters[key] ?? [],
             onChange: (selected) => setFilter(key, selected),
         };
@@ -331,6 +369,8 @@ export function useTable<Row>({
         pageCount,
         state: { ...state, page },
         isFiltered,
+        // Wpisane wyszukiwanie czeka jeszcze na searchDelay.
+        isSearching: draft !== null && draft !== state.query,
         setSort,
         toggleSort,
         setQuery,
@@ -376,7 +416,7 @@ export function useTable<Row>({
         }),
         // {...table.toolbarProps} na TableToolbar.
         toolbarProps: {
-            query: state.query,
+            query: typed,
             onQueryChange: setQuery,
             searchable: Boolean(search) || manual,
             filters: facets,

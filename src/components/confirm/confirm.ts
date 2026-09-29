@@ -14,6 +14,8 @@ export interface ConfirmOptions {
     // Z funkcją okno czeka na jej koniec ze spinnerem na przycisku. Błąd
     // zostawia okno otwarte z komunikatem, można spróbować jeszcze raz.
     onConfirm?: () => unknown;
+    // Komunikat dla błędu z onConfirm; zastępuje ten z <Confirmer>.
+    errorMessage?: (error: unknown) => ReactNode;
 }
 
 export interface ConfirmRequest {
@@ -41,6 +43,10 @@ export function subscribeConfirm(listener: () => void) {
 }
 
 export const currentConfirm = (): ConfirmRequest | null => queue[0] ?? null;
+
+// Modal i Sheet pod oknem potwierdzenia nie zamykają się od kliknięcia
+// w nie ani od Escape.
+export const isConfirmOpen = () => queue.length > 0;
 
 export function settleConfirm(id: number, value: boolean) {
     const request = queue.find((item) => item.id === id);
