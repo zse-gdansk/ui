@@ -1,6 +1,6 @@
 {
     "name": "@zse-gdansk/ui",
-    "version": "1.9.3",
+    "version": "1.10.0",
     "description": "Wspólna biblioteka komponentów, tokenów i stylów dla projektów Zespołu Szkół Energetycznych w Gdańsku.",
     "homepage": "https://github.com/zse-gdansk/ui#readme",
     "bugs": {
