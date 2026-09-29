@@ -18,7 +18,6 @@ export interface ConfirmOptions {
     errorMessage?: (error: unknown) => ReactNode;
     // Element, przy którym pytanie pokazuje się jako dymek zamiast okna,
     // zwykle event.currentTarget. Pozycja menu wskazuje przycisk menu.
-    // Na wąskim ekranie i tak okno.
     anchor?: Element | null;
 }
 

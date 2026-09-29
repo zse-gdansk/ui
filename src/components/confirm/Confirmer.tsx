@@ -5,7 +5,6 @@ import { Popover } from "@base-ui/react/popover";
 import { useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 
 import { useMessages } from "../../i18n/context";
-import { useMediaQuery } from "../../utils/use-media-query";
 import { Button } from "../button/Button";
 import {
     currentConfirm,
@@ -42,8 +41,7 @@ export function Confirmer({ errorMessage }: ConfirmerProps) {
     const confirmRef = useRef<HTMLButtonElement>(null);
 
     const options = shown?.options;
-    const wide = useMediaQuery("(min-width: 640px)");
-    const anchor = wide ? (options?.anchor ?? null) : null;
+    const anchor = options?.anchor ?? null;
     const busy = shown !== null && pending === shown.id;
 
     async function accept() {
