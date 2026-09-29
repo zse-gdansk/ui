@@ -1,9 +1,11 @@
 "use client";
 
 import { AlertDialog } from "@base-ui/react/alert-dialog";
+import { Popover } from "@base-ui/react/popover";
 import { useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 
 import { useMessages } from "../../i18n/context";
+import { useMediaQuery } from "../../utils/use-media-query";
 import { Button } from "../button/Button";
 import {
     currentConfirm,
@@ -39,6 +41,8 @@ export function Confirmer({ errorMessage }: ConfirmerProps) {
     const confirmRef = useRef<HTMLButtonElement>(null);
 
     const options = shown?.options;
+    const wide = useMediaQuery("(min-width: 640px)");
+    const anchor = wide ? (options?.anchor ?? null) : null;
     const busy = shown !== null && pending === shown.id;
 
     async function accept() {
@@ -61,64 +65,115 @@ export function Confirmer({ errorMessage }: ConfirmerProps) {
         }
     }
 
+    function close(open: boolean, details: { cancel: () => void }) {
+        if (open || !shown) return;
+        if (busy) {
+            details.cancel();
+            return;
+        }
+        settleConfirm(shown.id, false);
+    }
+
+    const error = shown !== null && failed?.id === shown.id && (
+        <p className="zse-confirm-error" role="alert">
+            {failed.message}
+        </p>
+    );
+
+    const buttons = (size: "sm" | "md") => (
+        <>
+            <Button
+                ref={cancelRef}
+                variant="outline"
+                size={size}
+                disabled={busy}
+                onClick={() => shown && settleConfirm(shown.id, false)}
+            >
+                {options?.cancelLabel ?? t.common.cancel}
+            </Button>
+            <Button
+                ref={confirmRef}
+                variant={options?.danger ? "danger" : "primary"}
+                size={size}
+                loading={busy}
+                onClick={accept}
+            >
+                {(busy && options?.pendingLabel) ||
+                    options?.confirmLabel ||
+                    t.confirm.confirm}
+            </Button>
+        </>
+    );
+
     return (
-        <AlertDialog.Root
-            open={current !== null}
-            onOpenChange={(open, details) => {
-                if (open || !shown) return;
-                if (busy) {
-                    details.cancel();
-                    return;
-                }
-                settleConfirm(shown.id, false);
-            }}
-        >
-            <AlertDialog.Portal>
-                <AlertDialog.Backdrop className="zse-modal-backdrop" />
-                <AlertDialog.Popup
-                    className="zse-modal zse-confirm"
-                    initialFocus={options?.danger ? cancelRef : confirmRef}
-                    aria-busy={busy || undefined}
-                >
-                    <div className="zse-modal-heading">
-                        <AlertDialog.Title className="zse-modal-title">
-                            {options?.title}
-                        </AlertDialog.Title>
-                        {options?.description != null && (
-                            <AlertDialog.Description className="zse-modal-description">
-                                {options.description}
-                            </AlertDialog.Description>
-                        )}
-                    </div>
-                    {shown !== null && failed?.id === shown.id && (
-                        <p className="zse-confirm-error" role="alert">
-                            {failed.message}
-                        </p>
-                    )}
-                    <div className="zse-modal-footer">
-                        <Button
-                            ref={cancelRef}
-                            variant="outline"
-                            disabled={busy}
-                            onClick={() =>
-                                shown && settleConfirm(shown.id, false)
+        <>
+            <AlertDialog.Root
+                open={current !== null && anchor === null}
+                onOpenChange={close}
+            >
+                <AlertDialog.Portal>
+                    <AlertDialog.Backdrop className="zse-modal-backdrop" />
+                    <AlertDialog.Popup
+                        className="zse-modal zse-confirm"
+                        initialFocus={options?.danger ? cancelRef : confirmRef}
+                        aria-busy={busy || undefined}
+                    >
+                        <div className="zse-modal-heading">
+                            <AlertDialog.Title className="zse-modal-title">
+                                {options?.title}
+                            </AlertDialog.Title>
+                            {options?.description != null && (
+                                <AlertDialog.Description className="zse-modal-description">
+                                    {options.description}
+                                </AlertDialog.Description>
+                            )}
+                        </div>
+                        {error}
+                        <div className="zse-modal-footer">{buttons("md")}</div>
+                    </AlertDialog.Popup>
+                </AlertDialog.Portal>
+            </AlertDialog.Root>
+            <Popover.Root
+                open={current !== null && anchor !== null}
+                onOpenChange={close}
+                modal="trap-focus"
+            >
+                <Popover.Portal>
+                    <Popover.Positioner
+                        className="zse-popover-positioner"
+                        anchor={anchor}
+                        side="bottom"
+                        align="end"
+                        sideOffset={6}
+                        collisionPadding={8}
+                    >
+                        <Popover.Popup
+                            className="zse-popover zse-confirm-popover"
+                            role="alertdialog"
+                            initialFocus={
+                                options?.danger ? cancelRef : confirmRef
                             }
+                            finalFocus={() =>
+                                anchor instanceof HTMLElement ? anchor : true
+                            }
+                            aria-busy={busy || undefined}
                         >
-                            {options?.cancelLabel ?? t.common.cancel}
-                        </Button>
-                        <Button
-                            ref={confirmRef}
-                            variant={options?.danger ? "danger" : "primary"}
-                            loading={busy}
-                            onClick={accept}
-                        >
-                            {(busy && options?.pendingLabel) ||
-                                options?.confirmLabel ||
-                                t.confirm.confirm}
-                        </Button>
-                    </div>
-                </AlertDialog.Popup>
-            </AlertDialog.Portal>
-        </AlertDialog.Root>
+                            <Popover.Title className="zse-popover-title">
+                                {options?.title}
+                            </Popover.Title>
+                            {options?.description != null && (
+                                <Popover.Description className="zse-popover-description">
+                                    {options.description}
+                                </Popover.Description>
+                            )}
+                            {error}
+                            <div className="zse-confirm-actions">
+                                {buttons("sm")}
+                            </div>
+                        </Popover.Popup>
+                    </Popover.Positioner>
+                </Popover.Portal>
+            </Popover.Root>
+        </>
     );
 }

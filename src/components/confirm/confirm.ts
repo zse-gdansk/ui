@@ -16,6 +16,10 @@ export interface ConfirmOptions {
     onConfirm?: () => unknown;
     // Komunikat dla błędu z onConfirm; zastępuje ten z <Confirmer>.
     errorMessage?: (error: unknown) => ReactNode;
+    // Element, przy którym pytanie pokazuje się jako dymek zamiast okna,
+    // zwykle event.currentTarget. Pozycja menu wskazuje przycisk menu.
+    // Na wąskim ekranie i tak okno.
+    anchor?: Element | null;
 }
 
 export interface ConfirmRequest {
@@ -56,6 +60,21 @@ export function settleConfirm(id: number, value: boolean) {
     emit();
 }
 
+// Pozycja menu znika razem z menu po kliknięciu, więc dymek wskazuje
+// przycisk, który je otworzył (dla podmenu: przycisk menu głównego).
+function resolveAnchor(element: Element): Element {
+    let current = element;
+    for (let depth = 0; depth < 8; depth += 1) {
+        const id = current
+            .closest('[role="menu"]')
+            ?.getAttribute("aria-labelledby");
+        const trigger = id ? document.getElementById(id) : null;
+        if (!trigger) break;
+        current = trigger;
+    }
+    return current;
+}
+
 // Pytanie o potwierdzenie bez własnego stanu modala:
 // if (await confirm({ title: "Usunąć ucznia?", danger: true })) …
 // Wymaga <Confirmer /> w drzewie, raz na aplikację.
@@ -65,7 +84,11 @@ export function confirm(options: ConfirmOptions) {
             "confirm(): brak <Confirmer /> w drzewie, okno się nie pokaże.",
         );
     return new Promise<boolean>((resolve) => {
-        queue = [...queue, { id: nextId++, options, resolve }];
+        const anchor = options.anchor ? resolveAnchor(options.anchor) : null;
+        queue = [
+            ...queue,
+            { id: nextId++, options: { ...options, anchor }, resolve },
+        ];
         emit();
     });
 }

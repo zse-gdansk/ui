@@ -4,6 +4,7 @@ import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { ArrowRight01Icon, Tick02Icon } from "@hugeicons/core-free-icons";
 import {
     useRef,
+    type MouseEvent,
     type ReactElement,
     type ReactNode,
     type RefObject,
@@ -118,7 +119,8 @@ export interface MenuItemProps {
     // Np. "mod+d": ⌘D na Apple, Ctrl+D gdzie indziej. Działa, gdy menu
     // jest otwarte, i wtedy przejmuje skrót przeglądarki.
     shortcut?: Shortcut;
-    onClick?: () => void;
+    // event.currentTarget to pozycja menu, np. jako anchor dla confirm().
+    onClick?: (event: MouseEvent<HTMLElement>) => void;
     disabled?: boolean;
     // danger: stale czerwone, dla akcji nieodwracalnych (Usuń).
     // danger-hover: czerwone dopiero przy najechaniu, dla akcji, które nic
@@ -176,7 +178,9 @@ export function MenuItem({
             className="zse-menu-item"
             data-variant={variant}
             disabled={disabled}
-            {...(onClick && { onClick: () => onClick() })}
+            {...(onClick && {
+                onClick: (event: MouseEvent<HTMLElement>) => onClick(event),
+            })}
         >
             {content}
         </BaseMenu.Item>

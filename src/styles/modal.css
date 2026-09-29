@@ -140,3 +140,15 @@
     font-size: 0.875rem;
     line-height: 1.5;
 }
+
+/* confirm({ anchor }): dymek przy przycisku zamiast okna. */
+.zse-confirm-popover {
+    width: min(20rem, calc(100vw - 16px));
+}
+
+.zse-confirm-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 4px;
+}
