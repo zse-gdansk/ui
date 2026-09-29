@@ -1,5 +1,7 @@
+/* Tylko w pionie: w poziomie przewinięcie za krawędź to gest wstecz/dalej
+   w przeglądarce (dwa palce na gładziku), którego nie wolno blokować. */
 html:has(.zse-shell) {
-    overscroll-behavior: none;
+    overscroll-behavior-y: none;
 }
 
 .zse-shell {
@@ -76,7 +78,7 @@ html:has(.zse-shell) {
     min-width: 0;
     min-height: 0;
     overflow: auto;
-    overscroll-behavior: contain;
+    overscroll-behavior-y: contain;
     outline: none;
 }
 
