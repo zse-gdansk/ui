@@ -156,7 +156,7 @@ export function Confirmer({ errorMessage }: ConfirmerProps) {
                 <Popover.Portal>
                     <Popover.Positioner
                         className="zse-popover-positioner"
-                        anchor={anchor}
+                        anchor={shown?.position ?? null}
                         side="bottom"
                         align="end"
                         sideOffset={6}
@@ -169,7 +169,10 @@ export function Confirmer({ errorMessage }: ConfirmerProps) {
                                 options?.danger ? cancelRef : confirmRef
                             }
                             finalFocus={() =>
-                                anchor instanceof HTMLElement ? anchor : true
+                                anchor instanceof HTMLElement &&
+                                anchor.isConnected
+                                    ? anchor
+                                    : true
                             }
                             aria-busy={busy || undefined}
                         >

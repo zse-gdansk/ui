@@ -27,6 +27,25 @@ export interface ConfirmRequest {
     // Anchor to przycisk, który sam woła confirm(): ponowne kliknięcie
     // zamyka dymek jak zwykły wyzwalacz. Nie dla przycisku menu.
     toggle: boolean;
+    // Pozycja dla dymka: ostatnie miejsce anchora, także gdy ten zniknie,
+    // np. razem z usuniętym wierszem w trakcie zamykania.
+    position: AnchorPosition | null;
+}
+
+export interface AnchorPosition {
+    getBoundingClientRect: () => DOMRect;
+    contextElement: Element;
+}
+
+function trackPosition(element: Element): AnchorPosition {
+    let rect = element.getBoundingClientRect();
+    return {
+        getBoundingClientRect: () => {
+            if (element.isConnected) rect = element.getBoundingClientRect();
+            return rect;
+        },
+        contextElement: element,
+    };
 }
 
 type Pending = ConfirmRequest & { resolve: (value: boolean) => void };
@@ -108,6 +127,7 @@ export function confirm(options: ConfirmOptions) {
                 id: nextId++,
                 options: { ...options, anchor },
                 toggle: anchor !== null && anchor === options.anchor,
+                position: anchor ? trackPosition(anchor) : null,
                 resolve,
             },
         ];
