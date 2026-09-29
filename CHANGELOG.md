@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.0](https://github.com/zse-gdansk/ui/compare/v1.10.0...v1.11.0) (2026-09-29)
+
+
+### Nowe funkcje
+
+* **confirm:** dodano obsługę komunikatu błędu w onConfirm oraz możliwość wyświetlania wartości sekretu w polu SecretField ([c1c956d](https://github.com/zse-gdansk/ui/commit/c1c956d568489cff7490edf9ce5981dc8de0f8e4))
+
 ## [1.10.0](https://github.com/zse-gdansk/ui/compare/v1.9.3...v1.10.0) (2026-09-29)
 
 
