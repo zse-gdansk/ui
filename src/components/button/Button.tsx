@@ -43,6 +43,7 @@ export function Button({
             className="zse-button-icon"
             data-position={iconPosition}
             data-open={icon !== undefined || loading || undefined}
+            data-fixed={icon !== undefined || undefined}
         >
             <span className="zse-button-icon-inner">
                 {icon !== undefined && (
@@ -75,6 +76,13 @@ export function Button({
             data-variant={variant}
             data-size={size}
             data-loading={loading || undefined}
+            data-icon-only={
+                (icon !== undefined &&
+                    (children === undefined ||
+                        children === null ||
+                        children === false)) ||
+                undefined
+            }
             data-static={isStatic || undefined}
             className={(state) =>
                 [

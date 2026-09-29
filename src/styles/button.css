@@ -45,6 +45,15 @@
     font-size: 1rem;
 }
 
+.zse-button[data-icon-only] {
+    aspect-ratio: 1;
+    padding: 0;
+}
+
+.zse-button[data-icon-only] .zse-button-icon-inner {
+    padding: 0;
+}
+
 .zse-button[data-variant="primary"] {
     border-color: var(--color-accent-solid);
     background: var(--color-accent-solid);
@@ -134,6 +143,11 @@
 
 .zse-button-icon[data-open] {
     grid-template-columns: minmax(0, 1fr);
+}
+
+.zse-button-icon[data-fixed] {
+    grid-template-columns: auto;
+    transition: none;
 }
 
 .zse-button-icon-inner {
