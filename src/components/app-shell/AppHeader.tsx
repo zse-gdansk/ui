@@ -114,6 +114,9 @@ export interface AppHeaderProps {
     // Tekst, zanim strona poda breadcrumby (i w pierwszym renderze na serwerze),
     // np. nazwa sekcji.
     title?: ReactNode;
+    // Breadcrumby znane w layoucie, np. wyliczone ze ścieżki. Są już w HTML
+    // z serwera; HeaderBreadcrumbs ze strony zastępuje je w całości.
+    breadcrumbs?: BreadcrumbsProps;
     // Akcje po prawej, np. HeaderAction, LocaleSwitcher. Zawsze w całości,
     // breadcrumby zwężają się przed nimi.
     actions?: ReactNode;
@@ -121,7 +124,7 @@ export interface AppHeaderProps {
 
 // Pasek nad treścią dla <AppShell header={…}>: przycisk panelu na telefonie,
 // breadcrumby bieżącej strony i akcje.
-export function AppHeader({ title, actions }: AppHeaderProps) {
+export function AppHeader({ title, breadcrumbs, actions }: AppHeaderProps) {
     const { setSlot } = useContext(HeaderSlotContext);
     const [store] = useState(createOverflowStore);
 
@@ -130,8 +133,14 @@ export function AppHeader({ title, actions }: AppHeaderProps) {
             <AppShellTrigger />
             <div className="zse-header-start">
                 <div ref={setSlot} className="zse-header-slot" />
-                {title != null && (
-                    <span className="zse-header-title">{title}</span>
+                {breadcrumbs ? (
+                    <div className="zse-header-crumbs">
+                        <Breadcrumbs {...breadcrumbs} />
+                    </div>
+                ) : (
+                    title != null && (
+                        <span className="zse-header-title">{title}</span>
+                    )
                 )}
             </div>
             {actions != null && (

@@ -201,16 +201,23 @@ html:has(.zse-shell) {
     min-width: 0;
 }
 
-/* Tytuł to zastępstwo, dopóki strona nie poda breadcrumbsów. */
+/* Tytuł i breadcrumby z layoutu to zastępstwo, dopóki strona nie poda
+   własnych. */
 .zse-header-slot:empty {
     display: none;
 }
 
-.zse-header-slot:not(:empty) + .zse-header-title {
+.zse-header-slot:not(:empty) + :is(.zse-header-title, .zse-header-crumbs) {
     display: none;
 }
 
-.zse-header-slot > .zse-breadcrumbs {
+.zse-header-crumbs {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+}
+
+:is(.zse-header-slot, .zse-header-crumbs) > .zse-breadcrumbs {
     flex: 1;
 }
 
