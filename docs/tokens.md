@@ -47,11 +47,12 @@ Tła statusów, zaznaczenia i podświetlenia robimy przez `color-mix`, np. `colo
 | -------------------------------------------- | ------- |
 | przyklejone części tabeli                    | 1–3     |
 | tło i okno modala, sheet                     | 90 / 91 |
+| drugie okno nad modalem, np. confirm         | 92 / 93 |
 | popover, menu, select, combobox, date picker | 95      |
 | tooltip                                      | 96      |
 | toasty                                       | 100     |
 
-Popover otwierany w modalu albo sheecie musi być nad nim, stąd 95 powyżej 91. Nowy nakładający się komponent dopisz do tej tabeli.
+Popover otwierany w modalu albo sheecie musi być nad nim, stąd 95 powyżej 93. Nowy nakładający się komponent dopisz do tej tabeli.
 
 ## Typografia i fonty
 

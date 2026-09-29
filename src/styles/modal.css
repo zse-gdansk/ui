@@ -12,6 +12,16 @@
     opacity: 0;
 }
 
+/* Kolejne okno (confirm nad modalem) musi przykryć poprzednie,
+   inaczej rozmycie zostaje pod nim. Menu zostaje wyżej, na 95. */
+[data-base-ui-portal] ~ [data-base-ui-portal] .zse-modal-backdrop {
+    z-index: 92;
+}
+
+[data-base-ui-portal] ~ [data-base-ui-portal] .zse-modal {
+    z-index: 93;
+}
+
 .zse-modal {
     position: fixed;
     top: 50%;
