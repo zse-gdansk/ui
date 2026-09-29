@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.0](https://github.com/zse-gdansk/ui/compare/v1.11.0...v1.12.0) (2026-09-29)
+
+
+### Nowe funkcje
+
+* **confirm:** dodano możliwość wyświetlania potwierdzenia jako dymek przy przycisku zamiast okna ([790950e](https://github.com/zse-gdansk/ui/commit/790950eab26db0d4fe9eb60df8c71e7f8f129f68))
+
 ## [1.11.0](https://github.com/zse-gdansk/ui/compare/v1.10.0...v1.11.0) (2026-09-29)
 
 
