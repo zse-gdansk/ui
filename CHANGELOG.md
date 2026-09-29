@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.13.0](https://github.com/zse-gdansk/ui/compare/v1.12.0...v1.13.0) (2026-09-29)
+
+
+### Nowe funkcje
+
+* **confirm:** dodano obsługę przycisku jako wyzwalacza dla potwierdzenia oraz mechanizm blokady dymka ([d1dd4db](https://github.com/zse-gdansk/ui/commit/d1dd4dbf32de70ba5ff0a7a6d58d506e78ba6dce))
+* **confirm:** dodano śledzenie pozycji kotwicy dla dymka potwierdzenia ([611ef5a](https://github.com/zse-gdansk/ui/commit/611ef5abd85cb7717b7a572e7ca6650cd7f7e94d))
+* **people-picker:** dodano obsługę wyboru pojedynczej osoby z zamknięciem listy po kliknięciu ([01ebfef](https://github.com/zse-gdansk/ui/commit/01ebfefb07cb361b50fa6e6dbf27749de0d76ab2))
+
+
+### Poprawki
+
+* **confirm:** poprawiono opis dymka w dokumentacji oraz uproszczono logikę wyboru kotwicy ([e89de9f](https://github.com/zse-gdansk/ui/commit/e89de9f923d2c5ff10e0e6557c71bb36529540bd))
+* **table-actions:** poprawiono typ onClick, aby uwzględniał event MouseEvent ([abeebfd](https://github.com/zse-gdansk/ui/commit/abeebfdc45cef83104259e7a0fa8029d0cf73c29))
+
 ## [1.12.0](https://github.com/zse-gdansk/ui/compare/v1.11.0...v1.12.0) (2026-09-29)
 
 
