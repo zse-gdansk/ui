@@ -431,13 +431,9 @@
     }
 }
 
-/* Pasek przewijania przy krawędzi okna, nie na klawiszach: lista sięga
-   w padding modala, a miejsce na pasek daje --scroll-gutter tylko wtedy,
-   gdy pasek leży na treści. */
+/* Miejsce na pasek przewijania przy przewijaniu, bez nachodzenia na klawisze. */
 .zse-shortcuts-scroll {
-    --scroll-gutter: 14px;
-
-    margin-inline-end: -14px;
+    --scroll-gutter: 12px;
 }
 
 .zse-shortcuts {
