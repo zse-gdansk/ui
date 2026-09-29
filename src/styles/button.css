@@ -146,8 +146,13 @@
 }
 
 .zse-button-icon[data-fixed] {
-    grid-template-columns: auto;
+    flex: none;
+    grid-template-columns: min-content;
     transition: none;
+}
+
+.zse-button-icon[data-fixed] .zse-button-icon-inner {
+    overflow: visible;
 }
 
 .zse-button-icon-inner {
