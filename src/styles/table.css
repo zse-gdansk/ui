@@ -141,7 +141,7 @@
 [data-sticky] {
     position: sticky;
     z-index: 1;
-    transition-property: border-color, box-shadow;
+    transition-property: box-shadow;
 }
 
 [data-sticky="left"] {
@@ -157,6 +157,7 @@
 .zse-table-head[data-sticky],
 .zse-table-footer [data-sticky] {
     z-index: 3;
+    transition-property: border-color, box-shadow;
 }
 
 .zse-table-scroller[data-scroll-left] [data-sticky="left"] {
