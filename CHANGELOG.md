@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.3](https://github.com/zse-gdansk/ui/compare/v1.9.2...v1.9.3) (2026-09-29)
+
+
+### Poprawki
+
+* **table:** poprawiono przejście koloru ramki w stopce tabeli ([381fa2a](https://github.com/zse-gdansk/ui/commit/381fa2a32c70e1aea0fd4de0a13e92294f24e48d))
+
 ## [1.9.2](https://github.com/zse-gdansk/ui/compare/v1.9.1...v1.9.2) (2026-09-29)
 
 
