@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.15.0](https://github.com/zse-gdansk/ui/compare/v1.14.1...v1.15.0) (2026-09-30)
+
+
+### Nowe funkcje
+
+* **button:** dodano nowy rozmiar przycisku 'xs' dla akcji w wierszu tabeli ([c57e5b8](https://github.com/zse-gdansk/ui/commit/c57e5b8ce6d0a4fef563a16a1871b5a708999349))
+* **step-up:** dodano komponenty do potwierdzania tożsamości oraz obsługę kodów zapasowych ([c32ab25](https://github.com/zse-gdansk/ui/commit/c32ab252bded349bd0ab7572c3f638ad36a20b86))
+
+
+### Poprawki
+
+* **button:** zmieniono układ przycisku z ikoną, poprawiono overflow dla ikony wewnętrznej ([ae84f0e](https://github.com/zse-gdansk/ui/commit/ae84f0e8d65a309d001fe5fee72f833be9f9c690))
+* **people-picker:** poprawiono stylowanie pola wejściowego dla osoby prowadzącej ([b477826](https://github.com/zse-gdansk/ui/commit/b4778268705a92d15be00df0484b704fa90d5238))
+* **textarea:** dodano zawijanie tekstu w placeholderze dla pola tekstowego ([c1efe79](https://github.com/zse-gdansk/ui/commit/c1efe79fb14949a2fffd6b7414b3f12eefefdb8f))
+
 ## [1.14.1](https://github.com/zse-gdansk/ui/compare/v1.14.0...v1.14.1) (2026-09-29)
 
 
