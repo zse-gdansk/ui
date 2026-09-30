@@ -23,6 +23,13 @@
     resize: none;
 }
 
+/* Pole dzieli klasę z Input, którego placeholder jest w jednej linii
+   z wielokropkiem. Tu placeholder zawija się jak zwykły tekst. */
+.zse-textarea .zse-textarea-field::placeholder {
+    text-overflow: clip;
+    white-space: pre-wrap;
+}
+
 .zse-textarea-field::-webkit-resizer {
     background: transparent;
 }
