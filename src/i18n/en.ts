@@ -459,6 +459,28 @@ export const en: Messages = {
         confirm: "Confirm",
         failed: "Something went wrong. Try again.",
     },
+    backupCodes: {
+        left: (_n, left, total) => `${left} of ${total} codes left`,
+        copy: "Copy",
+        download: "Download",
+        print: "Print",
+        used: "used",
+    },
+    stepUp: {
+        title: "Confirm it's you",
+        enterCode: "Enter the code from your authenticator app.",
+        passkeyOnly: "Confirm with a passkey.",
+        or: "or",
+        code: "App code",
+        waiting: "Confirm in the system prompt…",
+        usePasskey: "Use a passkey",
+        back: "Back",
+        cancelled: "The passkey wasn't confirmed. Enter a code from your app.",
+        noMethods:
+            "This action needs verification, but the account has no passkey or authenticator app.",
+        reveal: "Reveal",
+        hidden: "Content hidden until you confirm it's you",
+    },
     stat: {
         noData: "No data",
         increase: (delta) => `up ${delta}`,

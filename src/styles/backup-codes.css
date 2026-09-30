@@ -1,0 +1,88 @@
+.zse-backup {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-surface);
+}
+
+/* Dwie grupy obok siebie, czytane z góry na dół (liczba wierszy
+   z komponentu), także w wąskiej karcie. */
+.zse-backup-list {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(var(--backup-rows), auto);
+    grid-template-columns: repeat(2, max-content);
+    gap: 6px 16px;
+    margin: 0;
+    padding: 16px;
+    list-style: none;
+}
+
+.zse-backup-item {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.zse-backup-index {
+    min-width: 2ch;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    text-align: end;
+}
+
+.zse-backup-code {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.zse-backup-item[data-used] .zse-backup-code {
+    color: var(--color-text-secondary);
+    text-decoration: line-through;
+}
+
+.zse-backup-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    container-type: inline-size;
+    padding: 12px 16px;
+    border-top: 1px solid var(--color-border-subtle);
+}
+
+.zse-backup-left {
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+}
+
+.zse-backup-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+}
+
+/* Trzy równe przyciski w rzędzie, gdy się mieszczą; inaczej jeden pod
+   drugim, zawsze na pełną szerokość. Stała szerokość, więc „Skopiowano”
+   nic nie przesuwa. */
+@container (min-width: 22rem) {
+    .zse-backup-actions {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.zse-backup-actions > * {
+    width: 100%;
+}
+
+.zse-backup-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}

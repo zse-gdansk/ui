@@ -44,7 +44,6 @@ export function Button({
             className="zse-button-icon"
             data-position={iconPosition}
             data-open={icon !== undefined || loading || undefined}
-            data-fixed={icon !== undefined || undefined}
         >
             <span className="zse-button-icon-inner">
                 {icon !== undefined && (

@@ -471,6 +471,29 @@ export const pl: Messages = {
         confirm: "Potwierdź",
         failed: "Nie udało się. Spróbuj ponownie.",
     },
+    backupCodes: {
+        left: (n, left, total) =>
+            `${plural("pl-PL", n, { one: "Został", few: "Zostały", many: "Zostało", other: "Zostało" })} ${left} z ${total} kodów`,
+        copy: "Kopiuj",
+        download: "Pobierz",
+        print: "Drukuj",
+        used: "wykorzystany",
+    },
+    stepUp: {
+        title: "Potwierdź, że to Ty",
+        enterCode: "Wpisz kod z aplikacji uwierzytelniającej.",
+        passkeyOnly: "Potwierdź kluczem dostępu.",
+        or: "albo",
+        code: "Kod z aplikacji",
+        waiting: "Potwierdź w oknie systemu…",
+        usePasskey: "Użyj klucza dostępu",
+        back: "Wróć",
+        cancelled: "Nie potwierdzono kluczem dostępu. Wpisz kod z aplikacji.",
+        noMethods:
+            "Ta czynność wymaga weryfikacji, a konto nie ma klucza dostępu ani aplikacji uwierzytelniającej.",
+        reveal: "Odsłoń",
+        hidden: "Treść ukryta do czasu potwierdzenia tożsamości",
+    },
     stat: {
         noData: "Brak danych",
         increase: (delta) => `wzrost o ${delta}`,

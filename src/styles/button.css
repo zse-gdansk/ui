@@ -151,16 +151,12 @@
 }
 
 .zse-button-icon[data-open] {
-    grid-template-columns: minmax(0, 1fr);
-}
-
-.zse-button-icon[data-fixed] {
     flex: none;
     grid-template-columns: min-content;
     transition: none;
 }
 
-.zse-button-icon[data-fixed] .zse-button-icon-inner {
+.zse-button-icon[data-open] .zse-button-icon-inner {
     overflow: visible;
 }
 

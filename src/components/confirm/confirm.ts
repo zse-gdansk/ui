@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 
+import type { StepUpOptions } from "../step-up/step-up";
+
 export interface ConfirmOptions {
     title: ReactNode;
     description?: ReactNode;
@@ -19,6 +21,10 @@ export interface ConfirmOptions {
     // Element, przy którym pytanie pokazuje się jako dymek zamiast okna,
     // zwykle event.currentTarget. Pozycja menu wskazuje przycisk menu.
     anchor?: Element | null;
+    // Przed onConfirm potwierdzenie tożsamości (StepUpProvider): klik
+    // zatwierdzający od razu otwiera klucz dostępu, a przyciski ustępują
+    // paskowi kodu, gdy jest potrzebny.
+    stepUp?: boolean | StepUpOptions;
 }
 
 export interface ConfirmRequest {

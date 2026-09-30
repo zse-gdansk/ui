@@ -6,6 +6,7 @@ import { useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 
 import { useMessages } from "../../i18n/context";
 import { Button } from "../button/Button";
+import { StepUpArea, useStepUpFlow } from "../step-up/StepUp";
 import {
     currentConfirm,
     markConfirmBusy,
@@ -23,6 +24,7 @@ export interface ConfirmerProps {
 // Okno dla confirm(). Montowane raz, np. obok <Toaster />.
 export function Confirmer({ errorMessage }: ConfirmerProps) {
     const t = useMessages();
+    const flow = useStepUpFlow();
     const current = useSyncExternalStore(
         subscribeConfirm,
         currentConfirm,
@@ -47,6 +49,13 @@ export function Confirmer({ errorMessage }: ConfirmerProps) {
     async function accept() {
         if (!shown || busy) return;
         const { id, options: request } = shown;
+        if (request.stepUp) {
+            const verified = await flow.verify(
+                request.stepUp === true ? {} : request.stepUp,
+                { hold: true },
+            );
+            if (!verified) return;
+        }
         if (!request.onConfirm) {
             settleConfirm(id, true);
             return;
@@ -58,6 +67,8 @@ export function Confirmer({ errorMessage }: ConfirmerProps) {
             await request.onConfirm();
             settleConfirm(id, true);
         } catch (error) {
+            // Błąd widać przy pytaniu, więc widok weryfikacji ustępuje.
+            flow.release();
             const format = request.errorMessage ?? errorMessage;
             setFailed({ id, message: format?.(error) ?? t.confirm.failed });
         } finally {
@@ -68,6 +79,12 @@ export function Confirmer({ errorMessage }: ConfirmerProps) {
 
     function close(open: boolean, details: { cancel: () => void }) {
         if (open || !shown) return;
+        // W trakcie weryfikacji Escape i klik obok wracają do przycisków.
+        if (flow.status === "verifying") {
+            details.cancel();
+            if (!flow.passkeyPending) flow.back();
+            return;
+        }
         if (busy) {
             details.cancel();
             return;
@@ -111,6 +128,11 @@ export function Confirmer({ errorMessage }: ConfirmerProps) {
             <AlertDialog.Root
                 open={current !== null && anchor === null}
                 onOpenChange={close}
+                onOpenChangeComplete={(open) => {
+                    // Po zamknięciu, już niewidocznie, widok weryfikacji
+                    // wraca do pytania na następny raz.
+                    if (!open) flow.release();
+                }}
             >
                 <AlertDialog.Portal>
                     <AlertDialog.Backdrop className="zse-modal-backdrop" />
@@ -119,23 +141,32 @@ export function Confirmer({ errorMessage }: ConfirmerProps) {
                         initialFocus={options?.danger ? cancelRef : confirmRef}
                         aria-busy={busy || undefined}
                     >
-                        <div className="zse-modal-heading">
-                            <AlertDialog.Title className="zse-modal-title">
-                                {options?.title}
-                            </AlertDialog.Title>
-                            {options?.description != null && (
-                                <AlertDialog.Description className="zse-modal-description">
-                                    {options.description}
-                                </AlertDialog.Description>
-                            )}
-                        </div>
-                        {error}
-                        <div className="zse-modal-footer">{buttons("md")}</div>
+                        <StepUpArea flow={flow}>
+                            <div className="zse-confirm-body">
+                                <div className="zse-modal-heading">
+                                    <AlertDialog.Title className="zse-modal-title">
+                                        {options?.title}
+                                    </AlertDialog.Title>
+                                    {options?.description != null && (
+                                        <AlertDialog.Description className="zse-modal-description">
+                                            {options.description}
+                                        </AlertDialog.Description>
+                                    )}
+                                </div>
+                                {error}
+                                <div className="zse-modal-footer">
+                                    {buttons("md")}
+                                </div>
+                            </div>
+                        </StepUpArea>
                     </AlertDialog.Popup>
                 </AlertDialog.Portal>
             </AlertDialog.Root>
             <Popover.Root
                 open={current !== null && anchor !== null}
+                onOpenChangeComplete={(open) => {
+                    if (!open) flow.release();
+                }}
                 onOpenChange={(open, details) => {
                     // Klik w sam przycisk obsłuży confirm() jako zamknięcie;
                     // zamknięte tu, otworzyłoby się od nowa z animacją.
@@ -176,18 +207,22 @@ export function Confirmer({ errorMessage }: ConfirmerProps) {
                             }
                             aria-busy={busy || undefined}
                         >
-                            <Popover.Title className="zse-popover-title">
-                                {options?.title}
-                            </Popover.Title>
-                            {options?.description != null && (
-                                <Popover.Description className="zse-popover-description">
-                                    {options.description}
-                                </Popover.Description>
-                            )}
-                            {error}
-                            <div className="zse-confirm-actions">
-                                {buttons("sm")}
-                            </div>
+                            <StepUpArea flow={flow}>
+                                <div className="zse-confirm-body" data-compact>
+                                    <Popover.Title className="zse-popover-title">
+                                        {options?.title}
+                                    </Popover.Title>
+                                    {options?.description != null && (
+                                        <Popover.Description className="zse-popover-description">
+                                            {options.description}
+                                        </Popover.Description>
+                                    )}
+                                    {error}
+                                    <div className="zse-confirm-actions">
+                                        {buttons("sm")}
+                                    </div>
+                                </div>
+                            </StepUpArea>
                         </Popover.Popup>
                     </Popover.Positioner>
                 </Popover.Portal>

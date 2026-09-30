@@ -302,6 +302,28 @@ export {
 export { Confirmer, type ConfirmerProps } from "./components/confirm/Confirmer";
 export { confirm, type ConfirmOptions } from "./components/confirm/confirm";
 export {
+    BackupCodes,
+    type BackupCodesProps,
+} from "./components/backup-codes/BackupCodes";
+export {
+    StepUpArea,
+    StepUpGate,
+    StepUpProvider,
+    useStepUp,
+    useStepUpStatus,
+    type StepUpAreaProps,
+    type StepUpGateProps,
+    type StepUpProviderProps,
+    type StepUpStatus,
+} from "./components/step-up/StepUp";
+export {
+    stepUp,
+    type StepUpHandlers,
+    type StepUpMethod,
+    type StepUpOptions,
+    type StepUpRequest,
+} from "./components/step-up/step-up";
+export {
     TimePicker,
     type TimePickerProps,
     type TimeSlot,

@@ -141,6 +141,17 @@
     line-height: 1.5;
 }
 
+/* Treść okna potwierdzenia w StepUpArea: te same odstępy co w oknie. */
+.zse-confirm-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.zse-confirm-body[data-compact] {
+    gap: 8px;
+}
+
 /* confirm({ anchor }): dymek przy przycisku zamiast okna. */
 .zse-confirm-popover {
     width: min(20rem, calc(100vw - 16px));

@@ -401,6 +401,28 @@ export interface Messages {
         clearSelection: string;
     };
     confirm: { confirm: string; failed: string };
+    backupCodes: {
+        // count do odmiany, left i total już sformatowane.
+        left: (count: number, left: string, total: string) => string;
+        copy: string;
+        download: string;
+        print: string;
+        used: string;
+    };
+    stepUp: {
+        title: string;
+        enterCode: string;
+        passkeyOnly: string;
+        or: string;
+        code: string;
+        waiting: string;
+        usePasskey: string;
+        back: string;
+        cancelled: string;
+        noMethods: string;
+        reveal: string;
+        hidden: string;
+    };
     stat: {
         noData: string;
         increase: (delta: string) => string;
