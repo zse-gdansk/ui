@@ -14,7 +14,7 @@
     padding-inline-start: var(--input-pad);
 }
 
-.zse-people-lead + .zse-combobox-input {
+.zse-combobox-input[data-lead] {
     padding-inline-start: 8px;
 }
 

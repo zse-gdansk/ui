@@ -427,6 +427,7 @@ export function PeoplePicker({
                         )}
                         <BaseCombobox.Input
                             className="zse-combobox-input"
+                            data-lead={current[0] ? "" : undefined}
                             {...(id !== undefined && { id })}
                             {...(placeholder !== undefined && { placeholder })}
                         />

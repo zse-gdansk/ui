@@ -59,7 +59,7 @@
     padding: 0;
 }
 
-.zse-button[data-icon-only] .zse-button-icon-inner {
+.zse-button[data-icon-only] .zse-button-icon .zse-button-icon-inner {
     padding: 0;
 }
 
