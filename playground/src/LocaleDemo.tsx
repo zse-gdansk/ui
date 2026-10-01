@@ -49,6 +49,15 @@ function Content() {
                     <strong>{t("title")}</strong>
                     <p>{t("body")}</p>
                 </div>
+                <div style={{ maxWidth: 240 }}>
+                    <LocaleSwitcher
+                        variant="field"
+                        locales={["pl", "en", "uk"]}
+                        value={language}
+                        flags={{ pl: PL, en: GB, uk: UA }}
+                        onValueChange={(next) => instance.changeLanguage(next)}
+                    />
+                </div>
                 <div className="button-row">
                     <LocaleSwitcher
                         locales={["pl", "en", "uk"]}

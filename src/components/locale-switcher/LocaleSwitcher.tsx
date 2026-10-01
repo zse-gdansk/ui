@@ -1,6 +1,6 @@
 "use client";
 
-import { LanguageSkillIcon } from "@hugeicons/core-free-icons";
+import { ArrowDown01Icon, LanguageSkillIcon } from "@hugeicons/core-free-icons";
 import {
     useSyncExternalStore,
     type ComponentType,
@@ -10,6 +10,7 @@ import {
 import { useMessages } from "../../i18n/context";
 import { useExternalEffect } from "../../utils/effects";
 import { Button } from "../button/Button";
+import { Icon } from "../icon/Icon";
 import { Menu, MenuRadioGroup, MenuRadioItem, MenuSub } from "../menu/Menu";
 import { Spinner } from "../spinner/Spinner";
 
@@ -31,6 +32,9 @@ export interface LocaleSwitcherProps {
     flags?: Partial<Record<string, FlagComponent>>;
     // "code" pokazuje sam kod, np. w ciasnym nagłówku.
     display?: "name" | "code";
+    // "field" wygląda jak pole Select (strona ustawień, formularz): flaga,
+    // nazwa i strzałka, na całą szerokość rodzica. Domyślnie przycisk.
+    variant?: "button" | "field";
     size?: "sm" | "md";
     side?: "top" | "bottom";
     align?: "start" | "center" | "end";
@@ -175,19 +179,69 @@ export function LocaleSwitcher({
     onValueChange,
     flags,
     display = "name",
+    variant = "button",
     size = "md",
     side = "bottom",
-    align = "end",
+    align,
     "aria-label": ariaLabel,
 }: LocaleSwitcherProps) {
     const t = useMessages();
     const { pending, shown, select } = useLocaleChange(value, onValueChange);
     const code = shown.split("-")[0]?.toLocaleUpperCase(shown) ?? shown;
+    const label = `${ariaLabel ?? t.localeSwitcher.label}: ${nativeName(shown)}`;
+    const Flag = flags?.[shown];
+
+    if (variant === "field")
+        return (
+            <div
+                className="zse-input"
+                data-size={size === "sm" ? "sm" : undefined}
+            >
+                <Menu
+                    side={side}
+                    align={align ?? "start"}
+                    trigger={
+                        <button
+                            type="button"
+                            className="zse-input-field zse-select-trigger zse-locale-field"
+                            aria-label={label}
+                        >
+                            <span className="zse-locale-field-value">
+                                {Flag && (
+                                    <Flag
+                                        className="zse-locale-flag"
+                                        aria-hidden
+                                    />
+                                )}
+                                <span lang={shown} className="zse-select-value">
+                                    {nativeName(shown)}
+                                </span>
+                            </span>
+                            <span className="zse-select-icon" aria-hidden>
+                                {pending !== null ? (
+                                    <Spinner size="sm" />
+                                ) : (
+                                    <Icon icon={ArrowDown01Icon} />
+                                )}
+                            </span>
+                        </button>
+                    }
+                >
+                    <LocaleOptions
+                        locales={locales}
+                        value={value}
+                        shown={shown}
+                        flags={flags}
+                        onSelect={select}
+                    />
+                </Menu>
+            </div>
+        );
 
     return (
         <Menu
             side={side}
-            align={align}
+            align={align ?? "end"}
             trigger={
                 <Button
                     variant="ghost"
@@ -195,7 +249,7 @@ export function LocaleSwitcher({
                     icon={LanguageSkillIcon}
                     loading={pending !== null}
                     className="zse-locale-trigger"
-                    aria-label={`${ariaLabel ?? t.localeSwitcher.label}: ${nativeName(shown)}`}
+                    aria-label={label}
                 >
                     <span lang={shown} data-display={display}>
                         {display === "code" ? code : nativeName(shown)}

@@ -17,3 +17,21 @@
     outline: 1px solid var(--color-image-outline);
     outline-offset: -1px;
 }
+
+/* Wariant pola: wygląd Select, w środku flaga i nazwa jak w menu. */
+.zse-locale-field-value {
+    display: flex;
+    align-items: center;
+    gap: var(--input-gap);
+    min-width: 0;
+}
+
+.zse-locale-field[data-popup-open] .zse-select-icon {
+    rotate: 180deg;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-locale-field .zse-select-icon {
+        transition-duration: 0s;
+    }
+}
