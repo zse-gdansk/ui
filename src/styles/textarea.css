@@ -13,6 +13,13 @@
     line-height: var(--textarea-line);
     resize: vertical;
     scroll-padding-block: var(--textarea-pad-y);
+    /* Pole dzieli klasę z Input, która trzyma tekst w jednej linii
+       z wielokropkiem. Tu tekst zawija się, a nadmiar się przewija. */
+    overflow-x: hidden;
+    overflow-y: auto;
+    overflow-wrap: break-word;
+    text-overflow: clip;
+    white-space: pre-wrap;
 }
 
 .zse-textarea .zse-textarea-field[data-autosize] {
@@ -23,8 +30,7 @@
     resize: none;
 }
 
-/* Pole dzieli klasę z Input, którego placeholder jest w jednej linii
-   z wielokropkiem. Tu placeholder zawija się jak zwykły tekst. */
+/* Placeholder ma własną regułę jednej linii w input.css. */
 .zse-textarea .zse-textarea-field::placeholder {
     text-overflow: clip;
     white-space: pre-wrap;
