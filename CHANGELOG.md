@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.0](https://github.com/zse-gdansk/ui/compare/v1.15.0...v1.16.0) (2026-10-01)
+
+
+### Nowe funkcje
+
+* **locale-switcher:** dodano wariant "field" dla przełącznika języków z flagą i nazwą ([ab9de52](https://github.com/zse-gdansk/ui/commit/ab9de527d1f5a5b9239cc7ba05d621dbf31028c6))
+
 ## [1.15.0](https://github.com/zse-gdansk/ui/compare/v1.14.1...v1.15.0) (2026-09-30)
 
 
