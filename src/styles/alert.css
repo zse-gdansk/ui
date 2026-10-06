@@ -92,23 +92,28 @@
 }
 
 .zse-alert-content {
+    --alert-row: max(1lh, 24px);
+    --alert-inset: calc((var(--alert-row) - 1lh) / 2);
+
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto auto;
     column-gap: 10px;
     align-items: start;
-    padding: 12px 14px;
+    padding: calc(12px - var(--alert-inset)) 14px;
 }
 
 .zse-alert-icon {
     display: flex;
     align-items: center;
     height: 1lh;
+    margin-block-start: var(--alert-inset);
     color: var(--alert-tone);
 }
 
 .zse-alert-body {
     grid-column: 2;
     min-width: 0;
+    padding-block: var(--alert-inset);
 }
 
 .zse-alert-title {
@@ -165,6 +170,7 @@
     align-items: center;
     gap: 6px;
     height: 1lh;
+    margin-block-start: var(--alert-inset);
     margin-inline: 12px -6px;
     padding: 0 6px;
     border: 0;
@@ -218,7 +224,7 @@
     grid-column: 4;
     width: 24px;
     height: 24px;
-    margin: calc((1lh - 24px) / 2) -6px 0 0;
+    margin: 0 -6px 0 0;
     padding: 0;
     place-items: center;
     border: 0;
