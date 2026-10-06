@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.16.1](https://github.com/zse-gdansk/ui/compare/v1.16.0...v1.16.1) (2026-10-06)
+
+
+### Poprawki
+
+* **alert:** poprawiono wcięcia i marginesy w stylach alertu ([040b152](https://github.com/zse-gdansk/ui/commit/040b1523d70bba74fe827ab9dbbcc6de32f5c000))
+* **progress:** dodano ukrywanie wskaźnika postępu, gdy brak wartości ([8dc3f6f](https://github.com/zse-gdansk/ui/commit/8dc3f6f603ae9453a32cc27dd9aaaa804393d561))
+* **textarea:** poprawiono zawijanie tekstu i przewijanie w polu tekstowym ([ad21c32](https://github.com/zse-gdansk/ui/commit/ad21c329a786bfc1125542eb37320f7e264710d6))
+
 ## [1.16.0](https://github.com/zse-gdansk/ui/compare/v1.15.0...v1.16.0) (2026-10-01)
 
 
