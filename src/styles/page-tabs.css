@@ -76,6 +76,28 @@
     pointer-events: none;
 }
 
+/* Przed pierwszym pomiarem (HTML z serwera, przed hydratacją) kreskę
+   rysuje sama aktywna zakładka, żeby nie znikała przy wczytaniu. */
+.zse-page-tabs-list:not([data-ready]) .zse-page-tab[aria-current="page"] {
+    position: relative;
+}
+
+.zse-page-tabs-list:not([data-ready])
+    .zse-page-tab[aria-current="page"]::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    border-radius: 2px 2px 0 0;
+    background: var(--color-accent-solid);
+    content: "";
+}
+
+.zse-page-tabs-list:not([data-ready]) .zse-page-tabs-indicator {
+    visibility: hidden;
+}
+
 .zse-page-tabs-list[data-ready] .zse-page-tabs-indicator {
     transition-property: translate, width;
     transition-duration: 280ms;
@@ -89,6 +111,28 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+    /* Przed pierwszym pomiarem (HTML z serwera, przed hydratacją) kreskę
+   rysuje sama aktywna zakładka, żeby nie znikała przy wczytaniu. */
+    .zse-page-tabs-list:not([data-ready]) .zse-page-tab[aria-current="page"] {
+        position: relative;
+    }
+
+    .zse-page-tabs-list:not([data-ready])
+        .zse-page-tab[aria-current="page"]::after {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 2px;
+        border-radius: 2px 2px 0 0;
+        background: var(--color-accent-solid);
+        content: "";
+    }
+
+    .zse-page-tabs-list:not([data-ready]) .zse-page-tabs-indicator {
+        visibility: hidden;
+    }
+
     .zse-page-tabs-list[data-ready] .zse-page-tabs-indicator {
         transition-property: none;
     }

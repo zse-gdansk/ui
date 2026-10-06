@@ -128,6 +128,7 @@ function Visual({
             <span
                 className="zse-progress-indicator"
                 data-indeterminate={indeterminate || undefined}
+                data-empty={(!indeterminate && shown === 0) || undefined}
             />
         </Track>
     );

@@ -83,12 +83,17 @@
     transform: translateX(calc((var(--zse-progress) - 1) * 100%));
     transition:
         transform 500ms var(--ease-out),
-        background-color 300ms ease;
+        background-color 300ms ease,
+        visibility 500ms;
 
     /* Przy pierwszym renderze wypełnia się od zera. */
     @starting-style {
         transform: translateX(-100%);
     }
+}
+
+.zse-progress-indicator[data-empty] {
+    visibility: hidden;
 }
 
 /* Nieznany czas: krótki odcinek przejeżdża przez tor. */
