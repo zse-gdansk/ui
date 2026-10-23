@@ -2,8 +2,9 @@
     position: fixed;
     inset: 0;
     z-index: 90;
+    /* Jednolite przyciemnienie bez rozmycia: backdrop-filter na cały
+       ekran jest drogi i przerysowuje się z każdą animacją pod spodem. */
     background: var(--color-bg-overlay);
-    backdrop-filter: blur(4px);
     transition: opacity 300ms var(--ease-out);
 }
 
@@ -19,7 +20,7 @@
 }
 
 /* Kolejne okno (confirm nad modalem) musi przykryć poprzednie,
-   inaczej rozmycie zostaje pod nim. Menu zostaje wyżej, na 95. */
+   inaczej zostaje pod nim. Menu zostaje wyżej, na 95. */
 [data-base-ui-portal] ~ [data-base-ui-portal] .zse-modal-backdrop {
     z-index: 92;
 }
