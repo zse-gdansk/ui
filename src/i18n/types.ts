@@ -401,6 +401,23 @@ export interface Messages {
         clearSelection: string;
     };
     confirm: { confirm: string; failed: string };
+    connection: {
+        connecting: string;
+        live: string;
+        reconnecting: string;
+        polling: string;
+        pollingEvery: (seconds: number) => string;
+        offline: string;
+        // Brak sieci po stronie przeglądarki.
+        network: string;
+        // Dopisek przy stanie, np. „dane z 14:02”.
+        dataFrom: (time: string) => string;
+        // Przed odliczaniem do kolejnej próby.
+        retryIn: string;
+        retry: string;
+        // Ogłoszenie dla czytnika po powrocie połączenia.
+        restored: string;
+    };
     // Podpowiedź HoldButton po zbyt krótkim kliknięciu.
     hold: { hint: string };
     voteBar: {

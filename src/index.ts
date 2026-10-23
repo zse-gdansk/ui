@@ -49,6 +49,11 @@ export {
 } from "./components/countdown/Countdown";
 export { Lightbox, type LightboxProps } from "./components/lightbox/Lightbox";
 export {
+    ConnectionStatus,
+    type ConnectionState,
+    type ConnectionStatusProps,
+} from "./components/connection-status/ConnectionStatus";
+export {
     HoldButton,
     type HoldButtonProps,
 } from "./components/hold-button/HoldButton";

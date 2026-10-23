@@ -1,0 +1,31 @@
+.zse-connection {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 8px;
+}
+
+/* Wiek danych w tej samej plakietce, ciszej niż stan. */
+.zse-connection-age {
+    opacity: 0.75;
+}
+
+/* Odstęp przed kropką daje gap plakietki, więc margines tylko po niej. */
+.zse-connection-age::before {
+    content: "·";
+    margin-inline-end: 0.4em;
+}
+
+.zse-connection-retry {
+    color: var(--color-text-secondary);
+    font-size: 0.8125rem;
+}
+
+.zse-connection-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}

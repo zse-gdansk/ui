@@ -48,6 +48,7 @@ import { ChartsDemo } from "./ChartsDemo";
 import { CodeDemo } from "./CodeDemo";
 import { CodeBlockDemo } from "./CodeDemo2";
 import { ComboboxDemo } from "./ComboboxDemo";
+import { ConnectionDemo } from "./ConnectionDemo";
 import { CopyDemo } from "./CopyDemo";
 import { DeadlineDemo } from "./DeadlineDemo";
 import { EmptyDemo } from "./EmptyDemo";
@@ -502,6 +503,8 @@ export function App() {
                 <ViewsDemo />
 
                 <ResultDemo />
+
+                <ConnectionDemo />
 
                 <SheetDemo />
 
