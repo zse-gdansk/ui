@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.18.0](https://github.com/zse-gdansk/ui/compare/v1.17.1...v1.18.0) (2026-10-23)
+
+
+### Nowe funkcje
+
+* **close-button:** dodano komponent przycisku zamykania z obsługą etykiety i stylami ([9026ba7](https://github.com/zse-gdansk/ui/commit/9026ba7b1eb05541cc1235da798c606b2b730ce0))
+* **connection-status:** dodano komponent ConnectionStatus z obsługą stanu połączenia oraz przykładowy komponent ConnectionDemo ([9cb462e](https://github.com/zse-gdansk/ui/commit/9cb462ec0804dabf408ba8735c7e084016b7ac41))
+* **countdown:** dodano komponent odliczania oraz komponent wyników głosowania z obsługą głosów i progów ([ffb462a](https://github.com/zse-gdansk/ui/commit/ffb462aace538510aa2509c04dc1c0709a75cf50))
+* **lightbox:** dodano komponent podglądu zdjęć z obsługą powiększania i przesuwania ([db6948a](https://github.com/zse-gdansk/ui/commit/db6948a6a086879c001c5d8e6c4cec95e4b31654))
+* **page-header:** dodano możliwość szerokiego opisu w nagłówku strony ([94ee2bc](https://github.com/zse-gdansk/ui/commit/94ee2bca632f532efe960d94221c7855797db88c))
+* **print:** dodano komponenty do obsługi wydruków oraz dokumentacji dla wydruków i PDF ([45aefa6](https://github.com/zse-gdansk/ui/commit/45aefa6706888cb56bf30bee91177c649c84b13c))
+* **result-demo:** dodano przyciski HoldButton i IconButton oraz komponent Meter z markerem ([5887740](https://github.com/zse-gdansk/ui/commit/5887740af0e8414580937e2e66f325c5864d86e1))
+* **session-timeout:** dodano komponent do ostrzegania o wygasającej sesji z możliwością przedłużenia ([f8b2569](https://github.com/zse-gdansk/ui/commit/f8b25699b835249b482b8d0ccf8492e71b55ddc1))
+
+
+### Poprawki
+
+* **combobox:** poprawiono styl usuwania elementu w przypadku wyłączonego pola ([d18822d](https://github.com/zse-gdansk/ui/commit/d18822d2d79a4939f50b5724d9fd0bbdeb1da2da))
+* **input-group:** ikona stanu wyśrodkowana w pionie ([445b2a8](https://github.com/zse-gdansk/ui/commit/445b2a8a82e42bd35c90a014471e69c502738063))
+* **modal:** zmniejszono przezroczystość tła przyciemnienia i poprawiono komentarze w stylach ([90fe423](https://github.com/zse-gdansk/ui/commit/90fe423813bee6bde8c10df929541774a9dfc90c))
+
 ## [1.17.1](https://github.com/zse-gdansk/ui/compare/v1.17.0...v1.17.1) (2026-10-23)
 
 
