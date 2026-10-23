@@ -471,6 +471,12 @@ export const pl: Messages = {
         confirm: "Potwierdź",
         failed: "Nie udało się. Spróbuj ponownie.",
     },
+    lightbox: {
+        zoomIn: "Powiększ",
+        zoomOut: "Pomniejsz",
+        fit: "Dopasuj do ekranu",
+        download: "Pobierz",
+    },
     sessionTimeout: {
         title: "Sesja wkrótce wygaśnie",
         expiresIn: "Z powodu braku aktywności sesja wygaśnie za",

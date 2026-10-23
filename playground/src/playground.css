@@ -594,3 +594,17 @@ body {
 .masked-demo {
     max-width: 320px;
 }
+
+.views-thumb {
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: 12px;
+    background: none;
+    cursor: zoom-in;
+}
+
+.views-thumb img {
+    display: block;
+    object-fit: cover;
+}

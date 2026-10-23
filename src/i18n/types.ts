@@ -401,6 +401,13 @@ export interface Messages {
         clearSelection: string;
     };
     confirm: { confirm: string; failed: string };
+    lightbox: {
+        zoomIn: string;
+        zoomOut: string;
+        // Przycisk z procentem powiększenia, wraca do dopasowania.
+        fit: string;
+        download: string;
+    };
     sessionTimeout: {
         title: string;
         // Przed odliczaniem, np. „… wygaśnie za” 1:59.

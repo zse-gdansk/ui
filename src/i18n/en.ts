@@ -459,6 +459,12 @@ export const en: Messages = {
         confirm: "Confirm",
         failed: "Something went wrong. Try again.",
     },
+    lightbox: {
+        zoomIn: "Zoom in",
+        zoomOut: "Zoom out",
+        fit: "Fit to screen",
+        download: "Download",
+    },
     sessionTimeout: {
         title: "Your session is about to end",
         expiresIn: "Due to inactivity, your session will end in",

@@ -7,19 +7,23 @@ import { useDomEffect } from "../../utils/effects";
 // Zapas na brak transitionend (karta w tle, przerwana animacja).
 const FALLBACK = 400;
 
-// Warstwy w jednym miejscu: widoczna wyznacza wysokość, ukryta leży nad nią.
-// Jawna wysokość tylko na czas zamiany, potem auto: treść, która rośnie
+export interface SwapProps {
+    // Widoczny drugi widok zamiast pierwszego.
+    showAlt: boolean;
+    // Pierwszy widok, np. formularz albo podgląd. Zostaje zamontowany pod
+    // drugim, więc po powrocie ma ten sam stan (wpisany tekst, fokus).
+    main: ReactNode;
+    // Drugi widok, np. edycja, wynik po akcji, kolejny krok. Montowany przy
+    // pierwszym pokazaniu i potem trzymany.
+    alt: ReactNode;
+    className?: string;
+}
+
+// Dwa widoki w jednym miejscu: widoczny wyznacza wysokość, ukryty leży nad
+// nim. Jawna wysokość tylko na czas zamiany, potem auto: treść, która rośnie
 // sama (zagnieżdżony Swap, komunikat błędu), nie goni zmierzonej wartości
 // klatka po klatce.
-export function Swap({
-    showAlt,
-    main,
-    alt,
-}: {
-    showAlt: boolean;
-    main: ReactNode;
-    alt: ReactNode;
-}) {
+export function Swap({ showAlt, main, alt, className }: SwapProps) {
     const [altMounted, setAltMounted] = useState(showAlt);
     if (showAlt && !altMounted) setAltMounted(true);
     const rootRef = useRef<HTMLDivElement>(null);
@@ -97,7 +101,10 @@ export function Swap({
     }, [showAlt]);
 
     return (
-        <div ref={rootRef} className="zse-swap">
+        <div
+            ref={rootRef}
+            className={["zse-swap", className].filter(Boolean).join(" ")}
+        >
             <div
                 ref={watch}
                 className="zse-swap-layer"
