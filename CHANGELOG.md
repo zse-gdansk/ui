@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.19.0](https://github.com/zse-gdansk/ui/compare/v1.18.0...v1.19.0) (2026-10-23)
+
+
+### Nowe funkcje
+
+* **input:** dodano obsługę akcji etykiety oraz ostrzeżenie o włączonym Caps Lock ([c1c1802](https://github.com/zse-gdansk/ui/commit/c1c1802996c376e8c7a26fde2fcabc0644c48d71))
+
+
+### Poprawki
+
+* **error-page:** poprawiono układ treści w trybie pełnoekranowym ([b016cf6](https://github.com/zse-gdansk/ui/commit/b016cf604aeb9e2e496ed1388fb80fe0e8f0531d))
+
 ## [1.18.0](https://github.com/zse-gdansk/ui/compare/v1.17.1...v1.18.0) (2026-10-23)
 
 
