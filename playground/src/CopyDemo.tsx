@@ -1,4 +1,4 @@
-import { CopyButton, Input, PasswordStrength } from "@zse-gdansk/ui";
+import { CopyButton, Input, Link, PasswordStrength } from "@zse-gdansk/ui";
 import { useState } from "react";
 
 export function CopyDemo() {
@@ -23,6 +23,8 @@ export function CopyDemo() {
 
             <Input
                 label="Nowe hasło"
+                labelAction={<Link href="#">Wymagania hasła</Link>}
+                required
                 type="password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}

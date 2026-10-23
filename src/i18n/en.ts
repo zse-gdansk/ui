@@ -33,7 +33,11 @@ export const en: Messages = {
         stepMismatch: "Invalid value",
         badInput: "Enter a valid value",
     },
-    input: { showPassword: "Show password", hidePassword: "Hide password" },
+    input: {
+        showPassword: "Show password",
+        hidePassword: "Hide password",
+        capsLock: "Caps Lock is on",
+    },
     numberField: { decrement: "Decrease", increment: "Increase" },
     textarea: { tooLong: (extra) => `${count(extra, CHARS)} too long` },
     inputGroup: {

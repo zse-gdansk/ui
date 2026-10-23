@@ -30,7 +30,11 @@ export const pl: Messages = {
         stepMismatch: "Nieprawidłowa wartość",
         badInput: "Wpisz poprawną wartość",
     },
-    input: { showPassword: "Pokaż hasło", hidePassword: "Ukryj hasło" },
+    input: {
+        showPassword: "Pokaż hasło",
+        hidePassword: "Ukryj hasło",
+        capsLock: "Włączony Caps Lock",
+    },
     numberField: { decrement: "Zmniejsz", increment: "Zwiększ" },
     textarea: { tooLong: (extra) => `Za długie o ${count(extra, CHARS)}` },
     inputGroup: {

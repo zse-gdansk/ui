@@ -29,6 +29,20 @@
     color: var(--color-text-secondary);
 }
 
+/* Etykieta i akcja (link) na jednej linii bazowej. */
+.zse-input-label-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.zse-input-label-action {
+    flex: none;
+    font-size: 0.8125rem;
+    line-height: 1.2;
+}
+
 .zse-input-control {
     position: relative;
 }
@@ -229,6 +243,25 @@ button.zse-input-field:focus-visible {
     color: var(--color-text-secondary);
 }
 
+.zse-input-caps:not(:empty) {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-warning-text);
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+/* Pusty region zostaje w drzewie dostępności (display: none by go wyjął
+   i czytnik mógłby nie ogłosić komunikatu), ale nie zajmuje miejsca. */
+.zse-input-caps:empty {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+}
+
 .zse-input[data-invalid] .zse-input-hint {
     color: var(--color-danger-text);
 }
@@ -256,6 +289,9 @@ button.zse-input-field:focus-visible {
 /* Wymagane pole: gwiazdka przy etykiecie. :has, bo required siedzi na
    kontrolce (także ukrytym inpucie Selecta czy NumberFielda). */
 .zse-input:has([required], [aria-required="true"]) > .zse-input-label::after,
+.zse-input:has([required], [aria-required="true"])
+    > .zse-input-label-row
+    > .zse-input-label::after,
 .zse-input:has([required], [aria-required="true"])
     .zse-number-root
     > .zse-input-label::after {

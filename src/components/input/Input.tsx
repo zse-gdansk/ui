@@ -1,8 +1,17 @@
 "use client";
 
 import { Field } from "@base-ui/react/field";
-import { ViewIcon, ViewOffIcon } from "@hugeicons/core-free-icons";
-import { useState, type ComponentProps, type ReactNode } from "react";
+import {
+    AlertCircleIcon,
+    ViewIcon,
+    ViewOffIcon,
+} from "@hugeicons/core-free-icons";
+import {
+    useState,
+    type ComponentProps,
+    type KeyboardEvent,
+    type ReactNode,
+} from "react";
 
 import { useMessages } from "../../i18n/context";
 import { FieldFooter } from "../field/FieldFooter";
@@ -15,6 +24,9 @@ export interface InputProps extends Omit<
     "size"
 > {
     label?: ReactNode;
+    // W wierszu etykiety, po prawej, np. link „Nie pamiętasz hasła?”.
+    // Poza <label>: link w etykiecie przechwyciłby klik do pola.
+    labelAction?: ReactNode;
     hint?: ReactNode;
     error?: string;
     size?: InputSize;
@@ -24,6 +36,7 @@ export interface InputProps extends Omit<
 
 export function Input({
     label,
+    labelAction,
     hint,
     error,
     size = "md",
@@ -32,11 +45,23 @@ export function Input({
     type = "text",
     disabled = false,
     className,
+    onKeyDown,
+    onKeyUp,
+    onBlur,
     ...props
 }: InputProps) {
     const t = useMessages();
     const isPassword = type === "password";
     const [passwordVisible, setPasswordVisible] = useState(false);
+    // Włączony Caps Lock to najczęstszy powód „złego hasła”. Stan klawisza
+    // znany dopiero przy naciśnięciu, więc odczyt z każdego zdarzenia.
+    const [capsLock, setCapsLock] = useState(false);
+    const readCaps = (event: KeyboardEvent<HTMLInputElement>) => {
+        if (isPassword) setCapsLock(event.getModifierState("CapsLock"));
+    };
+    const labelNode = label != null && label !== false && (
+        <Field.Label className="zse-input-label">{label}</Field.Label>
+    );
     const hasLeft = Boolean(leftIcon);
     const hasRight = Boolean(rightIcon) || isPassword;
 
@@ -48,8 +73,15 @@ export function Input({
             {...(error && { invalid: true })}
             {...(props.name !== undefined && { name: props.name })}
         >
-            {label != null && label !== false && (
-                <Field.Label className="zse-input-label">{label}</Field.Label>
+            {labelAction != null ? (
+                <div className="zse-input-label-row">
+                    {labelNode}
+                    <span className="zse-input-label-action">
+                        {labelAction}
+                    </span>
+                </div>
+            ) : (
+                labelNode
             )}
 
             <div className="zse-input-control">
@@ -61,6 +93,18 @@ export function Input({
 
                 <Field.Control
                     {...props}
+                    onKeyDown={(event) => {
+                        readCaps(event);
+                        onKeyDown?.(event);
+                    }}
+                    onKeyUp={(event) => {
+                        readCaps(event);
+                        onKeyUp?.(event);
+                    }}
+                    onBlur={(event) => {
+                        setCapsLock(false);
+                        onBlur?.(event);
+                    }}
                     type={isPassword && passwordVisible ? "text" : type}
                     disabled={disabled}
                     data-has-left={hasLeft || undefined}
@@ -117,6 +161,17 @@ export function Input({
                 )}
             </div>
 
+            {/* Region istnieje od początku, żeby czytnik ogłosił zmianę. */}
+            {isPassword && (
+                <span className="zse-input-caps" aria-live="polite">
+                    {capsLock && (
+                        <>
+                            <Icon icon={AlertCircleIcon} size={14} />
+                            {t.input.capsLock}
+                        </>
+                    )}
+                </span>
+            )}
             <FieldFooter error={error} hint={hint} />
         </Field.Root>
     );

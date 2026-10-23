@@ -25,7 +25,7 @@ export interface Messages {
         stepMismatch: string;
         badInput: string;
     };
-    input: { showPassword: string; hidePassword: string };
+    input: { showPassword: string; hidePassword: string; capsLock: string };
     numberField: { decrement: string; increment: string };
     textarea: { tooLong: (extra: number) => string };
     inputGroup: { checking: string; checkFailed: string };
