@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useMessages } from "../../i18n/context";
 import { useInterval, useTimeout } from "../../utils/effects";
 import { Button } from "../button/Button";
+import { formatCountdown } from "../countdown/Countdown";
 import { Modal } from "../modal/Modal";
 
 const SECOND = 1000;
@@ -24,11 +25,6 @@ export interface SessionTimeoutProps {
     // Przycisk „Wyloguj” w oknie; bez niego tylko przedłużenie.
     onSignOut?: () => unknown;
 }
-
-const clock = (ms: number) => {
-    const seconds = Math.max(0, Math.ceil(ms / SECOND));
-    return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
-};
 
 // Ostrzeżenie przed wygaśnięciem sesji z odliczaniem. Do ostatnich minut
 // nic nie widać i nic nie tyka: jedno budzenie na początek ostrzeżenia,
@@ -74,7 +70,7 @@ export function SessionTimeout({
                 <>
                     {t.sessionTimeout.expiresIn}{" "}
                     <span role="timer" className="zse-session-timeout-clock">
-                        {clock(left ?? 0)}
+                        {formatCountdown(left ?? 0)}
                     </span>
                     .
                 </>

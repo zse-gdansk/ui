@@ -401,6 +401,14 @@ export interface Messages {
         clearSelection: string;
     };
     confirm: { confirm: string; failed: string };
+    voteBar: {
+        yes: string;
+        no: string;
+        abstain: string;
+        notCast: string;
+        // Zdanie pod legendą przy kresce progu.
+        required: (count: number) => string;
+    };
     lightbox: {
         zoomIn: string;
         zoomOut: string;

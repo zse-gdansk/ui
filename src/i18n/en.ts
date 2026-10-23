@@ -459,6 +459,14 @@ export const en: Messages = {
         confirm: "Confirm",
         failed: "Something went wrong. Try again.",
     },
+    voteBar: {
+        yes: "Yes",
+        no: "No",
+        abstain: "Abstained",
+        notCast: "Did not vote",
+        required: (n) =>
+            `${n} yes ${n === 1 ? "vote" : "votes"} needed to pass`,
+    },
     lightbox: {
         zoomIn: "Zoom in",
         zoomOut: "Zoom out",

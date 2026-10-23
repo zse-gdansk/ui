@@ -72,6 +72,7 @@ import { PopoverDemo } from "./PopoverDemo";
 import { ProgressDemo } from "./ProgressDemo";
 import { QRDemo } from "./QRDemo";
 import { RankDemo } from "./RankDemo";
+import { ResultDemo } from "./ResultDemo";
 import { SecretDemo } from "./SecretDemo";
 import { SegmentedDemo } from "./SegmentedDemo";
 import { SheetDemo } from "./SheetDemo";
@@ -499,6 +500,8 @@ export function App() {
                 <ModalDemo />
 
                 <ViewsDemo />
+
+                <ResultDemo />
 
                 <SheetDemo />
 

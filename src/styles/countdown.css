@@ -1,0 +1,4 @@
+/* Countdown: cyfry nie skaczą co sekundę. */
+.zse-countdown {
+    font-variant-numeric: tabular-nums;
+}

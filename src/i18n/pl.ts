@@ -471,6 +471,14 @@ export const pl: Messages = {
         confirm: "Potwierdź",
         failed: "Nie udało się. Spróbuj ponownie.",
     },
+    voteBar: {
+        yes: "Za",
+        no: "Przeciw",
+        abstain: "Wstrzymało się",
+        notCast: "Nie głosowało",
+        required: (n) =>
+            `Do przyjęcia potrzeba ${n} ${plural("pl-PL", n, { one: "głosu", few: "głosów", many: "głosów", other: "głosu" })} za`,
+    },
     lightbox: {
         zoomIn: "Powiększ",
         zoomOut: "Pomniejsz",

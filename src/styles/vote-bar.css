@@ -1,0 +1,156 @@
+.zse-vote-bar {
+    --vote-height: 12px;
+    --vote-yes: var(--chart-positive-strong);
+    --vote-no: var(--chart-negative-strong);
+    --vote-abstain: var(--chart-neutral);
+
+    display: grid;
+    gap: 12px;
+    margin: 0;
+}
+
+.zse-vote-bar[data-size="lg"] {
+    --vote-height: 24px;
+
+    gap: 16px;
+}
+
+.zse-vote-scale {
+    position: relative;
+}
+
+/* Puste miejsce na torze to „nie głosowało” albo brak głosów. */
+.zse-vote-track {
+    display: flex;
+    gap: 2px;
+    height: var(--vote-height);
+    overflow: hidden;
+    border-radius: var(--radius-full);
+    background: var(--color-bg-muted);
+}
+
+.zse-vote-segment {
+    flex-basis: 0;
+    min-width: 0;
+    transition: flex-grow 400ms var(--ease-out);
+}
+
+.zse-vote-segment[data-kind="yes"] {
+    background: var(--vote-yes);
+}
+
+.zse-vote-segment[data-kind="no"] {
+    background: var(--vote-no);
+}
+
+.zse-vote-segment[data-kind="abstain"] {
+    background: var(--vote-abstain);
+}
+
+.zse-vote-segment[data-kind="notCast"] {
+    background: transparent;
+}
+
+/* Kreska progu wystaje nad i pod tor, żeby było ją widać na każdym kolorze. */
+.zse-vote-threshold {
+    position: absolute;
+    top: -4px;
+    bottom: -4px;
+    width: 2px;
+    border-radius: var(--radius-full);
+    background: var(--color-text);
+    translate: -50% 0;
+    transition: left 400ms var(--ease-out);
+}
+
+.zse-vote-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    margin: 0;
+}
+
+.zse-vote-item {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-size: 0.875rem;
+}
+
+.zse-vote-bar[data-size="lg"] :is(.zse-vote-item, .zse-vote-required) {
+    font-size: 1.125rem;
+}
+
+/* Znacznik koloru jako osobny element wiersza, wyśrodkowany w pionie: pusty
+   element w linii bazowej przesuwałby etykietę względem liczb. */
+.zse-vote-item::before {
+    content: "";
+    flex: none;
+    align-self: center;
+    width: 0.625em;
+    height: 0.625em;
+    border-radius: 2px;
+}
+
+.zse-vote-item[data-kind="yes"]::before {
+    background: var(--vote-yes);
+}
+
+.zse-vote-item[data-kind="no"]::before {
+    background: var(--vote-no);
+}
+
+.zse-vote-item[data-kind="abstain"]::before {
+    background: var(--vote-abstain);
+}
+
+.zse-vote-item[data-kind="notCast"]::before {
+    background: var(--color-bg-muted);
+    box-shadow: inset 0 0 0 1px var(--color-border);
+}
+
+.zse-vote-item dt {
+    color: var(--color-text-secondary);
+}
+
+.zse-vote-item dd {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Kreska jak na pasku przed zdaniem o progu. */
+.zse-vote-required {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+}
+
+.zse-vote-required::before {
+    content: "";
+    flex: none;
+    width: 2px;
+    height: 1em;
+    border-radius: var(--radius-full);
+    background: var(--color-text);
+}
+
+.zse-vote-count {
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+.zse-vote-share {
+    color: var(--color-text-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-vote-segment,
+    .zse-vote-threshold {
+        transition: none;
+    }
+}
