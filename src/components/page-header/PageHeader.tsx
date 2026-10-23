@@ -16,6 +16,9 @@ export interface PageHeaderProps {
     loading?: boolean;
     // h2 dla nagłówka podsekcji.
     as?: "h1" | "h2";
+    // Opis na całą szerokość zamiast 65ch, np. krótki wiersz z datą, który
+    // ma się zmieścić w jednej linii.
+    wideDescription?: boolean;
 }
 
 // Nagłówek treści strony, pierwszy element w <main>. Breadcrumbs są w pasku,
@@ -27,6 +30,7 @@ export function PageHeader({
     actions,
     loading = false,
     as: Heading = "h1",
+    wideDescription = false,
 }: PageHeaderProps) {
     return (
         <header className="zse-page-header" aria-busy={loading || undefined}>
@@ -38,7 +42,10 @@ export function PageHeader({
                     <div className="zse-page-actions">{actions}</div>
                 )}
                 {(description != null || loading) && (
-                    <p className="zse-page-description">
+                    <p
+                        className="zse-page-description"
+                        data-wide={wideDescription || undefined}
+                    >
                         {loading ? (
                             <Skeleton shape="line" width="28ch" />
                         ) : (

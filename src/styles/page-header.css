@@ -44,6 +44,10 @@
     text-wrap: pretty;
 }
 
+.zse-page-description[data-wide] {
+    max-width: none;
+}
+
 .zse-page-meta {
     display: flex;
     flex-wrap: wrap;
