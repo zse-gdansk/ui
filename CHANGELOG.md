@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.1](https://github.com/zse-gdansk/ui/compare/v1.17.0...v1.17.1) (2026-10-23)
+
+
+### Poprawki
+
+* **code-field:** pola kodu nie zapadają się do kresek na wąskim ekranie ([22b5bc8](https://github.com/zse-gdansk/ui/commit/22b5bc8ad0f9327485e678f206dfc19656a0c96f))
+
 ## [1.17.0](https://github.com/zse-gdansk/ui/compare/v1.16.1...v1.17.0) (2026-10-23)
 
 
