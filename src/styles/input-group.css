@@ -124,15 +124,20 @@
     height: var(--input-icon-size);
 }
 
+/* Warstwy (spinner, ptaszek, błąd) mają różne wysokości: każda na
+   środku, inaczej niższa ikona przykleja się do góry wiersza. */
 .zse-input-group-status {
     display: grid;
     flex: none;
+    place-items: center;
     margin-inline-start: var(--input-gap);
 }
 
 .zse-input-group-status > span {
     display: flex;
     grid-area: 1 / 1;
+    align-items: center;
+    justify-content: center;
     transition-property: opacity, scale, filter;
     transition-duration: 300ms;
     transition-timing-function: var(--ease-standard);
