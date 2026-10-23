@@ -8,6 +8,7 @@ Punkt wejścia dla agentów i ludzi jest w [`AGENTS.md`](../AGENTS.md) w katalog
 - [tokens.md](tokens.md): kolory, akcent, motyw, promienie, cienie, warstwy, fonty
 - [typography.md](typography.md): `Text`, `Heading`, `Strong`, `Code`, `Prose` zamiast gołych `p` i `span`
 - [forms.md](forms.md): `Form`, walidacja, jak pole trafia do formularza
+- [print.md](print.md): wydruki i PDF z klocków albo z JSON-a z API
 - [pitfalls.md](pitfalls.md): błędy, które już popełniliśmy
 - [effects.md](effects.md): bez gołych efektów, czym je zastąpić i nazwane hooki
 - [components.md](components.md): spis komponentów

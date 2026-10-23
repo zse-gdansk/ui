@@ -70,6 +70,7 @@ import { PaginationDemo } from "./PaginationDemo";
 import { PeopleDemo } from "./PeopleDemo";
 import { PhotoDemo } from "./PhotoDemo";
 import { PopoverDemo } from "./PopoverDemo";
+import { PrintDemo } from "./PrintDemo";
 import { ProgressDemo } from "./ProgressDemo";
 import { QRDemo } from "./QRDemo";
 import { RankDemo } from "./RankDemo";
@@ -505,6 +506,8 @@ export function App() {
                 <ResultDemo />
 
                 <ConnectionDemo />
+
+                <PrintDemo />
 
                 <SheetDemo />
 

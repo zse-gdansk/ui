@@ -401,6 +401,30 @@ export interface Messages {
         clearSelection: string;
     };
     confirm: { confirm: string; failed: string };
+    print: {
+        // Numer strony: „Strona 2 z 5”.
+        page: string;
+        of: string;
+        // Znak wodny wersji roboczej.
+        draft: string;
+        pageBreak: string;
+        // Pod linią podpisu.
+        signature: string;
+        total: string;
+        empty: string;
+        // Nagłówek kolumny z numerem wiersza.
+        index: string;
+        yes: string;
+        no: string;
+        present: string;
+        absent: string;
+        attendance: (present: number, total: number) => string;
+        attendanceEmpty: string;
+        // Osoba bez imienia i nazwiska w danych.
+        unnamed: string;
+        quorumReached: (quorum: number) => string;
+        quorumMissing: (quorum: number) => string;
+    };
     connection: {
         connecting: string;
         live: string;

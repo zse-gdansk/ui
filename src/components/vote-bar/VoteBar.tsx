@@ -10,10 +10,10 @@ export interface VoteBarProps {
     abstain: number;
     // Uprawnieni, którzy nie oddali głosu: pasek pokazuje wtedy całość
     // składu, nie tylko oddane głosy.
-    notCast?: number;
+    notCast?: number | undefined;
     // Głosy za potrzebne do przyjęcia: kreska na pasku, do której musi
     // dojść segment „za”, i zdanie pod legendą.
-    required?: number | null;
+    required?: number | null | undefined;
     // lg na tablicę w sali.
     size?: "md" | "lg";
     // Nazwa grupy dla czytnika, np. „Wynik głosowania”.

@@ -19,5 +19,10 @@ export {
     HeatmapChart,
     type HeatmapChartProps,
 } from "./components/chart/HeatmapChart";
+export {
+    PrintChart,
+    printChartBlock,
+    type PrintChartProps,
+} from "./components/chart/PrintChart";
 export type { ChartOption } from "./components/chart/echarts";
 export type { ChartTheme } from "./components/chart/theme";

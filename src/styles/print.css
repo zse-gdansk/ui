@@ -1,0 +1,614 @@
+/* PrintDocument: na ekranie kartka, na papierze tylko ona. Wymiary
+   w jednostkach druku (mm, pt), więc podgląd odpowiada wydrukowi. */
+.zse-print-document {
+    --print-text: var(--color-text);
+    --print-muted: var(--color-text-secondary);
+    --print-rule: var(--color-border);
+    --print-rule-subtle: var(--color-border-subtle);
+    --print-fill: var(--color-bg-subtle);
+
+    position: relative;
+    box-sizing: border-box;
+    width: var(--paper-width);
+    margin-inline: auto;
+    padding: var(--paper-margin);
+    overflow: hidden;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: var(--shadow-card);
+    color: var(--print-text);
+    font-size: 10.5pt;
+    line-height: 1.45;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+}
+
+/* Miejsce na podgląd: pomniejszona kartka (scale z PrintDocument) nie
+   wystaje w bok, a wysokość dostaje z pomniejszenia. */
+.zse-print-preview {
+    min-width: 0;
+    overflow: clip;
+}
+
+.zse-print-preview > .zse-print-document {
+    transform-origin: top left;
+}
+
+/* Rama z powtarzanym nagłówkiem i stopką: jedna komórka na całą treść. */
+.zse-print-frame {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.zse-print-frame > * > tr > td {
+    padding: 0;
+    vertical-align: top;
+}
+
+.zse-print-running {
+    color: var(--print-muted);
+    font-size: 8pt;
+}
+
+.zse-print-frame > thead .zse-print-running {
+    padding-bottom: 4mm;
+}
+
+.zse-print-frame > tfoot .zse-print-running {
+    padding-top: 4mm;
+}
+
+/* Nagłówek firmowy: logo, organizacja, po prawej miejsce i sygnatura. */
+.zse-print-letterhead {
+    display: flex;
+    align-items: center;
+    gap: 4mm;
+    padding-bottom: 4mm;
+    margin-bottom: 6mm;
+    border-bottom: 0.75pt solid var(--print-rule);
+}
+
+.zse-print-logo {
+    display: grid;
+    flex: none;
+    place-items: center;
+}
+
+.zse-print-logo :is(img, svg) {
+    display: block;
+    width: auto;
+    max-width: 30mm;
+    height: 14mm;
+    object-fit: contain;
+}
+
+.zse-print-org {
+    display: grid;
+    flex: 1;
+    gap: 0.5mm;
+    min-width: 0;
+}
+
+.zse-print-org-name {
+    font-size: 11pt;
+    font-weight: 600;
+}
+
+.zse-print-org-detail {
+    color: var(--print-muted);
+    font-size: 9pt;
+}
+
+.zse-print-place {
+    display: grid;
+    flex: none;
+    gap: 0.5mm;
+    font-size: 9pt;
+    text-align: end;
+}
+
+.zse-print-reference {
+    color: var(--print-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.zse-print-heading {
+    margin-bottom: 6mm;
+    break-after: avoid;
+}
+
+.zse-print-title {
+    margin: 0;
+    font-size: 16pt;
+    font-weight: 600;
+    line-height: 1.25;
+    text-wrap: balance;
+}
+
+.zse-print-subtitle {
+    margin: 1.5mm 0 0;
+    color: var(--print-muted);
+    font-size: 10.5pt;
+}
+
+.zse-print-body {
+    display: flex;
+    flex-direction: column;
+    gap: 5mm;
+}
+
+/* Sekcje i bloki */
+.zse-print-section {
+    display: flex;
+    flex-direction: column;
+    gap: 3mm;
+}
+
+.zse-print-section[data-break-before] {
+    break-before: page;
+}
+
+.zse-print-section[data-keep],
+.zse-print-keep {
+    break-inside: avoid;
+}
+
+.zse-print-section-title {
+    display: flex;
+    gap: 2mm;
+    margin: 0;
+    font-size: 12pt;
+    font-weight: 600;
+    line-height: 1.3;
+    /* Tytuł nie zostaje sam na dole strony. */
+    break-after: avoid;
+}
+
+.zse-print-section-title[data-level="3"] {
+    font-size: 10.5pt;
+}
+
+.zse-print-number {
+    flex: none;
+    color: var(--print-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.zse-print-text p {
+    margin: 0;
+    white-space: pre-line;
+    text-wrap: pretty;
+    orphans: 3;
+    widows: 3;
+}
+
+.zse-print-text p + p {
+    margin-top: 2.5mm;
+}
+
+.zse-print-list {
+    display: grid;
+    gap: 1mm;
+    margin: 0;
+    padding-inline-start: 6mm;
+}
+
+.zse-print-list li {
+    break-inside: avoid;
+}
+
+.zse-print-meta {
+    display: grid;
+    grid-template-columns: repeat(var(--meta-columns, 2), minmax(0, 1fr));
+    gap: 2mm 6mm;
+    margin: 0;
+}
+
+.zse-print-meta[data-columns="1"] {
+    --meta-columns: 1;
+}
+
+.zse-print-meta[data-columns="3"] {
+    --meta-columns: 3;
+}
+
+.zse-print-meta > div {
+    display: grid;
+    gap: 0.5mm;
+    break-inside: avoid;
+}
+
+.zse-print-meta dt {
+    color: var(--print-muted);
+    font-size: 8.5pt;
+}
+
+.zse-print-meta dd {
+    margin: 0;
+}
+
+/* Tabela: nagłówek na każdej stronie, wiersz w całości na jednej. */
+.zse-print-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+    font-variant-numeric: tabular-nums;
+}
+
+.zse-print-table caption {
+    padding-bottom: 2mm;
+    font-weight: 600;
+    text-align: start;
+    caption-side: top;
+}
+
+.zse-print-table thead {
+    display: table-header-group;
+}
+
+.zse-print-table tfoot {
+    display: table-row-group;
+}
+
+.zse-print-table tr {
+    break-inside: avoid;
+}
+
+.zse-print-table :is(th, td) {
+    padding: 1.6mm 2mm;
+    border-bottom: 0.5pt solid var(--print-rule-subtle);
+    text-align: start;
+    vertical-align: top;
+}
+
+.zse-print-table th {
+    border-bottom: 0.75pt solid var(--print-rule);
+    color: var(--print-muted);
+    font-size: 8.5pt;
+    font-weight: 600;
+}
+
+.zse-print-table [data-align="end"] {
+    text-align: end;
+}
+
+.zse-print-table [data-align="center"] {
+    text-align: center;
+}
+
+.zse-print-table[data-striped] tbody tr:nth-child(even) {
+    background: var(--print-fill);
+}
+
+.zse-print-table tfoot td {
+    border-top: 0.75pt solid var(--print-rule);
+    border-bottom: 0;
+    font-weight: 600;
+}
+
+.zse-print-index {
+    width: 8mm;
+    color: var(--print-muted);
+    text-align: end;
+}
+
+.zse-print-empty {
+    color: var(--print-muted);
+    text-align: center;
+}
+
+.zse-print-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(32mm, 1fr));
+    gap: 3mm;
+    margin: 0;
+}
+
+.zse-print-stats > div {
+    display: grid;
+    gap: 0.5mm;
+    padding: 3mm;
+    border: 0.75pt solid var(--print-rule-subtle);
+    border-radius: 2mm;
+    break-inside: avoid;
+}
+
+.zse-print-stats dt {
+    color: var(--print-muted);
+    font-size: 8.5pt;
+}
+
+.zse-print-stats dd {
+    margin: 0;
+    font-size: 15pt;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.zse-print-stats .zse-print-stat-hint {
+    color: var(--print-muted);
+    font-size: 8.5pt;
+    font-weight: 400;
+}
+
+.zse-print-vote {
+    display: grid;
+    gap: 3mm;
+    break-inside: avoid;
+}
+
+.zse-print-vote-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 2mm 6mm;
+}
+
+.zse-print-vote-title {
+    font-weight: 600;
+}
+
+.zse-print-outcome {
+    font-weight: 600;
+}
+
+.zse-print-outcome[data-passed="true"] {
+    color: var(--color-success-text);
+}
+
+.zse-print-outcome[data-passed="false"] {
+    color: var(--color-danger-text);
+}
+
+.zse-print-attendance {
+    display: grid;
+    gap: 3mm;
+}
+
+.zse-print-attendance-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1mm 4mm;
+    margin: 0;
+    font-weight: 600;
+}
+
+.zse-print-attendance-summary [data-reached="true"] {
+    color: var(--color-success-text);
+}
+
+.zse-print-attendance-summary [data-reached="false"] {
+    color: var(--color-danger-text);
+}
+
+.zse-print-people {
+    columns: var(--people-columns, 2);
+    column-gap: 8mm;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.zse-print-people[data-columns="1"] {
+    --people-columns: 1;
+}
+
+.zse-print-people[data-columns="3"] {
+    --people-columns: 3;
+}
+
+.zse-print-people li {
+    display: flex;
+    gap: 2mm;
+    padding-block: 0.6mm;
+    break-inside: avoid;
+}
+
+.zse-print-mark {
+    flex: none;
+    width: 3.5mm;
+    font-weight: 600;
+}
+
+.zse-print-people [data-present="false"] {
+    color: var(--print-muted);
+}
+
+/* Uzupełnienie za brakujące dane: widać, że to nie czyjeś nazwisko. */
+.zse-print-missing {
+    color: var(--print-muted);
+    font-style: italic;
+}
+
+.zse-print-empty-state {
+    margin: 0;
+    color: var(--print-muted);
+}
+
+.zse-print-person-note {
+    color: var(--print-muted);
+    font-size: 9pt;
+}
+
+/* Podpisy: miejsce na odręczny podpis nad linią, dlatego wysoko. */
+.zse-print-signatures {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(50mm, 1fr));
+    gap: 10mm 12mm;
+    margin-top: 10mm;
+    break-inside: avoid;
+}
+
+.zse-print-signature {
+    display: grid;
+    gap: 0.5mm;
+    padding-top: 14mm;
+    text-align: center;
+}
+
+.zse-print-signature-line {
+    border-top: 0.75pt dotted var(--print-text);
+}
+
+.zse-print-signature-hint {
+    color: var(--print-muted);
+    font-size: 7.5pt;
+}
+
+.zse-print-signature-name {
+    margin-top: 1.5mm;
+    font-weight: 600;
+}
+
+.zse-print-signature-role {
+    color: var(--print-muted);
+    font-size: 9pt;
+}
+
+.zse-print-note {
+    padding: 3mm 4mm;
+    border-inline-start: 2pt solid var(--print-rule);
+    background: var(--print-fill);
+    font-size: 9.5pt;
+    break-inside: avoid;
+}
+
+.zse-print-note[data-tone="warning"] {
+    border-color: var(--color-warning-solid);
+}
+
+.zse-print-figure {
+    display: grid;
+    justify-items: center;
+    gap: 2mm;
+    margin: 0;
+    break-inside: avoid;
+}
+
+.zse-print-chart {
+    width: 100%;
+}
+
+.zse-print-figure > img {
+    max-width: 100%;
+    height: auto;
+}
+
+.zse-print-figure > figcaption {
+    color: var(--print-muted);
+    font-size: 8.5pt;
+    text-align: center;
+}
+
+/* Na ekranie widać, gdzie zacznie się nowa strona. */
+.zse-print-break {
+    display: flex;
+    align-items: center;
+    gap: 3mm;
+    color: var(--print-muted);
+    font-size: 8pt;
+}
+
+.zse-print-break::before,
+.zse-print-break::after {
+    content: "";
+    flex: 1;
+    border-top: 0.75pt dashed var(--print-rule);
+}
+
+.zse-print-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    color: oklch(0% 0 0 / 7%);
+    font-size: 72pt;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    pointer-events: none;
+    translate: -50% -50%;
+    rotate: -30deg;
+}
+
+.zse-print-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+@media print {
+    /* Tylko dokument: reszta aplikacji (panel, paski, toasty) znika. */
+    html:has(.zse-print-document)
+        body
+        :not(
+            .zse-print-document,
+            .zse-print-document *,
+            :has(.zse-print-document)
+        ) {
+        display: none !important;
+    }
+
+    /* Przodkowie dokumentu bez układu ekranu: przewijany kontener albo
+       wysokość ekranu ucięłyby wydruk do jednej strony. */
+    /* Jasny schemat, inaczej ciemny motyw maluje marginesy strony. */
+    html:has(.zse-print-document) {
+        color-scheme: light !important;
+    }
+
+    html:has(.zse-print-document),
+    html:has(.zse-print-document) :has(.zse-print-document) {
+        display: block !important;
+        position: static !important;
+        overflow: visible !important;
+        width: auto !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        background: #fff !important;
+        box-shadow: none !important;
+        transform: none !important;
+        translate: none !important;
+        scale: none !important;
+        filter: none !important;
+        mask: none !important;
+        contain: none !important;
+    }
+
+    .zse-print-document {
+        width: auto;
+        padding: 0;
+        overflow: visible;
+        border-radius: 0;
+        box-shadow: none;
+        scale: none !important;
+    }
+
+    /* Na każdej stronie, na środku kartki. */
+    .zse-print-watermark {
+        position: fixed;
+    }
+
+    .zse-print-break {
+        height: 0;
+        overflow: hidden;
+        break-after: page;
+    }
+
+    .zse-print-break::before,
+    .zse-print-break::after,
+    .zse-print-break > span {
+        display: none;
+    }
+}
