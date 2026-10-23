@@ -301,6 +301,13 @@
     }
 }
 
+/* Odliczanie w SessionTimeout: cyfry nie skaczą co sekundę. */
+.zse-session-timeout-clock {
+    color: var(--color-text);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+}
+
 .zse-confirm-error {
     margin: 0;
     color: var(--color-danger-text);

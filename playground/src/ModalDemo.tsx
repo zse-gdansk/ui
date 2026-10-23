@@ -4,6 +4,7 @@ import {
     Input,
     Modal,
     ModalClose,
+    SessionTimeout,
     Textarea,
     confirm,
     toast,
@@ -20,6 +21,7 @@ const wait = (ms: number) => new Promise((done) => setTimeout(done, ms));
 
 export function ModalDemo() {
     const [open, setOpen] = useState(false);
+    const [expiresAt, setExpiresAt] = useState<number | null>(null);
 
     return (
         <section className="button-row">
@@ -106,6 +108,25 @@ export function ModalDemo() {
                     </Button>
                 </div>
             </Modal>
+
+            <Button
+                variant="outline"
+                onClick={() => setExpiresAt(Date.now() + 2 * 60_000 + 5_000)}
+            >
+                Sesja wygasa (za 2:05)
+            </Button>
+            <SessionTimeout
+                expiresAt={expiresAt}
+                onExtend={async () => {
+                    await wait(600);
+                    setExpiresAt(Date.now() + 30 * 60_000);
+                }}
+                onExpire={() => {
+                    setExpiresAt(null);
+                    toast.error("Sesja wygasła");
+                }}
+                onSignOut={() => setExpiresAt(null)}
+            />
 
             <Modal
                 trigger={<Button variant="outline">Ładowanie</Button>}

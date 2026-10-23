@@ -401,6 +401,13 @@ export interface Messages {
         clearSelection: string;
     };
     confirm: { confirm: string; failed: string };
+    sessionTimeout: {
+        title: string;
+        // Przed odliczaniem, np. „… wygaśnie za” 1:59.
+        expiresIn: string;
+        stay: string;
+        signOut: string;
+    };
     // Pytanie przy zamykaniu okna z niezapisanymi zmianami.
     modal: {
         discardTitle: string;

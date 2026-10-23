@@ -459,6 +459,12 @@ export const en: Messages = {
         confirm: "Confirm",
         failed: "Something went wrong. Try again.",
     },
+    sessionTimeout: {
+        title: "Your session is about to end",
+        expiresIn: "Due to inactivity, your session will end in",
+        stay: "Stay signed in",
+        signOut: "Sign out",
+    },
     modal: {
         discardTitle: "Discard changes?",
         discardDescription:

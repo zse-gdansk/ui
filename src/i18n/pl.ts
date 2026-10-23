@@ -471,6 +471,12 @@ export const pl: Messages = {
         confirm: "Potwierdź",
         failed: "Nie udało się. Spróbuj ponownie.",
     },
+    sessionTimeout: {
+        title: "Sesja wkrótce wygaśnie",
+        expiresIn: "Z powodu braku aktywności sesja wygaśnie za",
+        stay: "Zostań zalogowany",
+        signOut: "Wyloguj",
+    },
     modal: {
         discardTitle: "Odrzucić zmiany?",
         discardDescription:

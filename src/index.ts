@@ -41,6 +41,10 @@ export {
     type ContainerProps,
 } from "./components/container/Container";
 export {
+    SessionTimeout,
+    type SessionTimeoutProps,
+} from "./components/session-timeout/SessionTimeout";
+export {
     Modal,
     ModalClose,
     type ModalForm,
