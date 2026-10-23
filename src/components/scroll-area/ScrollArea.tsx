@@ -6,7 +6,12 @@ import {
     ArrowRight01Icon,
     ArrowUp01Icon,
 } from "@hugeicons/core-free-icons";
-import type { CSSProperties, HTMLAttributes, PointerEvent } from "react";
+import {
+    useCallback,
+    type CSSProperties,
+    type HTMLAttributes,
+    type PointerEvent,
+} from "react";
 
 import { markGutters } from "../../utils/scroll-gutter";
 import { Icon } from "../icon/Icon";
@@ -42,23 +47,30 @@ export interface ScrollAreaProps extends HTMLAttributes<HTMLDivElement> {
     viewportClassName?: string;
 }
 
-function track(viewport: HTMLDivElement | null) {
+function track(viewport: HTMLDivElement | null, axis: Axis) {
     const root = viewport?.parentElement;
     if (!viewport || !root) return;
+    const vertical = axis !== "horizontal";
+    const horizontal = axis !== "vertical";
     const update = () => {
         const { scrollTop, scrollLeft, scrollHeight, scrollWidth } = viewport;
         const x = Math.abs(scrollLeft);
-        root.toggleAttribute("data-scroll-top", scrollTop > 0.5);
+        root.toggleAttribute("data-scroll-top", vertical && scrollTop > 0.5);
         root.toggleAttribute(
             "data-scroll-bottom",
-            Math.ceil(scrollTop) + viewport.clientHeight < scrollHeight - 0.5,
+            vertical &&
+                Math.ceil(scrollTop) + viewport.clientHeight <
+                    scrollHeight - 0.5,
         );
-        root.toggleAttribute("data-scroll-left", x > 0.5);
+        root.toggleAttribute("data-scroll-left", horizontal && x > 0.5);
         root.toggleAttribute(
             "data-scroll-right",
-            Math.ceil(x) + viewport.clientWidth < scrollWidth - 0.5,
+            horizontal &&
+                Math.ceil(x) + viewport.clientWidth < scrollWidth - 0.5,
         );
         markGutters(root, viewport);
+        if (!vertical) root.removeAttribute("data-gutter-y");
+        if (!horizontal) root.removeAttribute("data-gutter-x");
     };
     const resize = new ResizeObserver(update);
     const watch = () => {
@@ -110,6 +122,11 @@ export function ScrollArea({
     children,
     ...props
 }: ScrollAreaProps) {
+    const attach = useCallback(
+        (viewport: HTMLDivElement | null) => track(viewport, axis),
+        [axis],
+    );
+
     return (
         <div
             {...props}
@@ -117,7 +134,7 @@ export function ScrollArea({
             className={["zse-scroll", className].filter(Boolean).join(" ")}
         >
             <div
-                ref={track}
+                ref={attach}
                 className={["zse-scroll-viewport", viewportClassName]
                     .filter(Boolean)
                     .join(" ")}
