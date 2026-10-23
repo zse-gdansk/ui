@@ -218,10 +218,16 @@
 }
 
 @media (hover: hover) {
-    .zse-combobox-chip-remove:hover {
+    .zse-combobox-chip-remove:not([data-disabled]):hover {
         background: var(--color-bg-tint);
         color: var(--color-text);
     }
+}
+
+/* Wyłączone pole: Base UI blokuje usuwanie przez data-disabled (bez
+   natywnego disabled), więc wygląd musi to powtórzyć, jak w TagInput. */
+.zse-combobox-chip-remove[data-disabled] {
+    cursor: not-allowed;
 }
 
 .zse-combobox-status:not(:empty),
