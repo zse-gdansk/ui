@@ -175,43 +175,6 @@
     text-wrap: pretty;
 }
 
-.zse-modal-close {
-    display: grid;
-    flex-shrink: 0;
-    width: 24px;
-    height: 24px;
-    margin: -1px -4px 0 0;
-    padding: 0;
-    place-items: center;
-    border: 0;
-    border-radius: var(--radius-sm);
-    background: transparent;
-    color: var(--color-text-secondary);
-    cursor: pointer;
-    transition: scale 200ms var(--ease-out);
-}
-
-@media (hover: hover) {
-    .zse-modal-close:hover {
-        background: var(--color-bg-tint);
-        color: var(--color-text);
-    }
-}
-
-.zse-modal-close:active {
-    scale: 0.96;
-}
-
-.zse-modal-close:disabled {
-    color: var(--color-text-disabled);
-    cursor: not-allowed;
-}
-
-.zse-modal-close:focus-visible {
-    outline: 1.5px solid var(--color-focus-ring);
-    outline-offset: 2px;
-}
-
 /* Promień karty współśrodkowy z ramką: 20 - 6. */
 .zse-modal-card,
 .zse-modal > .zse-step-up,
@@ -293,10 +256,6 @@
     .zse-modal[data-starting-style],
     .zse-modal[data-ending-style],
     .zse-modal[data-behind] {
-        scale: 1;
-    }
-
-    .zse-modal-close:active {
         scale: 1;
     }
 }

@@ -10,6 +10,8 @@
 - **Fokus i przewinięcie do pierwszego błędnego pola** po nieudanym wysłaniu.
 - **Blokadę podwójnego wysłania** i spinner w `FormSubmit`.
 - **`warnOnLeave`:** pytanie przy zamykaniu karty z niezapisanymi zmianami.
+- **`onDirtyChange`:** pierwsza zmiana w polach (`true`) i udane wysłanie (`false`), np. dla własnego pytania o porzucenie zmian.
+- **`showMessage={false}` i `<FormMessage />`:** komunikat nad polami w miejscu wybranym przez układ (tak robi `Modal`, który stawia go w przewijanej treści).
 
 Po pierwszym wysłaniu pola sprawdzają się przy każdej zmianie (tryb `onSubmit` z Base UI), więc błąd znika zaraz po poprawieniu.
 
@@ -29,7 +31,47 @@ import { useFormValue } from "../form/context";
 useFormValue(name, value); // Date, { from, to }, File[]…
 ```
 
-`Form` dokłada je do wartości przed schematem, więc schemat dostaje prawdziwe typy (`z.date()`, `z.array(z.instanceof(File))`).
+`Form` dokłada je do wartości przed schematem, więc schemat dostaje prawdziwe typy (`z.date()`, `z.array(z.instanceof(File))`). Wartość inna niż na starcie (porównana po zawartości, więc nowa tablica z tymi samymi plikami to nie zmiana) oznacza też formularz jako zmieniony.
+
+## Niezapisane zmiany
+
+`Form` uznaje formularz za zmieniony po pierwszej zmianie w dowolnym polu:
+
+- tekst: zdarzenie `input`,
+- Select, Combobox, NumberField, Checkbox, Radio, Slider i inne pola w `Field.Root`: atrybut `data-dirty`, który `Field` z Base UI stawia na zmienionym polu (te kontrolki nie wysyłają `input`),
+- Switch i SegmentedControl (bez `Field.Root`): wołają `markDirty()` same,
+- wartości z `useFormValue`: zmiana względem wartości startowej.
+
+Własna kontrolka, która nie pasuje do żadnego z tych przypadków, woła `markDirty()` z `useFormState()` przy zmianie wartości. Udane wysłanie (bez `errors`) zeruje stan.
+
+Z tego korzystają `warnOnLeave`, `onDirtyChange` i pytanie „Odrzucić zmiany?” w `Modal`.
+
+## Formularz w oknie
+
+```tsx
+<Modal
+    open={open}
+    onOpenChange={setOpen}
+    title="Nowa sprawa"
+    form={{
+        schema,
+        onSubmit: async (values) => {
+            await save(values);
+            setOpen(false); // wprost, bez pytania o porzucenie zmian
+        },
+    }}
+    footer={
+        <>
+            <ModalClose render={<Button variant="ghost" />}>Anuluj</ModalClose>
+            <FormSubmit pendingLabel="Zapisywanie…">Zapisz</FormSubmit>
+        </>
+    }
+>
+    <Input name="title" label="Tytuł" required />
+</Modal>
+```
+
+`Modal` obejmuje treść i stopkę formularzem, blokuje zamykanie w trakcie wysyłania i pyta o porzucenie zmian. Bez `form="id"`, ręcznego `pending` w `onOpenChange` ani własnego `<Form>` w środku.
 
 ## Komunikaty
 

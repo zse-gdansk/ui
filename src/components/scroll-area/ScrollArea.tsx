@@ -72,18 +72,35 @@ function track(viewport: HTMLDivElement | null, axis: Axis) {
         if (!vertical) root.removeAttribute("data-gutter-y");
         if (!horizontal) root.removeAttribute("data-gutter-x");
     };
-    const resize = new ResizeObserver(update);
+    // Zmiany rozmiaru w trakcie animacji (np. Swap w oknie) przychodzą co
+    // klatkę i po kilka naraz: jedno przeliczenie na klatkę.
+    let frame = 0;
+    const schedule = () => {
+        if (frame) return;
+        frame = requestAnimationFrame(() => {
+            frame = 0;
+            update();
+        });
+    };
+    const resize = new ResizeObserver(schedule);
     const watch = () => {
         resize.disconnect();
         resize.observe(viewport);
         for (const child of viewport.children) resize.observe(child);
-        update();
     };
-    const mutations = new MutationObserver(watch);
-    mutations.observe(viewport, { childList: true, subtree: true });
+    // Tylko bezpośrednie dzieci: głębsze zmiany rozmiaru łapie
+    // ResizeObserver, a zmiana tekstu (zegar, licznik) nic tu nie zmienia.
+    const mutations = new MutationObserver(() => {
+        watch();
+        schedule();
+    });
+    mutations.observe(viewport, { childList: true });
     watch();
+    update();
+    // Przewijanie bez opóźnienia, żeby cień szedł równo z treścią.
     viewport.addEventListener("scroll", update, { passive: true });
     return () => {
+        cancelAnimationFrame(frame);
         resize.disconnect();
         mutations.disconnect();
         viewport.removeEventListener("scroll", update);

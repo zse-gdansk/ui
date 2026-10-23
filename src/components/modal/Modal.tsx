@@ -2,15 +2,14 @@
 
 import { AlertDialog } from "@base-ui/react/alert-dialog";
 import { Dialog } from "@base-ui/react/dialog";
-import { Cancel01Icon } from "@hugeicons/core-free-icons";
 import { useRef, useState, type ReactElement, type ReactNode } from "react";
 
 import { useMessages } from "../../i18n/context";
 import { Button } from "../button/Button";
+import { CloseButton } from "../close-button/CloseButton";
 import { isConfirmOpen } from "../confirm/confirm";
 import { Form, FormMessage, type FormProps } from "../form/Form";
 import type { StandardSchemaV1 } from "../form/standard-schema";
-import { Icon } from "../icon/Icon";
 import { ScrollArea } from "../scroll-area/ScrollArea";
 import { Skeleton } from "../skeleton/Skeleton";
 import { Swap } from "../swap/Swap";
@@ -166,12 +165,9 @@ export function Modal<Schema extends StandardSchemaV1 | undefined = undefined>({
             </div>
             {!alert && (
                 <Dialog.Close
-                    className="zse-modal-close"
-                    aria-label={closeLabel ?? t.common.close}
                     disabled={pending}
-                >
-                    <Icon icon={Cancel01Icon} size={14} />
-                </Dialog.Close>
+                    render={<CloseButton label={closeLabel} />}
+                />
             )}
         </div>
     );

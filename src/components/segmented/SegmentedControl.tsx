@@ -5,6 +5,7 @@ import { RadioGroup } from "@base-ui/react/radio-group";
 import { useRef, useState, type ReactNode } from "react";
 
 import { useDomEffect, useResizeObserver } from "../../utils/effects";
+import { useFormState } from "../form/context";
 import { Icon, type IconGlyph } from "../icon/Icon";
 
 export interface SegmentedOption {
@@ -64,6 +65,8 @@ export function SegmentedControl({
     className,
 }: SegmentedControlProps) {
     const rootRef = useRef<HTMLDivElement>(null);
+    // Bez Field.Root Base UI nie oznacza zmiany data-dirty, więc wprost.
+    const { markDirty } = useFormState();
     const [internal, setInternal] = useState(
         defaultValue ?? options.find((option) => !option.disabled)?.value,
     );
@@ -85,6 +88,7 @@ export function SegmentedControl({
             onValueChange={(next) => {
                 if (typeof next !== "string") return;
                 if (value === undefined) setInternal(next);
+                markDirty();
                 onValueChange?.(next);
             }}
             className={["zse-segmented", className].filter(Boolean).join(" ")}

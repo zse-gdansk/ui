@@ -14,7 +14,11 @@ import {
 } from "react";
 
 import { useMessages } from "../../i18n/context";
-import { useEventListener } from "../../utils/effects";
+import {
+    useEventListener,
+    useExternalEffect,
+    useLatest,
+} from "../../utils/effects";
 import { Alert } from "../alert/Alert";
 import { Button } from "../button/Button";
 import { FormContext, useFormState } from "./context";
@@ -124,11 +128,18 @@ export function Form<Schema extends StandardSchemaV1 | undefined = undefined>({
     const [message, setMessage] = useState<Message | null>(null);
     const [submitting, setSubmitting] = useState(false);
     const [dirty, setDirtyState] = useState(false);
-    const setDirty = (next: boolean) => {
-        if (next === dirty) return;
-        setDirtyState(next);
-        onDirtyChange?.(next);
-    };
+    const dirtyRef = useRef(false);
+    const notifyDirty = useLatest(onDirtyChange);
+    const setDirty = useCallback(
+        (next: boolean) => {
+            if (dirtyRef.current === next) return;
+            dirtyRef.current = next;
+            setDirtyState(next);
+            notifyDirty.current?.(next);
+        },
+        [notifyDirty],
+    );
+    const markDirty = useCallback(() => setDirty(true), [setDirty]);
     const extras = useRef(new Map<string, () => unknown>());
     const register = useCallback((name: string, read: () => unknown) => {
         extras.current.set(name, read);
@@ -137,9 +148,28 @@ export function Form<Schema extends StandardSchemaV1 | undefined = undefined>({
         };
     }, []);
     const state = useMemo(
-        () => ({ submitting, register }),
-        [submitting, register],
+        () => ({ submitting, register, markDirty }),
+        [submitting, register, markDirty],
     );
+
+    useExternalEffect(() => {
+        const form = formRef.current;
+        if (!form) return;
+        const observer = new MutationObserver((mutations) => {
+            for (const { target } of mutations)
+                if (
+                    target instanceof Element &&
+                    target.hasAttribute("data-dirty")
+                )
+                    return markDirty();
+        });
+        observer.observe(form, {
+            subtree: true,
+            attributes: true,
+            attributeFilter: ["data-dirty"],
+        });
+        return () => observer.disconnect();
+    }, [markDirty]);
 
     useEventListener(
         "window",

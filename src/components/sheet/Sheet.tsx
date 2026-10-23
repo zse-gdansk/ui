@@ -1,13 +1,11 @@
 "use client";
 
 import { Drawer } from "@base-ui/react/drawer";
-import { Cancel01Icon } from "@hugeicons/core-free-icons";
 import type { ReactElement, ReactNode } from "react";
 
-import { useMessages } from "../../i18n/context";
 import { useMediaQuery } from "../../utils/use-media-query";
+import { CloseButton } from "../close-button/CloseButton";
 import { isConfirmOpen } from "../confirm/confirm";
-import { Icon } from "../icon/Icon";
 
 type Side = "right" | "left" | "bottom";
 
@@ -50,7 +48,6 @@ export function Sheet({
     expandable = false,
     snapPoints,
 }: SheetProps) {
-    const t = useMessages();
     const wide = useMediaQuery(WIDE);
     const resolved: Side = side === "auto" ? (wide ? "right" : "bottom") : side;
     const snaps =
@@ -103,14 +100,11 @@ export function Sheet({
                                 ekranu i klawiatury, bo gestu nie da się wykonać
                                 z VoiceOverem ani Tabem. */}
                             <Drawer.Close
-                                className="zse-modal-close"
                                 data-hidden={
                                     resolved === "bottom" ? "" : undefined
                                 }
-                                aria-label={closeLabel ?? t.common.close}
-                            >
-                                <Icon icon={Cancel01Icon} size={14} />
-                            </Drawer.Close>
+                                render={<CloseButton label={closeLabel} />}
+                            />
                         </div>
                         <Drawer.Content className="zse-sheet-body">
                             {children}

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext } from "react";
+import { createContext, useContext, useRef } from "react";
 
 import { useExternalEffect, useLatest } from "../../utils/effects";
 
@@ -11,20 +11,59 @@ import { useExternalEffect, useLatest } from "../../utils/effects";
 export interface FormState {
     submitting: boolean;
     register: (name: string, read: () => unknown) => () => void;
+    markDirty: () => void;
 }
 
 export const FormContext = createContext<FormState>({
     submitting: false,
     register: () => () => {},
+    markDirty: () => {},
 });
 
 export const useFormState = () => useContext(FormContext);
 
+// Ta sama wartość, choć nowy obiekt: tablice plików, kolejność, daty
+// i odpowiedzi ankiety bywają tworzone od nowa w każdym renderze.
+export function sameValue(a: unknown, b: unknown): boolean {
+    if (Object.is(a, b)) return true;
+    if (a instanceof Date && b instanceof Date)
+        return a.getTime() === b.getTime();
+    if (Array.isArray(a) && Array.isArray(b))
+        return (
+            a.length === b.length &&
+            a.every((item, index) => sameValue(item, b[index]))
+        );
+    if (
+        a !== null &&
+        b !== null &&
+        typeof a === "object" &&
+        typeof b === "object" &&
+        Object.getPrototypeOf(a) === Object.prototype &&
+        Object.getPrototypeOf(b) === Object.prototype
+    ) {
+        const keys = Object.keys(a);
+        return (
+            keys.length === Object.keys(b).length &&
+            keys.every((key) =>
+                sameValue(
+                    (a as Record<string, unknown>)[key],
+                    (b as Record<string, unknown>)[key],
+                ),
+            )
+        );
+    }
+    return false;
+}
+
 export function useFormValue(name: string | undefined, value: unknown) {
-    const { register } = useContext(FormContext);
+    const { register, markDirty } = useContext(FormContext);
     const latest = useLatest(value);
+    const initial = useRef(value);
     useExternalEffect(() => {
         if (!name) return;
         return register(name, () => latest.current);
     }, [name, register, latest]);
+    useExternalEffect(() => {
+        if (!sameValue(value, initial.current)) markDirty();
+    }, [value, markDirty]);
 }

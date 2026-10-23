@@ -1,11 +1,9 @@
 "use client";
 
 import { Popover as BasePopover } from "@base-ui/react/popover";
-import { Cancel01Icon } from "@hugeicons/core-free-icons";
 import type { CSSProperties, ReactElement, ReactNode } from "react";
 
-import { useMessages } from "../../i18n/context";
-import { Icon } from "../icon/Icon";
+import { CloseButton } from "../close-button/CloseButton";
 
 type Side = "top" | "bottom" | "left" | "right";
 type Align = "start" | "center" | "end";
@@ -44,7 +42,6 @@ export function Popover({
     width,
     closeLabel,
 }: PopoverProps) {
-    const t = useMessages();
     const hasHeader = title != null || closable;
 
     return (
@@ -83,13 +80,10 @@ export function Popover({
                                 )}
                                 {closable && (
                                     <BasePopover.Close
-                                        className="zse-modal-close"
-                                        aria-label={
-                                            closeLabel ?? t.common.close
+                                        render={
+                                            <CloseButton label={closeLabel} />
                                         }
-                                    >
-                                        <Icon icon={Cancel01Icon} size={14} />
-                                    </BasePopover.Close>
+                                    />
                                 )}
                             </div>
                         )}

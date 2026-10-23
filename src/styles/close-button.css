@@ -1,0 +1,42 @@
+.zse-close-button {
+    display: grid;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    margin: -1px -4px 0 0;
+    padding: 0;
+    place-items: center;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: scale 200ms var(--ease-out);
+}
+
+@media (hover: hover) {
+    .zse-close-button:hover {
+        background: var(--color-bg-tint);
+        color: var(--color-text);
+    }
+}
+
+.zse-close-button:active {
+    scale: 0.96;
+}
+
+.zse-close-button:disabled {
+    color: var(--color-text-disabled);
+    cursor: not-allowed;
+}
+
+.zse-close-button:focus-visible {
+    outline: 1.5px solid var(--color-focus-ring);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-close-button:active {
+        scale: 1;
+    }
+}

@@ -1,9 +1,11 @@
 import {
     Button,
+    DatePicker,
     FormSubmit,
     Input,
     Modal,
     ModalClose,
+    Select,
     SessionTimeout,
     Textarea,
     confirm,
@@ -58,6 +60,16 @@ export function ModalDemo() {
             >
                 <Input name="title" label="Tytuł" autoComplete="off" required />
                 <Textarea name="description" label="Opis" />
+                <Select
+                    name="kind"
+                    label="Rodzaj"
+                    placeholder="Wybierz"
+                    options={[
+                        { value: "resolution", label: "Uchwała" },
+                        { value: "motion", label: "Wniosek" },
+                    ]}
+                />
+                <DatePicker name="due" label="Termin" />
             </Modal>
 
             <Modal

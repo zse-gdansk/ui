@@ -41,6 +41,10 @@ export {
     type ContainerProps,
 } from "./components/container/Container";
 export {
+    CloseButton,
+    type CloseButtonProps,
+} from "./components/close-button/CloseButton";
+export {
     SessionTimeout,
     type SessionTimeoutProps,
 } from "./components/session-timeout/SessionTimeout";

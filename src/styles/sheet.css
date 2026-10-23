@@ -191,7 +191,7 @@
     line-height: 1.625;
 }
 
-.zse-sheet-header .zse-modal-close[data-hidden]:not(:focus-visible) {
+.zse-sheet-header .zse-close-button[data-hidden]:not(:focus-visible) {
     position: absolute;
     width: 1px;
     height: 1px;

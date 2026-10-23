@@ -3,6 +3,8 @@
 import { Switch as BaseSwitch } from "@base-ui/react/switch";
 import type { ComponentProps, ReactNode } from "react";
 
+import { useFormState } from "../form/context";
+
 export interface SwitchProps extends Omit<
     ComponentProps<typeof BaseSwitch.Root>,
     "children"
@@ -10,10 +12,21 @@ export interface SwitchProps extends Omit<
     label?: ReactNode;
 }
 
-export function Switch({ label, className, ...props }: SwitchProps) {
+export function Switch({
+    label,
+    className,
+    onCheckedChange,
+    ...props
+}: SwitchProps) {
+    // Bez Field.Root Base UI nie oznacza zmiany data-dirty, więc wprost.
+    const { markDirty } = useFormState();
     const control = (
         <BaseSwitch.Root
             {...props}
+            onCheckedChange={(checked, details) => {
+                markDirty();
+                onCheckedChange?.(checked, details);
+            }}
             className={(state) =>
                 [
                     "zse-switch-root",
