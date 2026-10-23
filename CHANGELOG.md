@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.17.0](https://github.com/zse-gdansk/ui/compare/v1.16.1...v1.17.0) (2026-10-23)
+
+
+### Nowe funkcje
+
+* **modal:** dodano warstwowy wygląd okien, stos zagnieżdżonych okien i obsługę formularzy ([41366f8](https://github.com/zse-gdansk/ui/commit/41366f8a3af067f85c9814499b00076aa902b0af))
+
+
+### Poprawki
+
+* **scroll-area:** pominięto cień krawędzi na osi bez przewijania ([13deb43](https://github.com/zse-gdansk/ui/commit/13deb430c699251f1e9c23c0ea498a63f6f85c62))
+* **toast:** długi tekst bez spacji łamie się zamiast wychodzić poza toast ([1ffc234](https://github.com/zse-gdansk/ui/commit/1ffc234a2ef2cd9a9ae482a5b00e759f1e81e857))
+
 ## [1.16.1](https://github.com/zse-gdansk/ui/compare/v1.16.0...v1.16.1) (2026-10-06)
 
 
