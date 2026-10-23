@@ -401,6 +401,13 @@ export interface Messages {
         clearSelection: string;
     };
     confirm: { confirm: string; failed: string };
+    // Pytanie przy zamykaniu okna z niezapisanymi zmianami.
+    modal: {
+        discardTitle: string;
+        discardDescription: string;
+        keepEditing: string;
+        discard: string;
+    };
     backupCodes: {
         // count do odmiany, left i total już sformatowane.
         left: (count: number, left: string, total: string) => string;

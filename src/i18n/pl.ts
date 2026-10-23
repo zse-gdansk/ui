@@ -471,6 +471,13 @@ export const pl: Messages = {
         confirm: "Potwierdź",
         failed: "Nie udało się. Spróbuj ponownie.",
     },
+    modal: {
+        discardTitle: "Odrzucić zmiany?",
+        discardDescription:
+            "Wprowadzone zmiany nie zostały zapisane i przepadną po zamknięciu okna.",
+        keepEditing: "Wróć do edycji",
+        discard: "Odrzuć",
+    },
     backupCodes: {
         left: (n, left, total) =>
             `${plural("pl-PL", n, { one: "Został", few: "Zostały", many: "Zostało", other: "Zostało" })} ${left} z ${total} kodów`,

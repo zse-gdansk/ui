@@ -8,8 +8,14 @@
 }
 
 .zse-modal-backdrop[data-starting-style],
-.zse-modal-backdrop[data-ending-style] {
+.zse-modal-backdrop[data-ending-style],
+/* Stronę przyciemnia tylko najniższe okno, kolejne mają czyste tło. */
+.zse-modal-backdrop[data-stacked] {
     opacity: 0;
+}
+
+.zse-modal-backdrop[data-ending-style] {
+    transition-duration: 200ms;
 }
 
 /* Kolejne okno (confirm nad modalem) musi przykryć poprzednie,
@@ -22,28 +28,81 @@
     z-index: 93;
 }
 
+/* Okno warstwowe: ramka niesie tytuł i X, jaśniejsza karta w środku
+   treść i stopkę. */
 .zse-modal {
+    --zse-modal-width: 520px;
+    --zse-modal-gap: 12px;
+
     position: fixed;
     top: 50%;
     left: 50%;
     z-index: 91;
     display: flex;
     flex-direction: column;
-    gap: 16px;
     box-sizing: border-box;
-    width: min(400px, calc(100vw - 32px));
-    max-height: calc(100dvh - 32px);
-    padding: 20px 20px 16px;
-    overflow-y: auto;
-    border-radius: var(--radius-xl);
-    background: var(--color-bg-elevated);
+    width: min(
+        var(--zse-modal-frame, var(--zse-modal-width)),
+        calc(100vw - 2 * var(--zse-modal-gap))
+    );
+    max-height: calc(100dvh - 2 * var(--zse-modal-gap));
+    padding: 6px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: var(--color-bg-frame);
     box-shadow: var(--shadow-modal);
     color: var(--color-text);
     outline: none;
     translate: -50% -50%;
-    transition-property: opacity, scale;
+    transform-origin: center;
+    transition-property: opacity, scale, width;
     transition-duration: 300ms;
     transition-timing-function: var(--ease-out);
+}
+
+@media (min-width: 640px) {
+    .zse-modal {
+        --zse-modal-gap: 24px;
+    }
+}
+
+.zse-modal[data-size="sm"],
+.zse-modal-view[data-size="sm"] {
+    --zse-modal-width: 400px;
+}
+
+.zse-modal[data-size="lg"],
+.zse-modal-view[data-size="lg"] {
+    --zse-modal-width: 720px;
+}
+
+.zse-modal[data-size="xl"],
+.zse-modal-view[data-size="xl"] {
+    --zse-modal-width: 896px;
+}
+
+/* Ramka zmienia szerokość pod pytaniem o porzucenie zmian. */
+.zse-modal[data-discarding] {
+    --zse-modal-frame: 400px;
+}
+
+/* Widok ma od razu szerokość docelową i stoi na środku, a animuje się
+   tylko ramka, która go przycina. Tekst nie przelewa się w każdej
+   klatce. */
+.zse-modal-view {
+    display: flex;
+    flex: 0 1 auto;
+    flex-direction: column;
+    align-self: center;
+    width: calc(
+        min(var(--zse-modal-width), 100vw - 2 * var(--zse-modal-gap)) - 12px
+    );
+    min-height: 0;
+}
+
+.zse-modal[data-placement="top"] {
+    top: max(var(--zse-modal-gap), 10vh);
+    translate: -50% 0;
 }
 
 .zse-modal[data-starting-style],
@@ -52,31 +111,68 @@
     scale: 0.95;
 }
 
+.zse-modal[data-ending-style] {
+    transition-duration: 200ms;
+}
+
+/* Pod innym oknem cofa się i przygasa, wraca, gdy górne się zamyka. */
+.zse-modal[data-behind] {
+    opacity: 0.6;
+    scale: 0.96;
+}
+
+/* Warstwy Swap (formularz i pytanie o porzucenie, pytanie i weryfikacja)
+   mieszczą się w oknie, a przewija się tylko treść karty. */
+.zse-modal > .zse-swap {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.zse-modal > .zse-swap > .zse-swap-layer {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    max-height: calc(100dvh - 2 * var(--zse-modal-gap) - 12px);
+}
+
+.zse-modal[data-placement="top"] > .zse-swap > .zse-swap-layer {
+    max-height: calc(
+        100dvh - max(var(--zse-modal-gap), 10vh) - var(--zse-modal-gap) - 12px
+    );
+}
+
 .zse-modal-header {
     display: flex;
+    flex: none;
     align-items: flex-start;
-    justify-content: space-between;
-    gap: 16px;
+    gap: 12px;
+    padding: 10px 14px 12px;
 }
 
 .zse-modal-heading {
     display: flex;
+    flex: 1;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
+    min-width: 0;
 }
 
 .zse-modal-title {
     margin: 0;
     font-size: 1rem;
-    font-weight: 500;
-    line-height: 1.4;
+    font-weight: 600;
+    line-height: 1.375;
+    letter-spacing: -0.01em;
+    text-wrap: pretty;
 }
 
 .zse-modal-description {
     margin: 0;
     color: var(--color-text-secondary);
     font-size: 0.875rem;
-    line-height: 1.625;
+    line-height: 1.5;
+    text-wrap: pretty;
 }
 
 .zse-modal-close {
@@ -84,7 +180,7 @@
     flex-shrink: 0;
     width: 24px;
     height: 24px;
-    margin: -2px -4px 0 0;
+    margin: -1px -4px 0 0;
     padding: 0;
     place-items: center;
     border: 0;
@@ -106,32 +202,103 @@
     scale: 0.96;
 }
 
+.zse-modal-close:disabled {
+    color: var(--color-text-disabled);
+    cursor: not-allowed;
+}
+
 .zse-modal-close:focus-visible {
     outline: 1.5px solid var(--color-focus-ring);
     outline-offset: 2px;
 }
 
+/* Promień karty współśrodkowy z ramką: 20 - 6. */
+.zse-modal-card,
+.zse-modal > .zse-step-up,
+.zse-modal > .zse-swap > .zse-swap-layer > .zse-step-up {
+    box-sizing: border-box;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 14px;
+    background: var(--color-bg-raised);
+}
+
+.zse-modal-card {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* Okno bez ramkowego tytułu: weryfikacja tożsamości ma własny nagłówek. */
+.zse-modal > .zse-step-up,
+.zse-modal > .zse-swap > .zse-swap-layer > .zse-step-up {
+    padding: 18px 20px;
+    overflow-y: auto;
+}
+
+.zse-modal-form {
+    flex: 1;
+    gap: 0;
+    min-height: 0;
+}
+
+.zse-modal-body {
+    flex: 1;
+}
+
+.zse-modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 18px 20px;
+}
+
+.zse-modal-loading {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
 .zse-modal-footer {
     display: flex;
+    flex: none;
     flex-wrap: wrap;
     justify-content: flex-end;
     gap: 8px;
+    padding: 4px 20px 18px;
+    border-top: 1px solid transparent;
+    transition: border-color 200ms var(--ease-out);
+}
+
+/* Kreska nad stopką, póki pod nią jest jeszcze niewidoczna treść. */
+.zse-modal-body[data-scroll-bottom] ~ .zse-modal-footer {
+    padding-top: 14px;
+    border-top-color: var(--color-border-subtle);
+}
+
+/* Na telefonie przyciski na całą szerokość, główny (ostatni) na górze,
+   pod kciukiem. */
+@media (max-width: 639px) {
+    .zse-modal-footer {
+        flex-direction: column-reverse;
+    }
+
+    .zse-modal-footer > * {
+        width: 100%;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .zse-modal[data-starting-style],
-    .zse-modal[data-ending-style] {
+    .zse-modal[data-ending-style],
+    .zse-modal[data-behind] {
         scale: 1;
     }
 
     .zse-modal-close:active {
         scale: 1;
     }
-}
-
-.zse-confirm {
-    width: min(360px, calc(100vw - 32px));
-    padding-bottom: 20px;
 }
 
 .zse-confirm-error {

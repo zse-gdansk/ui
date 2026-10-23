@@ -6,6 +6,7 @@ import { useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 
 import { useMessages } from "../../i18n/context";
 import { Button } from "../button/Button";
+import { useModalStack } from "../modal/stack";
 import { StepUpArea, useStepUpFlow } from "../step-up/StepUp";
 import {
     currentConfirm,
@@ -45,6 +46,7 @@ export function Confirmer({ errorMessage }: ConfirmerProps) {
     const options = shown?.options;
     const anchor = options?.anchor ?? null;
     const busy = shown !== null && pending === shown.id;
+    const stack = useModalStack(current !== null && anchor === null);
 
     async function accept() {
         if (!shown || busy) return;
@@ -135,25 +137,36 @@ export function Confirmer({ errorMessage }: ConfirmerProps) {
                 }}
             >
                 <AlertDialog.Portal>
-                    <AlertDialog.Backdrop className="zse-modal-backdrop" />
+                    <AlertDialog.Backdrop
+                        className="zse-modal-backdrop"
+                        data-stacked={stack.stacked || undefined}
+                    />
                     <AlertDialog.Popup
                         className="zse-modal zse-confirm"
+                        data-size="sm"
+                        data-behind={stack.behind || undefined}
                         initialFocus={options?.danger ? cancelRef : confirmRef}
                         aria-busy={busy || undefined}
                     >
                         <StepUpArea flow={flow}>
-                            <div className="zse-confirm-body">
+                            <div className="zse-modal-header">
                                 <div className="zse-modal-heading">
                                     <AlertDialog.Title className="zse-modal-title">
                                         {options?.title}
                                     </AlertDialog.Title>
-                                    {options?.description != null && (
-                                        <AlertDialog.Description className="zse-modal-description">
-                                            {options.description}
-                                        </AlertDialog.Description>
-                                    )}
                                 </div>
-                                {error}
+                            </div>
+                            <div className="zse-modal-card">
+                                {(options?.description != null || error) && (
+                                    <div className="zse-modal-content">
+                                        {options?.description != null && (
+                                            <AlertDialog.Description className="zse-modal-description">
+                                                {options.description}
+                                            </AlertDialog.Description>
+                                        )}
+                                        {error}
+                                    </div>
+                                )}
                                 <div className="zse-modal-footer">
                                     {buttons("md")}
                                 </div>

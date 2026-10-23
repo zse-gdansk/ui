@@ -40,7 +40,13 @@ export {
     Container,
     type ContainerProps,
 } from "./components/container/Container";
-export { Modal, ModalClose, type ModalProps } from "./components/modal/Modal";
+export {
+    Modal,
+    ModalClose,
+    type ModalForm,
+    type ModalProps,
+    type ModalSize,
+} from "./components/modal/Modal";
 export {
     Table,
     TableBody,
@@ -179,6 +185,7 @@ export {
 export {
     Fieldset,
     Form,
+    FormMessage,
     FormRow,
     FormSubmit,
     type FieldsetProps,

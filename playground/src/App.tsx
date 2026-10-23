@@ -63,6 +63,7 @@ import { LocaleDemo } from "./LocaleDemo";
 import { MaskedDemo } from "./MaskedDemo";
 import { MenuDemo } from "./MenuDemo";
 import { MiscDemo } from "./MiscDemo";
+import { ModalDemo } from "./ModalDemo";
 import { NumberDemo } from "./NumberDemo";
 import { PaginationDemo } from "./PaginationDemo";
 import { PeopleDemo } from "./PeopleDemo";
@@ -493,6 +494,8 @@ export function App() {
                         }
                     />
                 </section>
+
+                <ModalDemo />
 
                 <SheetDemo />
 

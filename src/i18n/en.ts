@@ -459,6 +459,13 @@ export const en: Messages = {
         confirm: "Confirm",
         failed: "Something went wrong. Try again.",
     },
+    modal: {
+        discardTitle: "Discard changes?",
+        discardDescription:
+            "Your changes haven't been saved and will be lost when this window closes.",
+        keepEditing: "Keep editing",
+        discard: "Discard",
+    },
     backupCodes: {
         left: (_n, left, total) => `${left} of ${total} codes left`,
         copy: "Copy",

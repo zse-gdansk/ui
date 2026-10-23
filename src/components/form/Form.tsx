@@ -3,6 +3,8 @@
 import { Fieldset as BaseFieldset } from "@base-ui/react/fieldset";
 import { Form as BaseForm } from "@base-ui/react/form";
 import {
+    createContext,
+    use,
     useCallback,
     useMemo,
     useRef,
@@ -56,6 +58,12 @@ export interface FormProps<
     validationMode?: "onSubmit" | "onBlur" | "onChange";
     // Pytanie przeglądarki przy zamykaniu karty z niezapisanymi zmianami.
     warnOnLeave?: boolean;
+    // Pierwsza zmiana w polach i udane wysłanie, np. dla Modal, który
+    // pyta przed porzuceniem zmian.
+    onDirtyChange?: (dirty: boolean) => void;
+    // Komunikat nad polami. Wyłączony, gdy układ stawia <FormMessage />
+    // gdzie indziej, np. Modal w przewijanej treści.
+    showMessage?: boolean;
     children: ReactNode;
 }
 
@@ -91,13 +99,23 @@ function focusFirstError(form: HTMLFormElement | null) {
     });
 }
 
+const MessageContext = createContext<ReactNode>(null);
+
+// Komunikat otaczającego Form w miejscu wybranym przez układ.
+export function FormMessage() {
+    return use(MessageContext);
+}
+
 export function Form<Schema extends StandardSchemaV1 | undefined = undefined>({
     schema,
     onSubmit,
     validationMode = "onSubmit",
     warnOnLeave = false,
+    onDirtyChange,
+    showMessage = true,
     className,
     children,
+    onInput,
     ...props
 }: FormProps<Schema>) {
     const t = useMessages();
@@ -105,7 +123,12 @@ export function Form<Schema extends StandardSchemaV1 | undefined = undefined>({
     const [errors, setErrors] = useState<FormErrors>({});
     const [message, setMessage] = useState<Message | null>(null);
     const [submitting, setSubmitting] = useState(false);
-    const [dirty, setDirty] = useState(false);
+    const [dirty, setDirtyState] = useState(false);
+    const setDirty = (next: boolean) => {
+        if (next === dirty) return;
+        setDirtyState(next);
+        onDirtyChange?.(next);
+    };
     const extras = useRef(new Map<string, () => unknown>());
     const register = useCallback((name: string, read: () => unknown) => {
         extras.current.set(name, read);
@@ -166,6 +189,18 @@ export function Form<Schema extends StandardSchemaV1 | undefined = undefined>({
         }
     }
 
+    const alert = useMemo(
+        () =>
+            message && (
+                <Alert variant="danger" onDismiss={() => setMessage(null)}>
+                    {message.kind === "failed"
+                        ? t.form.submitFailed
+                        : message.content}
+                </Alert>
+            ),
+        [message, t],
+    );
+
     return (
         <FormContext value={state}>
             <BaseForm
@@ -175,17 +210,16 @@ export function Form<Schema extends StandardSchemaV1 | undefined = undefined>({
                 errors={errors}
                 validationMode={validationMode}
                 aria-busy={submitting || undefined}
-                onInput={() => setDirty(true)}
+                onInput={(event) => {
+                    setDirty(true);
+                    onInput?.(event);
+                }}
                 onFormSubmit={(raw) => void submit(raw)}
             >
-                {message && (
-                    <Alert variant="danger" onDismiss={() => setMessage(null)}>
-                        {message.kind === "failed"
-                            ? t.form.submitFailed
-                            : message.content}
-                    </Alert>
-                )}
-                {children}
+                <MessageContext value={alert}>
+                    {showMessage && alert}
+                    {children}
+                </MessageContext>
             </BaseForm>
         </FormContext>
     );

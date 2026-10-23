@@ -1,0 +1,43 @@
+.zse-swap {
+    position: relative;
+    transition: height 250ms var(--ease-out);
+}
+
+.zse-swap[data-animating] {
+    overflow-y: clip;
+}
+
+.zse-swap-layer {
+    transition-property: opacity, translate;
+    transition-duration: 200ms;
+    transition-timing-function: var(--ease-out);
+}
+
+.zse-swap-layer[data-hidden] {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    opacity: 0;
+    translate: 0 6px;
+    pointer-events: none;
+    transition-duration: 150ms;
+}
+
+.zse-swap:not([data-animating]) > .zse-swap-layer[data-hidden] {
+    bottom: 0;
+    overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-swap {
+        transition: none;
+    }
+
+    .zse-swap-layer {
+        transition-property: opacity;
+    }
+
+    .zse-swap-layer[data-hidden] {
+        translate: none;
+    }
+}

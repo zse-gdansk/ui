@@ -16,6 +16,8 @@ import { useMessages } from "../../i18n/context";
 import { useExternalEffect } from "../../utils/effects";
 import { Button } from "../button/Button";
 import { CodeField } from "../code-field/CodeField";
+import { useModalStack } from "../modal/stack";
+import { Swap } from "../swap/Swap";
 import {
     isPasskeyCancel,
     isRecentlyVerified,
@@ -274,57 +276,6 @@ function StepUpView({
     );
 }
 
-// Warstwy w jednym miejscu: widoczna wyznacza wysokość, ukryta leży nad nią,
-// a wysokość przechodzi płynnie przez zmierzoną wartość.
-function Swap({
-    showAlt,
-    main,
-    alt,
-}: {
-    showAlt: boolean;
-    main: ReactNode;
-    alt: ReactNode;
-}) {
-    const [height, setHeight] = useState<number | null>(null);
-    const [altMounted, setAltMounted] = useState(showAlt);
-    if (showAlt && !altMounted) setAltMounted(true);
-
-    const measure = (node: HTMLDivElement | null) => {
-        if (!node) return;
-        const observer = new ResizeObserver(() => setHeight(node.offsetHeight));
-        observer.observe(node);
-        return () => observer.disconnect();
-    };
-
-    return (
-        <div
-            className="zse-step-up-swap"
-            style={height === null ? undefined : { height }}
-        >
-            <div
-                ref={showAlt ? undefined : measure}
-                className="zse-step-up-layer"
-                data-hidden={showAlt || undefined}
-                aria-hidden={showAlt || undefined}
-                inert={showAlt}
-            >
-                {main}
-            </div>
-            {altMounted && (
-                <div
-                    ref={showAlt ? measure : undefined}
-                    className="zse-step-up-layer"
-                    data-hidden={!showAlt || undefined}
-                    aria-hidden={!showAlt || undefined}
-                    inert={!showAlt}
-                >
-                    {alt}
-                </div>
-            )}
-        </div>
-    );
-}
-
 export interface StepUpAreaProps {
     // Treść okna albo karty. W trakcie weryfikacji płynnie ustępuje
     // widokowi weryfikacji, a po „Wróć” wraca w tym samym stanie.
@@ -443,6 +394,7 @@ function StandaloneHost() {
         }),
     );
 
+    const stack = useModalStack(open && !anchor);
     const view = <StepUpView flow={flow} backLabel={t.common.cancel} />;
     const onOpenChange = (next: boolean) => {
         if (!next && !flow.passkeyPending) flow.back();
@@ -475,8 +427,14 @@ function StandaloneHost() {
     return (
         <Dialog.Root open={open} onOpenChange={onOpenChange}>
             <Dialog.Portal>
-                <Dialog.Backdrop className="zse-modal-backdrop" />
-                <Dialog.Popup className="zse-modal zse-step-up-dialog">
+                <Dialog.Backdrop
+                    className="zse-modal-backdrop"
+                    data-stacked={stack.stacked || undefined}
+                />
+                <Dialog.Popup
+                    className="zse-modal zse-step-up-dialog"
+                    data-behind={stack.behind || undefined}
+                >
                     {view}
                 </Dialog.Popup>
             </Dialog.Portal>
