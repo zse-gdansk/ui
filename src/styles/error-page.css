@@ -18,6 +18,12 @@
     align-self: start;
 }
 
+/* Treść zawsze w drugim wierszu: bez logo pierwszy ma zero wysokości
+   i treść stoi na środku ekranu, a nie w wierszu logo u góry. */
+.zse-error-page[data-fullscreen] > .zse-error-body {
+    grid-row: 2;
+}
+
 .zse-error-body {
     display: flex;
     flex-direction: column;
