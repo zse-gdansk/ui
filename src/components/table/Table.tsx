@@ -84,15 +84,27 @@ function trackScroll(scroller: HTMLElement | null) {
     };
 
     // Nagłówek kolumny pod kursorem albo z fokusem, razem z wierszem daje
-    // krzyżyk.
+    // krzyżyk. Kolumna liczona z colSpan wcześniejszych komórek, a komórka
+    // na kilka kolumn (pusty stan, podsumowanie) nie wskazuje żadnej.
     const headOf = (target: EventTarget | null) => {
         const cell =
             target instanceof Element ? target.closest("tbody td") : null;
-        return cell instanceof HTMLTableCellElement
-            ? scroller.querySelector(
-                  `thead tr > :nth-child(${cell.cellIndex + 1})`,
-              )
-            : null;
+        if (!(cell instanceof HTMLTableCellElement) || cell.colSpan > 1)
+            return null;
+        let column = 0;
+        for (const before of cell.parentElement?.children ?? []) {
+            if (before === cell) break;
+            if (before instanceof HTMLTableCellElement)
+                column += before.colSpan;
+        }
+        let start = 0;
+        for (const head of scroller.querySelector("thead tr")?.children ?? []) {
+            if (!(head instanceof HTMLTableCellElement)) continue;
+            if (column < start + head.colSpan)
+                return head.colSpan === 1 ? head : null;
+            start += head.colSpan;
+        }
+        return null;
     };
     const markHover = marker("data-column-hover");
     const markFocus = marker("data-column-focus");
