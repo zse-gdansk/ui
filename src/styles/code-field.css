@@ -194,8 +194,13 @@
     color: var(--color-text-secondary);
 }
 
+/* Na wąskim ekranie pola się zmniejszają zamiast wychodzić poza ekran.
+   Pojemnik pól zajmuje wiersz, bo z treści (pola absolutne) miałby zero
+   szerokości i ściskał je do kresek; każde pole ma najwyżej swój rozmiar. */
 @media (max-width: 420px) {
     .zse-code-slots {
+        flex: 1 1 0;
+        min-width: 0;
         gap: 6px;
     }
 
