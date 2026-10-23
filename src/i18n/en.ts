@@ -459,6 +459,7 @@ export const en: Messages = {
         confirm: "Confirm",
         failed: "Something went wrong. Try again.",
     },
+    hold: { hint: "Hold to confirm" },
     voteBar: {
         yes: "Yes",
         no: "No",

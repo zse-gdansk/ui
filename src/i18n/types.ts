@@ -401,6 +401,8 @@ export interface Messages {
         clearSelection: string;
     };
     confirm: { confirm: string; failed: string };
+    // Podpowiedź HoldButton po zbyt krótkim kliknięciu.
+    hold: { hint: string };
     voteBar: {
         yes: string;
         no: string;

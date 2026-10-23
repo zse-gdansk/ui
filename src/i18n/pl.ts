@@ -471,6 +471,7 @@ export const pl: Messages = {
         confirm: "Potwierdź",
         failed: "Nie udało się. Spróbuj ponownie.",
     },
+    hold: { hint: "Przytrzymaj" },
     voteBar: {
         yes: "Za",
         no: "Przeciw",

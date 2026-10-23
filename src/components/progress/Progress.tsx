@@ -199,7 +199,16 @@ export function Progress({
     );
 }
 
+export interface MeterMarker {
+    value: number;
+    // Wiersz pod paskiem z tą samą kreską, np. „Kworum: 13”.
+    label?: ReactNode;
+}
+
 export interface MeterProps extends SharedProps {
+    // Kreska progu na pasku, np. kworum albo wymagana większość. Kolor
+    // względem progu daje low (poniżej ostrzeżenie, powyżej sukces).
+    marker?: MeterMarker;
     low?: number;
     high?: number;
     optimum?: number;
@@ -247,6 +256,7 @@ export function Meter({
     high,
     optimum,
     valueText: spoken,
+    marker,
     className,
 }: MeterProps) {
     const t = useMessages();
@@ -283,14 +293,41 @@ export function Meter({
                     )}
                 </span>
             )}
-            <Visual
-                fill={fill}
-                shape={shape}
-                ringSize={ringSize}
-                segments={segments}
-                center={shape === "ring" && ringSize >= 36 ? text : null}
-                Track={BaseMeter.Track}
-            />
+            {marker && shape === "bar" ? (
+                <>
+                    <span className="zse-progress-scale">
+                        <Visual
+                            fill={fill}
+                            shape={shape}
+                            ringSize={ringSize}
+                            segments={segments}
+                            center={null}
+                            Track={BaseMeter.Track}
+                        />
+                        <span
+                            className="zse-progress-marker"
+                            aria-hidden
+                            style={{
+                                left: `${ratio(marker.value, min, max) * 100}%`,
+                            }}
+                        />
+                    </span>
+                    {marker.label != null && (
+                        <span className="zse-progress-marker-label">
+                            {marker.label}
+                        </span>
+                    )}
+                </>
+            ) : (
+                <Visual
+                    fill={fill}
+                    shape={shape}
+                    ringSize={ringSize}
+                    segments={segments}
+                    center={shape === "ring" && ringSize >= 36 ? text : null}
+                    Track={BaseMeter.Track}
+                />
+            )}
         </BaseMeter.Root>
     );
 }

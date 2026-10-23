@@ -1,0 +1,119 @@
+.zse-hold {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+    user-select: none;
+    transition: scale 160ms var(--ease-out);
+}
+
+.zse-hold[data-holding] {
+    scale: 0.97;
+}
+
+/* Koniec przytrzymania: odbicie zamiast skoku do pełnego rozmiaru. */
+.zse-hold[data-state="pending"] {
+    animation: zse-hold-pop 360ms var(--ease-out);
+}
+
+@keyframes zse-hold-pop {
+    from {
+        scale: 0.97;
+    }
+
+    45% {
+        scale: 1.03;
+    }
+
+    to {
+        scale: 1;
+    }
+}
+
+/* Pod treścią, nad tłem przycisku; kolor z koloru napisu, więc widać je na
+   każdym wariancie. */
+.zse-hold-fill {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: color-mix(in oklab, currentColor 22%, transparent);
+    clip-path: inset(0 100% 0 0);
+    pointer-events: none;
+    transition: clip-path 200ms var(--ease-out);
+}
+
+.zse-hold[data-holding] .zse-hold-fill {
+    clip-path: inset(0 0 0 0);
+    transition: clip-path var(--hold-duration) linear;
+}
+
+/* W trakcie akcji i po sukcesie zostaje pełne; cofa się z powrotem napisu. */
+.zse-hold[data-state] .zse-hold-fill {
+    clip-path: inset(0 0 0 0);
+    transition: none;
+}
+
+.zse-hold[data-state] {
+    cursor: default;
+}
+
+/* Warstwy w jednej komórce: szerokość z najdłuższej. */
+.zse-hold-label {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+
+.zse-hold-label > span {
+    grid-area: 1 / 1;
+    transition-property: opacity, scale, filter;
+    transition-duration: 200ms;
+    transition-timing-function: var(--ease-out);
+}
+
+.zse-hold-label > span[data-hidden] {
+    opacity: 0;
+}
+
+.zse-hold-status {
+    display: grid;
+    place-items: center;
+}
+
+.zse-hold-status svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Małe ikony: lekkie rozmycie łączy podmianę w jeden ruch. */
+.zse-hold-status[data-hidden] {
+    scale: 0.5;
+    filter: blur(2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zse-hold,
+    .zse-hold-fill,
+    .zse-hold-label > span {
+        transition-duration: 0ms;
+    }
+
+    .zse-hold[data-holding] {
+        scale: 1;
+    }
+
+    .zse-hold[data-state="pending"] {
+        animation: none;
+    }
+
+    /* Postęp trzymania zostaje, bo to informacja. */
+    .zse-hold[data-holding] .zse-hold-fill {
+        transition-duration: var(--hold-duration);
+    }
+
+    .zse-hold-status[data-hidden] {
+        scale: 1;
+        filter: none;
+    }
+}

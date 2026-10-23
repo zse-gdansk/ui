@@ -49,6 +49,14 @@ export {
 } from "./components/countdown/Countdown";
 export { Lightbox, type LightboxProps } from "./components/lightbox/Lightbox";
 export {
+    HoldButton,
+    type HoldButtonProps,
+} from "./components/hold-button/HoldButton";
+export {
+    IconButton,
+    type IconButtonProps,
+} from "./components/icon-button/IconButton";
+export {
     CloseButton,
     type CloseButtonProps,
 } from "./components/close-button/CloseButton";
@@ -151,6 +159,7 @@ export {
 export {
     Meter,
     Progress,
+    type MeterMarker,
     type MeterProps,
     type ProgressProps,
 } from "./components/progress/Progress";

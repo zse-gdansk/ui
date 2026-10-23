@@ -15,17 +15,20 @@ export interface CopyButtonProps {
     // Tekst do skopiowania albo funkcja, np. link budowany dopiero przy
     // kliknięciu.
     value: string | (() => string | Promise<string>);
-    // Napis obok ikony. Bez niego sama ikona z aria-label.
+    // Napis obok ikony, stały: po skopiowaniu zmienia się tylko ikona. Bez
+    // niego sama ikona z aria-label.
     label?: ReactNode;
-    copiedLabel?: ReactNode;
+    // Ogłoszenie dla czytnika po skopiowaniu. Domyślnie „Skopiowano”.
+    copiedLabel?: string;
     "aria-label"?: string;
     size?: "sm" | "md";
     variant?: "ghost" | "outline";
     onCopy?: () => void;
 }
 
-// Ikony i napisy w jednej komórce siatki: przycisk ma szerokość dłuższego
-// napisu, więc nic nie skacze, gdy „Kopiuj” zmienia się w „Skopiowano”.
+// Napis zostaje ten sam, a skopiowanie pokazuje ikona: kopiuj przechodzi
+// w ptaszek i z powrotem. Szerokość się nie zmienia, a czytnik dostaje
+// „Skopiowano” przez <output>, nie przez podmianę nazwy przycisku.
 export function CopyButton({
     value,
     label,
@@ -42,59 +45,50 @@ export function CopyButton({
     const hasLabel = label != null && label !== false;
 
     return (
-        <button
-            type="button"
-            className="zse-copy"
-            data-size={size}
-            data-variant={variant}
-            data-state={state}
-            data-icon-only={!hasLabel || undefined}
-            aria-label={
-                state === "copied"
-                    ? String(copiedLabel)
-                    : state === "failed"
-                      ? t.copy.failed
-                      : hasLabel
-                        ? undefined
-                        : ariaLabel
-            }
-            onClick={async () => {
-                try {
-                    await copy(value);
-                    onCopy?.();
-                } catch {}
-            }}
-        >
-            <span className="zse-copy-icons" aria-hidden>
-                <span data-hidden={state !== "idle" || undefined}>
-                    <Icon icon={Copy01Icon} />
-                </span>
-                <span
-                    data-tone="success"
-                    data-hidden={state !== "copied" || undefined}
-                >
-                    <Icon icon={Tick02Icon} />
-                </span>
-                <span
-                    data-tone="danger"
-                    data-hidden={state !== "failed" || undefined}
-                >
-                    <Icon icon={AlertCircleIcon} />
-                </span>
-            </span>
-            {hasLabel && (
-                <span className="zse-copy-labels">
-                    <span data-hidden={state === "copied" || undefined}>
-                        {label}
+        <>
+            <button
+                type="button"
+                className="zse-copy"
+                data-size={size}
+                data-variant={variant}
+                data-state={state}
+                data-icon-only={!hasLabel || undefined}
+                aria-label={hasLabel ? undefined : ariaLabel}
+                onClick={async () => {
+                    try {
+                        await copy(value);
+                        onCopy?.();
+                    } catch {}
+                }}
+            >
+                <span className="zse-copy-icons" aria-hidden>
+                    <span data-hidden={state !== "idle" || undefined}>
+                        <Icon icon={Copy01Icon} />
                     </span>
                     <span
-                        aria-hidden
+                        data-tone="success"
                         data-hidden={state !== "copied" || undefined}
                     >
-                        {copiedLabel}
+                        <Icon icon={Tick02Icon} />
+                    </span>
+                    <span
+                        data-tone="danger"
+                        data-hidden={state !== "failed" || undefined}
+                    >
+                        <Icon icon={AlertCircleIcon} />
                     </span>
                 </span>
-            )}
-        </button>
+                {hasLabel && <span className="zse-copy-label">{label}</span>}
+            </button>
+            {/* Poza przyciskiem: regionów na żywo wewnątrz przycisku część
+                czytników nie ogłasza. */}
+            <output className="zse-copy-sr">
+                {state === "copied"
+                    ? copiedLabel
+                    : state === "failed"
+                      ? t.copy.failed
+                      : ""}
+            </output>
+        </>
     );
 }
