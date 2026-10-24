@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.1](https://github.com/zse-gdansk/ui/compare/v1.19.0...v1.19.1) (2026-10-23)
+
+
+### Poprawki
+
+* **table:** poprawiono obliczanie kolumny w nagłówku dla komórek z colSpan ([2b83f7c](https://github.com/zse-gdansk/ui/commit/2b83f7c9650529f165396154b6f6328db728b45a))
+
 ## [1.19.0](https://github.com/zse-gdansk/ui/compare/v1.18.0...v1.19.0) (2026-10-23)
 
 
