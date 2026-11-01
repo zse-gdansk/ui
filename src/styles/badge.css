@@ -3,12 +3,12 @@
     --badge-text: var(--color-text-secondary);
     --badge-solid: var(--color-text);
     --badge-on-solid: var(--color-text-inverse);
-    --badge-height: 22px;
-    --badge-pad: 8px;
+    --badge-height: 1.8333em;
+    --badge-pad: 0.6667em;
 
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 0.4167em;
     box-sizing: border-box;
     height: var(--badge-height);
     min-width: var(--badge-height);
@@ -25,10 +25,10 @@
 }
 
 .zse-badge[data-size="sm"] {
-    --badge-height: 20px;
-    --badge-pad: 6px;
+    --badge-height: 1.8182em;
+    --badge-pad: 0.5455em;
 
-    gap: 4px;
+    gap: 0.3636em;
     font-size: 0.6875rem;
 }
 
@@ -84,14 +84,14 @@
    Kropka zostaje z pełnym paddingiem: w zaokrąglonym końcu pigułki
    mniejszy wygląda jak przyklejony do krawędzi. */
 .zse-badge:has(> .zse-badge-icon:first-child) {
-    padding-inline-start: calc(var(--badge-pad) - 1px);
+    padding-inline-start: calc(var(--badge-pad) - 0.0833em);
 }
 
 .zse-badge-dot {
     position: relative;
     flex: none;
-    width: 6px;
-    height: 6px;
+    width: 0.5em;
+    height: 0.5em;
     border-radius: var(--radius-full);
     background: var(--badge-tone);
 }
@@ -123,13 +123,8 @@
 
 .zse-badge-icon {
     flex: none;
-    width: 12px;
-    height: 12px;
-}
-
-.zse-badge[data-size="sm"] .zse-badge-icon {
-    width: 11px;
-    height: 11px;
+    width: 1em;
+    height: 1em;
 }
 
 a.zse-badge,
