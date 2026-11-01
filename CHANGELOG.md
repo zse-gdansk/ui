@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.20.1](https://github.com/zse-gdansk/ui/compare/v1.20.0...v1.20.1) (2026-11-01)
+
+
+### Poprawki
+
+* **badge:** dostosowano wymiary i odstępy dla komponentu badge ([7d3df09](https://github.com/zse-gdansk/ui/commit/7d3df09ed2931bddda53b3d12b08fb9c42b289fd))
+* **input:** akcja etykiety w kolejności Tab za polem ([80511b1](https://github.com/zse-gdansk/ui/commit/80511b1d95a90905e27f6aacab3d6b2aff96917d))
+
 ## [1.20.0](https://github.com/zse-gdansk/ui/compare/v1.19.2...v1.20.0) (2026-11-01)
 
 
