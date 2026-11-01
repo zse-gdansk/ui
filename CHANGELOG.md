@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.2](https://github.com/zse-gdansk/ui/compare/v1.19.1...v1.19.2) (2026-11-01)
+
+
+### Poprawki
+
+* **confirm:** poprawiono wyświetlanie dymka potwierdzenia na telefonach ([90417dc](https://github.com/zse-gdansk/ui/commit/90417dc3fa80d08e9ccddbb8f6a9cd9dc3312cf2))
+
 ## [1.19.1](https://github.com/zse-gdansk/ui/compare/v1.19.0...v1.19.1) (2026-10-23)
 
 
