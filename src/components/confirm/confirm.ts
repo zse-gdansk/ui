@@ -20,6 +20,7 @@ export interface ConfirmOptions {
     errorMessage?: (error: unknown) => ReactNode;
     // Element, przy którym pytanie pokazuje się jako dymek zamiast okna,
     // zwykle event.currentTarget. Pozycja menu wskazuje przycisk menu.
+    // Na telefonie pomijany: pytanie zawsze jest oknem.
     anchor?: Element | null;
     // Przed onConfirm potwierdzenie tożsamości (StepUpProvider): klik
     // zatwierdzający od razu otwiera klucz dostępu, a przyciski ustępują
@@ -108,6 +109,11 @@ function resolveAnchor(element: Element): Element {
     return current;
 }
 
+// Ten sam próg co w modal.css: węższy ekran nie mieści dymka obok przycisku.
+const PHONE = "(max-width: 639px)";
+const isPhone = () =>
+    typeof window !== "undefined" && window.matchMedia(PHONE).matches;
+
 // Pytanie o potwierdzenie bez własnego stanu modala:
 // if (await confirm({ title: "Usunąć ucznia?", danger: true })) …
 // Wymaga <Confirmer /> w drzewie, raz na aplikację.
@@ -116,7 +122,8 @@ export function confirm(options: ConfirmOptions) {
         console.warn(
             "confirm(): brak <Confirmer /> w drzewie, okno się nie pokaże.",
         );
-    const anchor = options.anchor ? resolveAnchor(options.anchor) : null;
+    const anchor =
+        options.anchor && !isPhone() ? resolveAnchor(options.anchor) : null;
     const open = queue[0];
     if (
         anchor &&
