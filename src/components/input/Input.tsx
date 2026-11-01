@@ -69,20 +69,12 @@ export function Input({
         <Field.Root
             className="zse-input"
             data-size={size}
+            data-label-action={labelAction != null || undefined}
             disabled={disabled}
             {...(error && { invalid: true })}
             {...(props.name !== undefined && { name: props.name })}
         >
-            {labelAction != null ? (
-                <div className="zse-input-label-row">
-                    {labelNode}
-                    <span className="zse-input-label-action">
-                        {labelAction}
-                    </span>
-                </div>
-            ) : (
-                labelNode
-            )}
+            {labelNode}
 
             <div className="zse-input-control">
                 {hasLeft && leftIcon && (
@@ -171,6 +163,9 @@ export function Input({
                         </>
                     )}
                 </span>
+            )}
+            {labelAction != null && (
+                <span className="zse-input-label-action">{labelAction}</span>
             )}
             <FieldFooter error={error} hint={hint} />
         </Field.Root>

@@ -30,17 +30,31 @@
 }
 
 /* Etykieta i akcja (link) na jednej linii bazowej. */
-.zse-input-label-row {
-    display: flex;
+.zse-input[data-label-action] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 12px;
+    row-gap: 6px;
     align-items: baseline;
-    justify-content: space-between;
-    gap: 12px;
+}
+
+.zse-input[data-label-action] > * {
+    grid-column: 1 / -1;
+}
+
+.zse-input[data-label-action] > .zse-input-label {
+    grid-row: 1;
+    grid-column: 1;
 }
 
 .zse-input-label-action {
-    flex: none;
     font-size: 0.8125rem;
     line-height: 1.2;
+}
+
+.zse-input[data-label-action] > .zse-input-label-action {
+    grid-row: 1;
+    grid-column: 2;
 }
 
 .zse-input-control {
@@ -289,9 +303,6 @@ button.zse-input-field:focus-visible {
 /* Wymagane pole: gwiazdka przy etykiecie. :has, bo required siedzi na
    kontrolce (także ukrytym inpucie Selecta czy NumberFielda). */
 .zse-input:has([required], [aria-required="true"]) > .zse-input-label::after,
-.zse-input:has([required], [aria-required="true"])
-    > .zse-input-label-row
-    > .zse-input-label::after,
 .zse-input:has([required], [aria-required="true"])
     .zse-number-root
     > .zse-input-label::after {
