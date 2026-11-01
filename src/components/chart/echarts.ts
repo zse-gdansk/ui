@@ -9,6 +9,8 @@ import {
     AriaComponent,
     GridComponent,
     LegendComponent,
+    MarkAreaComponent,
+    MarkLineComponent,
     TooltipComponent,
     VisualMapContinuousComponent,
 } from "echarts/components";
@@ -16,6 +18,8 @@ import type {
     AriaComponentOption,
     GridComponentOption,
     LegendComponentOption,
+    MarkAreaComponentOption,
+    MarkLineComponentOption,
     TooltipComponentOption,
     VisualMapComponentOption,
 } from "echarts/components";
@@ -31,6 +35,8 @@ export type ChartOption = ComposeOption<
     | AriaComponentOption
     | GridComponentOption
     | LegendComponentOption
+    | MarkAreaComponentOption
+    | MarkLineComponentOption
     | TooltipComponentOption
     | VisualMapComponentOption
 >;
@@ -44,6 +50,8 @@ export function initChart(element: HTMLElement, renderer: "canvas" | "svg") {
         AriaComponent,
         GridComponent,
         LegendComponent,
+        MarkAreaComponent,
+        MarkLineComponent,
         TooltipComponent,
         VisualMapContinuousComponent,
         LabelLayout,
