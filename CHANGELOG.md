@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.21.0](https://github.com/zse-gdansk/ui/compare/v1.20.1...v1.21.0) (2026-11-02)
+
+
+### Nowe funkcje
+
+* **i18n:** dodano wsparcie dla języka ukraińskiego w systemie lokalizacji ([1f1aa77](https://github.com/zse-gdansk/ui/commit/1f1aa772f9d40d284a9aafe0a39b3c1c733d4adf))
+
 ## [1.20.1](https://github.com/zse-gdansk/ui/compare/v1.20.0...v1.20.1) (2026-11-01)
 
 
