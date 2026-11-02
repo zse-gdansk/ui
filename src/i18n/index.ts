@@ -6,4 +6,5 @@ export {
 export { plural } from "./plural";
 export { en } from "./en";
 export { pl } from "./pl";
+export { uk } from "./uk";
 export type { Messages, MessagesOverride, PluralForms } from "./types";

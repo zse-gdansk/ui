@@ -368,6 +368,7 @@ export {
     LocaleProvider,
     pl,
     plural,
+    uk,
     useMessages,
     type LocaleProviderProps,
     type Messages,
